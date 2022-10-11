@@ -8,6 +8,8 @@ variables:
 
 ci-mr:
   stage: test
+  only:
+    - merge_requests
   tags:
     - docker
   script:

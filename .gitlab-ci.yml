@@ -1,0 +1,17 @@
+
+stages:
+  - build
+  - test
+
+variables:
+  NEED_VOTES: 2
+
+include:
+  - remote: "https://git.miem.hse.ru/19111/androidodoo/ci/-/raw/master/check-approve.gitlab-ci.yml"
+
+run-myapp:
+  stage: build
+  image: openjdk
+  script:
+    - echo CI_MERGE_REQUEST_TARGET_BRANCH_NAME $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+    - echo "Hello world"

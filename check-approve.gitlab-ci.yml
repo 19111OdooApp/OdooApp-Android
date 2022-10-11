@@ -1,0 +1,23 @@
+ci-mr:
+  stage: test
+  script:
+    - echo ${CI_API_V4_URL}
+    - echo "CI_PROJECT_ID ${CI_PROJECT_ID}"
+    - echo "CI_COMMIT_SHA ${CI_COMMIT_SHA}"
+    - "export MR_ID=$(curl --silent --request GET --header \"PRIVATE-TOKEN: $GITLAB_TOKEN_FOR_CI\" ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/merge_requests | jq \".[] | if .sha == \\\"${CI_COMMIT_SHA}\\\" then .id else {} end\" | grep --invert-match {})"
+    - "export MR_TITLE=$(curl --silent --request GET --header \"PRIVATE-TOKEN: $GITLAB_TOKEN_FOR_CI\" ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/merge_requests | jq \".[] | if .sha == \\\"${CI_COMMIT_SHA}\\\" then .title else {} end\" | grep --invert-match {})"
+    - "export MR_WIP=$(curl --silent --request GET --header \"PRIVATE-TOKEN: $GITLAB_TOKEN_FOR_CI\" ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/merge_requests | jq \".[] | if .sha == \\\"${CI_COMMIT_SHA}\\\" then .work_in_progress else {} end\" | grep --invert-match {})"
+    - "export MR_UPVOTES=$(curl --silent --request GET --header \"PRIVATE-TOKEN: $GITLAB_TOKEN_FOR_CI\" ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/merge_requests | jq \".[] | if .sha == \\\"${CI_COMMIT_SHA}\\\" then .upvotes else {} end\" | grep --invert-match {})"
+    - "export MR_DOWNVOTES=$(curl --silent --request GET --header \"PRIVATE-TOKEN: $GITLAB_TOKEN_FOR_CI\" ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/merge_requests | jq \".[] | if .sha == \\\"${CI_COMMIT_SHA}\\\" then .downvotes else {} end\" | grep --invert-match {})"
+    - MR_VOTES=$(expr ${MR_UPVOTES} - ${MR_DOWNVOTES})
+    - NEED_VOTES_REAL=${NEED_VOTES:-1}
+    - echo "MR_ID ${MR_ID} MR_TITLE ${MR_TITLE} MR_WIP ${MR_WIP} MR_UPVOTES ${MR_UPVOTES} MR_DOWNVOTES ${MR_DOWNVOTES}"
+    - echo "MR_VOTES ${MR_VOTES} Up vote = 1, down vote = -1, MR OK if votes >=${NEED_VOTES_REAL}"
+    - if [ "${MR_VOTES}" -ge "$(expr ${NEED_VOTES_REAL})" ];
+      then
+      echo "MR OK";
+      else
+      echo "MR ERROR Need more votes";
+      exit 1;
+      fi
+  image: laptevss/gitlab-api-util

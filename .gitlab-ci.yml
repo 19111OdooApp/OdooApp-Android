@@ -32,7 +32,6 @@ ci-mr:
 
 run-myapp:
   stage: build
-  image: openjdk
   script:
     - echo CI_MERGE_REQUEST_TARGET_BRANCH_NAME $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
     - echo "Hello world"

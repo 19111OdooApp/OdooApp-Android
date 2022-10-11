@@ -8,6 +8,8 @@ variables:
 
 ci-mr:
   stage: test
+  tags:
+    - docker
   script:
     - echo ${CI_API_V4_URL}
     - echo "CI_PROJECT_ID ${CI_PROJECT_ID}"
@@ -32,6 +34,8 @@ ci-mr:
 
 run-myapp:
   stage: build
+  tags:
+    - docker
   script:
     - echo CI_MERGE_REQUEST_TARGET_BRANCH_NAME $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
     - echo "Hello world"

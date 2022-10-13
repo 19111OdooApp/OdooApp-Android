@@ -7,6 +7,11 @@ stages:
 variables:
   NEED_VOTES: 2
 
+cache:
+  key: ${CI_PROJECT_ID}
+  paths:
+    - .gradle/
+
 ci-mr:
   stage: test
   rules:
@@ -43,7 +48,7 @@ detekt:
     - when: always
   image: openjdk
   script:
-    - ./gradlew detekt --Pscope=commits --info
+    - ./gradlew detekt -Pscope=commits --info
 
 run-myapp:
   stage: build

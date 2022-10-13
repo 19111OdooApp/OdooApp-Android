@@ -1,5 +1,6 @@
 
 stages:
+  - lint
   - build
   - test
 
@@ -35,7 +36,7 @@ ci-mr:
   image: laptevss/gitlab-api-util
 
 detekt:
-  stage: test
+  stage: lint
   tags:
     - docker
   script:

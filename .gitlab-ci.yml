@@ -8,8 +8,8 @@ variables:
 
 ci-mr:
   stage: test
-  only:
-    - merge_requests
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   tags:
     - docker
   script:
@@ -33,6 +33,13 @@ ci-mr:
       exit 1;
       fi
   image: laptevss/gitlab-api-util
+
+detekt:
+  stage: test
+  tags:
+    - docker
+  script:
+    - ./gradlew detekt --Pscope=commits --info
 
 run-myapp:
   stage: build

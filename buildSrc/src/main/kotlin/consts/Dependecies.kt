@@ -62,4 +62,8 @@ object Dependencies {
 
         val ALL_DEPS = listOf(CONSTRAINT_LAYOUT, CORE)
     }
+
+    object Plugins {
+        const val DETEKT_VERSION = "1.22.0-RC1"
+    }
 }

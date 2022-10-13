@@ -39,6 +39,8 @@ detekt:
   stage: lint
   tags:
     - docker
+  rules:
+    - when: always
   script:
     - ./gradlew detekt --Pscope=commits --info
 

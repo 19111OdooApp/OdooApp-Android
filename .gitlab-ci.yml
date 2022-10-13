@@ -41,6 +41,7 @@ detekt:
     - docker
   rules:
     - when: always
+  image: openjdk
   script:
     - ./gradlew detekt --Pscope=commits --info
 

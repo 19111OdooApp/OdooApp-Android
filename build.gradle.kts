@@ -13,9 +13,9 @@ allprojects {
             "src/main/java",
             "gensrc/main/kotlin"
         )
-        config.setFrom(files("${rootDir}/detekt-config.yml"))
+        config.setFrom(files("${rootDir}/.detekt/detekt-config.yml"))
         parallel = false
-        baseline = file("${rootDir}/baseline.xml")
+        baseline = file("${rootDir}/.detekt/baseline.xml")
         basePath = projectDir.path
         autoCorrect = true
         dependencies {

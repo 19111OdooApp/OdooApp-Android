@@ -1,15 +1,21 @@
 
 stages:
+  - lint
   - build
   - test
 
 variables:
   NEED_VOTES: 2
 
+cache:
+  key: ${CI_PROJECT_ID}
+  paths:
+    - .gradle/
+
 ci-mr:
   stage: test
-  only:
-    - merge_requests
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   tags:
     - docker
   script:
@@ -33,6 +39,16 @@ ci-mr:
       exit 1;
       fi
   image: laptevss/gitlab-api-util
+
+detekt:
+  stage: lint
+  tags:
+    - docker
+  rules:
+    - when: always
+  image: openjdk
+  script:
+    - ./gradlew detekt -Pscope=commits --info
 
 run-myapp:
   stage: build

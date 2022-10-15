@@ -2,6 +2,7 @@
 stages:
   - lint
   - build
+  - unitTest
   - test
 
 variables:
@@ -50,7 +51,7 @@ detekt:
   script:
     - ./gradlew detektAll
 
-run-myapp:
+build-app:
   stage: build
   tags:
     - docker
@@ -58,4 +59,14 @@ run-myapp:
     - when: always
   image: openjdk
   script:
-    - ./gradlew build
+    - ./gradlew :entry:assembleRelease
+
+unit-testing:
+  stage: unitTest
+  tags:
+    - docker
+  rules:
+    - when: always
+  image: openjdk
+  script:
+    - ./gradlew test

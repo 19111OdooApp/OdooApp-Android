@@ -19,8 +19,9 @@ class OdooAppApplication : Application() {
     }
 
     private fun initTimber() {
-        if (BuildConfig.DEBUG)
+        if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
+        }
     }
 
     private fun initStrictMode() {

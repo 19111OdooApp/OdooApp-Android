@@ -40,14 +40,13 @@ object Dependencies {
         const val TIMBER = "com.jakewharton.timber:timber:$TIMBER_VERSION"
     }
 
-
     object Retrofit {
         private const val VERSION = "2.9.0"
 
         const val CONVERTER_GSON = "com.squareup.retrofit2:converter-gson:$VERSION"
-        const val RETROFIT = "com.squareup.retrofit2:retrofit:$VERSION"
+        const val RETROFIT_DEPENDENCY = "com.squareup.retrofit2:retrofit:$VERSION"
 
-        val ALL_DEPS = listOf(CONVERTER_GSON, RETROFIT)
+        val ALL_DEPS = listOf(CONVERTER_GSON, RETROFIT_DEPENDENCY)
     }
 
     object Test {

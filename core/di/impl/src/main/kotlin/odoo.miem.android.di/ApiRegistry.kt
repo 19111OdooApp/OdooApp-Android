@@ -28,7 +28,8 @@ object ApiRegistry {
     /**
      * Инициализация [apiResolver] свойства
      *
-     * @param newApiResolver новый [ApiResolver] для сохранения в [ApiRegistry] после начальной инициализации в *app* модуле
+     * @param newApiResolver новый [ApiResolver] для сохранения в
+     * [ApiRegistry] после начальной инициализации в *app* модуле
      */
     fun init(newApiResolver: ApiResolver) {
         apiResolver = newApiResolver

@@ -40,7 +40,7 @@
 - Документация в api модулях очень приветсвуется, как и логгирование
 
 ## Как добавить новую gradle зависимость?
-В модуле [buildSrc](buildSrc/) в файле [Dependecies](buildSrc/src/main/kotlin/Dependecies.kt)
+В модуле [buildSrc](buildSrc/) в файле [Dependencies](buildSrc/src/main/kotlin/consts/Dependencies.kt)
 прописаны все gradle зависимости, при необходимости добавляем/обновляем зависимости именно там.
 
 ## Как подключить модуль к общему DI графу?

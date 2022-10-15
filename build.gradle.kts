@@ -6,27 +6,6 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version Dependencies.Plugins.DETEKT_VERSION
 }
 
-//allprojects {
-//    apply(plugin = "io.gitlab.arturbosch.detekt")
-//    detekt {
-//        source = files(
-//            "src/main/java",
-//            "src/main/kotlin",
-//            "gensrc/main/kotlin"
-//        )
-//        config.setFrom(files("${rootDir}/.detekt/detekt-config.yml"))
-//        buildUponDefaultConfig = true
-////        parallel = true
-//        ignoreFailures = false
-//        baseline = file("${rootDir}/.detekt/baseline.xml")
-////        basePath = projectDir.path
-//        autoCorrect = true
-//        dependencies {
-//            detektPlugins(Dependencies.Plugins.DETEKT_FORMATTING)
-//        }
-//    }
-//}
-
 tasks {
     val detektAll by registering(io.gitlab.arturbosch.detekt.Detekt::class) {
         parallel = true

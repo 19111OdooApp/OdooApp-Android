@@ -19,7 +19,7 @@ allprojects {
         basePath = projectDir.path
         autoCorrect = true
         dependencies {
-            detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:${Dependencies.Plugins.DETEKT_VERSION}")
+            detektPlugins(Dependencies.Plugins.DETEKT_FORMATTING)
         }
     }
 }

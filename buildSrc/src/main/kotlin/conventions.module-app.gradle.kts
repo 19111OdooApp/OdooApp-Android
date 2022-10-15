@@ -20,6 +20,9 @@ dependencies {
     implementation(Dependencies.Dagger.ANDROID)
     Dependencies.Dagger.KAPT_DEPS.forEach { kapt(it) }
 
+    // Logger
+    implementation(Dependencies.Logger.TIMBER)
+
     // Tests
     allTestImplementation(kotlin(Dependencies.Test.TEST_JUNIT))
     allTestImplementation(Dependencies.Test.JUNIT)

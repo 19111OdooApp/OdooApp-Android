@@ -23,10 +23,14 @@ rootProject.name = "Odoo App"
 // TODO
 
 // Core слов
-// TODO
+include(":core:di:api")
+include(":core:di:impl")
+
+include(":core:platform:api")
+include(":core:platform:impl")
 
 // Entry слой
-include (":entry:app")
+include(":entry:app")
 
 // Feature слой
 // TODO

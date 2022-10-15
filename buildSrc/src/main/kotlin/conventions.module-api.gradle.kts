@@ -13,6 +13,6 @@ plugins {
 
 dependencies {
 
-    // Core слой
-    // TODO DI
+    // DI
+    api(project(":core:di:api"))
 }

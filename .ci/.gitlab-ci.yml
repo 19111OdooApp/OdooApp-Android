@@ -48,7 +48,7 @@ detekt:
     - when: always
   image: openjdk
   script:
-    - ./gradlew detekt -Pscope=commits --info
+    - ./gradlew detektAll
 
 run-myapp:
   stage: build

@@ -34,14 +34,19 @@ object Dependencies {
         val KAPT_DEPS = listOf(COMPILER, PROCESSOR)
     }
 
+    object Logger {
+        private const val TIMBER_VERSION = "5.0.1"
+
+        const val TIMBER = "com.jakewharton.timber:timber:$TIMBER_VERSION"
+    }
 
     object Retrofit {
         private const val VERSION = "2.9.0"
 
         const val CONVERTER_GSON = "com.squareup.retrofit2:converter-gson:$VERSION"
-        const val RETROFIT = "com.squareup.retrofit2:retrofit:$VERSION"
+        const val RETROFIT_DEPENDENCY = "com.squareup.retrofit2:retrofit:$VERSION"
 
-        val ALL_DEPS = listOf(CONVERTER_GSON, RETROFIT)
+        val ALL_DEPS = listOf(CONVERTER_GSON, RETROFIT_DEPENDENCY)
     }
 
     object Test {
@@ -65,5 +70,7 @@ object Dependencies {
 
     object Plugins {
         const val DETEKT_VERSION = "1.22.0-RC1"
+
+        const val DETEKT_FORMATTING = "io.gitlab.arturbosch.detekt:detekt-formatting:$DETEKT_VERSION"
     }
 }

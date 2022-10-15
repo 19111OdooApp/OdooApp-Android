@@ -6,20 +6,21 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version Dependencies.Plugins.DETEKT_VERSION
 }
 
-allprojects {
-    apply(plugin = "io.gitlab.arturbosch.detekt")
-    detekt {
-        source = files(
-            "src/main/java",
-            "gensrc/main/kotlin"
-        )
+tasks {
+    val detektAll by registering(io.gitlab.arturbosch.detekt.Detekt::class) {
+        parallel = true
+        setSource(files(projectDir))
+        include("**/*.kt")
+        exclude("**/*.kts")
+        exclude("**/resources/**")
+        exclude("**/build/**")
+        exclude("**/**est**")
         config.setFrom(files("${rootDir}/.detekt/detekt-config.yml"))
-        parallel = false
-        baseline = file("${rootDir}/.detekt/baseline.xml")
-        basePath = projectDir.path
+        buildUponDefaultConfig = false
+        ignoreFailures = false
         autoCorrect = true
         dependencies {
-            detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:${Dependencies.Plugins.DETEKT_VERSION}")
+            detektPlugins(Dependencies.Plugins.DETEKT_FORMATTING)
         }
     }
 }

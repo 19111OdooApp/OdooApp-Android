@@ -54,6 +54,8 @@ run-myapp:
   stage: build
   tags:
     - docker
+  rules:
+    - when: always
+  image: openjdk
   script:
-    - echo CI_MERGE_REQUEST_TARGET_BRANCH_NAME $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
-    - echo "Hello world"
+    - ./gradlew build

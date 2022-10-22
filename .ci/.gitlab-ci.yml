@@ -1,11 +1,47 @@
-
 stages:
   - lint
+  - unitTest
   - build
   - test
 
 variables:
   NEED_VOTES: 2
+  ANDROID_COMPILE_SDK: "33"
+  ANDROID_BUILD_TOOLS: "30.0.3"
+  ANDROID_SDK_TOOLS: "8512546"
+
+.before_script_template:
+  before_script:
+    - apt-get --quiet update --yes
+    - apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1
+
+    # Setup path as android_home for moving/exporting the downloaded sdk into it
+    - export ANDROID_HOME="${PWD}/android-home"
+    # Create a new directory at specified location
+    - install -d $ANDROID_HOME
+    # Here we are installing androidSDK tools from official source,
+    # (the key thing here is the url from where you are downloading these sdk tool for command line, so please do note this url pattern there and here as well)
+    # after that unzipping those tools and
+    # then running a series of SDK manager commands to install necessary android SDK packages that'll allow the app to build
+    - wget --output-document=$ANDROID_HOME/cmdline-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS}_latest.zip
+    # move to the archive at ANDROID_HOME
+    - pushd $ANDROID_HOME
+    - unzip -d cmdline-tools cmdline-tools.zip
+    - rm -rf cmdline-tools.zip
+    - popd
+    - export PATH=$PATH:${ANDROID_HOME}/cmdline-tools/cmdline-tools/bin/
+
+    # Checking sdkManager version
+    - sdkmanager --version
+
+    # use yes to accept all licenses
+    - yes | sdkmanager --sdk_root=${ANDROID_HOME} --licenses || true
+    - sdkmanager --sdk_root=${ANDROID_HOME} "platforms;android-${ANDROID_COMPILE_SDK}"
+    - sdkmanager --sdk_root=${ANDROID_HOME} "platform-tools"
+    - sdkmanager --sdk_root=${ANDROID_HOME} "build-tools;${ANDROID_BUILD_TOOLS}"
+
+    # Not necessary, but just for surity
+    - chmod +x ./gradlew
 
 cache:
   key: ${CI_PROJECT_ID}
@@ -14,10 +50,11 @@ cache:
 
 ci-mr:
   stage: test
+  image: laptevss/gitlab-api-util
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   tags:
-    - docker
+    - docker_miem
   script:
     - echo ${CI_API_V4_URL}
     - echo "CI_PROJECT_ID ${CI_PROJECT_ID}"
@@ -38,22 +75,38 @@ ci-mr:
       echo "MR ERROR Need more votes";
       exit 1;
       fi
-  image: laptevss/gitlab-api-util
 
 detekt:
   stage: lint
-  tags:
-    - docker
+  image: openjdk:11-jdk
   rules:
     - when: always
-  image: openjdk
-  script:
-    - ./gradlew detekt -Pscope=commits --info
-
-run-myapp:
-  stage: build
   tags:
-    - docker
+    - docker_miem
   script:
-    - echo CI_MERGE_REQUEST_TARGET_BRANCH_NAME $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
-    - echo "Hello world"
+    - ./gradlew detektAll
+
+build-app:
+  stage: build
+  image: openjdk:11-jdk
+  extends: .before_script_template
+  rules:
+    - when: always
+  tags:
+    - docker_miem
+  script:
+    - ./gradlew :entry:app:assembleRelease
+  artifacts:
+    paths:
+      - entry/app/build/outputs/
+
+unit-testing:
+  stage: unitTest
+  image: openjdk:11-jdk
+  extends: .before_script_template
+  rules:
+    - when: always
+  tags:
+    - docker_miem
+  script:
+    - ./gradlew test

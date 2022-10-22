@@ -336,7 +336,7 @@ naming:
     excludeClassPattern: '$^'
     ignoreOverridden: true
   InvalidPackageDeclaration:
-    active: true
+    active: false
     rootPackage: ''
     requireRootInDeclaration: false
   LambdaParameterNaming:

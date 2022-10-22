@@ -1,3 +1,4 @@
+import gradle.kotlin.dsl.accessors._36626f7cafa7add98e7dfe6126f1faec.implementation
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.kotlin
 
@@ -17,13 +18,17 @@ dependencies {
     // Dagger 2
     implementation(Dependencies.Dagger.ANDROID)
     Dependencies.Dagger.KAPT_DEPS.forEach { kapt(it) }
+    
+    // Logger
+    implementation(Dependencies.Logger.TIMBER)
 
     // Tests
     allTestImplementation(kotlin(Dependencies.Test.TEST_JUNIT))
     allTestImplementation(Dependencies.Test.JUNIT)
     testImplementation(Dependencies.Test.MOCKK)
 
-    // TODO Подключение DI из core
+    // DI
+    implementation(project(":core:di:impl"))
 }
 
 fun DependencyHandler.allTestImplementation(deps: Any) {

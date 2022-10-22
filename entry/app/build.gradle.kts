@@ -4,5 +4,10 @@ plugins {
 
 dependencies {
 
-    // TODO Подключение необходимых слоев
+    // Core слой
+    // DI
+    implementation(project(":core:di:impl"))
+
+    // Platform
+    implementation(project(":core:platform"))
 }

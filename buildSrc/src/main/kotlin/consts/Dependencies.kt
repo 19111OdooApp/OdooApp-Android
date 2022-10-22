@@ -24,6 +24,58 @@ object Dependencies {
         const val CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$VERSION"
     }
 
+    object Compose {
+        private const val COMPOSE_VERSION = "1.2.1"
+
+        object Core {
+            private const val ACTIVITY_COMPOSE_VERSION = "1.6.0"
+            private const val CONSTRAINT_VERSION = "1.0.1"
+
+            const val UI = "androidx.compose.ui:ui:$COMPOSE_VERSION"
+
+            const val MATERIAL = "androidx.compose.material:material:$COMPOSE_VERSION"
+            const val MATERIAL_ICONS = "androidx.compose.material:material-icons-extended:$COMPOSE_VERSION"
+
+            const val UI_TOOLING_PREVIEW = "androidx.compose.ui:ui-tooling-preview:$COMPOSE_VERSION"
+            const val UI_TOOLING = "androidx.compose.ui:ui-tooling:$COMPOSE_VERSION" // debugImplementation
+
+            const val ACTIVITY_COMPOSE = "androidx.activity:activity-compose:$ACTIVITY_COMPOSE_VERSION"
+
+            const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout-compose:$CONSTRAINT_VERSION"
+
+            val ALL_CORE_DEPS =
+                listOf(UI, MATERIAL, MATERIAL_ICONS, UI_TOOLING_PREVIEW, ACTIVITY_COMPOSE, CONSTRAINT_LAYOUT)
+            val ALL_CORE_DEBUG_DEPS = listOf(UI_TOOLING)
+        }
+
+        object Lifecycle {
+            private const val LIFECYCLE_VERSION = "2.5.1"
+
+            const val RUNTIME = "androidx.lifecycle:lifecycle-runtime-ktx:$LIFECYCLE_VERSION"
+            const val VIEW_MODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:$LIFECYCLE_VERSION"
+
+            val ALL_LIFECYCLE_DEPS = listOf(RUNTIME, VIEW_MODEL)
+        }
+
+        object Foundation {
+
+            const val FOUNDATION = "androidx.compose.foundation:$COMPOSE_VERSION"
+            const val FOUNDATION_LAYOUT = "androidx.compose.foundation.layout:$COMPOSE_VERSION"
+
+            val ALL_FOUNDATION_DEPS = listOf(FOUNDATION, FOUNDATION_LAYOUT)
+        }
+
+        object RxJava {
+
+            const val RX_JAVA = "androidx.compose.runtime.rxjava3:$COMPOSE_VERSION"
+
+            val ALL_RXJAVA_DEPS = listOf(RX_JAVA)
+        }
+
+        val ALL_DEPS =
+            Core.ALL_CORE_DEPS + Lifecycle.ALL_LIFECYCLE_DEPS + Foundation.ALL_FOUNDATION_DEPS + RxJava.ALL_RXJAVA_DEPS
+    }
+
     object Dagger {
         private const val VERSION = "2.44"
 

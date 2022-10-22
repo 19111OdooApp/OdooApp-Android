@@ -2,7 +2,17 @@ plugins {
     conventions.`module-app`
 }
 
+android {
+    buildFeatures {
+        compose = true
+    }
+}
+
 dependencies {
+
+    // Compose
+    Dependencies.Compose.ALL_DEPS.forEach { implementation(it) }
+    Dependencies.Compose.Core.ALL_CORE_DEBUG_DEPS.forEach { debugImplementation(it) }
 
     // Core слой
     // DI

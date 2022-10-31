@@ -21,14 +21,6 @@ android {
     defaultConfig {
         minSdk = CompileVersions.MINIMUM_COMPILE_VERSION
     }
-
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = CompileVersions.COMPOSE_COMPILE_VERSION
-    }
 }
 
 tasks.withType<KotlinCompile>().configureEach {

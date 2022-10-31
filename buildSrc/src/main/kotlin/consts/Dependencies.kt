@@ -65,10 +65,10 @@ object Dependencies {
 
         object Foundation {
 
-            const val FOUNDATION = "androidx.compose.foundation:foundation:$COMPOSE_VERSION"
-            const val FOUNDATION_LAYOUT = "androidx.compose.foundation:foundation-layout:$COMPOSE_VERSION"
+            const val COMPOSE_FOUNDATION = "androidx.compose.foundation:foundation:$COMPOSE_VERSION"
+            const val COMPOSE_FOUNDATION_LAYOUT = "androidx.compose.foundation:foundation-layout:$COMPOSE_VERSION"
 
-            val ALL_FOUNDATION_DEPS = listOf(FOUNDATION, FOUNDATION_LAYOUT)
+            val ALL_FOUNDATION_DEPS = listOf(COMPOSE_FOUNDATION, COMPOSE_FOUNDATION_LAYOUT)
         }
 
         object RxJava {

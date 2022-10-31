@@ -45,6 +45,6 @@ tasks.withType<KotlinCompile>().configureEach {
         jvmTarget = CompileVersions.JAVA_COMPILE_VERSION
         apiVersion = CompileVersions.KOTLIN_LANGUAGE_VERSION
         languageVersion = CompileVersions.KOTLIN_LANGUAGE_VERSION
-        // freeCompilerArgs = listOf("-Xjvm-default=enable")
+        freeCompilerArgs = listOf("-Xjvm-default=enable")
     }
 }

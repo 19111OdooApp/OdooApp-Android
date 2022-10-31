@@ -9,8 +9,8 @@
 object Dependencies {
 
     object AndroidCore {
-        private const val APPCOMPAT_VERSION = "1.5.0"
-        private const val CORE_VERSION = "1.8.0"
+        private const val APPCOMPAT_VERSION = "1.5.1"
+        private const val CORE_VERSION = "1.9.0"
 
         const val APPCOMPAT = "androidx.appcompat:appcompat:$APPCOMPAT_VERSION"
         const val CORE = "androidx.core:core-ktx:$CORE_VERSION"
@@ -25,15 +25,21 @@ object Dependencies {
     }
 
     object Compose {
-        private const val COMPOSE_VERSION = "1.2.1"
+
+        // ===========================================================================================
+        // BE VERY CAREFUL WHEN UPDATING COMPOSE DEPENDENCIES, BECAUSE THEY CAN USE DIFFERENT VERSION!
+        // ===========================================================================================
+
+        private const val COMPOSE_VERSION = "1.3.0"
 
         object Core {
-            private const val ACTIVITY_COMPOSE_VERSION = "1.6.0"
+            private const val ACTIVITY_COMPOSE_VERSION = "1.6.1"
             private const val CONSTRAINT_VERSION = "1.0.1"
+            private const val MATERIAL3_VERSION = "1.0.0"
 
             const val UI = "androidx.compose.ui:ui:$COMPOSE_VERSION"
 
-            const val MATERIAL = "androidx.compose.material:material:$COMPOSE_VERSION"
+            const val MATERIAL = "androidx.compose.material3:material3:$MATERIAL3_VERSION"
             const val MATERIAL_ICONS = "androidx.compose.material:material-icons-extended:$COMPOSE_VERSION"
 
             const val UI_TOOLING_PREVIEW = "androidx.compose.ui:ui-tooling-preview:$COMPOSE_VERSION"
@@ -59,15 +65,15 @@ object Dependencies {
 
         object Foundation {
 
-            const val FOUNDATION = "androidx.compose.foundation:$COMPOSE_VERSION"
-            const val FOUNDATION_LAYOUT = "androidx.compose.foundation.layout:$COMPOSE_VERSION"
+            const val FOUNDATION = "androidx.compose.foundation:foundation:$COMPOSE_VERSION"
+            const val FOUNDATION_LAYOUT = "androidx.compose.foundation:foundation-layout:$COMPOSE_VERSION"
 
             val ALL_FOUNDATION_DEPS = listOf(FOUNDATION, FOUNDATION_LAYOUT)
         }
 
         object RxJava {
 
-            const val RX_JAVA = "androidx.compose.runtime.rxjava3:$COMPOSE_VERSION"
+            const val RX_JAVA = "androidx.compose.runtime:runtime-rxjava3:$COMPOSE_VERSION"
 
             val ALL_RXJAVA_DEPS = listOf(RX_JAVA)
         }
@@ -103,7 +109,7 @@ object Dependencies {
 
     object Test {
         private const val JUNIT_VERSION = "1.1.3"
-        private const val MOCKK_VERSION = "1.12.4"
+        private const val MOCKK_VERSION = "1.13.2"
 
         const val JUNIT = "androidx.test.ext:junit:$JUNIT_VERSION"
         const val TEST_JUNIT = "test-junit"
@@ -112,7 +118,7 @@ object Dependencies {
 
     object UI {
         private const val CONSTRAINT_LAYOUT_VERSION = "2.1.4"
-        private const val MATERIAL_VERSION = "1.6.1"
+        private const val MATERIAL_VERSION = "1.7.0"
 
         const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:$CONSTRAINT_LAYOUT_VERSION"
         const val CORE = "com.google.android.material:material:$MATERIAL_VERSION"

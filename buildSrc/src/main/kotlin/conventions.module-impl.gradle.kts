@@ -1,4 +1,3 @@
-import gradle.kotlin.dsl.accessors._36626f7cafa7add98e7dfe6126f1faec.implementation
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.kotlin
 

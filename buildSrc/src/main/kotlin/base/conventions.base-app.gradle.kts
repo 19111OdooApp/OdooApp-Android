@@ -35,8 +35,8 @@ android {
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
         jvmTarget = CompileVersions.JAVA_COMPILE_VERSION
-        freeCompilerArgs = listOf("-Xjvm-default=enable")
+        apiVersion = CompileVersions.KOTLIN_VERSION
+        languageVersion = CompileVersions.KOTLIN_VERSION
+        // freeCompilerArgs = listOf("-Xjvm-default=enable")
     }
-    sourceCompatibility = CompileVersions.JAVA_COMPILE_VERSION
-    targetCompatibility = CompileVersions.JAVA_COMPILE_VERSION
 }

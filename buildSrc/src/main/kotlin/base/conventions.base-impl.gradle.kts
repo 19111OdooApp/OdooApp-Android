@@ -21,12 +21,20 @@ android {
     defaultConfig {
         minSdk = CompileVersions.MINIMUM_COMPILE_VERSION
     }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = CompileVersions.COMPOSE_COMPILE_VERSION
+    }
 }
 
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
         jvmTarget = CompileVersions.JAVA_COMPILE_VERSION
-        apiVersion = CompileVersions.KOTLIN_VERSION
-        languageVersion = CompileVersions.KOTLIN_VERSION
+        apiVersion = CompileVersions.KOTLIN_LANGUAGE_VERSION
+        languageVersion = CompileVersions.KOTLIN_LANGUAGE_VERSION
     }
 }

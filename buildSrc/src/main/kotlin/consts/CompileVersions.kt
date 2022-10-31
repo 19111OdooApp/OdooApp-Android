@@ -9,4 +9,5 @@ object CompileVersions {
     const val CURRENT_COMPILE_VERSION = 33
     const val JAVA_COMPILE_VERSION = "1.8"
     const val MINIMUM_COMPILE_VERSION = 21
+    const val KOTLIN_VERSION = "1.7"
 }

@@ -26,7 +26,7 @@ android {
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
         jvmTarget = CompileVersions.JAVA_COMPILE_VERSION
+        apiVersion = CompileVersions.KOTLIN_LANGUAGE_VERSION
+        languageVersion = CompileVersions.KOTLIN_LANGUAGE_VERSION
     }
-    sourceCompatibility = CompileVersions.JAVA_COMPILE_VERSION
-    targetCompatibility = CompileVersions.JAVA_COMPILE_VERSION
 }

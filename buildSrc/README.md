@@ -21,4 +21,8 @@
 ## Процесс расширения
 ```
 base -------> module -------> module_advanced
+
+                OR
+                
+base -----------------------> module_advanced
 ```

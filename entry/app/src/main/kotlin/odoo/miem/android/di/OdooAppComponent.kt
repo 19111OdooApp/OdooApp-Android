@@ -2,9 +2,11 @@ package odoo.miem.android.di
 
 import android.content.Context
 import dagger.Component
-import odoo.miem.android.platfom.dependecies.DefaultPlatformDependencies
-import odoo.miem.android.platfom.dependecies.PlatformDependencies
-import odoo.miem.android.platfom.di.PlatformApiProviderModule
+import odoo.miem.android.core.di.impl.ApiRegistry
+import odoo.miem.android.core.di.impl.ApiResolver
+import odoo.miem.android.core.platform.dependecies.DefaultPlatformDependencies
+import odoo.miem.android.core.platform.dependecies.PlatformDependencies
+import odoo.miem.android.core.platform.di.PlatformApiProviderModule
 
 /**
  * [OdooAppComponent] - **Dagger** компонент, который является родительским компонентом

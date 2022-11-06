@@ -33,5 +33,5 @@ include(":core:platform:impl")
 include(":entry:app")
 
 // Feature слой
-// TODO
+include(":feature:navigation")
 

@@ -1,4 +1,3 @@
-import gradle.kotlin.dsl.accessors._b8e9b34270198d14a4ec0d8967890a50.api
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.project
 

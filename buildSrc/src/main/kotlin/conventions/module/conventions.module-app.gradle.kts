@@ -1,7 +1,3 @@
-import gradle.kotlin.dsl.accessors._bf5355cea62077187e215896f3ff9977.androidTestImplementation
-import gradle.kotlin.dsl.accessors._bf5355cea62077187e215896f3ff9977.implementation
-import gradle.kotlin.dsl.accessors._bf5355cea62077187e215896f3ff9977.kapt
-import gradle.kotlin.dsl.accessors._bf5355cea62077187e215896f3ff9977.testImplementation
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.kotlin
 

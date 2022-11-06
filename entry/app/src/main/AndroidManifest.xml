@@ -3,6 +3,7 @@
     package="odoo.miem.android">
 
     <application
+        android:name=".OdooAppApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -11,6 +12,8 @@
         android:theme="@style/Theme.OdooApp">
         <activity
             android:name=".feature.navigation.MainActivity"
+            android:theme="@style/Theme.OdooApp"
+            android:windowSoftInputMode="adjustResize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

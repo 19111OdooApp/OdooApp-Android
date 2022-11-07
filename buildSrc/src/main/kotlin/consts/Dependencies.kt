@@ -87,7 +87,8 @@ object Dependencies {
         }
 
         val ALL_DEPS =
-            Core.ALL_CORE_DEPS + Lifecycle.ALL_LIFECYCLE_DEPS + Foundation.ALL_FOUNDATION_DEPS + RxJava.ALL_RXJAVA_DEPS + Navigation.ALL_NAVIGATION_DEPS
+            Core.ALL_CORE_DEPS + Lifecycle.ALL_LIFECYCLE_DEPS + Foundation.ALL_FOUNDATION_DEPS +
+                RxJava.ALL_RXJAVA_DEPS + Navigation.ALL_NAVIGATION_DEPS
     }
 
     object Dagger {

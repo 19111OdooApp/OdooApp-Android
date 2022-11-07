@@ -26,10 +26,7 @@ class AuthorizationScreen : IAuthorizationScreen {
         navController: NavHostController,
         showMessage: (Int) -> Unit
     ) {
-
-        AuthorizationScreenContent(
-
-        )
+        AuthorizationScreenContent()
     }
 
     @Composable

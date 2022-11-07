@@ -1,14 +1,14 @@
 plugins {
-    conventions.`module-app`
+    conventions.`module-compose-app`
 }
 
 dependencies {
 
-    // Compose
-    Dependencies.Compose.ALL_DEPS.forEach { implementation(it) }
-    Dependencies.Compose.Core.ALL_CORE_DEBUG_DEPS.forEach { debugImplementation(it) }
+    // Feature
+    // Navigation
+    implementation(project(":feature:navigation"))
 
-    // Core слой
+    // Core
     // DI
     implementation(project(":core:di:impl"))
 

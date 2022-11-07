@@ -11,8 +11,8 @@ val odooPrimaryGray = Color(0xFF8F8F8F)
 /**
  * Action/Button Colors
  */
-val odooPrimaryLight  = Color(0xFF00A09D)
-val odooPrimaryDark   = Color(0xFF017E84)
+val odooPrimaryLight = Color(0xFF00A09D)
+val odooPrimaryDark = Color(0xFF017E84)
 
 /**
  * Background Colors

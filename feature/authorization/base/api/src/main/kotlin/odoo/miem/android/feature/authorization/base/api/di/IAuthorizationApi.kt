@@ -11,7 +11,7 @@ import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
  *
  * @author Ворожцов Михаил
  */
-interface IAuthorizationApi: Api {
+interface IAuthorizationApi : Api {
 
     val authorizationScreen: IAuthorizationScreen
 }

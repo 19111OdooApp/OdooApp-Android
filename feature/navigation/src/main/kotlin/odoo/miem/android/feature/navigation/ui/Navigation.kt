@@ -47,7 +47,6 @@ fun Navigation(
     // Screens
     val authorizationScreen by api(IAuthorizationApi::authorizationScreen)
 
-
     NavigationContent(
         authorizationScreen = authorizationScreen,
         paddingValues = paddingValues,

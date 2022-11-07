@@ -2,7 +2,6 @@ package odoo.miem.android
 
 import android.app.Application
 import android.os.StrictMode
-import odoo.miem.android.core.di.api.Api
 import odoo.miem.android.di.OdooAppComponent
 import odoo.miem.android.di.initApis
 import timber.log.Timber

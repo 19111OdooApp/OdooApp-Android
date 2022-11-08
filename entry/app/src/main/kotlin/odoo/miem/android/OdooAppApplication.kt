@@ -6,6 +6,12 @@ import odoo.miem.android.di.OdooAppComponent
 import odoo.miem.android.di.initApis
 import timber.log.Timber
 
+/**
+ * [OdooAppApplication] - application для инициализации di графа, [Timber] и
+ * включение Strict Mode
+ *
+ * @author Ворожцов Михаил
+ */
 class OdooAppApplication : Application() {
 
     override fun onCreate() {

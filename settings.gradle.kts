@@ -36,6 +36,8 @@ include(":entry:app")
 // Feature слой
 include(":feature:authorization:base:api")
 include(":feature:authorization:base:impl")
+include(":feature:authorization:general:api")
+include(":feature:authorization:general:impl")
 
 include(":feature:navigation")
 

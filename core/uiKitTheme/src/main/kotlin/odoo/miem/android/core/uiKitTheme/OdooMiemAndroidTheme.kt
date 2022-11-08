@@ -15,7 +15,10 @@ private val DarkColorPalette = darkColorScheme(
     primary = odooPrimary,
     onPrimary = Color.White,
     secondary = odooDarkBackground,
+    primaryContainer = odooPrimaryDark,
+    onPrimaryContainer = Color.White,
     secondaryContainer = odooDarkBackground.copy(alpha = 0.5f),
+    onSecondaryContainer = odooPrimaryGray,
     surfaceVariant = odooPrimary.copy(alpha = 0.1f),
     background = odooDarkBackground,
     surface = odooDarkBackground
@@ -23,8 +26,12 @@ private val DarkColorPalette = darkColorScheme(
 
 private val LightColorPalette = lightColorScheme(
     primary = odooPrimary,
-    secondary = odooDarkBackground,
+    onPrimary = Color.Black,
+    secondary = odooPrimaryLight,
+    primaryContainer = odooPrimaryLight,
+    onPrimaryContainer = Color.White,
     secondaryContainer = odooDarkBackground.copy(alpha = 0.5f),
+    onSecondaryContainer = odooPrimaryGray,
     surfaceVariant = odooPrimary.copy(alpha = 0.1f),
     background = odooLightGrayBackground,
     surface = odooLightGrayBackground

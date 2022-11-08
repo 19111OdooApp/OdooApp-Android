@@ -5,6 +5,9 @@
 
     <string name="global_odoo_url">https://odoo.com</string>
     <string name="login_odoo_server">Odoo Server URL</string>
-    <string name="login_username">Login</string>
+    <string name="login_email">Email</string>
     <string name="login_password">Password</string>
+
+    <string name="login">Login</string>
+    <string name="login_hse">Login with HSE</string>
 </resources>

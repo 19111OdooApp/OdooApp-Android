@@ -54,6 +54,14 @@ object Dependencies {
             val ALL_CORE_DEBUG_DEPS = listOf(UI_TOOLING)
         }
 
+        object Navigation {
+            private const val VERSION = "2.5.3"
+
+            const val NAVIGATION_COMPOSE = "androidx.navigation:navigation-compose:$VERSION"
+
+            val ALL_NAVIGATION_DEPS = listOf(NAVIGATION_COMPOSE)
+        }
+
         object Lifecycle {
             private const val LIFECYCLE_VERSION = "2.5.1"
 
@@ -79,7 +87,8 @@ object Dependencies {
         }
 
         val ALL_DEPS =
-            Core.ALL_CORE_DEPS + Lifecycle.ALL_LIFECYCLE_DEPS + Foundation.ALL_FOUNDATION_DEPS + RxJava.ALL_RXJAVA_DEPS
+            Core.ALL_CORE_DEPS + Lifecycle.ALL_LIFECYCLE_DEPS + Foundation.ALL_FOUNDATION_DEPS +
+                RxJava.ALL_RXJAVA_DEPS + Navigation.ALL_NAVIGATION_DEPS
     }
 
     object Dagger {

@@ -6,7 +6,8 @@ import odoo.miem.android.core.di.impl.ApiRegistry
 import odoo.miem.android.core.di.impl.ApiResolver
 import odoo.miem.android.core.platform.dependecies.DefaultPlatformDependencies
 import odoo.miem.android.core.platform.dependecies.PlatformDependencies
-import odoo.miem.android.core.platform.di.PlatformApiProviderModule
+import odoo.miem.android.core.platform.di.PlatformApiProvider
+import odoo.miem.android.feature.authorization.base.impl.di.AuthorizationScreenApiProvider
 
 /**
  * [OdooAppComponent] - **Dagger** компонент, который является родительским компонентом
@@ -17,7 +18,7 @@ import odoo.miem.android.core.platform.di.PlatformApiProviderModule
  *  - [PlatformDependencies] - запрос платформенных объектов в общий *DI граф*
  *
  * Подключаемые модули:
- *  - [PlatformApiProviderModule] - для доставки зависимости платформенных объектов
+ *  - [PlatformApiProvider] - для доставки зависимости платформенных объектов
  *
  *
  * @author Ворожцов Михаил
@@ -27,7 +28,8 @@ import odoo.miem.android.core.platform.di.PlatformApiProviderModule
         PlatformDependencies::class
     ],
     modules = [
-        PlatformApiProviderModule::class,
+        AuthorizationScreenApiProvider::class,
+        PlatformApiProvider::class
     ]
 )
 interface OdooAppComponent {

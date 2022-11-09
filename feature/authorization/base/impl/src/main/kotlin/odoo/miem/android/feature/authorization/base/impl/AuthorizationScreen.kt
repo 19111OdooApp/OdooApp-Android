@@ -28,7 +28,7 @@ import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
  * - [AuthorizationScreenContent] - непосредственно верстка данного экрана
  * - [AuthorizationScreenPreview] - превью верстки, которая получилась в [AuthorizationScreenContent]
  *
- * @author Ворожцов Михаил
+ * @author Ворожцов Михаил, Данилов Егор
  */
 class AuthorizationScreen : IAuthorizationScreen {
 
@@ -59,6 +59,9 @@ class AuthorizationScreen : IAuthorizationScreen {
         }
         var passwordInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
             mutableStateOf(TextFieldValue())
+        }
+        val isLoginButtonEnabled by rememberSaveable {
+            mutableStateOf(serverInput.text.isNotEmpty() && loginInput.text.isNotEmpty() && passwordInput.text.isNotEmpty())
         }
 
         Image(
@@ -130,7 +133,7 @@ class AuthorizationScreen : IAuthorizationScreen {
         // You have to compile to watch actual ones...
         Button(
             onClick = { /*TODO*/ },
-            enabled = serverInput.text.isNotEmpty() && loginInput.text.isNotEmpty() && passwordInput.text.isNotEmpty(),
+            enabled = isLoginButtonEnabled,
             contentPadding = PaddingValues(horizontal = 109.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,

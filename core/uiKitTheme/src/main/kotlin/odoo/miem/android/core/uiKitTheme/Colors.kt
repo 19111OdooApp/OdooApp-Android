@@ -24,3 +24,9 @@ val odooGradientBackground = listOf(
     Color(0xFF714B67),
     Color(0xFF542D4B),
 )
+
+/**
+ * Hse Colors
+ */
+val hsePrimary = Color(0xFF003087)
+val hseSecondary = Color(0xFF0047BB)

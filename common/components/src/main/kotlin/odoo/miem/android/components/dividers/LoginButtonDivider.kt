@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 fun LoginButtonDivider() = Row(
     modifier = Modifier.padding(vertical = 15.dp)
 ) {
-    val rectangleWidth = 60.dp
+    val rectangleWidth = 100.dp
 
     Surface(
         color = MaterialTheme.colorScheme.onSecondaryContainer,

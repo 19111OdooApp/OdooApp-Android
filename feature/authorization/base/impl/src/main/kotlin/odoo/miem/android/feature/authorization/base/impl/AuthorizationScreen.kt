@@ -17,6 +17,7 @@ import androidx.navigation.NavHostController
 import odoo.miem.android.components.dividers.LoginButtonDivider
 import odoo.miem.android.components.textfields.LoginTextField
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
+import odoo.miem.android.core.uiKitTheme.hseSecondary
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
 
 /**
@@ -134,14 +135,20 @@ class AuthorizationScreen : IAuthorizationScreen {
         Button(
             onClick = { /*TODO*/ },
             enabled = isLoginButtonEnabled,
-            contentPadding = PaddingValues(horizontal = 109.dp),
+            contentPadding = PaddingValues(
+                horizontal = 109.dp,
+                vertical = 18.dp
+            ),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                 contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
                 disabledContentColor = MaterialTheme.colorScheme.onSecondaryContainer
             ),
-            modifier = Modifier.padding(top = 40.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 40.dp)
+                .padding(horizontal = 24.dp)
         ) {
             Text(
                 text = stringResource(R.string.login),
@@ -153,11 +160,14 @@ class AuthorizationScreen : IAuthorizationScreen {
 
         Button(
             onClick = { /*TODO*/ },
-            contentPadding = PaddingValues(horizontal = 56.dp,),
+            contentPadding = PaddingValues(vertical = 18.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                containerColor = hseSecondary,
                 contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             ),
+            modifier = Modifier
+                .padding(horizontal = 24.dp)
+                .fillMaxWidth()
         ) {
             Image(
                 painter = painterResource(R.drawable.logo_hse),

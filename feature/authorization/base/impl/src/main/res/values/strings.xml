@@ -10,4 +10,7 @@
 
     <string name="login">Login</string>
     <string name="login_hse">Login with HSE</string>
+
+    <string name="login_divider_text">OR</string>
+    <string name="login_question_button_basic_text">Please, enter your Odoo URL, login and password</string>
 </resources>

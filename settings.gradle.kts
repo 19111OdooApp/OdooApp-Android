@@ -20,7 +20,7 @@ rootProject.name = "Odoo App"
 
 
 // Common слой
-include(":common:components")
+include(":common:uiKitComponents")
 
 // Core слов
 include(":core:di:api")

@@ -3,21 +3,32 @@ package odoo.miem.android.feature.authorization.base.impl
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import odoo.miem.android.components.dividers.LoginButtonDivider
-import odoo.miem.android.components.textfields.LoginTextField
-import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
-import odoo.miem.android.core.uiKitTheme.hseSecondary
+import odoo.miem.android.common.uiKitComponents.buttons.TextButton
+import odoo.miem.android.common.uiKitComponents.buttons.buttonHorizontalPadding
+import odoo.miem.android.common.uiKitComponents.buttons.loginButtonPadding
+import odoo.miem.android.common.uiKitComponents.dividers.Divider
+import odoo.miem.android.common.uiKitComponents.dividers.dividerVerticalPadding
+import odoo.miem.android.common.uiKitComponents.textfields.LoginTextField
+import odoo.miem.android.core.uiKitTheme.*
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
 
 /**
@@ -51,26 +62,28 @@ class AuthorizationScreen : IAuthorizationScreen {
             .fillMaxSize()
             .imePadding(),
     ) {
+        val context = LocalContext.current
         val odooGlobalUrl = stringResource(R.string.global_odoo_url)
+
         var serverInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
             mutableStateOf(TextFieldValue(odooGlobalUrl))
         }
-        var loginInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
+        var emailInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
             mutableStateOf(TextFieldValue())
         }
         var passwordInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
             mutableStateOf(TextFieldValue())
         }
-        val isLoginButtonEnabled by rememberSaveable {
-            mutableStateOf(serverInput.text.isNotEmpty() && loginInput.text.isNotEmpty() && passwordInput.text.isNotEmpty())
-        }
+        val isLoginButtonEnabled = serverInput.text.isNotEmpty()
+                && emailInput.text.isNotEmpty()
+                && passwordInput.text.isNotEmpty()
 
         Image(
             painter = painterResource(R.drawable.logo_odoo),
             contentDescription = null,
             modifier = Modifier
-                .padding(top = 55.dp)
-                .size(120.dp, 40.dp),
+                .padding(top = 30.dp)
+                .size(width = 80.dp, height = 26.dp),
         )
         
         Text(
@@ -79,9 +92,10 @@ class AuthorizationScreen : IAuthorizationScreen {
             modifier = Modifier
                 .align(Alignment.Start)
                 .padding(
-                    start = 24.dp,
-                    top = 41.dp
-                )
+                    start = mainHorizontalPadding,
+                    top = 40.dp
+                ),
+            color = MaterialTheme.colorScheme.onSecondaryContainer
         )
 
         Text(
@@ -89,9 +103,9 @@ class AuthorizationScreen : IAuthorizationScreen {
             style = MaterialTheme.typography.titleSmall,
             modifier = Modifier
                 .align(Alignment.Start)
-                .padding(horizontal = 24.dp)
-                .padding(top = 11.dp),
-            color = MaterialTheme.colorScheme.onSecondaryContainer
+                .padding(horizontal = mainHorizontalPadding)
+                .padding(top = commonPadding),
+            color = MaterialTheme.colorScheme.onPrimaryContainer
         )
 
         LoginTextField(
@@ -100,22 +114,30 @@ class AuthorizationScreen : IAuthorizationScreen {
             onValueChange = {
                 serverInput = it
             },
+            onTrailingIconClick = {
+                serverInput = TextFieldValue("")
+            },
+            trailingIconId = odoo.miem.android.common.uiKitComponents.R.drawable.ic_trailing_icon,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp)
+                .padding(horizontal = mainHorizontalPadding)
                 .padding(top = 30.dp)
         )
 
         LoginTextField(
-            value = loginInput,
+            value = emailInput,
             labelId = R.string.login_email,
             onValueChange = {
-                loginInput = it
+                emailInput = it
             },
+            onTrailingIconClick = {
+                emailInput = TextFieldValue("")
+            },
+            trailingIconId = odoo.miem.android.common.uiKitComponents.R.drawable.ic_trailing_icon,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp)
-                .padding(top = 10.dp)
+                .padding(horizontal = mainHorizontalPadding)
+                .padding(top = commonPadding)
         )
 
         LoginTextField(
@@ -124,63 +146,53 @@ class AuthorizationScreen : IAuthorizationScreen {
             onValueChange = {
                 passwordInput = it
             },
+            onTrailingIconClick = {
+                passwordInput = TextFieldValue("")
+            },
+            visualTransformation = PasswordVisualTransformation(),
+            trailingIconId = odoo.miem.android.common.uiKitComponents.R.drawable.ic_trailing_icon,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp)
-                .padding(top = 10.dp)
+                .padding(horizontal = mainHorizontalPadding)
+                .padding(top = commonPadding)
         )
 
         // Button's colors in preview are awful I know
         // You have to compile to watch actual ones...
-        Button(
-            onClick = { /*TODO*/ },
-            enabled = isLoginButtonEnabled,
-            contentPadding = PaddingValues(
-                horizontal = 109.dp,
-                vertical = 18.dp
-            ),
+        TextButton(
+            onClick = { /* TODO */ },
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                disabledContentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                contentColor = Color.White,
+                disabledContainerColor = odooButtonDisabled,
+                disabledContentColor = odooOnButtonDisabled
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 40.dp)
-                .padding(horizontal = 24.dp)
-        ) {
-            Text(
-                text = stringResource(R.string.login),
-                style = MaterialTheme.typography.bodyMedium
-            )
-        }
+                .padding(top = loginButtonPadding)
+                .padding(horizontal = buttonHorizontalPadding),
+            textId = R.string.login,
+            isEnabled = isLoginButtonEnabled
+        )
 
-        LoginButtonDivider()
+        Divider(
+            textModifier = Modifier.padding(horizontal = commonPadding),
+            paddingModifier = Modifier.padding(vertical = dividerVerticalPadding),
+            textId = R.string.login_divider_text
+        )
 
-        Button(
-            onClick = { /*TODO*/ },
-            contentPadding = PaddingValues(vertical = 18.dp),
+        TextButton(
+            onClick = { /* TODO */ },
             colors = ButtonDefaults.buttonColors(
                 containerColor = hseSecondary,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                contentColor = Color.White,
             ),
             modifier = Modifier
-                .padding(horizontal = 24.dp)
-                .fillMaxWidth()
-        ) {
-            Image(
-                painter = painterResource(R.drawable.logo_hse),
-                contentDescription = null,
-                modifier = Modifier.size(24.dp)
-            )
-
-            Text(
-                text = stringResource(R.string.login_hse),
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(start = 10.dp)
-            )
-        }
+                .padding(horizontal = buttonHorizontalPadding)
+                .fillMaxWidth(),
+            textId = R.string.login_hse,
+            iconId = R.drawable.logo_hse,
+        )
     }
 
     @Composable

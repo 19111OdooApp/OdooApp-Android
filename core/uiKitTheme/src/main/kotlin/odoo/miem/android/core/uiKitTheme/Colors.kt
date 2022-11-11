@@ -8,12 +8,14 @@ import androidx.compose.ui.graphics.Color
 val odooPrimary = Color(0xFF714B67)
 val odooPrimaryGray = Color(0xFF8F8F8F)
 
-
 /**
  * Action/Button Colors
  */
 val odooPrimaryLight = Color(0xFF00A09D)
 val odooPrimaryDark = Color(0xFF017E84)
+
+val odooButtonDisabled = Color(0xFF8F8F8F)
+val odooOnButtonDisabled = Color(0xFF6B6D70)
 
 /**
  * Background Colors

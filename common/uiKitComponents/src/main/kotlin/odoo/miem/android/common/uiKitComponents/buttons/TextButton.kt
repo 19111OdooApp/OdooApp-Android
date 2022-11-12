@@ -4,7 +4,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.*
@@ -14,6 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import odoo.miem.android.core.uiKitTheme.commonPadding
+import odoo.miem.android.core.uiKitTheme.buttonIconSize
 
 /**
  * [TextButton] - basic Material You filled button
@@ -26,8 +26,8 @@ fun TextButton(
     onClick: () -> Unit = {},
     colors: ButtonColors,
     modifier: Modifier,
-    @StringRes textId: Int,
-    @DrawableRes iconId: Int? = null,
+    @StringRes textResource: Int,
+    @DrawableRes iconResource: Int? = null,
     isEnabled: Boolean = true
 ) {
     Button(
@@ -39,24 +39,21 @@ fun TextButton(
     ) {
         // I know, its stupid but I found some kind of bug
         // If set end padding to Image and remove start padding from Text, icon become very small
-        if (iconId != null) {
-            Image(
-                painter = painterResource(iconId),
+        iconResource?.let {
+            Icon(
+                painter = painterResource(iconResource),
                 contentDescription = null,
                 modifier = Modifier.size(buttonIconSize)
             )
+        }
 
-            Text(
-                text = stringResource(textId),
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(start = commonPadding)
-            )
-        }
-        else {
-            Text(
-                text = stringResource(textId),
-                style = MaterialTheme.typography.bodyMedium,
-            )
-        }
+        Text(
+            text = stringResource(textResource),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.iconPadding(iconResource)
+        )
     }
 }
+
+fun Modifier.iconPadding(iconResource: Int?): Modifier =
+    if (iconResource != null) then(this.padding(start = commonPadding)) else this

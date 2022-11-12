@@ -37,13 +37,8 @@ private val LightColorPalette = lightColorScheme(
 
 @Composable
 fun OdooMiemAndroidTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    val colors = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-        if (darkTheme) dynamicDarkColorScheme(LocalContext.current)
-        else dynamicLightColorScheme(LocalContext.current)
-    } else {
-        if (darkTheme) DarkColorPalette
+    val colors = if (darkTheme) DarkColorPalette
         else LightColorPalette
-    }
 
     MaterialTheme(
         colorScheme = colors,

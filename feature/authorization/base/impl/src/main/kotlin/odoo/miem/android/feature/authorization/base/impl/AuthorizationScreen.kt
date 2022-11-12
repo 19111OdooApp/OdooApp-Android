@@ -1,8 +1,14 @@
 package odoo.miem.android.feature.authorization.base.impl
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,10 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import odoo.miem.android.common.uiKitComponents.buttons.TextButton
-import odoo.miem.android.common.uiKitComponents.buttons.buttonHorizontalPadding
-import odoo.miem.android.common.uiKitComponents.buttons.loginButtonPadding
 import odoo.miem.android.common.uiKitComponents.dividers.Divider
-import odoo.miem.android.common.uiKitComponents.dividers.dividerVerticalPadding
 import odoo.miem.android.common.uiKitComponents.textfields.LoginTextField
 import odoo.miem.android.core.uiKitTheme.*
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
@@ -62,8 +65,9 @@ class AuthorizationScreen : IAuthorizationScreen {
             .fillMaxSize()
             .imePadding(),
     ) {
-        val context = LocalContext.current
         val odooGlobalUrl = stringResource(R.string.global_odoo_url)
+        val alertMessage = stringResource(R.string.login_alert_message)
+        val context = LocalContext.current
 
         var serverInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
             mutableStateOf(TextFieldValue(odooGlobalUrl))
@@ -110,75 +114,57 @@ class AuthorizationScreen : IAuthorizationScreen {
 
         LoginTextField(
             value = serverInput,
-            labelId = R.string.login_odoo_server,
+            labelResource = R.string.login_odoo_server,
             onValueChange = {
                 serverInput = it
             },
-            onTrailingIconClick = {
-                serverInput = TextFieldValue("")
-            },
-            trailingIconId = odoo.miem.android.common.uiKitComponents.R.drawable.ic_trailing_icon,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = mainHorizontalPadding)
-                .padding(top = 30.dp)
         )
 
         LoginTextField(
             value = emailInput,
-            labelId = R.string.login_email,
+            labelResource = R.string.login_email,
             onValueChange = {
                 emailInput = it
             },
-            onTrailingIconClick = {
-                emailInput = TextFieldValue("")
-            },
-            trailingIconId = odoo.miem.android.common.uiKitComponents.R.drawable.ic_trailing_icon,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = mainHorizontalPadding)
-                .padding(top = commonPadding)
         )
 
         LoginTextField(
             value = passwordInput,
-            labelId = R.string.login_password,
+            labelResource = R.string.login_password,
             onValueChange = {
                 passwordInput = it
             },
-            onTrailingIconClick = {
-                passwordInput = TextFieldValue("")
-            },
             visualTransformation = PasswordVisualTransformation(),
-            trailingIconId = odoo.miem.android.common.uiKitComponents.R.drawable.ic_trailing_icon,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = mainHorizontalPadding)
-                .padding(top = commonPadding)
         )
 
         // Button's colors in preview are awful I know
         // You have to compile to watch actual ones...
         TextButton(
-            onClick = { /* TODO */ },
+            onClick = {
+                if (!isLoginButtonEnabled) {
+                    /* TODO change to Snackbar when we will have Scaffold */
+                    Toast.makeText(
+                        context,
+                        alertMessage,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = Color.White,
-                disabledContainerColor = odooButtonDisabled,
-                disabledContentColor = odooOnButtonDisabled
+                contentColor = Color.White
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = loginButtonPadding)
-                .padding(horizontal = buttonHorizontalPadding),
-            textId = R.string.login,
-            isEnabled = isLoginButtonEnabled
+                .padding(top = 75.dp)
+                .padding(horizontal = 36.dp),
+            textResource = R.string.login
         )
 
         Divider(
             textModifier = Modifier.padding(horizontal = commonPadding),
             paddingModifier = Modifier.padding(vertical = dividerVerticalPadding),
-            textId = R.string.login_divider_text
+            textResource = R.string.login_divider_text
         )
 
         TextButton(
@@ -188,10 +174,10 @@ class AuthorizationScreen : IAuthorizationScreen {
                 contentColor = Color.White,
             ),
             modifier = Modifier
-                .padding(horizontal = buttonHorizontalPadding)
+                .padding(horizontal = 36.dp)
                 .fillMaxWidth(),
-            textId = R.string.login_hse,
-            iconId = R.drawable.logo_hse,
+            textResource = R.string.login_hse,
+            iconResource = R.drawable.logo_hse,
         )
     }
 

@@ -9,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import odoo.miem.android.core.uiKitTheme.dividerCommonHeight
+import odoo.miem.android.core.uiKitTheme.dividerCommonWidth
 
 /**
  * [Divider] - divider for dividing visually some elements, e.g. buttons
@@ -20,36 +22,30 @@ import androidx.compose.ui.res.stringResource
 fun Divider(
     textModifier: Modifier,
     paddingModifier: Modifier = Modifier,
-    @StringRes textId: Int
+    @StringRes textResource: Int
 ) = Row(
     modifier = paddingModifier
 ) {
 
-    Surface(
-        color = MaterialTheme.colorScheme.onSecondaryContainer,
-        modifier = Modifier
-            .size(
-                width = dividerCommonWidth,
-                height = dividerCommonHeight
-            )
-            .align(Alignment.CenterVertically),
-        content = {}
-    )
+    DivideLine()
 
     Text(
-        text = stringResource(textId),
+        text = stringResource(textResource),
         color = MaterialTheme.colorScheme.onSecondaryContainer,
         modifier = textModifier
     )
 
-    Surface(
-        color = MaterialTheme.colorScheme.onSecondaryContainer,
-        modifier = Modifier
-            .size(
-                width = dividerCommonWidth,
-                height = dividerCommonHeight
-            )
-            .align(Alignment.CenterVertically),
-        content = {}
-    )
+    DivideLine()
 }
+
+@Composable
+private fun RowScope.DivideLine() = Surface(
+    color = MaterialTheme.colorScheme.onSecondaryContainer,
+    modifier = Modifier
+        .size(
+            width = dividerCommonWidth,
+            height = dividerCommonHeight
+        )
+        .align(Alignment.CenterVertically),
+    content = {}
+)

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="login_welcome_header">Welcome back,</string>
+    <string name="login_welcome_header">Welcome back!</string>
     <string name="login_welcome_text">We happy to see you here again. Enter your server url, email and password.</string>
 
-    <string name="global_odoo_url">https://odoo.com</string>
+    <string name="global_odoo_url" translatable="false">https://odoo.com</string>
     <string name="login_odoo_server">Odoo Server URL</string>
     <string name="login_email">Email</string>
     <string name="login_password">Password</string>
@@ -12,5 +12,5 @@
     <string name="login_hse">Login with HSE</string>
 
     <string name="login_divider_text">OR</string>
-    <string name="login_question_button_basic_text">Please, enter your Odoo URL, login and password</string>
+    <string name="login_alert_message">Please, enter your Odoo URL, login and password</string>
 </resources>

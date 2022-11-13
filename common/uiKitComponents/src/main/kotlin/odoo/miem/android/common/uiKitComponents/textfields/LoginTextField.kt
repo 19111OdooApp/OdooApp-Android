@@ -1,17 +1,24 @@
 package odoo.miem.android.common.uiKitComponents.textfields
 
 import androidx.annotation.StringRes
-import androidx.compose.animation.*
-import androidx.compose.foundation.clickable
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -20,9 +27,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import odoo.miem.android.core.uiKitTheme.odooPrimaryGray
 import odoo.miem.android.common.uiKitComponents.R
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
+import odoo.miem.android.core.uiKitTheme.odooPrimaryGray
 
 /**
  * [LoginTextField] - Text Field for [AuthorizationScreen]
@@ -57,7 +64,6 @@ fun LoginTextField(
                 )
             }
         }
-
     }
 
     OutlinedTextField(

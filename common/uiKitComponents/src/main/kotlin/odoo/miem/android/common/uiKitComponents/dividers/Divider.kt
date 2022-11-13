@@ -1,7 +1,9 @@
 package odoo.miem.android.common.uiKitComponents.dividers
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -26,7 +28,6 @@ fun Divider(
 ) = Row(
     modifier = paddingModifier
 ) {
-
     DivideLine()
 
     Text(

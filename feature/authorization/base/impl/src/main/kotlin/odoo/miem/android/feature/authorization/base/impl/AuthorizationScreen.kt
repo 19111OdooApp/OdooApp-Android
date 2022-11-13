@@ -5,10 +5,10 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -31,7 +31,11 @@ import androidx.navigation.NavHostController
 import odoo.miem.android.common.uiKitComponents.buttons.TextButton
 import odoo.miem.android.common.uiKitComponents.dividers.Divider
 import odoo.miem.android.common.uiKitComponents.textfields.LoginTextField
-import odoo.miem.android.core.uiKitTheme.*
+import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
+import odoo.miem.android.core.uiKitTheme.commonPadding
+import odoo.miem.android.core.uiKitTheme.dividerVerticalPadding
+import odoo.miem.android.core.uiKitTheme.hseSecondary
+import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
 
 /**
@@ -57,9 +61,7 @@ class AuthorizationScreen : IAuthorizationScreen {
     }
 
     @Composable
-    private fun AuthorizationScreenContent(
-
-    ) = Column(
+    private fun AuthorizationScreenContent() = Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
@@ -78,9 +80,9 @@ class AuthorizationScreen : IAuthorizationScreen {
         var passwordInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
             mutableStateOf(TextFieldValue())
         }
-        val isLoginButtonEnabled = serverInput.text.isNotEmpty()
-                && emailInput.text.isNotEmpty()
-                && passwordInput.text.isNotEmpty()
+        val isLoginButtonEnabled = serverInput.text.isNotEmpty() &&
+            emailInput.text.isNotEmpty() &&
+            passwordInput.text.isNotEmpty()
 
         Image(
             painter = painterResource(R.drawable.logo_odoo),
@@ -89,7 +91,7 @@ class AuthorizationScreen : IAuthorizationScreen {
                 .padding(top = 30.dp)
                 .size(width = 80.dp, height = 26.dp),
         )
-        
+
         Text(
             text = stringResource(R.string.login_welcome_header),
             style = MaterialTheme.typography.titleLarge,
@@ -151,7 +153,7 @@ class AuthorizationScreen : IAuthorizationScreen {
                 }
             },
             colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = Color.White
             ),
             modifier = Modifier

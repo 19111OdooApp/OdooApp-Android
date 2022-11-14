@@ -38,7 +38,6 @@ class OdooAppApplication : Application() {
                     .detectLeakedClosableObjects()
                     .penaltyLog()
                     .penaltyDropBox()
-                    .penaltyDeath()
                     .build()
             )
 

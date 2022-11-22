@@ -28,6 +28,9 @@ include(":common:network:authorization:impl")
 include(":common:uiKitComponents")
 
 // Core слов
+include(":core:dataStore:api")
+include(":core:dataStore:impl")
+
 include(":core:di:api")
 include(":core:di:impl")
 

@@ -4,6 +4,7 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
@@ -13,6 +14,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
@@ -20,6 +22,9 @@ rootProject.name = "Odoo App"
 
 
 // Common слой
+include(":common:network:authorization:api")
+include(":common:network:authorization:impl")
+
 include(":common:uiKitComponents")
 
 // Core слов

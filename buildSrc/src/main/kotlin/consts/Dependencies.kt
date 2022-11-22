@@ -108,12 +108,24 @@ object Dependencies {
     }
 
     object Retrofit {
-        private const val VERSION = "2.9.0"
+        private const val RETROFIT_VERSION = "2.9.0"
+        private const val XMLRPC_VERSION = "1.2"
 
-        const val CONVERTER_GSON = "com.squareup.retrofit2:converter-gson:$VERSION"
-        const val RETROFIT_DEPENDENCY = "com.squareup.retrofit2:retrofit:$VERSION"
+        const val CONVERTER_GSON = "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
+        const val RETROFIT_DEPENDENCY = "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
+        const val RETROFIT_XMLRPC = "com.github.erickok:retrofit-xmlrpc:$XMLRPC_VERSION"
 
-        val ALL_DEPS = listOf(CONVERTER_GSON, RETROFIT_DEPENDENCY)
+        val ALL_DEPS = listOf(CONVERTER_GSON, RETROFIT_DEPENDENCY, RETROFIT_XMLRPC)
+    }
+
+    object RxJava {
+        private const val RX_VERSION = "3.1.5"
+        private const val RX_ANDROID_VERSION = "3.0.2"
+
+        const val RXJAVA = "io.reactivex.rxjava3:rxjava:$RX_VERSION"
+        const val RXJAVA_ANDROID = "io.reactivex.rxjava3:rxandroid:$RX_ANDROID_VERSION"
+
+        val ALL_DEPS = listOf(RXJAVA, RXJAVA_ANDROID)
     }
 
     object Test {

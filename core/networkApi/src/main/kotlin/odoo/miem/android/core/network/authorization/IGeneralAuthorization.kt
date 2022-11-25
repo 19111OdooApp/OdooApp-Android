@@ -1,11 +1,12 @@
-package odoo.miem.android.common.network.authorization.impl
+package odoo.miem.android.core.network.authorization
 
 import io.reactivex.rxjava3.core.Observable
 import nl.nl2312.xmlrpc.XmlRpc
+import odoo.miem.android.core.retrofitApiFabric.api.RetrofitApi
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-interface IGeneralAuthorization {
+interface IGeneralAuthorization : RetrofitApi {
 
     @JvmSuppressWildcards
     @XmlRpc(METHOD)

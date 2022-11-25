@@ -34,7 +34,12 @@ include(":core:dataStore:impl")
 include(":core:di:api")
 include(":core:di:impl")
 
+include(":core:networkApi")
+
 include(":core:platform")
+
+include(":core:retrofitApiFabric:api")
+include(":core:retrofitApiFabric:impl")
 
 include(":core:uiKitTheme")
 

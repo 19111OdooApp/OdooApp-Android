@@ -114,8 +114,9 @@ object Dependencies {
         const val CONVERTER_GSON = "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
         const val RETROFIT_DEPENDENCY = "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
         const val RETROFIT_XMLRPC = "com.github.erickok:retrofit-xmlrpc:$XMLRPC_VERSION"
+        const val RX_ADAPTER = "com.squareup.retrofit2:adapter-rxjava3:$RETROFIT_VERSION"
 
-        val ALL_DEPS = listOf(CONVERTER_GSON, RETROFIT_DEPENDENCY, RETROFIT_XMLRPC)
+        val ALL_DEPS = listOf(CONVERTER_GSON, RETROFIT_DEPENDENCY, RETROFIT_XMLRPC, RX_ADAPTER)
     }
 
     object RxJava {

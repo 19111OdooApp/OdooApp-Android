@@ -21,11 +21,13 @@ dependencyResolutionManagement {
 rootProject.name = "Odoo App"
 
 
+
 // Common слой
 include(":common:network:authorization:api")
 include(":common:network:authorization:impl")
 
 include(":common:uiKitComponents")
+
 
 // Core слов
 include(":core:dataStore:api")
@@ -34,7 +36,8 @@ include(":core:dataStore:impl")
 include(":core:di:api")
 include(":core:di:impl")
 
-include(":core:networkApi")
+include(":core:networkApi:authorization:api")
+include(":core:networkApi:authorization:impl")
 
 include(":core:platform")
 
@@ -43,8 +46,12 @@ include(":core:retrofitApiFabric:impl")
 
 include(":core:uiKitTheme")
 
+include(":core:utils")
+
+
 // Entry слой
 include(":entry:app")
+
 
 // Feature слой
 include(":feature:authorization:base:api")

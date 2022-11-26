@@ -9,7 +9,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.test.assert
-import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -20,7 +19,6 @@ import odoo.miem.android.common.uiKitComponents.textfields.LoginTextField
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertTrue
 
 /**
  * [UiKitComponentsTest] - UI tests for UI components from odoo.miem.android.common.uiKitComponents package
@@ -63,14 +61,17 @@ class UiKitComponentsTest {
         val textFieldNode = composeTestRule.onNodeWithContentDescription(textFieldDesc)
         val trailingIconNode = composeTestRule.onNodeWithContentDescription(trailingIconDesc)
 
+        // checking if text field is displayed and clear button is not
         textFieldNode.assertExists()
         trailingIconNode.assertDoesNotExist()
 
         textFieldNode.assert(hasText(""))
 
+        // checking text input
         textFieldNode.performTextInput(testInput)
         textFieldNode.assert(hasText(testInput))
 
+        // checking text cleaning and clear button vanishing
         trailingIconNode.assertExists()
         trailingIconNode.performClick()
 

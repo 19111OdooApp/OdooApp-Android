@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import odoo.miem.android.common.uiKitComponents.R
 import odoo.miem.android.core.uiKitTheme.buttonIconSize
 import odoo.miem.android.core.uiKitTheme.commonPadding
 
@@ -44,7 +45,7 @@ fun TextButton(
         iconResource?.let {
             Icon(
                 painter = painterResource(iconResource),
-                contentDescription = null,
+                contentDescription = stringResource(R.string.button_icon_desc),
                 modifier = Modifier.size(buttonIconSize)
             )
         }

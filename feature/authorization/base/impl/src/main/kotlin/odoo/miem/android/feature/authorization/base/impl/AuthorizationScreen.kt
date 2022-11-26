@@ -25,6 +25,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
@@ -58,7 +60,7 @@ class AuthorizationScreen : IAuthorizationScreen {
     @SuppressLint("NotConstructor")
     @Composable
     override fun AuthorizationScreen(
-        navController: NavHostController,
+        navController: NavHostController?,
         showMessage: (String) -> Unit
     ) {
         AuthorizationScreenContent(showMessage)
@@ -78,6 +80,8 @@ class AuthorizationScreen : IAuthorizationScreen {
         val serverAlert = stringResource(R.string.server_alert_message)
         val loginAlert = stringResource(R.string.login_alert_message)
         val passwordAlert = stringResource(R.string.password_alert_message)
+        val loginButtonDesc = stringResource(R.string.login_button_desc)
+        val loginWithHseButtonDesc = stringResource(R.string.login_with_hse_button_desc)
 
         var serverInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
             mutableStateOf(TextFieldValue(odooGlobalUrl))
@@ -98,7 +102,7 @@ class AuthorizationScreen : IAuthorizationScreen {
 
         Image(
             painter = painterResource(R.drawable.logo_odoo),
-            contentDescription = null,
+            contentDescription = stringResource(R.string.odoo_logo_desc),
             modifier = Modifier
                 .padding(top = 30.dp)
                 .size(width = 80.dp, height = 26.dp),
@@ -201,7 +205,8 @@ class AuthorizationScreen : IAuthorizationScreen {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 75.dp)
-                    .padding(horizontal = 36.dp),
+                    .padding(horizontal = 36.dp)
+                    .semantics { contentDescription = loginButtonDesc },
                 textResource = R.string.login
             )
 
@@ -219,7 +224,8 @@ class AuthorizationScreen : IAuthorizationScreen {
                 ),
                 modifier = Modifier
                     .padding(horizontal = 36.dp)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .semantics { contentDescription = loginWithHseButtonDesc },
                 textResource = R.string.login_hse,
                 iconResource = R.drawable.logo_hse,
             )

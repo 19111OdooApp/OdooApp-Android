@@ -1,7 +1,6 @@
 package odoo.miem.android.feature.authorization.base.impl
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,7 +21,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
@@ -42,7 +40,6 @@ import odoo.miem.android.core.uiKitTheme.dividerVerticalPadding
 import odoo.miem.android.core.uiKitTheme.hseSecondary
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
-import timber.log.Timber
 
 /**
  * [AuthorizationScreen] реализация интерфейса [IAuthorizationScreen]
@@ -255,19 +252,16 @@ class AuthorizationScreen : IAuthorizationScreen {
                 } else {
                     this.append(" and $loginAlert")
                 }
-            }
-            else if (isPasswordInputError) {
+            } else if (isPasswordInputError) {
                 this.append(" and $passwordAlert")
             }
-        }
-        else if (isLoginInputError) {
+        } else if (isLoginInputError) {
             this.append(" $loginAlert")
 
             if (isPasswordInputError) {
                 this.append(" and $passwordAlert")
             }
-        }
-        else if (isPasswordInputError) {
+        } else if (isPasswordInputError) {
             this.append(" $passwordAlert")
         }
     }

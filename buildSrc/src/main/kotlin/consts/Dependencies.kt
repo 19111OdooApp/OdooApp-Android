@@ -86,6 +86,12 @@ object Dependencies {
             val ALL_RXJAVA_DEPS = listOf(RX_JAVA)
         }
 
+        object Test {
+
+            const val UI_TEST = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
+            const val UI_TEST_DEBUG = "androidx.compose.ui:ui-test-manifest:$COMPOSE_VERSION"
+        }
+
         val ALL_DEPS =
             Core.ALL_CORE_DEPS + Lifecycle.ALL_LIFECYCLE_DEPS + Foundation.ALL_FOUNDATION_DEPS +
                 RxJava.ALL_RXJAVA_DEPS + Navigation.ALL_NAVIGATION_DEPS

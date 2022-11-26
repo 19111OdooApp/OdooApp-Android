@@ -41,8 +41,6 @@ fun TextButton(
         colors = colors,
         modifier = modifier
     ) {
-        // I know, its stupid but I found some kind of bug
-        // If set end padding to Image and remove start padding from Text, icon become very small
         iconResource?.let {
             Icon(
                 painter = painterResource(iconResource),

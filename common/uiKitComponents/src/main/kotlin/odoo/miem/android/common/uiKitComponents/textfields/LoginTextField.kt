@@ -40,15 +40,17 @@ import odoo.miem.android.core.uiKitTheme.odooPrimaryGray
 @Composable
 fun LoginTextField(
     value: TextFieldValue,
-    @StringRes labelResource: Int,
-    onValueChange: (TextFieldValue) -> Unit,
+    modifier: Modifier = Modifier,
+    onValueChange: (TextFieldValue) -> Unit = {},
+    @StringRes labelResource: Int? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Done,
-    isError: Boolean = false,
+    isError: Boolean = false
 ) {
     val focusManager = LocalFocusManager.current
     val textStyle = MaterialTheme.typography.bodyMedium
+    val label = if (labelResource != null) stringResource(labelResource) else ""
 
     val trailingIcon = @Composable {
         AnimatedVisibility(
@@ -59,7 +61,7 @@ fun LoginTextField(
             IconButton(onClick = { onValueChange(TextFieldValue()) }) {
                 Icon(
                     painter = painterResource(R.drawable.ic_trailing_icon),
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.text_field_trailing_icon_desc),
                     modifier = Modifier.size(20.dp),
                     tint = odooPrimaryGray
                 )
@@ -72,7 +74,7 @@ fun LoginTextField(
         onValueChange = onValueChange,
         textStyle = textStyle,
         singleLine = true,
-        label = { Text(text = stringResource(labelResource), style = textStyle) },
+        label = { Text(text = label, style = textStyle) },
         visualTransformation = visualTransformation,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
         keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
@@ -92,9 +94,11 @@ fun LoginTextField(
             placeholderColor = odooPrimaryGray
         ),
         trailingIcon = trailingIcon,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = mainHorizontalPadding)
-            .padding(top = 20.dp),
+        modifier = modifier.then(
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = mainHorizontalPadding)
+                .padding(top = 20.dp)
+        ),
     )
 }

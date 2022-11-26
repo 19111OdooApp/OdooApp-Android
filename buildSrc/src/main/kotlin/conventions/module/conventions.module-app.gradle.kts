@@ -2,7 +2,7 @@ import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.kotlin
 
 /**
- * Конвеция для app модулей, которая содержит [conventions.base-api] и
+ * Конвеция для app модулей, которая содержит [conventions.base-app] и
  * добавляет необходимые зависимости
  *
  * @author Ворожцов Михаил

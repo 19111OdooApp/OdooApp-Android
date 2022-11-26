@@ -141,6 +141,15 @@ object Dependencies {
         val ALL_DEPS = listOf(CONSTRAINT_LAYOUT, CORE)
     }
 
+    object Firebase {
+        private const val GOOGLE_SERVICES_VERSION = "4.3.14"
+        private const val BOM_VERSION = "31.1.0"
+
+        const val GOOGLE_SERVICES = "com.google.gms:google-services:$GOOGLE_SERVICES_VERSION"
+        const val FIREBASE_BOM = "com.google.firebase:firebase-bom:$BOM_VERSION"
+        const val FIREBASE_ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
+    }
+
     object Plugins {
         const val DETEKT_VERSION = "1.22.0-RC1"
 

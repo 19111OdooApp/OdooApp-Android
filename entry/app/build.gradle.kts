@@ -1,5 +1,6 @@
 plugins {
     conventions.`module-compose-app`
+    id("com.google.gms.google-services")
 }
 
 dependencies {

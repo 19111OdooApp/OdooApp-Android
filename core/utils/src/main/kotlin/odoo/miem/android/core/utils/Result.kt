@@ -11,8 +11,8 @@ sealed interface Result
 
 class SuccessResult<T>(data: T?) : Result
 
-class ErrorResult<T>(@StringRes message: Int? = null) : Result
+class ErrorResult(message: String? = null) : Result
 
 class LoadingResult<T>(data: T? = null) : Result
 
-class NothingResult<T> : Result
+object NothingResult : Result

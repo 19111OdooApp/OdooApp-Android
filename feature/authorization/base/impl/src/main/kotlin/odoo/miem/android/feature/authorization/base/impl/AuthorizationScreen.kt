@@ -14,7 +14,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rxjava3.subscribeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -27,7 +29,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import io.reactivex.rxjava3.core.Observable
 import odoo.miem.android.common.uiKitComponents.buttons.TextButton
 import odoo.miem.android.common.uiKitComponents.dividers.Divider
 import odoo.miem.android.common.uiKitComponents.textfields.LoginTextField
@@ -36,6 +40,8 @@ import odoo.miem.android.core.uiKitTheme.commonPadding
 import odoo.miem.android.core.uiKitTheme.dividerVerticalPadding
 import odoo.miem.android.core.uiKitTheme.hseSecondary
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
+import odoo.miem.android.core.utils.NothingResult
+import odoo.miem.android.core.utils.SuccessResult
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
 
 /**
@@ -57,11 +63,19 @@ class AuthorizationScreen : IAuthorizationScreen {
         navController: NavHostController,
         showMessage: (Int) -> Unit
     ) {
-        AuthorizationScreenContent()
+        val viewModel: AuthorizationViewModel = viewModel()
+
+        val authorizationStatus by viewModel.authorizationState.observeAsState()
+
+        AuthorizationScreenContent(
+            onGeneralAuthorization = viewModel::generalAuthorization
+        )
     }
 
     @Composable
-    private fun AuthorizationScreenContent() = Column(
+    private fun AuthorizationScreenContent(
+        onGeneralAuthorization: (baseUrl: String, login: String, password: String) -> Unit = { _, _, _ -> }
+    ) = Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
@@ -150,6 +164,12 @@ class AuthorizationScreen : IAuthorizationScreen {
                         alertMessage,
                         Toast.LENGTH_LONG
                     ).show()
+                } else {
+                    onGeneralAuthorization(
+                        serverInput.text,
+                        emailInput.text,
+                        passwordInput.text
+                    )
                 }
             },
             colors = ButtonDefaults.buttonColors(

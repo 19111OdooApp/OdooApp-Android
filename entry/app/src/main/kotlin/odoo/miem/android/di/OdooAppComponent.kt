@@ -2,9 +2,8 @@ package odoo.miem.android.di
 
 import android.content.Context
 import dagger.Component
-import odoo.miem.android.common.network.authorization.impl.AuthorizationRepository
 import odoo.miem.android.common.network.authorization.impl.di.AuthorizationRepositoryApiProvider
-import odoo.miem.android.common.network.authorization.impl.di.AuthorizationUseCaseApiProvider
+import odoo.miem.android.common.network.authorization.impl.di.AuthorizationInteractorApiProvider
 import odoo.miem.android.core.di.impl.ApiRegistry
 import odoo.miem.android.core.di.impl.ApiResolver
 import odoo.miem.android.core.platform.dependecies.DefaultPlatformDependencies
@@ -36,7 +35,7 @@ import odoo.miem.android.feature.authorization.base.impl.di.AuthorizationScreenA
     modules = [
         AuthorizationRepositoryApiProvider::class,
         AuthorizationScreenApiProvider::class,
-        AuthorizationUseCaseApiProvider::class,
+        AuthorizationInteractorApiProvider::class,
         PlatformApiProvider::class
     ]
 )

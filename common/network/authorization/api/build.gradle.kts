@@ -1,8 +1,3 @@
 plugins {
-    conventions.`module-api`
-}
-
-dependencies {
-
-    implementation(Dependencies.RxJava.RXJAVA)
+    conventions.`module-common-network-api`
 }

@@ -29,4 +29,8 @@ dependencies {
 
     // UI
     Dependencies.UI.ALL_DEPS.forEach { implementation(it) }
+
+    // Core
+    // Utils
+    implementation(project(":core:utils"))
 }

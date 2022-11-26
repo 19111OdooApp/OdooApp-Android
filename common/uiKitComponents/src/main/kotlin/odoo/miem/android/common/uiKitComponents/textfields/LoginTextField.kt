@@ -44,6 +44,7 @@ fun LoginTextField(
     onValueChange: (TextFieldValue) -> Unit,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardType: KeyboardType = KeyboardType.Text,
+    imeAction: ImeAction = ImeAction.Done,
     isError: Boolean = false,
 ) {
     val focusManager = LocalFocusManager.current
@@ -73,7 +74,7 @@ fun LoginTextField(
         singleLine = true,
         label = { Text(text = stringResource(labelResource), style = textStyle) },
         visualTransformation = visualTransformation,
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = ImeAction.Done),
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
         keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
         isError = isError,
         shape = MaterialTheme.shapes.small,
@@ -94,6 +95,6 @@ fun LoginTextField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = mainHorizontalPadding)
-            .padding(top = 30.dp),
+            .padding(top = 20.dp),
     )
 }

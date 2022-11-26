@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -23,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,6 +40,7 @@ import odoo.miem.android.core.uiKitTheme.dividerVerticalPadding
 import odoo.miem.android.core.uiKitTheme.hseSecondary
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
+import timber.log.Timber
 
 /**
  * [AuthorizationScreen] реализация интерфейса [IAuthorizationScreen]
@@ -55,21 +59,25 @@ class AuthorizationScreen : IAuthorizationScreen {
     @Composable
     override fun AuthorizationScreen(
         navController: NavHostController,
-        showMessage: (Int) -> Unit
+        showMessage: (String) -> Unit
     ) {
-        AuthorizationScreenContent()
+        AuthorizationScreenContent(showMessage)
     }
 
     @Composable
-    private fun AuthorizationScreenContent() = Column(
+    private fun AuthorizationScreenContent(
+        showMessage: (String) -> Unit = {}
+    ) = Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
             .imePadding(),
     ) {
         val odooGlobalUrl = stringResource(R.string.global_odoo_url)
-        val alertMessage = stringResource(R.string.login_alert_message)
-        val context = LocalContext.current
+        val basicAlert = stringResource(R.string.basic_login_alert_message)
+        val serverAlert = stringResource(R.string.server_alert_message)
+        val loginAlert = stringResource(R.string.login_alert_message)
+        val passwordAlert = stringResource(R.string.password_alert_message)
 
         var serverInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
             mutableStateOf(TextFieldValue(odooGlobalUrl))
@@ -80,9 +88,13 @@ class AuthorizationScreen : IAuthorizationScreen {
         var passwordInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
             mutableStateOf(TextFieldValue())
         }
-        val isLoginButtonEnabled = serverInput.text.isNotEmpty() &&
-            emailInput.text.isNotEmpty() &&
-            passwordInput.text.isNotEmpty()
+
+        // TODO replace it with ViewModel flow passed in arguments
+        var isLoginProcessing by rememberSaveable { mutableStateOf(false) }
+
+        var isServerInputError by remember { mutableStateOf(false) }
+        var isLoginInputError by remember { mutableStateOf(false) }
+        var isPasswordInputError by remember { mutableStateOf(false) }
 
         Image(
             painter = painterResource(R.drawable.logo_odoo),
@@ -109,8 +121,10 @@ class AuthorizationScreen : IAuthorizationScreen {
             style = MaterialTheme.typography.titleSmall,
             modifier = Modifier
                 .align(Alignment.Start)
-                .padding(horizontal = mainHorizontalPadding)
-                .padding(top = commonPadding),
+                .padding(
+                    horizontal = mainHorizontalPadding,
+                    vertical = commonPadding
+                ),
             color = MaterialTheme.colorScheme.onPrimaryContainer
         )
 
@@ -118,74 +132,137 @@ class AuthorizationScreen : IAuthorizationScreen {
             value = serverInput,
             labelResource = R.string.login_odoo_server,
             onValueChange = {
+                isServerInputError = false
                 serverInput = it
             },
+            imeAction = ImeAction.Next,
+            isError = isServerInputError
         )
 
         LoginTextField(
             value = emailInput,
             labelResource = R.string.login_email,
             onValueChange = {
+                isLoginInputError = false
                 emailInput = it
             },
+            imeAction = ImeAction.Next,
+            isError = isLoginInputError
         )
 
         LoginTextField(
             value = passwordInput,
             labelResource = R.string.login_password,
             onValueChange = {
+                isPasswordInputError = false
                 passwordInput = it
             },
             visualTransformation = PasswordVisualTransformation(),
+            isError = isPasswordInputError
         )
 
-        // Button's colors in preview are awful I know
-        // You have to compile to watch actual ones...
-        TextButton(
-            onClick = {
-                if (!isLoginButtonEnabled) {
-                    /* TODO change to Snackbar when we will have Scaffold */
-                    Toast.makeText(
-                        context,
-                        alertMessage,
-                        Toast.LENGTH_LONG
-                    ).show()
+        if (isLoginProcessing) {
+            CircularProgressIndicator(
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .size(48.dp)
+                    .padding(top = 100.dp)
+            )
+        } else {
+            val onClick = {
+                isServerInputError = serverInput.text.isBlank() || serverInput.text == odooGlobalUrl
+                isLoginInputError = emailInput.text.isBlank()
+                isPasswordInputError = passwordInput.text.isBlank()
+
+                if (isServerInputError || isLoginInputError || isPasswordInputError) {
+                    val alertMessage = StringBuilder(basicAlert)
+                    alertMessage.buildAlertMessage(
+                        isServerInputError,
+                        isLoginInputError,
+                        isPasswordInputError,
+                        serverAlert,
+                        loginAlert,
+                        passwordAlert
+                    )
+
+                    showMessage(alertMessage.toString())
+                } else {
+                    // TODO add login action
+                    isLoginProcessing = true
                 }
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = Color.White
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 75.dp)
-                .padding(horizontal = 36.dp),
-            textResource = R.string.login
-        )
+            }
 
-        Divider(
-            textModifier = Modifier.padding(horizontal = commonPadding),
-            paddingModifier = Modifier.padding(vertical = dividerVerticalPadding),
-            textResource = R.string.login_divider_text
-        )
+            TextButton(
+                onClick = { onClick() },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = Color.White
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 75.dp)
+                    .padding(horizontal = 36.dp),
+                textResource = R.string.login
+            )
 
-        TextButton(
-            onClick = { /* TODO */ },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = hseSecondary,
-                contentColor = Color.White,
-            ),
-            modifier = Modifier
-                .padding(horizontal = 36.dp)
-                .fillMaxWidth(),
-            textResource = R.string.login_hse,
-            iconResource = R.drawable.logo_hse,
-        )
+            Divider(
+                textModifier = Modifier.padding(horizontal = commonPadding),
+                paddingModifier = Modifier.padding(vertical = dividerVerticalPadding),
+                textResource = R.string.login_divider_text
+            )
+
+            TextButton(
+                onClick = { /* TODO */ },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = hseSecondary,
+                    contentColor = Color.White,
+                ),
+                modifier = Modifier
+                    .padding(horizontal = 36.dp)
+                    .fillMaxWidth(),
+                textResource = R.string.login_hse,
+                iconResource = R.drawable.logo_hse,
+            )
+        }
     }
 
     @Composable
     @Preview(showBackground = true, backgroundColor = 0xFFF9F9F9)
     private fun AuthorizationScreenPreview() = OdooMiemAndroidTheme {
         AuthorizationScreenContent()
+    }
+
+    private fun StringBuilder.buildAlertMessage(
+        isServerInputError: Boolean,
+        isLoginInputError: Boolean,
+        isPasswordInputError: Boolean,
+        serverAlert: String,
+        loginAlert: String,
+        passwordAlert: String
+    ) {
+        if (isServerInputError) {
+            this.append(" $serverAlert")
+
+            if (isLoginInputError) {
+                if (isPasswordInputError) {
+                    this.append(", $loginAlert and $passwordAlert")
+                } else {
+                    this.append(" and $loginAlert")
+                }
+            }
+            else if (isPasswordInputError) {
+                this.append(" and $passwordAlert")
+            }
+        }
+        else if (isLoginInputError) {
+            this.append(" $loginAlert")
+
+            if (isPasswordInputError) {
+                this.append(" and $passwordAlert")
+            }
+        }
+        else if (isPasswordInputError) {
+            this.append(" $passwordAlert")
+        }
     }
 }

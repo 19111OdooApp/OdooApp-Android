@@ -13,7 +13,7 @@ interface IAuthorizationScreen {
 
     @Composable
     fun AuthorizationScreen(
-        navController: NavHostController?,
-        showMessage: (String) -> Unit
+        navController: NavHostController,
+        showMessage: (Int) -> Unit
     )
 }

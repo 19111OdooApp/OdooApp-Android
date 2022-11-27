@@ -86,7 +86,7 @@ object Dependencies {
             val ALL_RXJAVA_DEPS = listOf(RX_JAVA)
         }
 
-        object Test {
+        object UiTest {
 
             const val UI_TEST = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
             const val UI_TEST_DEBUG = "androidx.compose.ui:ui-test-manifest:$COMPOSE_VERSION"
@@ -144,10 +144,16 @@ object Dependencies {
     object Firebase {
         private const val GOOGLE_SERVICES_VERSION = "4.3.14"
         private const val BOM_VERSION = "31.1.0"
+        private const val CRASHLYTICS_GRADLE_VERSION = "2.9.2"
 
         const val GOOGLE_SERVICES = "com.google.gms:google-services:$GOOGLE_SERVICES_VERSION"
+
         const val FIREBASE_BOM = "com.google.firebase:firebase-bom:$BOM_VERSION"
         const val FIREBASE_ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
+
+        const val FIREBASE_CRASHLYTICS = "com.google.firebase:firebase-analytics-ktx"
+        const val FIREBASE_CRASHLYTICS_GRADLE_PLUGIN =
+            "com.google.firebase:firebase-crashlytics-gradle:$CRASHLYTICS_GRADLE_VERSION"
     }
 
     object Plugins {

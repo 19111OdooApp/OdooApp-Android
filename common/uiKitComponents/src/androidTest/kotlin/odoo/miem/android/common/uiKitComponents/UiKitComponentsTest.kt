@@ -12,6 +12,7 @@ import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.text.input.TextFieldValue
@@ -34,8 +35,8 @@ class UiKitComponentsTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun loginTextField_test() {
-        lateinit var textFieldDesc: String
+    fun test_loginTextField_input_and_cleaning() {
+        lateinit var textFieldLabel: String
         lateinit var trailingIconDesc: String
         lateinit var testInput: String
 
@@ -44,37 +45,33 @@ class UiKitComponentsTest {
                 mutableStateOf(TextFieldValue())
             }
 
-            textFieldDesc = stringResource(R.string.test_text_field_desc)
+            textFieldLabel = stringResource(R.string.test_text_field_desc)
             trailingIconDesc = stringResource(R.string.text_field_trailing_icon_desc)
             testInput = stringResource(R.string.test_input)
 
             OdooMiemAndroidTheme {
                 LoginTextField(
                     value = textFieldInput,
+                    labelResource = R.string.test_text_field_desc,
                     onValueChange = { textFieldInput = it },
-                    modifier = Modifier.semantics {
-                        contentDescription = textFieldDesc
-                    }
                 )
             }
         }
-        val textFieldNode = composeTestRule.onNodeWithContentDescription(textFieldDesc)
+        val textFieldNode = composeTestRule.onNodeWithText(textFieldLabel)
         val trailingIconNode = composeTestRule.onNodeWithContentDescription(trailingIconDesc)
 
-        // checking if text field is displayed and clear button is not
+        // Preparation
         textFieldNode.assertExists()
         trailingIconNode.assertDoesNotExist()
-
         textFieldNode.assert(hasText(""))
 
-        // checking text input
+        // Asserting
         textFieldNode.performTextInput(testInput)
         textFieldNode.assert(hasText(testInput))
 
-        // checking text cleaning and clear button vanishing
+        // Cleaning
         trailingIconNode.assertExists()
         trailingIconNode.performClick()
-
         trailingIconNode.assertDoesNotExist()
         textFieldNode.assert(hasText(""))
     }

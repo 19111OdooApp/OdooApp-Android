@@ -43,11 +43,6 @@ fun Navigation(
             snackbarHostState.showSnackbar(strMessage)
         }
     }
-    val showTextMessage: (String) -> Unit = { message ->
-        scope.launch {
-            snackbarHostState.showSnackbar(message)
-        }
-    }
 
     // Screens
     val authorizationScreen by api(IAuthorizationApi::authorizationScreen)
@@ -57,7 +52,6 @@ fun Navigation(
         paddingValues = paddingValues,
         navController = navController,
         showMessage = showMessage,
-        showTextMessage = showTextMessage
     )
 }
 
@@ -67,7 +61,6 @@ fun NavigationContent(
     paddingValues: PaddingValues,
     navController: NavHostController,
     showMessage: (Int) -> Unit,
-    showTextMessage: (String) -> Unit
 ) {
     Surface(
         modifier = Modifier
@@ -84,7 +77,7 @@ fun NavigationContent(
             composable(Routes.authorization) {
                 authorizationScreen.AuthorizationScreen(
                     navController = navController,
-                    showMessage = showTextMessage
+                    showMessage = showMessage
                 )
             }
         }

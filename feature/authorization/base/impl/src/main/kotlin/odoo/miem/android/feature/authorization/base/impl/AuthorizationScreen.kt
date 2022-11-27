@@ -26,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -57,15 +58,15 @@ class AuthorizationScreen : IAuthorizationScreen {
     @SuppressLint("NotConstructor")
     @Composable
     override fun AuthorizationScreen(
-        navController: NavHostController?,
-        showMessage: (String) -> Unit
+        navController: NavHostController,
+        showMessage: (Int) -> Unit
     ) {
         AuthorizationScreenContent(showMessage)
     }
 
     @Composable
     private fun AuthorizationScreenContent(
-        showMessage: (String) -> Unit = {}
+        showMessage: (Int) -> Unit = {}
     ) = Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -73,10 +74,7 @@ class AuthorizationScreen : IAuthorizationScreen {
             .imePadding(),
     ) {
         val odooGlobalUrl = stringResource(R.string.global_odoo_url)
-        val basicAlert = stringResource(R.string.basic_login_alert_message)
-        val serverAlert = stringResource(R.string.server_alert_message)
-        val loginAlert = stringResource(R.string.login_alert_message)
-        val passwordAlert = stringResource(R.string.password_alert_message)
+
         val loginButtonDesc = stringResource(R.string.login_button_desc)
         val loginWithHseButtonDesc = stringResource(R.string.login_with_hse_button_desc)
 
@@ -159,6 +157,7 @@ class AuthorizationScreen : IAuthorizationScreen {
                 passwordInput = it
             },
             visualTransformation = PasswordVisualTransformation(),
+            keyboardType = KeyboardType.Password,
             isError = isPasswordInputError
         )
 
@@ -170,23 +169,13 @@ class AuthorizationScreen : IAuthorizationScreen {
                     .padding(top = 100.dp)
             )
         } else {
-            val onClick = {
+            val onLoginButtonClick = {
                 isServerInputError = serverInput.text.isBlank() || serverInput.text == odooGlobalUrl
                 isLoginInputError = emailInput.text.isBlank()
                 isPasswordInputError = passwordInput.text.isBlank()
 
                 if (isServerInputError || isLoginInputError || isPasswordInputError) {
-                    val alertMessage = StringBuilder(basicAlert)
-                    alertMessage.buildAlertMessage(
-                        isServerInputError,
-                        isLoginInputError,
-                        isPasswordInputError,
-                        serverAlert,
-                        loginAlert,
-                        passwordAlert
-                    )
-
-                    showMessage(alertMessage.toString())
+                    showMessage(R.string.login_alert_message)
                 } else {
                     // TODO add login action
                     isLoginProcessing = true
@@ -194,7 +183,7 @@ class AuthorizationScreen : IAuthorizationScreen {
             }
 
             TextButton(
-                onClick = { onClick() },
+                onClick = { onLoginButtonClick() },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = Color.White
@@ -233,36 +222,5 @@ class AuthorizationScreen : IAuthorizationScreen {
     @Preview(showBackground = true, backgroundColor = 0xFFF9F9F9)
     private fun AuthorizationScreenPreview() = OdooMiemAndroidTheme {
         AuthorizationScreenContent()
-    }
-
-    private fun StringBuilder.buildAlertMessage(
-        isServerInputError: Boolean,
-        isLoginInputError: Boolean,
-        isPasswordInputError: Boolean,
-        serverAlert: String,
-        loginAlert: String,
-        passwordAlert: String
-    ) {
-        if (isServerInputError) {
-            this.append(" $serverAlert")
-
-            if (isLoginInputError) {
-                if (isPasswordInputError) {
-                    this.append(", $loginAlert and $passwordAlert")
-                } else {
-                    this.append(" and $loginAlert")
-                }
-            } else if (isPasswordInputError) {
-                this.append(" and $passwordAlert")
-            }
-        } else if (isLoginInputError) {
-            this.append(" $loginAlert")
-
-            if (isPasswordInputError) {
-                this.append(" and $passwordAlert")
-            }
-        } else if (isPasswordInputError) {
-            this.append(" $passwordAlert")
-        }
     }
 }

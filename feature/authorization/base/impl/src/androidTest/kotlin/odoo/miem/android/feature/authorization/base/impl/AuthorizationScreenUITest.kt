@@ -12,6 +12,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import androidx.navigation.compose.rememberNavController
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import org.junit.Rule
 import org.junit.Test
@@ -27,7 +28,7 @@ class AuthorizationScreenUITest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun authorizationScreen_test() {
+    fun test_authorizationScreen_textFields_and_buttons() {
         lateinit var odooLogoDesc: String
         lateinit var headerDesc: String
         lateinit var mainTextDesc: String
@@ -53,8 +54,9 @@ class AuthorizationScreenUITest {
             )
             testInput = stringResource(R.string.test_input)
 
+            val navController = rememberNavController()
             OdooMiemAndroidTheme {
-                AuthorizationScreen().AuthorizationScreen(null) {}
+                AuthorizationScreen().AuthorizationScreen(navController) {}
             }
         }
         val odooLogoNode = composeTestRule.onNodeWithContentDescription(odooLogoDesc)
@@ -66,7 +68,7 @@ class AuthorizationScreenUITest {
         val loginButtonNode = composeTestRule.onNodeWithContentDescription(loginButtonDesc)
         val loginWithHseButtonNode = composeTestRule.onNodeWithContentDescription(loginWithHseButtonDesc)
 
-        // Checking if all ui elements are displayed
+        // Preparation
         odooLogoNode.assertExists()
         headerNode.assertExists()
         mainTextNode.assertExists()
@@ -76,7 +78,12 @@ class AuthorizationScreenUITest {
         loginButtonNode.assertExists()
         loginWithHseButtonNode.assertExists()
 
-        // checking text input, clearing and clear button vanishing
+        // Asserting
+
+        // Odoo server text field
+        serverInputNode.performTextInput(testInput)
+        serverInputNode.assert(hasText(testInput))
+        serverInputNode.onChild().assertExists()
         serverInputNode.assert(
             hasAnyChild(
                 hasContentDescription(trailingIconDesc)
@@ -88,11 +95,8 @@ class AuthorizationScreenUITest {
             .performClick()
             .assertDoesNotExist()
         serverInputNode.assert(hasText(""))
-        serverInputNode.performTextInput(testInput)
-        serverInputNode.assert(hasText(testInput))
-        serverInputNode.onChild().assertExists()
 
-        // checking text input, clearing and clear button vanishing
+        // email text field
         emailInputNode.performTextInput(testInput)
         emailInputNode.assert(hasText(testInput))
         emailInputNode.assert(
@@ -107,7 +111,7 @@ class AuthorizationScreenUITest {
             .assertDoesNotExist()
         emailInputNode.assert(hasText(""))
 
-        // checking text input, clearing and clear button vanishing
+        // password text field
         passwordInputNode.performTextInput(testInput)
         passwordInputNode.assert(hasText(
             String(CharArray(testInput.length) { '•' } )

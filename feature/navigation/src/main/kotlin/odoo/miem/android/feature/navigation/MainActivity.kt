@@ -30,14 +30,12 @@ import timber.log.Timber
  * @author Ворожцов Михаил
  */
 class MainActivity : AppCompatActivity() {
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private val firebaseAnalytics by lazy { Firebase.analytics }
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Timber.d("onCreate()")
-
-        firebaseAnalytics = Firebase.analytics
 
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN) {
             param(FirebaseAnalytics.Param.SUCCESS, "SOMEONE HAS OPENED OUR APP")

@@ -1,4 +1,3 @@
-import gradle.kotlin.dsl.accessors._bf5355cea62077187e215896f3ff9977.implementation
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.kotlin
 import org.gradle.kotlin.dsl.project
@@ -26,6 +25,7 @@ dependencies {
     // Firebase
     implementation(platform(Dependencies.Firebase.FIREBASE_BOM))
     implementation(Dependencies.Firebase.FIREBASE_ANALYTICS)
+    implementation(Dependencies.Firebase.FIREBASE_CRASHLYTICS)
 
     // Tests
     allTestImplementation(kotlin(Dependencies.Test.TEST_JUNIT))

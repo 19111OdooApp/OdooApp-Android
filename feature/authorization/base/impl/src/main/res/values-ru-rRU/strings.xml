@@ -11,8 +11,5 @@
     <string name="login_hse">Войти через ЕЛК ВШЭ</string>
 
     <string name="login_divider_text">ИЛИ</string>
-    <string name="login_alert_message">почту</string>
-    <string name="basic_login_alert_message">Пожалуйста, введите</string>
-    <string name="server_alert_message">URL Вашего сервера Odoo</string>
-    <string name="password_alert_message">пароль</string>
+    <string name="login_alert_message">Пожалуйста, введите URL Вашего сервера Odoo, почту и пароль</string>
 </resources>

@@ -13,10 +13,7 @@
 
     <string name="login_divider_text">OR</string>
 
-    <string name="basic_login_alert_message">Please, enter your</string>
-    <string name="server_alert_message">Odoo URL</string>
-    <string name="login_alert_message">email</string>
-    <string name="password_alert_message">password</string>
+    <string name="login_alert_message">Please, enter your Odoo URL, email and password</string>
 
     <string name="odoo_logo_desc" translatable="false">odooLogo</string>
     <string name="login_button_desc" translatable="false">loginButton</string>

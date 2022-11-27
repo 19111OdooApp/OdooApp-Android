@@ -34,8 +34,8 @@ dependencies {
     Dependencies.Compose.Core.ALL_CORE_DEBUG_DEPS.forEach { debugImplementation(it) }
 
     // Tests
-    androidTestImplementation(Dependencies.Compose.Test.UI_TEST)
-    debugImplementation(Dependencies.Compose.Test.UI_TEST_DEBUG)
+    androidTestImplementation(Dependencies.Compose.UiTest.UI_TEST)
+    debugImplementation(Dependencies.Compose.UiTest.UI_TEST_DEBUG)
 
     // UI
     Dependencies.UI.ALL_DEPS.forEach { implementation(it) }

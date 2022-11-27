@@ -62,7 +62,7 @@ class AuthorizationScreen : IAuthorizationScreen {
     ) {
         val viewModel: AuthorizationViewModel = viewModel()
 
-        // TODO Make empty extension
+        // TODO Create extension with result
         val authorizationStatus by viewModel.authorizationState.subscribeAsState(NothingResult)
 
         AuthorizationScreenContent(

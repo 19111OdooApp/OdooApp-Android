@@ -7,7 +7,14 @@ import odoo.miem.android.core.retrofitApiFabric.api.RetrofitApi
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 
-// TODO Description
+/**
+ * [RetrofitApiResolver] is a resolver of [RetrofitApi]
+ *
+ * It accumulates all instance of [RetrofitApi] and create new one, if
+ * it is not exists
+ *
+ * @author Vorozhtsov Mikhail
+ */
 object RetrofitApiResolver {
 
     private val apiMap by lazy { mutableMapOf<Class<out RetrofitApi>, @JvmSuppressWildcards RetrofitApiProvider>() }

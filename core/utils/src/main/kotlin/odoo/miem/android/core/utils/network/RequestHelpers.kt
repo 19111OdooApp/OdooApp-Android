@@ -3,6 +3,11 @@ package odoo.miem.android.core.utils.network
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
 
+/**
+ * [RequestHelpers] needs for wrapping request body in the desired format
+ *
+ * @author Vorozhtsov Mikhail
+ */
 object RequestHelpers {
 
     private val dataStore by api(IDataStoreApi::dataStore)

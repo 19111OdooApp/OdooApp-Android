@@ -1,4 +1,8 @@
 package odoo.miem.android.core.retrofitApiFabric.api
 
-// TODO Description
+/**
+ * [RetrofitApi] - base API for all Retrofit interfaces
+ *
+ * @author Vorozhtsov Mikhail
+ */
 interface RetrofitApi

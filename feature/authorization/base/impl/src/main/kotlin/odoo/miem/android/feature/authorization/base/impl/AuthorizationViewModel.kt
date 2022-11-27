@@ -27,6 +27,7 @@ class AuthorizationViewModel : ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 Timber.d("generalAuthorization(): result = $it")
+                // TODO Is loading?
                 authorizationState.onNext(it)
             }
 

@@ -1,6 +1,11 @@
 package odoo.miem.android.core.utils
 
-// TODO Description
+/**
+ * States of response
+ *
+ * @author Vorozhtsov Mikhail
+ */
+
 sealed interface Result
 
 class SuccessResult<T>(data: T?) : Result

@@ -6,7 +6,11 @@ import odoo.miem.android.core.retrofitApiFabric.api.RetrofitApi
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-// TODO Description
+/**
+ * [IGeneralAuthorization] - interface for making Retrofit instance of general authorization
+ *
+ * @author Vorozhtsov Mikhail
+ */
 interface IGeneralAuthorization : RetrofitApi {
 
     @JvmSuppressWildcards

@@ -1,8 +1,8 @@
 package odoo.miem.android.core.retrofitApiFabric
 
-import io.reactivex.rxjava3.core.Scheduler
-import io.reactivex.rxjava3.schedulers.Schedulers
 import nl.nl2312.xmlrpc.XmlRpcConverterFactory
+import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
+import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.retrofitApiFabric.api.RetrofitApi
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
@@ -11,6 +11,7 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 object RetrofitApiResolver {
 
     private val apiMap by lazy { mutableMapOf<Class<out RetrofitApi>, @JvmSuppressWildcards RetrofitApiProvider>() }
+    private val dataStore by api(IDataStoreApi::dataStore)
 
     @Suppress("UNCHECKED_CAST")
     fun <T : RetrofitApi> getRetrofitApi(api: Class<T>): T {
@@ -30,7 +31,7 @@ object RetrofitApiResolver {
 
     private fun createRetrofitAdapter(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://crm.miem.tv") // TODO get from datastore
+            .baseUrl(dataStore.url)
             .addConverterFactory(XmlRpcConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()

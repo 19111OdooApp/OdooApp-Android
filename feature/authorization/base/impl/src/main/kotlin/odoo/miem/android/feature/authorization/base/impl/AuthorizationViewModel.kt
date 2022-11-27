@@ -1,12 +1,11 @@
 package odoo.miem.android.feature.authorization.base.impl
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import odoo.miem.android.common.network.authorization.api.di.IAuthorizationInteractorApi
 import odoo.miem.android.core.di.impl.api
-import odoo.miem.android.core.utils.Result
-import odoo.miem.android.core.utils.processing
+import odoo.miem.android.core.utils.rx.lazyEmptyResultPublishSubject
 import timber.log.Timber
 
 class AuthorizationViewModel : ViewModel() {
@@ -14,8 +13,7 @@ class AuthorizationViewModel : ViewModel() {
     private val authorizationInteractor by api(IAuthorizationInteractorApi::authorizationInteractor)
     private val compositeDisposable by lazy { CompositeDisposable() }
 
-    // TODO Move from live data?
-    val authorizationState = MutableLiveData<Result>()
+    val authorizationState by lazyEmptyResultPublishSubject()
 
     fun generalAuthorization(baseUrl: String, login: String, password: String) {
         Timber.d("generalAuthorization(): baseUrl = $baseUrl, login = $login, password = $password")
@@ -26,10 +24,10 @@ class AuthorizationViewModel : ViewModel() {
                 login = login,
                 password = password
             )
-            .processing()
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 Timber.d("generalAuthorization(): result = $it")
-                authorizationState.postValue(it)
+                authorizationState.onNext(it)
             }
 
         compositeDisposable.add(observable)

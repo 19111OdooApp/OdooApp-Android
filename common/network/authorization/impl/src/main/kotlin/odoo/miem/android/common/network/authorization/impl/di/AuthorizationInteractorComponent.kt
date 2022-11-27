@@ -2,16 +2,16 @@ package odoo.miem.android.common.network.authorization.impl.di
 
 import dagger.Component
 import odoo.miem.android.common.network.authorization.api.di.IAuthorizationInteractorApi
+import odoo.miem.android.common.network.authorization.impl.AuthorizationInteractor
 
-// TODO Description
 /**
- * [AuthorizationInteractorComponent] - **Dagger** компонент, который реализует интерфейс [IAuthorizationApi]
- * Провайдиться в общий **DI граф** через [AuthorizationInteractorApiProvider].
+ * [AuthorizationInteractorComponent] - **Dagger** component, which implements interface [IAuthorizationInteractorApi]
+ * Providing in general **DI graph** with a help of [AuthorizationInteractorApiProvider].
  *
- * Подключаемые модули:
- *  - [AuthorizationInteractorModule] - предоставляет [AuthorizationScreen] в *DI граф*
+ * Included modules:
+ *  - [AuthorizationInteractorModule] - provide [AuthorizationInteractor] in *DI graph*
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 @Component(
     modules = [

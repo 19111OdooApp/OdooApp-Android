@@ -4,13 +4,14 @@ plugins {
 
 dependencies {
 
+    Dependencies.RxJava.ALL_DEPS.forEach { implementation(it) }
+
     // Common
     // Network - authorization
     api(project(":common:network:authorization:api"))
 
     // UiKitComponents
     implementation(project(":common:uiKitComponents"))
-
 
     // Core
     // UiKitTheme
@@ -19,7 +20,4 @@ dependencies {
     // Feature
     // Authorization API
     implementation(project(":feature:authorization:base:api"))
-
-    // TODO Delete livedata
-    implementation("androidx.compose.runtime:runtime-livedata:1.3.1")
 }

@@ -7,12 +7,11 @@ import odoo.miem.android.common.network.authorization.api.di.IAuthorizationInter
 import odoo.miem.android.core.di.impl.ApiKey
 import odoo.miem.android.core.di.impl.ApiProvider
 
-// TODO Description
 /**
- * [AuthorizationInteractorApiProvider] - **Dagger** модуль для предоставления
- * [AuthorizationInteractorComponent] в общую мапу
+ * [AuthorizationInteractorApiProvider] - **Dagger** module for providing
+ * [AuthorizationInteractorComponent] in general map
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtso Mikhail
  */
 @Module
 class AuthorizationInteractorApiProvider {

@@ -8,10 +8,13 @@ dependencies {
 
     Dependencies.RxJava.ALL_DEPS.forEach { implementation(it) }
 
-    // Common
-    // Authorization API
+    // Core
+    // Network API - authorization
     api(project(":core:networkApi:authorization:api"))
 
     // Retrofit Api Fabric
     implementation(project(":core:retrofitApiFabric:impl"))
+
+    // Utils
+    implementation(project(":core:utils"))
 }

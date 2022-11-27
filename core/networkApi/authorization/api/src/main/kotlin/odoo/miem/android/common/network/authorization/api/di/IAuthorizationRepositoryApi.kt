@@ -3,14 +3,13 @@ package odoo.miem.android.common.network.authorization.api.di
 import odoo.miem.android.common.network.authorization.api.IAuthorizationRepository
 import odoo.miem.android.core.di.api.Api
 
-// TODO Description
 /**
- * [IAuthorizationRepositoryApi] нужен для обертки [IAuthorizationScreen] для последующего
- * предоставления в di граф
+ * [IAuthorizationRepositoryApi] needed for wrapping over [IAuthorizationRepository] and
+ * providing in common **DI graph**
  *
  * @see Api
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 interface IAuthorizationRepositoryApi : Api {
 

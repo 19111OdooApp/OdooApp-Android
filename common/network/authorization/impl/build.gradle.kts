@@ -9,6 +9,9 @@ dependencies {
     api(project(":common:network:authorization:api"))
 
     // Core
+    // DataStore
+    api(project(":core:dataStore:api"))
+
     // Network API - Authorization
     api(project(":core:networkApi:authorization:api"))
 }

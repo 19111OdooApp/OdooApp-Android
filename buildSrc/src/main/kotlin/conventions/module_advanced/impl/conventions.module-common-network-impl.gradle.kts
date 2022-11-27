@@ -1,4 +1,10 @@
-// TODO Description
+/**
+ * Convention for expansion [conventions.module-impl] for to generalize
+ * common dependencies in `common/network/-/impl` modules
+ *
+ * @author Vorozhtsov Mikhail
+ * @since 27.11.2022
+ */
 plugins {
     id("conventions.module-impl")
 }

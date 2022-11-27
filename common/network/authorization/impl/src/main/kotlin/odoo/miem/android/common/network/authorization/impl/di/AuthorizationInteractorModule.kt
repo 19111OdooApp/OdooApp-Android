@@ -5,12 +5,11 @@ import dagger.Provides
 import odoo.miem.android.common.network.authorization.api.IAuthorizationInteractor
 import odoo.miem.android.common.network.authorization.impl.AuthorizationInteractor
 
-// TODO Description
 /**
- * [AuthorizationInteractorModule] - модуль для предоставления инстанса [AuthorizationScreen]
- * в общей di граф
+ * [AuthorizationInteractorModule] - module for providing instance of [AuthorizationInteractor]
+ * in **DI graph**
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 @Module
 class AuthorizationInteractorModule {

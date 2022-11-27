@@ -1,30 +1,39 @@
 package odoo.miem.android.common.network.authorization.impl
 
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import odoo.miem.android.common.network.authorization.api.IAuthorizationInteractor
 import odoo.miem.android.common.network.authorization.api.di.IAuthorizationRepositoryApi
+import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.utils.ErrorResult
 import odoo.miem.android.core.utils.Result
 import odoo.miem.android.core.utils.SuccessResult
 import timber.log.Timber
 
-// TODO Description
+/**
+ * [AuthorizationInteractor] - implementation of [IAuthorizationInteractor]
+ *
+ * @author Vorozhtsov Mikhail
+ */
 class AuthorizationInteractor : IAuthorizationInteractor {
 
     private val authorizationRepository by api(IAuthorizationRepositoryApi::authorizationRepository)
+    private val dataStore by api(IDataStoreApi::dataStore)
 
     override fun generalAuthorization(baseUrl: String, login: String, password: String): Observable<Result> {
         Timber.d("generalAuthorization(): baseUrl = $baseUrl, login = $login, password = $password")
-        // TODO Save baseUrl in datastore
+
+        dataStore.setUrl(baseUrl)
+
         return authorizationRepository.generalAuthorization(
-            baseUrl = baseUrl,
             login = login,
             password = password
         )
+            .subscribeOn(Schedulers.io())
             .map<Result> {
-                // TODO Save uid in datastore
                 Timber.d("generalAuthorization(): uid = $it")
+                dataStore.setUID(it)
                 SuccessResult(data = it)
             }
             .onErrorReturn {

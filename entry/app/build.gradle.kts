@@ -17,6 +17,9 @@ dependencies {
     implementation(project(":common:network:authorization:impl"))
 
     // Core
+    // Datastore
+    implementation(project(":core:dataStore:impl"))
+
     // DI
     implementation(project(":core:di:impl"))
 

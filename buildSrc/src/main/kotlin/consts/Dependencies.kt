@@ -123,10 +123,10 @@ object Dependencies {
         private const val RX_VERSION = "3.1.5"
         private const val RX_ANDROID_VERSION = "3.0.2"
 
-        const val RXJAVA = "io.reactivex.rxjava3:rxjava:$RX_VERSION"
+        const val RXJAVA_DEPENDENCE = "io.reactivex.rxjava3:rxjava:$RX_VERSION"
         const val RXJAVA_ANDROID = "io.reactivex.rxjava3:rxandroid:$RX_ANDROID_VERSION"
 
-        val ALL_DEPS = listOf(RXJAVA, RXJAVA_ANDROID)
+        val ALL_DEPS = listOf(RXJAVA_DEPENDENCE, RXJAVA_ANDROID)
     }
 
     object Test {

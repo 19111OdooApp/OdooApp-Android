@@ -12,7 +12,7 @@ import timber.log.Timber
  *
  * @author Vorozhtsov Mikhail
  */
-class AuthorizationRepository: IAuthorizationRepository {
+class AuthorizationRepository : IAuthorizationRepository {
 
     private val generalAuthorization by retrofitApi<IGeneralAuthorization>()
 

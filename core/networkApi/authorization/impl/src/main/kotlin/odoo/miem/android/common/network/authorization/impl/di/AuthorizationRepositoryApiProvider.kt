@@ -6,8 +6,6 @@ import dagger.multibindings.IntoMap
 import odoo.miem.android.common.network.authorization.api.di.IAuthorizationRepositoryApi
 import odoo.miem.android.core.di.impl.ApiKey
 import odoo.miem.android.core.di.impl.ApiProvider
-
-
 /**
  * [AuthorizationRepositoryApiProvider] - **Dagger** module for providing
  * [AuthorizationRepositoryComponent] in general map

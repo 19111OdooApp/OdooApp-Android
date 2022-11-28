@@ -2,7 +2,6 @@ package odoo.miem.android.common.network.authorization.api
 
 import io.reactivex.rxjava3.core.Observable
 
-
 /**
  * [IAuthorizationRepository] - interface for wrapping data layer
  * logic, which is connected with authorization

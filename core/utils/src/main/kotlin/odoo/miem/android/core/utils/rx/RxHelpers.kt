@@ -9,6 +9,6 @@ import odoo.miem.android.core.utils.Result
  * @author Vorozhtsov Mikhail
  */
 
-fun emptyResultPublishSubject() = PublishSubject.create<Result>()
+fun <T> emptyResultPublishSubject() = PublishSubject.create<Result<T>>()
 
-fun lazyEmptyResultPublishSubject(): Lazy<PublishSubject<Result>> = lazy { emptyResultPublishSubject() }
+fun <T> lazyEmptyResultPublishSubject(): Lazy<PublishSubject<Result<T>>> = lazy { emptyResultPublishSubject() }

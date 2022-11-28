@@ -2,8 +2,8 @@ package odoo.miem.android.di
 
 import android.content.Context
 import dagger.Component
-import odoo.miem.android.common.network.authorization.impl.di.AuthorizationRepositoryApiProvider
 import odoo.miem.android.common.network.authorization.impl.di.AuthorizationInteractorApiProvider
+import odoo.miem.android.common.network.authorization.impl.di.AuthorizationRepositoryApiProvider
 import odoo.miem.android.core.dataStore.impl.di.DataStoreApiProvider
 import odoo.miem.android.core.di.impl.ApiRegistry
 import odoo.miem.android.core.di.impl.ApiResolver

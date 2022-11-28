@@ -14,5 +14,5 @@ import odoo.miem.android.core.retrofitApiFabric.api.RetrofitApi
  * @author Vorozhtsov Mikhail
  */
 fun interface RetrofitApiProvider {
-    fun get() : RetrofitApi
+    fun get(): RetrofitApi
 }

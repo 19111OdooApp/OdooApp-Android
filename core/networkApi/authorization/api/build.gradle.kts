@@ -4,5 +4,5 @@ plugins {
 
 dependencies {
 
-    implementation(Dependencies.RxJava.RXJAVA)
+    implementation(Dependencies.RxJava.RXJAVA_DEPENDENCE)
 }

@@ -28,7 +28,7 @@ class AuthorizationScreenUITest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun test_authorizationScreen_textFields_and_buttons() {
+    fun `test ui, text fields and buttons`() {
         lateinit var odooLogoDesc: String
         lateinit var headerDesc: String
         lateinit var mainTextDesc: String
@@ -40,6 +40,7 @@ class AuthorizationScreenUITest {
         lateinit var trailingIconDesc: String
         lateinit var testInput: String
 
+        // Preparation
         composeTestRule.setContent {
             odooLogoDesc = stringResource(R.string.odoo_logo_desc)
             headerDesc = stringResource(R.string.login_welcome_header)
@@ -68,7 +69,9 @@ class AuthorizationScreenUITest {
         val loginButtonNode = composeTestRule.onNodeWithContentDescription(loginButtonDesc)
         val loginWithHseButtonNode = composeTestRule.onNodeWithContentDescription(loginWithHseButtonDesc)
 
-        // Preparation
+        // Asserting
+
+        // checking if all ui elements are displayed
         odooLogoNode.assertExists()
         headerNode.assertExists()
         mainTextNode.assertExists()
@@ -77,8 +80,6 @@ class AuthorizationScreenUITest {
         passwordInputNode.assertExists()
         loginButtonNode.assertExists()
         loginWithHseButtonNode.assertExists()
-
-        // Asserting
 
         // Odoo server text field
         serverInputNode.performTextInput(testInput)
@@ -89,6 +90,7 @@ class AuthorizationScreenUITest {
                 hasContentDescription(trailingIconDesc)
             )
         )
+        // cleaning
         serverInputNode
             .onChild()
             .assertExists()
@@ -96,7 +98,7 @@ class AuthorizationScreenUITest {
             .assertDoesNotExist()
         serverInputNode.assert(hasText(""))
 
-        // email text field
+        // Email text field
         emailInputNode.performTextInput(testInput)
         emailInputNode.assert(hasText(testInput))
         emailInputNode.assert(
@@ -104,6 +106,7 @@ class AuthorizationScreenUITest {
                 hasContentDescription(trailingIconDesc)
             )
         )
+        // cleaning
         emailInputNode
             .onChild()
             .assertExists()
@@ -111,7 +114,7 @@ class AuthorizationScreenUITest {
             .assertDoesNotExist()
         emailInputNode.assert(hasText(""))
 
-        // password text field
+        // Password text field
         passwordInputNode.performTextInput(testInput)
         passwordInputNode.assert(hasText(
             String(CharArray(testInput.length) { '•' } )
@@ -121,6 +124,7 @@ class AuthorizationScreenUITest {
                 hasContentDescription(trailingIconDesc)
             )
         )
+        // cleaning
         passwordInputNode
             .onChild()
             .assertExists()

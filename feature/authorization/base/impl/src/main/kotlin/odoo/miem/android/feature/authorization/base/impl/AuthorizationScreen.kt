@@ -1,7 +1,14 @@
 package odoo.miem.android.feature.authorization.base.impl
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -61,9 +68,12 @@ class AuthorizationScreen : IAuthorizationScreen {
         navController: NavHostController,
         showMessage: (Int) -> Unit
     ) {
-        AuthorizationScreenContent(showMessage)
+        AuthorizationScreenContent(
+            showMessage = showMessage
+        )
     }
 
+    @OptIn(ExperimentalAnimationApi::class)
     @Composable
     private fun AuthorizationScreenContent(
         showMessage: (Int) -> Unit = {}
@@ -94,6 +104,19 @@ class AuthorizationScreen : IAuthorizationScreen {
         var isServerInputError by remember { mutableStateOf(false) }
         var isLoginInputError by remember { mutableStateOf(false) }
         var isPasswordInputError by remember { mutableStateOf(false) }
+
+        val onLoginButtonClick = {
+            isServerInputError = serverInput.text.isBlank() || serverInput.text == odooGlobalUrl
+            isLoginInputError = emailInput.text.isBlank()
+            isPasswordInputError = passwordInput.text.isBlank()
+
+            if (isServerInputError || isLoginInputError || isPasswordInputError) {
+                showMessage(R.string.login_alert_message)
+            } else {
+                // TODO add login action
+                isLoginProcessing = true
+            }
+        }
 
         Image(
             painter = painterResource(R.drawable.logo_odoo),
@@ -161,59 +184,61 @@ class AuthorizationScreen : IAuthorizationScreen {
             isError = isPasswordInputError
         )
 
-        if (isLoginProcessing) {
+        AnimatedVisibility(
+            visible = !isLoginProcessing,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 75.dp)
+                    .padding(horizontal = 36.dp)
+            ) {
+                TextButton(
+                    onClick = { onLoginButtonClick() },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .semantics { contentDescription = loginButtonDesc },
+                    textResource = R.string.login
+                )
+
+                Divider(
+                    textModifier = Modifier.padding(horizontal = commonPadding),
+                    paddingModifier = Modifier.padding(vertical = dividerVerticalPadding),
+                    textResource = R.string.login_divider_text
+                )
+
+                TextButton(
+                    onClick = { /* TODO */ },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = hseSecondary,
+                        contentColor = Color.White,
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .semantics { contentDescription = loginWithHseButtonDesc },
+                    textResource = R.string.login_hse,
+                    iconResource = R.drawable.logo_hse,
+                )
+            }
+        }
+
+        AnimatedVisibility(
+            visible = isLoginProcessing,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
             CircularProgressIndicator(
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .size(48.dp)
                     .padding(top = 100.dp)
-            )
-        } else {
-            val onLoginButtonClick = {
-                isServerInputError = serverInput.text.isBlank() || serverInput.text == odooGlobalUrl
-                isLoginInputError = emailInput.text.isBlank()
-                isPasswordInputError = passwordInput.text.isBlank()
-
-                if (isServerInputError || isLoginInputError || isPasswordInputError) {
-                    showMessage(R.string.login_alert_message)
-                } else {
-                    // TODO add login action
-                    isLoginProcessing = true
-                }
-            }
-
-            TextButton(
-                onClick = { onLoginButtonClick() },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = Color.White
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 75.dp)
-                    .padding(horizontal = 36.dp)
-                    .semantics { contentDescription = loginButtonDesc },
-                textResource = R.string.login
-            )
-
-            Divider(
-                textModifier = Modifier.padding(horizontal = commonPadding),
-                paddingModifier = Modifier.padding(vertical = dividerVerticalPadding),
-                textResource = R.string.login_divider_text
-            )
-
-            TextButton(
-                onClick = { /* TODO */ },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = hseSecondary,
-                    contentColor = Color.White,
-                ),
-                modifier = Modifier
-                    .padding(horizontal = 36.dp)
-                    .fillMaxWidth()
-                    .semantics { contentDescription = loginWithHseButtonDesc },
-                textResource = R.string.login_hse,
-                iconResource = R.drawable.logo_hse,
             )
         }
     }

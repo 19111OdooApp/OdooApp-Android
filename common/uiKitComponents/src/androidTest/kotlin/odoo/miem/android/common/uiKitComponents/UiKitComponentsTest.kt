@@ -25,7 +25,7 @@ import org.junit.Test
  * [UiKitComponentsTest] - UI tests for UI components from odoo.miem.android.common.uiKitComponents package
  *
  * Contains:
- * [loginTextField_test] - test for [LoginTextField]
+ * [] - test for [LoginTextField]
  *
  * @author Egor Danilov
  */
@@ -35,11 +35,12 @@ class UiKitComponentsTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun test_loginTextField_input_and_cleaning() {
+    fun `test input and clear login text field`() {
         lateinit var textFieldLabel: String
         lateinit var trailingIconDesc: String
         lateinit var testInput: String
 
+        // Preparation
         composeTestRule.setContent {
             var textFieldInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
                 mutableStateOf(TextFieldValue())
@@ -60,12 +61,13 @@ class UiKitComponentsTest {
         val textFieldNode = composeTestRule.onNodeWithText(textFieldLabel)
         val trailingIconNode = composeTestRule.onNodeWithContentDescription(trailingIconDesc)
 
-        // Preparation
+        // Asserting
+
+        // Checking if all ui elements are displayed
         textFieldNode.assertExists()
         trailingIconNode.assertDoesNotExist()
         textFieldNode.assert(hasText(""))
 
-        // Asserting
         textFieldNode.performTextInput(testInput)
         textFieldNode.assert(hasText(testInput))
 

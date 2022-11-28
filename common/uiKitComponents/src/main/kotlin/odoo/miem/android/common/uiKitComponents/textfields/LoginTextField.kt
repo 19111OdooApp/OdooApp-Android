@@ -58,8 +58,6 @@ fun LoginTextField(
     val focusManager = LocalFocusManager.current
     val textStyle = MaterialTheme.typography.bodyMedium
 
-    var leadingIcon: @Composable (() -> Unit)? = null
-
     var isPasswordVisible by remember { mutableStateOf(false) }
 
     val trailingIcon = @Composable {
@@ -68,27 +66,23 @@ fun LoginTextField(
             enter = scaleIn(),
             exit = scaleOut()
         ) {
-            IconButton(onClick = { onValueChange(TextFieldValue()) }) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_trailing_icon),
-                    contentDescription = stringResource(R.string.text_field_trailing_icon_desc),
-                    modifier = Modifier.size(20.dp),
-                    tint = odooPrimaryGray
-                )
-            }
-        }
-    }
-
-    if (keyboardType == KeyboardType.Password) {
-        leadingIcon = @Composable {
-            IconButton(onClick = {
-                isPasswordVisible = !isPasswordVisible
-            }) {
-                Icon(
-                    imageVector = if (isPasswordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                    contentDescription = null,
-                    tint = odooPrimaryGray
-                )
+            if (keyboardType == KeyboardType.Password) {
+                IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
+                    Icon(
+                        imageVector = if (isPasswordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
+                        contentDescription = null,
+                        tint = odooPrimaryGray
+                    )
+                }
+            } else {
+                IconButton(onClick = { onValueChange(TextFieldValue()) }) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_trailing_icon),
+                        contentDescription = stringResource(R.string.text_field_trailing_icon_desc),
+                        modifier = Modifier.size(20.dp),
+                        tint = odooPrimaryGray
+                    )
+                }
             }
         }
     }
@@ -123,7 +117,6 @@ fun LoginTextField(
             placeholderColor = odooPrimaryGray
         ),
         trailingIcon = trailingIcon,
-        leadingIcon = leadingIcon,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = mainHorizontalPadding)

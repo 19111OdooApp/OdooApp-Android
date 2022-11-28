@@ -146,14 +146,17 @@ object Dependencies {
         private const val BOM_VERSION = "31.1.0"
         private const val CRASHLYTICS_GRADLE_VERSION = "2.9.2"
 
-        const val GOOGLE_SERVICES = "com.google.gms:google-services:$GOOGLE_SERVICES_VERSION"
+        const val GOOGLE_SERVICES_GRADLE_PLUGIN = "com.google.gms:google-services:$GOOGLE_SERVICES_VERSION"
+        const val FIREBASE_CRASHLYTICS_GRADLE_PLUGIN =
+            "com.google.firebase:firebase-crashlytics-gradle:$CRASHLYTICS_GRADLE_VERSION"
 
         const val FIREBASE_BOM = "com.google.firebase:firebase-bom:$BOM_VERSION"
         const val FIREBASE_ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
-
         const val FIREBASE_CRASHLYTICS = "com.google.firebase:firebase-analytics-ktx"
-        const val FIREBASE_CRASHLYTICS_GRADLE_PLUGIN =
-            "com.google.firebase:firebase-crashlytics-gradle:$CRASHLYTICS_GRADLE_VERSION"
+
+        val ALL_GRADLE_PLUGINS = listOf(GOOGLE_SERVICES_GRADLE_PLUGIN, FIREBASE_CRASHLYTICS_GRADLE_PLUGIN)
+
+        val ALL_DEPS = listOf(FIREBASE_ANALYTICS, FIREBASE_CRASHLYTICS)
     }
 
     object Plugins {

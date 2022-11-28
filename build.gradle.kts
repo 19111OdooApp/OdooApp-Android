@@ -8,8 +8,9 @@ plugins {
 
 buildscript {
     dependencies {
-        classpath(Dependencies.Firebase.GOOGLE_SERVICES)
-        classpath(Dependencies.Firebase.FIREBASE_CRASHLYTICS_GRADLE_PLUGIN)
+        Dependencies.Firebase.ALL_GRADLE_PLUGINS.forEach {
+            classpath(it)
+        }
     }
 }
 

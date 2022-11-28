@@ -12,9 +12,19 @@ dependencies {
     // Navigation
     implementation(project(":feature:navigation"))
 
+    // Common
+    // Network - authorization
+    implementation(project(":common:network:authorization:impl"))
+
     // Core
+    // Datastore
+    implementation(project(":core:dataStore:impl"))
+
     // DI
     implementation(project(":core:di:impl"))
+
+    // Network API - authorization
+    implementation(project(":core:networkApi:authorization:impl"))
 
     // Platform
     implementation(project(":core:platform"))

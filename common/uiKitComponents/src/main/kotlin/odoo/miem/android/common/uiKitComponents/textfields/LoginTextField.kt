@@ -70,7 +70,7 @@ fun LoginTextField(
                 IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
                     Icon(
                         imageVector = if (isPasswordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                        contentDescription = null,
+                        contentDescription = stringResource(R.string.text_field_trailing_icon_desc),
                         tint = odooPrimaryGray
                     )
                 }

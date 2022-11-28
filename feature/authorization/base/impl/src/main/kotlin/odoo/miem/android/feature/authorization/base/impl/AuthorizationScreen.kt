@@ -184,11 +184,14 @@ class AuthorizationScreen : IAuthorizationScreen {
             isError = isPasswordInputError
         )
 
-        AnimatedVisibility(
-            visible = !isLoginProcessing,
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
+        if (isLoginProcessing) {
+            CircularProgressIndicator(
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .size(48.dp)
+                    .padding(top = 100.dp)
+            )
+        } else {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
@@ -227,19 +230,6 @@ class AuthorizationScreen : IAuthorizationScreen {
                     iconResource = R.drawable.logo_hse,
                 )
             }
-        }
-
-        AnimatedVisibility(
-            visible = isLoginProcessing,
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
-            CircularProgressIndicator(
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier
-                    .size(48.dp)
-                    .padding(top = 100.dp)
-            )
         }
     }
 

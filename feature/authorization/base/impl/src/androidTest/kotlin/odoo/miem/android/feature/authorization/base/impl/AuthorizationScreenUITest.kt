@@ -3,6 +3,7 @@ package odoo.miem.android.feature.authorization.base.impl
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsNotDisplayed
+import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.hasAnyChild
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasText
@@ -28,7 +29,7 @@ class AuthorizationScreenUITest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun `test ui, text fields and buttons`() {
+    fun test_ui_text_fields_and_buttons() {
         lateinit var odooLogoDesc: String
         lateinit var headerDesc: String
         lateinit var mainTextDesc: String
@@ -82,15 +83,12 @@ class AuthorizationScreenUITest {
         loginWithHseButtonNode.assertExists()
 
         // Odoo server text field
-        serverInputNode.performTextInput(testInput)
-        serverInputNode.assert(hasText(testInput))
-        serverInputNode.onChild().assertExists()
+        // text field already has some text, so we try to clean it
         serverInputNode.assert(
             hasAnyChild(
                 hasContentDescription(trailingIconDesc)
             )
         )
-        // cleaning
         serverInputNode
             .onChild()
             .assertExists()
@@ -98,7 +96,13 @@ class AuthorizationScreenUITest {
             .assertDoesNotExist()
         serverInputNode.assert(hasText(""))
 
+        // text input
+        serverInputNode.performTextInput(testInput)
+        serverInputNode.assert(hasText(testInput))
+        serverInputNode.onChild().assertExists()
+
         // Email text field
+        // text input
         emailInputNode.performTextInput(testInput)
         emailInputNode.assert(hasText(testInput))
         emailInputNode.assert(
@@ -106,7 +110,8 @@ class AuthorizationScreenUITest {
                 hasContentDescription(trailingIconDesc)
             )
         )
-        // cleaning
+
+        // trying to clean text field
         emailInputNode
             .onChild()
             .assertExists()
@@ -115,6 +120,7 @@ class AuthorizationScreenUITest {
         emailInputNode.assert(hasText(""))
 
         // Password text field
+        // text input
         passwordInputNode.performTextInput(testInput)
         passwordInputNode.assert(hasText(
             String(CharArray(testInput.length) { '•' } )
@@ -124,18 +130,19 @@ class AuthorizationScreenUITest {
                 hasContentDescription(trailingIconDesc)
             )
         )
-        // cleaning
+
+        // trying to check if password visibility toggle works
         passwordInputNode
             .onChild()
             .assertExists()
             .performClick()
-            .assertDoesNotExist()
-        passwordInputNode.assert(hasText(""))
+        passwordInputNode.assert(hasText(testInput))
 
-        // checking login buttons vanishing after pressing it
+        // checking vanishing of login buttons after pressing it
         serverInputNode.performTextInput(testInput)
         emailInputNode.performTextInput(testInput)
         passwordInputNode.performTextInput(testInput)
+
         loginButtonNode.performClick()
         loginButtonNode.assertIsNotDisplayed()
         loginWithHseButtonNode.assertIsNotDisplayed()

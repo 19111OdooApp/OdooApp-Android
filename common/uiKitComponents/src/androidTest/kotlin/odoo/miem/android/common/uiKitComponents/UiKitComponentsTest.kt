@@ -35,7 +35,7 @@ class UiKitComponentsTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun `test input and clear login text field`() {
+    fun test_input_and_clear_login_text_field() {
         lateinit var textFieldLabel: String
         lateinit var trailingIconDesc: String
         lateinit var testInput: String

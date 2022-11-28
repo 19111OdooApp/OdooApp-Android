@@ -66,23 +66,13 @@ fun LoginTextField(
             enter = scaleIn(),
             exit = scaleOut()
         ) {
-            if (keyboardType == KeyboardType.Password) {
-                IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
-                    Icon(
-                        imageVector = if (isPasswordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                        contentDescription = stringResource(R.string.text_field_trailing_icon_desc),
-                        tint = odooPrimaryGray
-                    )
-                }
-            } else {
-                IconButton(onClick = { onValueChange(TextFieldValue()) }) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_trailing_icon),
-                        contentDescription = stringResource(R.string.text_field_trailing_icon_desc),
-                        modifier = Modifier.size(20.dp),
-                        tint = odooPrimaryGray
-                    )
-                }
+            IconButton(onClick = { onValueChange(TextFieldValue()) }) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_trailing_icon),
+                    contentDescription = stringResource(R.string.text_field_trailing_icon_desc),
+                    modifier = Modifier.size(20.dp),
+                    tint = odooPrimaryGray
+                )
             }
         }
     }

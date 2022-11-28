@@ -29,7 +29,7 @@ class AuthorizationScreenUITest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun test_ui_text_fields_and_buttons() {
+    fun testUiTextFieldsAndButtons() {
         lateinit var odooLogoDesc: String
         lateinit var headerDesc: String
         lateinit var mainTextDesc: String
@@ -131,12 +131,13 @@ class AuthorizationScreenUITest {
             )
         )
 
-        // trying to check if password visibility toggle works
+        // trying to clean text field
         passwordInputNode
             .onChild()
             .assertExists()
             .performClick()
-        passwordInputNode.assert(hasText(testInput))
+            .assertDoesNotExist()
+        passwordInputNode.assert(hasText(""))
 
         // checking vanishing of login buttons after pressing it
         serverInputNode.performTextInput(testInput)

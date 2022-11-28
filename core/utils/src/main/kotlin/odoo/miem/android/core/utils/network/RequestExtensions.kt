@@ -6,7 +6,7 @@ package odoo.miem.android.core.utils.network
  * Example:
  * https://cool.odoo.ru -> cool
  */
-internal fun String.getDatabaseFromUrl() = this.substring(
-    startIndex = this.lastIndexOf("://") + 3, // Yep, +3 because of ://
-    endIndex = this.indexOf(".")
-)
+internal fun String.getDatabaseFromUrl(): String {
+    val pattern = ".+://(\\w+)\\..+".toRegex()
+    return pattern.find(this)?.groupValues?.get(1) ?: ""
+}

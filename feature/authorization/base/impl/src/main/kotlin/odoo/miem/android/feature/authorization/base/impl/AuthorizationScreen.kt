@@ -181,9 +181,11 @@ class AuthorizationScreen : IAuthorizationScreen {
             value = passwordInput,
             labelResource = R.string.login_password,
             onValueChange = {
+                isPasswordInputError = false
                 passwordInput = it
             },
             visualTransformation = PasswordVisualTransformation(),
+            isError = isPasswordInputError
         )
 
         if (isLoginInProgress) {

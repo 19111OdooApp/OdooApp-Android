@@ -90,6 +90,7 @@ object Dependencies {
 
             // add to build.gradle with androidTestImplementation()
             const val UI_TEST = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
+
             // add to build.gradle with debugImplementation
             const val UI_TEST_DEBUG = "androidx.compose.ui:ui-test-manifest:$COMPOSE_VERSION"
         }

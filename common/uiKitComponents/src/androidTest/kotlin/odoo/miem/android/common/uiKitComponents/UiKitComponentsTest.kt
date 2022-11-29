@@ -16,6 +16,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.test.platform.app.InstrumentationRegistry
 import odoo.miem.android.common.uiKitComponents.textfields.LoginTextField
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import org.junit.Rule
@@ -30,25 +31,22 @@ import org.junit.Test
  * @author Egor Danilov
  */
 class UiKitComponentsTest {
+    private val context by lazy { InstrumentationRegistry.getInstrumentation().context }
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
     @Test
     fun testInputAndClearLoginTextField() {
-        lateinit var textFieldLabel: String
-        lateinit var trailingIconDesc: String
-        lateinit var testInput: String
+        val textFieldLabel = context.getString(R.string.test_text_field_desc)
+        val trailingIconDesc = context.getString(R.string.text_field_trailing_icon_desc)
+        val testInput = context.getString(R.string.test_input)
 
         // Preparation
         composeTestRule.setContent {
             var textFieldInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
                 mutableStateOf(TextFieldValue())
             }
-
-            textFieldLabel = stringResource(R.string.test_text_field_desc)
-            trailingIconDesc = stringResource(R.string.text_field_trailing_icon_desc)
-            testInput = stringResource(R.string.test_input)
 
             OdooMiemAndroidTheme {
                 LoginTextField(

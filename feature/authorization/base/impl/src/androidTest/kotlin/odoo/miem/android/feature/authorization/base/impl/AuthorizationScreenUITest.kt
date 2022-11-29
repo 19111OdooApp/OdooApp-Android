@@ -1,6 +1,5 @@
 package odoo.miem.android.feature.authorization.base.impl
 
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.hasAnyChild
@@ -13,6 +12,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.navigation.compose.rememberNavController
+import androidx.test.platform.app.InstrumentationRegistry
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import org.junit.Rule
 import org.junit.Test
@@ -23,38 +23,26 @@ import org.junit.Test
  * @author Egor Danilov
  */
 class AuthorizationScreenUITest {
+    private val context by lazy { InstrumentationRegistry.getInstrumentation().context }
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
     @Test
-    fun testUiTextFieldsAndButtons() {
-        lateinit var odooLogoDesc: String
-        lateinit var headerDesc: String
-        lateinit var mainTextDesc: String
-        lateinit var serverTextFieldDesc: String
-        lateinit var emailTextFieldDesc: String
-        lateinit var passwordTextFieldDesc: String
-        lateinit var loginButtonDesc: String
-        lateinit var loginWithHseButtonDesc: String
-        lateinit var trailingIconDesc: String
-        lateinit var testInput: String
+    fun testUiAndTextFields() {
+        val odooLogoDesc = context.getString(R.string.odoo_logo_desc)
+        val headerDesc = context.getString(R.string.login_welcome_header)
+        val mainTextDesc = context.getString(R.string.login_welcome_text)
+        val serverTextFieldDesc = context.getString(R.string.login_odoo_server)
+        val emailTextFieldDesc = context.getString(R.string.login_email)
+        val passwordTextFieldDesc = context.getString(R.string.login_password)
+        val loginButtonDesc = context.getString(R.string.login_button_desc)
+        val loginWithHseButtonDesc = context.getString(R.string.login_with_hse_button_desc)
+        val trailingIconDesc = context.getString(odoo.miem.android.common.uiKitComponents.R.string.text_field_trailing_icon_desc)
+        val testInput = context.getString(R.string.test_input)
 
         // Preparation
         composeTestRule.setContent {
-            odooLogoDesc = stringResource(R.string.odoo_logo_desc)
-            headerDesc = stringResource(R.string.login_welcome_header)
-            mainTextDesc = stringResource(R.string.login_welcome_text)
-            serverTextFieldDesc = stringResource(R.string.login_odoo_server)
-            emailTextFieldDesc = stringResource(R.string.login_email)
-            passwordTextFieldDesc = stringResource(R.string.login_password)
-            loginButtonDesc = stringResource(R.string.login_button_desc)
-            loginWithHseButtonDesc = stringResource(R.string.login_with_hse_button_desc)
-            trailingIconDesc = stringResource(
-                odoo.miem.android.common.uiKitComponents.R.string.text_field_trailing_icon_desc
-            )
-            testInput = stringResource(R.string.test_input)
-
             val navController = rememberNavController()
             OdooMiemAndroidTheme {
                 AuthorizationScreen().AuthorizationScreen(navController) {}
@@ -137,14 +125,5 @@ class AuthorizationScreenUITest {
             .performClick()
             .assertDoesNotExist()
         passwordInputNode.assert(hasText(""))
-
-        // checking vanishing of login buttons after pressing it
-        serverInputNode.performTextInput(testInput)
-        emailInputNode.performTextInput(testInput)
-        passwordInputNode.performTextInput(testInput)
-
-        loginButtonNode.performClick()
-        loginButtonNode.assertIsNotDisplayed()
-        loginWithHseButtonNode.assertIsNotDisplayed()
     }
 }

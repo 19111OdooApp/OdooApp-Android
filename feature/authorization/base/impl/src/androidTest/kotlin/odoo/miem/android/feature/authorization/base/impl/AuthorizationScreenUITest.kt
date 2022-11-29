@@ -3,7 +3,6 @@ package odoo.miem.android.feature.authorization.base.impl
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsNotDisplayed
-import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.hasAnyChild
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasText

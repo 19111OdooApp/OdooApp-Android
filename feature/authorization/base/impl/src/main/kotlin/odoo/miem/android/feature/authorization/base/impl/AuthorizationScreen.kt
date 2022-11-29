@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -91,7 +90,7 @@ class AuthorizationScreen : IAuthorizationScreen {
         }
 
         // TODO replace it with ViewModel flow passed in arguments
-        var isLoginProcessing by rememberSaveable { mutableStateOf(false) }
+        var isLoginInProgress by rememberSaveable { mutableStateOf(false) }
 
         var isServerInputError by remember { mutableStateOf(false) }
         var isLoginInputError by remember { mutableStateOf(false) }
@@ -106,7 +105,7 @@ class AuthorizationScreen : IAuthorizationScreen {
                 showMessage(R.string.login_alert_message)
             } else {
                 // TODO add login action
-                isLoginProcessing = true
+                isLoginInProgress = true
             }
         }
 
@@ -175,7 +174,7 @@ class AuthorizationScreen : IAuthorizationScreen {
             isError = isPasswordInputError
         )
 
-        if (isLoginProcessing) {
+        if (isLoginInProgress) {
             CircularProgressIndicator(
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
@@ -183,44 +182,39 @@ class AuthorizationScreen : IAuthorizationScreen {
                     .padding(top = 100.dp)
             )
         } else {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
+            TextButton(
+                onClick = { onLoginButtonClick() },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = Color.White
+                ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 75.dp)
                     .padding(horizontal = 36.dp)
-            ) {
-                TextButton(
-                    onClick = { onLoginButtonClick() },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = Color.White
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .semantics { contentDescription = loginButtonDesc },
-                    textResource = R.string.login
-                )
+                    .semantics { contentDescription = loginButtonDesc },
+                textResource = R.string.login
+            )
 
-                Divider(
-                    textModifier = Modifier.padding(horizontal = commonPadding),
-                    paddingModifier = Modifier.padding(vertical = dividerVerticalPadding),
-                    textResource = R.string.login_divider_text
-                )
+            Divider(
+                textModifier = Modifier.padding(horizontal = commonPadding),
+                paddingModifier = Modifier.padding(vertical = dividerVerticalPadding),
+                textResource = R.string.login_divider_text
+            )
 
-                TextButton(
-                    onClick = { /* TODO */ },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = hseSecondary,
-                        contentColor = Color.White,
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .semantics { contentDescription = loginWithHseButtonDesc },
-                    textResource = R.string.login_hse,
-                    iconResource = R.drawable.logo_hse,
-                )
-            }
+            TextButton(
+                onClick = { /* TODO */ },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = hseSecondary,
+                    contentColor = Color.White,
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 36.dp)
+                    .semantics { contentDescription = loginWithHseButtonDesc },
+                textResource = R.string.login_hse,
+                iconResource = R.drawable.logo_hse,
+            )
         }
     }
 

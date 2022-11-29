@@ -23,7 +23,7 @@ dependencies {
     // Android Core
     Dependencies.AndroidCore.ALL_DEPS.forEach { implementation(it) }
 
-    // // Compose
+    // Compose
     Dependencies.Compose.ALL_DEPS.forEach { implementation(it) }
     Dependencies.Compose.Core.ALL_CORE_DEBUG_DEPS.forEach { debugImplementation(it) }
 

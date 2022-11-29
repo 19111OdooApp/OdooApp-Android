@@ -18,6 +18,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -40,11 +42,12 @@ import odoo.miem.android.core.uiKitTheme.odooPrimaryGray
 @Composable
 fun LoginTextField(
     value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit = {},
     @StringRes labelResource: Int,
-    onValueChange: (TextFieldValue) -> Unit,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardType: KeyboardType = KeyboardType.Text,
-    isError: Boolean = false,
+    imeAction: ImeAction = ImeAction.Done,
+    isError: Boolean = false
 ) {
     val focusManager = LocalFocusManager.current
     val textStyle = MaterialTheme.typography.bodyMedium
@@ -58,7 +61,7 @@ fun LoginTextField(
             IconButton(onClick = { onValueChange(TextFieldValue()) }) {
                 Icon(
                     painter = painterResource(R.drawable.ic_trailing_icon),
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.text_field_trailing_icon_desc),
                     modifier = Modifier.size(20.dp),
                     tint = odooPrimaryGray
                 )
@@ -73,7 +76,7 @@ fun LoginTextField(
         singleLine = true,
         label = { Text(text = stringResource(labelResource), style = textStyle) },
         visualTransformation = visualTransformation,
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = ImeAction.Done),
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
         keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
         isError = isError,
         shape = MaterialTheme.shapes.small,
@@ -94,6 +97,6 @@ fun LoginTextField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = mainHorizontalPadding)
-            .padding(top = 30.dp),
+            .padding(top = 20.dp),
     )
 }

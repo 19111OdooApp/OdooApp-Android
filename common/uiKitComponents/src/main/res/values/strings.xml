@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="text_field_trailing_icon_desc">textFieldTrailingIcon</string>
+    <string name="button_icon_desc">buttonIcon</string>
+
+    <!--  for ui tests  -->
+    <string name="test_text_field_desc">testTextField</string>
+    <string name="test_input">Test input</string>
+</resources>

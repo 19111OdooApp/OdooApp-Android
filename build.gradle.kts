@@ -6,6 +6,14 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version Dependencies.Plugins.DETEKT_VERSION
 }
 
+buildscript {
+    dependencies {
+        Dependencies.Firebase.ALL_GRADLE_PLUGINS.forEach {
+            classpath(it)
+        }
+    }
+}
+
 tasks {
     val detektAll by registering(io.gitlab.arturbosch.detekt.Detekt::class) {
         parallel = true

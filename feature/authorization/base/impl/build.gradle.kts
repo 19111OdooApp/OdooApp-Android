@@ -7,6 +7,8 @@ dependencies {
     Dependencies.RxJava.ALL_DEPS.forEach { implementation(it) }
 
     // Common
+    // Components
+    implementation(project(":common:uiKitComponents"))
     // Network - authorization
     api(project(":common:network:authorization:api"))
 

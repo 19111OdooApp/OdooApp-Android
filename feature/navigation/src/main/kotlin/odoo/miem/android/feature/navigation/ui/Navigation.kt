@@ -51,7 +51,7 @@ fun Navigation(
         authorizationScreen = authorizationScreen,
         paddingValues = paddingValues,
         navController = navController,
-        showMessage = showMessage
+        showMessage = showMessage,
     )
 }
 

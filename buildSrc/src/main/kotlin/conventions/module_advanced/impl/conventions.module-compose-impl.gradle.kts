@@ -13,6 +13,10 @@ android {
         compose = true
     }
 
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
     composeOptions {
         kotlinCompilerExtensionVersion = CompileVersions.COMPOSE_COMPILE_VERSION
     }
@@ -26,6 +30,10 @@ dependencies {
     // Compose
     Dependencies.Compose.ALL_DEPS.forEach { implementation(it) }
     Dependencies.Compose.Core.ALL_CORE_DEBUG_DEPS.forEach { debugImplementation(it) }
+
+    // Tests
+    androidTestImplementation(Dependencies.Compose.UiTest.UI_TEST)
+    debugImplementation(Dependencies.Compose.UiTest.UI_TEST_DEBUG)
 
     // UI
     Dependencies.UI.ALL_DEPS.forEach { implementation(it) }

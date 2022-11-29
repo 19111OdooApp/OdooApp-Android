@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="login_welcome_header">С возвращением!</string>
-    <string name="login_welcome_text">Мы рады видеть Вас снова. Введите URL Вашего сервера Odoo, почту и пароль</string>
+    <string name="login_welcome_header">Привет!</string>
+    <string name="login_welcome_text">Мы рады видеть Вас. Введите URL Вашего сервера Odoo, почту и пароль</string>
 
     <string name="login_odoo_server">URL сервера Odoo</string>
     <string name="login_email">Почта</string>

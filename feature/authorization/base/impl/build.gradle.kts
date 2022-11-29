@@ -11,8 +11,8 @@ dependencies {
     // Core
     // UiKitTheme
     implementation(project(":core:uiKitTheme"))
-    implementation(project(":common:uiKitComponents"))
 
     // Common
     // Components
+    implementation(project(":common:uiKitComponents"))
 }

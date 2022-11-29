@@ -1,20 +1,14 @@
 package odoo.miem.android.feature.authorization.base.impl
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -33,7 +27,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -73,7 +66,6 @@ class AuthorizationScreen : IAuthorizationScreen {
         )
     }
 
-    @OptIn(ExperimentalAnimationApi::class)
     @Composable
     private fun AuthorizationScreenContent(
         showMessage: (Int) -> Unit = {}
@@ -180,7 +172,6 @@ class AuthorizationScreen : IAuthorizationScreen {
                 passwordInput = it
             },
             visualTransformation = PasswordVisualTransformation(),
-            keyboardType = KeyboardType.Password,
             isError = isPasswordInputError
         )
 

@@ -22,10 +22,6 @@ dependencies {
     // Logger
     implementation(Dependencies.Logger.TIMBER)
 
-    // Firebase
-    Dependencies.Firebase.ALL_DEPS.forEach { implementation(it) }
-    implementation(platform(Dependencies.Firebase.FIREBASE_BOM))
-
     // Tests
     allTestImplementation(kotlin(Dependencies.Test.TEST_JUNIT))
     allTestImplementation(Dependencies.Test.JUNIT)

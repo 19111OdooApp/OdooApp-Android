@@ -152,7 +152,7 @@ object Dependencies {
 
         const val FIREBASE_BOM = "com.google.firebase:firebase-bom:$BOM_VERSION"
         const val FIREBASE_ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
-        const val FIREBASE_CRASHLYTICS = "com.google.firebase:firebase-analytics-ktx"
+        const val FIREBASE_CRASHLYTICS = "com.google.firebase:firebase-crashlytics-ktx"
 
         val ALL_GRADLE_PLUGINS = listOf(GOOGLE_SERVICES_GRADLE_PLUGIN, FIREBASE_CRASHLYTICS_GRADLE_PLUGIN)
 

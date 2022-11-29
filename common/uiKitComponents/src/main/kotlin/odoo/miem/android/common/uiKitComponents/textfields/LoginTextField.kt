@@ -10,9 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -58,8 +55,6 @@ fun LoginTextField(
     val focusManager = LocalFocusManager.current
     val textStyle = MaterialTheme.typography.bodyMedium
 
-    var isPasswordVisible by remember { mutableStateOf(false) }
-
     val trailingIcon = @Composable {
         AnimatedVisibility(
             visible = value.text.isNotEmpty(),
@@ -83,12 +78,7 @@ fun LoginTextField(
         textStyle = textStyle,
         singleLine = true,
         label = { Text(text = stringResource(labelResource), style = textStyle) },
-        visualTransformation =
-        if (isPasswordVisible || visualTransformation == VisualTransformation.None) {
-            VisualTransformation.None
-        } else {
-            PasswordVisualTransformation()
-        },
+        visualTransformation = visualTransformation,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
         keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
         isError = isError,

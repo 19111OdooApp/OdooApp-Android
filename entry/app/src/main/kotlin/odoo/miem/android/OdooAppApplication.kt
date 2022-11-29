@@ -2,6 +2,9 @@ package odoo.miem.android
 
 import android.app.Application
 import android.os.StrictMode
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.app
 import odoo.miem.android.di.OdooAppComponent
 import odoo.miem.android.di.initApis
 import timber.log.Timber

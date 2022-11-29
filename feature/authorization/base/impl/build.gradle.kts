@@ -4,15 +4,22 @@ plugins {
 
 dependencies {
 
-    // Feature
-    // Authorization API
-    implementation(project(":feature:authorization:base:api"))
+    Dependencies.RxJava.ALL_DEPS.forEach { implementation(it) }
+
+    // Common
+    // Components
+    implementation(project(":common:uiKitComponents"))
+    // Network - authorization
+    api(project(":common:network:authorization:api"))
+
+    // UiKitComponents
+    implementation(project(":common:uiKitComponents"))
 
     // Core
     // UiKitTheme
     implementation(project(":core:uiKitTheme"))
 
-    // Common
-    // Components
-    implementation(project(":common:uiKitComponents"))
+    // Feature
+    // Authorization API
+    implementation(project(":feature:authorization:base:api"))
 }

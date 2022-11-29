@@ -30,6 +30,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import odoo.miem.android.common.uiKitComponents.buttons.TextButton
 import odoo.miem.android.common.uiKitComponents.dividers.Divider
@@ -60,13 +61,21 @@ class AuthorizationScreen : IAuthorizationScreen {
         navController: NavHostController,
         showMessage: (Int) -> Unit
     ) {
+        val viewModel: AuthorizationViewModel = viewModel()
+
+        // TODO Create extension with result
+        // TODO After that just use:
+        // val authorizationStatus by viewModel.authorizationState.subscribeAsState(NothingResult)
+
         AuthorizationScreenContent(
+            onGeneralAuthorization = viewModel::generalAuthorization,
             showMessage = showMessage
         )
     }
 
     @Composable
     private fun AuthorizationScreenContent(
+        onGeneralAuthorization: (baseUrl: String, login: String, password: String) -> Unit = { _, _, _ -> },
         showMessage: (Int) -> Unit = {}
     ) = Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -104,8 +113,13 @@ class AuthorizationScreen : IAuthorizationScreen {
             if (isServerInputError || isLoginInputError || isPasswordInputError) {
                 showMessage(R.string.login_alert_message)
             } else {
-                // TODO add login action
                 isLoginInProgress = true
+
+                onGeneralAuthorization(
+                    serverInput.text,
+                    emailInput.text,
+                    passwordInput.text
+                )
             }
         }
 
@@ -167,11 +181,9 @@ class AuthorizationScreen : IAuthorizationScreen {
             value = passwordInput,
             labelResource = R.string.login_password,
             onValueChange = {
-                isPasswordInputError = false
                 passwordInput = it
             },
             visualTransformation = PasswordVisualTransformation(),
-            isError = isPasswordInputError
         )
 
         if (isLoginInProgress) {

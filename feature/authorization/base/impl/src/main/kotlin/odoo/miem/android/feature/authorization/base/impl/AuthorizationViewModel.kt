@@ -9,6 +9,11 @@ import odoo.miem.android.core.utils.ResultSubject
 import odoo.miem.android.core.utils.rx.lazyEmptyResultPublishSubject
 import timber.log.Timber
 
+/**
+ * [AuthorizationViewModel] handle major logic for [AuthorizationScreen]
+ *
+ * @author Vorozhtsov Mikhail
+ */
 class AuthorizationViewModel : ViewModel() {
 
     private val authorizationInteractor by api(IAuthorizationInteractorApi::authorizationInteractor)

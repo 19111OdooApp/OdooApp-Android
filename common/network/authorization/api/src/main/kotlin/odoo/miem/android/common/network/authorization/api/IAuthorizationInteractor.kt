@@ -1,6 +1,6 @@
 package odoo.miem.android.common.network.authorization.api
 
-import odoo.miem.android.core.utils.ResultObservable
+import odoo.miem.android.core.utils.state.ResultObservable
 
 /**
  * [IAuthorizationInteractor] - interface for wrapping authorization

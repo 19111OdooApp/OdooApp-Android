@@ -40,6 +40,10 @@ import odoo.miem.android.core.uiKitTheme.commonPadding
 import odoo.miem.android.core.uiKitTheme.dividerVerticalPadding
 import odoo.miem.android.core.uiKitTheme.hseSecondary
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
+import odoo.miem.android.core.utils.rx.collectAsState
+import odoo.miem.android.core.utils.state.LoadingResult
+import odoo.miem.android.core.utils.state.SuccessResult
+import odoo.miem.android.core.utils.state.subscribeOnError
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
 
 /**
@@ -63,20 +67,27 @@ class AuthorizationScreen : IAuthorizationScreen {
     ) {
         val viewModel: AuthorizationViewModel = viewModel()
 
-        // TODO Create extension with result
-        // TODO After that just use:
-        // val authorizationStatus by viewModel.authorizationState.subscribeAsState(NothingResult)
+        val authorizationStatus by viewModel.authorizationState.collectAsState()
+        authorizationStatus.subscribeOnError(showMessage)
+
+        // TODO Remove and go to next screen
+        if (authorizationStatus is SuccessResult) {
+            showMessage(R.string.login_welcome_header)
+        }
+
 
         AuthorizationScreenContent(
             onGeneralAuthorization = viewModel::generalAuthorization,
-            showMessage = showMessage
+            showMessage = showMessage,
+            isLoading = authorizationStatus is LoadingResult
         )
     }
 
     @Composable
     private fun AuthorizationScreenContent(
         onGeneralAuthorization: (baseUrl: String, login: String, password: String) -> Unit = { _, _, _ -> },
-        showMessage: (Int) -> Unit = {}
+        showMessage: (Int) -> Unit = {},
+        isLoading: Boolean = false
     ) = Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -98,9 +109,6 @@ class AuthorizationScreen : IAuthorizationScreen {
             mutableStateOf(TextFieldValue())
         }
 
-        // TODO replace it with ViewModel flow passed in arguments
-        var isLoginInProgress by rememberSaveable { mutableStateOf(false) }
-
         var isServerInputError by remember { mutableStateOf(false) }
         var isLoginInputError by remember { mutableStateOf(false) }
         var isPasswordInputError by remember { mutableStateOf(false) }
@@ -113,8 +121,6 @@ class AuthorizationScreen : IAuthorizationScreen {
             if (isServerInputError || isLoginInputError || isPasswordInputError) {
                 showMessage(R.string.login_alert_message)
             } else {
-                isLoginInProgress = true
-
                 onGeneralAuthorization(
                     serverInput.text,
                     emailInput.text,
@@ -188,7 +194,7 @@ class AuthorizationScreen : IAuthorizationScreen {
             isError = isPasswordInputError
         )
 
-        if (isLoginInProgress) {
+        if (isLoading) {
             CircularProgressIndicator(
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier

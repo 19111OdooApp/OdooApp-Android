@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_welcome_header">Welcome to the app,</string>
+    <string name="login_welcome_text">We happy to see you here. Enter your server url, email and password.</string>
+
+    <!--  for text fields and buttons  -->
+    <string name="global_odoo_url" translatable="false">https://odoo.com</string>
+    <string name="login_odoo_server">Odoo Server URL</string>
+    <string name="login_email">Email</string>
+    <string name="login_password">Password</string>
+
+    <string name="login">Login</string>
+    <string name="login_hse">Login with HSE</string>
+
+    <string name="login_divider_text">OR</string>
+
+    <string name="login_alert_message">Please, enter your Odoo URL, email and password</string>
+
+    <!-- for ui tests  -->
+    <string name="odoo_logo_desc" translatable="false">odooLogo</string>
+    <string name="login_button_desc" translatable="false">loginButton</string>
+    <string name="login_with_hse_button_desc" translatable="false">loginWithHseButton</string>
+    <string name="test_input" translatable="false">Test input</string>
+</resources>

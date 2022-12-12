@@ -38,13 +38,12 @@ class OdooAppApplication : Application() {
                     .detectLeakedClosableObjects()
                     .penaltyLog()
                     .penaltyDropBox()
-                    .penaltyDeath()
                     .build()
             )
 
             StrictMode.setThreadPolicy(
                 StrictMode.ThreadPolicy.Builder()
-                    .detectDiskReads()
+                    // .detectDiskReads() // TODO Shared Preferences ruins, move to DataStore?
                     .detectDiskWrites()
                     .detectNetwork()
                     .penaltyDropBox()

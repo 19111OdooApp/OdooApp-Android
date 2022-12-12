@@ -1,5 +1,3 @@
-import org.gradle.kotlin.dsl.dependencies
-
 /**
  * Конвеция для расширения [conventions.module-impl] в android-compose состовляющую
  *
@@ -13,6 +11,10 @@ plugins {
 android {
     buildFeatures {
         compose = true
+    }
+
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     composeOptions {
@@ -29,6 +31,14 @@ dependencies {
     Dependencies.Compose.ALL_DEPS.forEach { implementation(it) }
     Dependencies.Compose.Core.ALL_CORE_DEBUG_DEPS.forEach { debugImplementation(it) }
 
+    // Tests
+    androidTestImplementation(Dependencies.Compose.UiTest.UI_TEST)
+    debugImplementation(Dependencies.Compose.UiTest.UI_TEST_DEBUG)
+
     // UI
     Dependencies.UI.ALL_DEPS.forEach { implementation(it) }
+
+    // Core
+    // Utils
+    implementation(project(":core:utils"))
 }

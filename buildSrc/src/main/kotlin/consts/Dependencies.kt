@@ -86,6 +86,15 @@ object Dependencies {
             val ALL_RXJAVA_DEPS = listOf(RX_JAVA)
         }
 
+        object UiTest {
+
+            // add to build.gradle with androidTestImplementation()
+            const val UI_TEST = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
+
+            // add to build.gradle with debugImplementation
+            const val UI_TEST_DEBUG = "androidx.compose.ui:ui-test-manifest:$COMPOSE_VERSION"
+        }
+
         val ALL_DEPS =
             Core.ALL_CORE_DEPS + Lifecycle.ALL_LIFECYCLE_DEPS + Foundation.ALL_FOUNDATION_DEPS +
                 RxJava.ALL_RXJAVA_DEPS + Navigation.ALL_NAVIGATION_DEPS
@@ -108,12 +117,25 @@ object Dependencies {
     }
 
     object Retrofit {
-        private const val VERSION = "2.9.0"
+        private const val RETROFIT_VERSION = "2.9.0"
+        private const val XMLRPC_VERSION = "1.2"
 
-        const val CONVERTER_GSON = "com.squareup.retrofit2:converter-gson:$VERSION"
-        const val RETROFIT_DEPENDENCY = "com.squareup.retrofit2:retrofit:$VERSION"
+        const val CONVERTER_GSON = "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
+        const val RETROFIT_DEPENDENCY = "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
+        const val RETROFIT_XMLRPC = "com.github.erickok:retrofit-xmlrpc:$XMLRPC_VERSION"
+        const val RX_ADAPTER = "com.squareup.retrofit2:adapter-rxjava3:$RETROFIT_VERSION"
 
-        val ALL_DEPS = listOf(CONVERTER_GSON, RETROFIT_DEPENDENCY)
+        val ALL_DEPS = listOf(CONVERTER_GSON, RETROFIT_DEPENDENCY, RETROFIT_XMLRPC, RX_ADAPTER)
+    }
+
+    object RxJava {
+        private const val RX_VERSION = "3.1.5"
+        private const val RX_ANDROID_VERSION = "3.0.2"
+
+        const val RXJAVA_DEPENDENCE = "io.reactivex.rxjava3:rxjava:$RX_VERSION"
+        const val RXJAVA_ANDROID = "io.reactivex.rxjava3:rxandroid:$RX_ANDROID_VERSION"
+
+        val ALL_DEPS = listOf(RXJAVA_DEPENDENCE, RXJAVA_ANDROID)
     }
 
     object Test {
@@ -133,6 +155,24 @@ object Dependencies {
         const val CORE = "com.google.android.material:material:$MATERIAL_VERSION"
 
         val ALL_DEPS = listOf(CONSTRAINT_LAYOUT, CORE)
+    }
+
+    object Firebase {
+        private const val GOOGLE_SERVICES_VERSION = "4.3.14"
+        private const val BOM_VERSION = "31.1.0"
+        private const val CRASHLYTICS_GRADLE_VERSION = "2.9.2"
+
+        const val GOOGLE_SERVICES_GRADLE_PLUGIN = "com.google.gms:google-services:$GOOGLE_SERVICES_VERSION"
+        const val FIREBASE_CRASHLYTICS_GRADLE_PLUGIN =
+            "com.google.firebase:firebase-crashlytics-gradle:$CRASHLYTICS_GRADLE_VERSION"
+
+        const val FIREBASE_BOM = "com.google.firebase:firebase-bom:$BOM_VERSION"
+        const val FIREBASE_ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
+        const val FIREBASE_CRASHLYTICS = "com.google.firebase:firebase-crashlytics-ktx"
+
+        val ALL_GRADLE_PLUGINS = listOf(GOOGLE_SERVICES_GRADLE_PLUGIN, FIREBASE_CRASHLYTICS_GRADLE_PLUGIN)
+
+        val ALL_DEPS = listOf(FIREBASE_ANALYTICS, FIREBASE_CRASHLYTICS)
     }
 
     object Plugins {

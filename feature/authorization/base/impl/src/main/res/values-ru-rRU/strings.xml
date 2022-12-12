@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_welcome_header">Привет!</string>
+    <string name="login_welcome_text">Мы рады видеть Вас. Введите URL Вашего сервера Odoo, почту и пароль</string>
+
+    <string name="login_odoo_server">URL сервера Odoo</string>
+    <string name="login_email">Почта</string>
+    <string name="login_password">Пароль</string>
+
+    <string name="login">Войти</string>
+    <string name="login_hse">Войти через ЕЛК ВШЭ</string>
+
+    <string name="login_divider_text">ИЛИ</string>
+    <string name="login_alert_message">Пожалуйста, введите URL Вашего сервера Odoo, почту и пароль</string>
+</resources>

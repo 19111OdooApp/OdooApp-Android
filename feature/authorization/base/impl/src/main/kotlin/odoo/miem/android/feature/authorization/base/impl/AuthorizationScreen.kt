@@ -84,7 +84,7 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
         AuthorizationScreenContent(
             onGeneralAuthorization = viewModel::generalAuthorization,
             showMessage = showMessage,
-            isLoading = authorizationStatus is LoadingResult
+            isLoading = authorizationStatus is LoadingResult || authorizationStatus is SuccessResult
         )
     }
 

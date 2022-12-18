@@ -1,3 +1,4 @@
+
 package odoo.miem.android.feature.navigation.impl.ui
 
 import androidx.compose.foundation.layout.PaddingValues
@@ -75,8 +76,8 @@ fun NavigationContent(
     ) {
         NavHost(
             navController = navController,
-            startDestination = remember {
-                Routes.authorization // TODO Depends on is login in or not
+            startDestination = remember { // TODO RETURN AUTH
+                Routes.selectingModules // TODO Depends on is login in or not
             }
         ) {
             composable(Routes.authorization) {

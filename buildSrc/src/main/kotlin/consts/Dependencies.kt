@@ -86,6 +86,14 @@ object Dependencies {
             val ALL_RXJAVA_DEPS = listOf(RX_JAVA)
         }
 
+        object Coil {
+            private const val VERSION = "2.2.2"
+
+            const val COIL_COMPOSE = "io.coil-kt:coil-compose:$VERSION"
+
+            val ALL_COIL_DEPS = listOf(COIL_COMPOSE)
+        }
+
         object UiTest {
 
             // add to build.gradle with androidTestImplementation()
@@ -97,7 +105,7 @@ object Dependencies {
 
         val ALL_DEPS =
             Core.ALL_CORE_DEPS + Lifecycle.ALL_LIFECYCLE_DEPS + Foundation.ALL_FOUNDATION_DEPS +
-                RxJava.ALL_RXJAVA_DEPS + Navigation.ALL_NAVIGATION_DEPS
+                RxJava.ALL_RXJAVA_DEPS + Navigation.ALL_NAVIGATION_DEPS + Coil.ALL_COIL_DEPS
     }
 
     object Dagger {

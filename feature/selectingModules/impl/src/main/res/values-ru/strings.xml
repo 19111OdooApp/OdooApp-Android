@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--header-->
+    <string name="hello_text">Привет,</string>
+    <string name="default_user_name">Крутой пользователь</string>
+    <string name="choose_module_text">Выберите модуль</string>
+</resources>

@@ -1,16 +1,38 @@
 package odoo.miem.android.feature.selectingModules.impl
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
+import odoo.miem.android.common.uiKitComponents.text.SubTitleText
+import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
+import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
 import javax.inject.Inject
 
@@ -45,11 +67,80 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
     ) = Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize().imePadding()
+        modifier = Modifier
+            .fillMaxSize()
+            .imePadding()
     ) {
 
         SimpleLogoAppBar()
 
+        SelectingModulesHeader(
+            // TODO Add data
+        )
+
+        TitleText(
+            textRes = R.string.choose_module_text,
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(
+                    start = mainHorizontalPadding,
+                    top = 16.dp
+                )
+        )
+
+        // TODO Search
+        // https://github.com/mxalbert1996/compose-shared-elements
+        // https://github.com/mobnetic/compose-shared-element
+
+        // TODO Big Cards
+        // Gradient - https://semicolonspace.com/jetpack-compose-circle-animation-gradient/
+
+        // TODO Card Pager
+        // https://google.github.io/accompanist/pager/
+
+        // TODO Bottom Sheet
+
+    }
+
+    @Composable
+    private fun SelectingModulesHeader(
+        userName: String = stringResource(R.string.default_user_name),
+        avatarUrl: String? = null
+    ) = Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = mainHorizontalPadding
+            ),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column {
+            SubTitleText(textRes = R.string.hello_text)
+
+            TitleText(text = userName, isLarge = false)
+        }
+
+        IconButton(
+            onClick = { /*TODO Implement profile click*/ }
+        ) {
+            Image(
+                painter = rememberAsyncImagePainter(
+                    ImageRequest
+                        .Builder(LocalContext.current)
+                        .data(avatarUrl ?: R.drawable.default_user_avatar)
+                        .apply {
+                            error(R.drawable.default_user_avatar)
+                            crossfade(true)
+                        }
+                        .build()
+                ),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+            )
+        }
     }
 
     @Composable

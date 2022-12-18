@@ -1,7 +1,7 @@
 package odoo.miem.android.common.network.authorization.impl.di
 
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import odoo.miem.android.common.network.authorization.api.IAuthorizationRepository
 import odoo.miem.android.common.network.authorization.impl.AuthorizationRepository
 
@@ -12,8 +12,8 @@ import odoo.miem.android.common.network.authorization.impl.AuthorizationReposito
  * @author Vorozhtsov Mikhail
  */
 @Module
-class AuthorizationRepositoryModule {
+interface AuthorizationRepositoryModule {
 
-    @Provides
-    fun provideAuthorizationRepository(): IAuthorizationRepository = AuthorizationRepository()
+    @Binds
+    fun provideAuthorizationRepository(authorizationRepository: AuthorizationRepository): IAuthorizationRepository
 }

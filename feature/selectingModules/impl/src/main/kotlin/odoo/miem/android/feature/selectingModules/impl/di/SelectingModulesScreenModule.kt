@@ -1,7 +1,7 @@
 package odoo.miem.android.feature.selectingModules.impl.di
 
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
 import odoo.miem.android.feature.selectingModules.impl.SelectingModulesScreen
 
@@ -12,8 +12,8 @@ import odoo.miem.android.feature.selectingModules.impl.SelectingModulesScreen
  * @author Vorozhtsov Mikhail
  */
 @Module
-class SelectingModulesScreenModule {
+interface SelectingModulesScreenModule {
 
-    @Provides
-    fun provideSelectingModulesScreen(): ISelectingModulesScreen = SelectingModulesScreen()
+    @Binds
+    fun provideSelectingModulesScreen(selectingModulesScreen: SelectingModulesScreen): ISelectingModulesScreen
 }

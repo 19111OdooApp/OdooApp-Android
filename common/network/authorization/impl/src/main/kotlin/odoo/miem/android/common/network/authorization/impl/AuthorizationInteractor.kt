@@ -10,13 +10,14 @@ import odoo.miem.android.core.utils.state.Result
 import odoo.miem.android.core.utils.state.ResultObservable
 import odoo.miem.android.core.utils.state.SuccessResult
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * [AuthorizationInteractor] - implementation of [IAuthorizationInteractor]
  *
  * @author Vorozhtsov Mikhail
  */
-class AuthorizationInteractor : IAuthorizationInteractor {
+class AuthorizationInteractor @Inject constructor() : IAuthorizationInteractor {
 
     private val authorizationRepository by api(IAuthorizationRepositoryApi::authorizationRepository)
     private val dataStore by api(IDataStoreApi::dataStore)

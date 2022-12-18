@@ -47,6 +47,7 @@ import odoo.miem.android.core.utils.state.SuccessResult
 import odoo.miem.android.core.utils.state.subscribeOnError
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
 import odoo.miem.android.feature.navigation.api.data.Routes
+import javax.inject.Inject
 
 /**
  * [AuthorizationScreen] реализация интерфейса [IAuthorizationScreen]
@@ -59,7 +60,7 @@ import odoo.miem.android.feature.navigation.api.data.Routes
  *
  * @author Ворожцов Михаил, Данилов Егор
  */
-class AuthorizationScreen : IAuthorizationScreen {
+class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
 
     @SuppressLint("NotConstructor")
     @Composable

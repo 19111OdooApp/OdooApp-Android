@@ -6,6 +6,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
+import javax.inject.Inject
 
 /**
  * [SelectingModulesScreen] implementation of [ISelectingModulesScreen]
@@ -18,7 +19,7 @@ import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
  *
  * @author Vorozhtsov Mikhail
  */
-class SelectingModulesScreen : ISelectingModulesScreen {
+class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
     @SuppressLint("NotConstructor")
     @Composable

@@ -1,9 +1,15 @@
 package odoo.miem.android.feature.selectingModules.impl
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
+import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
 import javax.inject.Inject
@@ -28,14 +34,22 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         showMessage: (Int) -> Unit
     ) {
 
+        // TODO Create base with loading handling
         SelectingModulesScreenContent(
+
         )
     }
 
     @Composable
     private fun SelectingModulesScreenContent(
 
+    ) = Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxSize().imePadding()
     ) {
+
+        SimpleLogoAppBar()
+
     }
 
     @Composable

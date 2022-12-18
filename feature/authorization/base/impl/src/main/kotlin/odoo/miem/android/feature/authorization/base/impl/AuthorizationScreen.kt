@@ -33,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
 import odoo.miem.android.common.uiKitComponents.buttons.TextButton
 import odoo.miem.android.common.uiKitComponents.dividers.Divider
 import odoo.miem.android.common.uiKitComponents.textfields.LoginTextField
@@ -134,13 +135,7 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
             }
         }
 
-        Image(
-            painter = painterResource(R.drawable.logo_odoo),
-            contentDescription = stringResource(R.string.odoo_logo_desc),
-            modifier = Modifier
-                .padding(top = 30.dp)
-                .size(width = 80.dp, height = 26.dp),
-        )
+        SimpleLogoAppBar()
 
         Text(
             text = stringResource(R.string.login_welcome_header),
@@ -149,7 +144,7 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
                 .align(Alignment.Start)
                 .padding(
                     start = mainHorizontalPadding,
-                    top = 40.dp
+                    top = 10.dp
                 ),
             color = MaterialTheme.colorScheme.onSecondaryContainer
         )

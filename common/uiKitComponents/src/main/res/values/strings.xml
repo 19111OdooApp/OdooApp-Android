@@ -4,6 +4,7 @@
     <string name="button_icon_desc">buttonIcon</string>
 
     <!--  for ui tests  -->
+    <string name="odoo_logo_desc" translatable="false">odooLogo</string>
     <string name="test_text_field_desc">testTextField</string>
     <string name="test_input">Test input</string>
 </resources>

@@ -17,7 +17,6 @@
     <string name="login_alert_message">Please, enter your Odoo URL, email and password</string>
 
     <!-- for ui tests  -->
-    <string name="odoo_logo_desc" translatable="false">odooLogo</string>
     <string name="login_button_desc" translatable="false">loginButton</string>
     <string name="login_with_hse_button_desc" translatable="false">loginWithHseButton</string>
     <string name="test_input" translatable="false">Test input</string>

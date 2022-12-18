@@ -37,6 +37,7 @@ object RetrofitApiResolver {
     }
 
     private fun createRetrofitAdapter(): Retrofit {
+        // TODO Check url
         return Retrofit.Builder()
             .baseUrl(dataStore.url)
             .addConverterFactory(XmlRpcConverterFactory.create())

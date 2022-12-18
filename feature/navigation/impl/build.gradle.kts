@@ -11,4 +11,10 @@ dependencies {
     // Feature
     // Authorization API
     implementation(project(":feature:authorization:base:api"))
+
+    // Navigation API
+    implementation(project(":feature:navigation:api"))
+
+    // Selecting Modules API
+    implementation(project(":feature:selectingModules:api"))
 }

@@ -1,4 +1,4 @@
-package odoo.miem.android.feature.navigation.ui
+package odoo.miem.android.feature.navigation.impl.ui
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,7 +18,9 @@ import kotlinx.coroutines.launch
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
 import odoo.miem.android.feature.authorization.base.api.di.IAuthorizationApi
-import odoo.miem.android.feature.navigation.data.Routes
+import odoo.miem.android.feature.navigation.api.data.Routes
+import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
+import odoo.miem.android.feature.selectingModules.api.di.ISelectingModulesApi
 
 /**
  * [Navigation] composable функция, которая предназначена для
@@ -46,9 +48,11 @@ fun Navigation(
 
     // Screens
     val authorizationScreen by api(IAuthorizationApi::authorizationScreen)
+    val selectingModulesScreen by api(ISelectingModulesApi::selectingModulesScreen)
 
     NavigationContent(
         authorizationScreen = authorizationScreen,
+        selectingModulesScreen = selectingModulesScreen,
         paddingValues = paddingValues,
         navController = navController,
         showMessage = showMessage,
@@ -58,6 +62,7 @@ fun Navigation(
 @Composable
 fun NavigationContent(
     authorizationScreen: IAuthorizationScreen,
+    selectingModulesScreen: ISelectingModulesScreen,
     paddingValues: PaddingValues,
     navController: NavHostController,
     showMessage: (Int) -> Unit,
@@ -76,6 +81,13 @@ fun NavigationContent(
         ) {
             composable(Routes.authorization) {
                 authorizationScreen.AuthorizationScreen(
+                    navController = navController,
+                    showMessage = showMessage
+                )
+            }
+
+            composable(Routes.selectingModules) {
+                selectingModulesScreen.SelectingModulesScreen(
                     navController = navController,
                     showMessage = showMessage
                 )

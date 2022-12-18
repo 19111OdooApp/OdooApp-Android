@@ -1,4 +1,4 @@
-package odoo.miem.android.feature.navigation.data
+package odoo.miem.android.feature.navigation.api.data
 
 /**
  * Singleton предназаченный для хранения путей до конкретного экрана
@@ -7,4 +7,5 @@ package odoo.miem.android.feature.navigation.data
  */
 object Routes {
     const val authorization = "authorization"
+    const val selectingModules = "selectingModules"
 }

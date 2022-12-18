@@ -13,6 +13,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,6 +46,7 @@ import odoo.miem.android.core.utils.state.LoadingResult
 import odoo.miem.android.core.utils.state.SuccessResult
 import odoo.miem.android.core.utils.state.subscribeOnError
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
+import odoo.miem.android.feature.navigation.api.data.Routes
 
 /**
  * [AuthorizationScreen] реализация интерфейса [IAuthorizationScreen]
@@ -70,11 +72,13 @@ class AuthorizationScreen : IAuthorizationScreen {
         val authorizationStatus by viewModel.authorizationState.collectAsState()
         authorizationStatus.subscribeOnError(showMessage)
 
-        // TODO Remove and go to next screen
         if (authorizationStatus is SuccessResult) {
-            showMessage(R.string.login_welcome_header)
+            LaunchedEffect(Unit) {
+                navController.navigate(Routes.selectingModules) {
+                    popUpTo(Routes.authorization) { inclusive = true }
+                }
+            }
         }
-
 
         AuthorizationScreenContent(
             onGeneralAuthorization = viewModel::generalAuthorization,

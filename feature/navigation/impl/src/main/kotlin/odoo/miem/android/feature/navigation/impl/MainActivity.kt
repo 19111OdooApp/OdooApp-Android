@@ -1,4 +1,4 @@
-package odoo.miem.android.feature.navigation
+package odoo.miem.android.feature.navigation.impl
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
-import odoo.miem.android.feature.navigation.ui.Navigation
+import odoo.miem.android.feature.navigation.impl.ui.Navigation
 import timber.log.Timber
 
 /**

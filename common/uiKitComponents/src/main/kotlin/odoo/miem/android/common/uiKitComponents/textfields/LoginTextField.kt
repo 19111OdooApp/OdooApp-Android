@@ -38,20 +38,17 @@ import odoo.miem.android.core.uiKitTheme.odooPrimaryGray
  *
  * @author Egor Danilov
  */
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun LoginTextField(
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit = {},
     @StringRes labelResource: Int,
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Done,
-    isError: Boolean = false
+    isError: Boolean = false,
+    modifier: Modifier = Modifier
 ) {
-    val focusManager = LocalFocusManager.current
-    val textStyle = MaterialTheme.typography.bodyMedium
-
     val trailingIcon = @Composable {
         AnimatedVisibility(
             visible = value.text.isNotEmpty(),
@@ -69,34 +66,14 @@ fun LoginTextField(
         }
     }
 
-    OutlinedTextField(
+    BaseTextField(
         value = value,
         onValueChange = onValueChange,
-        textStyle = textStyle,
-        singleLine = true,
-        label = { Text(text = stringResource(labelResource), style = textStyle) },
+        labelResource = labelResource,
         visualTransformation = visualTransformation,
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
-        keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
-        isError = isError,
-        shape = MaterialTheme.shapes.small,
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            textColor = MaterialTheme.colorScheme.onSurface,
-            cursorColor = MaterialTheme.colorScheme.primary,
-            errorCursorColor = MaterialTheme.colorScheme.error,
-            focusedBorderColor = MaterialTheme.colorScheme.primary,
-            unfocusedBorderColor = odooPrimaryGray,
-            errorBorderColor = MaterialTheme.colorScheme.error,
-            errorTrailingIconColor = MaterialTheme.colorScheme.error,
-            focusedLabelColor = MaterialTheme.colorScheme.primary,
-            unfocusedLabelColor = MaterialTheme.colorScheme.onSurface,
-            errorLabelColor = MaterialTheme.colorScheme.error,
-            placeholderColor = odooPrimaryGray
-        ),
         trailingIcon = trailingIcon,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = mainHorizontalPadding)
-            .padding(top = 20.dp),
+        imeAction = imeAction,
+        isError = isError,
+        modifier = modifier
     )
 }

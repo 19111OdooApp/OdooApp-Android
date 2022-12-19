@@ -15,6 +15,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,6 +26,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -31,6 +36,7 @@ import coil.request.ImageRequest
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
 import odoo.miem.android.common.uiKitComponents.text.SubTitleText
 import odoo.miem.android.common.uiKitComponents.text.TitleText
+import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
@@ -71,6 +77,12 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             .fillMaxSize()
             .imePadding()
     ) {
+        var searchInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
+            mutableStateOf(TextFieldValue())
+        }
+
+        val topPadding = 20.dp
+
 
         SimpleLogoAppBar()
 
@@ -84,8 +96,14 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                 .align(Alignment.Start)
                 .padding(
                     start = mainHorizontalPadding,
-                    top = 16.dp
+                    top = topPadding
                 )
+        )
+
+        SearchTextField(
+            value = searchInput,
+            onValueChange = { searchInput = it },
+            modifier = Modifier.padding(top = topPadding * 0.6F)
         )
 
         // TODO Search

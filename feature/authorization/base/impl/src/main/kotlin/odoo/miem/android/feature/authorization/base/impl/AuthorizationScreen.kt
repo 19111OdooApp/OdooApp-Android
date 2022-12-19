@@ -137,6 +137,8 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
             }
         }
 
+        val textFieldTopPadding = 20.dp
+
         SimpleLogoAppBar()
 
         TitleText(
@@ -159,6 +161,8 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
                 )
         )
 
+
+
         LoginTextField(
             value = serverInput,
             labelResource = R.string.login_odoo_server,
@@ -167,7 +171,8 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
                 serverInput = it
             },
             imeAction = ImeAction.Next,
-            isError = isServerInputError
+            isError = isServerInputError,
+            modifier = Modifier.padding(top = textFieldTopPadding)
         )
 
         LoginTextField(
@@ -178,7 +183,8 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
                 emailInput = it
             },
             imeAction = ImeAction.Next,
-            isError = isLoginInputError
+            isError = isLoginInputError,
+            modifier = Modifier.padding(top = textFieldTopPadding)
         )
 
         LoginTextField(
@@ -189,7 +195,8 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
                 passwordInput = it
             },
             visualTransformation = PasswordVisualTransformation(),
-            isError = isPasswordInputError
+            isError = isPasswordInputError,
+            modifier = Modifier.padding(top = textFieldTopPadding)
         )
 
         if (isLoading) {

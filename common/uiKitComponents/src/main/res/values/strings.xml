@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--  Modules Card  -->
+    <plurals name="module_number_of_notifications">
+        <item quantity="one">%d New Notifications</item>
+        <item quantity="few">%d New Notifications</item>
+        <item quantity="many">%d New Notifications</item>
+        <item quantity="other">%d New Notifications</item>
+    </plurals>
+    <string name="module_default_name">Cool module</string>
+
     <!--  Search Text field  -->
     <string name="search_text_field_label">Enter module name…</string>
 

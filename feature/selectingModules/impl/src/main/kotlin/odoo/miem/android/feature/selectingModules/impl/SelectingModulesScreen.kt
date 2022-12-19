@@ -5,8 +5,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -34,6 +36,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
+import odoo.miem.android.common.uiKitComponents.cards.BigModuleCard
 import odoo.miem.android.common.uiKitComponents.text.SubTitleText
 import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
@@ -90,28 +93,30 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             // TODO Add data
         )
 
+        Spacer(modifier = Modifier.height(topPadding))
+
         TitleText(
             textRes = R.string.choose_module_text,
             modifier = Modifier
                 .align(Alignment.Start)
-                .padding(
-                    start = mainHorizontalPadding,
-                    top = topPadding
-                )
+                .padding(horizontal = mainHorizontalPadding)
         )
 
-        SearchTextField(
-            value = searchInput,
-            onValueChange = { searchInput = it },
-            modifier = Modifier.padding(top = topPadding * 0.4F)
-        )
+        Spacer(modifier = Modifier.height(topPadding * 0.4F))
 
-        // TODO Search
+        // TODO Search Transaction
         // https://github.com/mxalbert1996/compose-shared-elements
         // https://github.com/mobnetic/compose-shared-element
+        SearchTextField(
+            value = searchInput,
+            onValueChange = { searchInput = it }
+        )
+
+        Spacer(modifier = Modifier.height(topPadding ))
 
         // TODO Big Cards
         // Gradient - https://semicolonspace.com/jetpack-compose-circle-animation-gradient/
+        BigModuleCard()
 
         // TODO Card Pager
         // https://google.github.io/accompanist/pager/

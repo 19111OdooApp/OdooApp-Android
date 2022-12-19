@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--  Modules Card  -->
+    <plurals name="module_number_of_notifications">
+        <item quantity="one">%d Новое Уведомления</item>
+        <item quantity="few">%d Новых Уведомления</item>
+        <item quantity="many">%d Новых Уведомлений</item>
+        <item quantity="other">%d Новых Уведомления</item>
+    </plurals>
+    <string name="module_default_name">Cool module</string>
+
     <!--  Search Text field  -->
     <string name="search_text_field_label">Введите название модуля…</string>
 </resources>

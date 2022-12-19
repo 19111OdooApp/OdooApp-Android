@@ -32,3 +32,15 @@ val odooGradientBackground = listOf(
  */
 val hsePrimary = Color(0xFF003087)
 val hseSecondary = Color(0xFF0047BB)
+
+/**
+ * Card Colors
+ */
+val cardColors = listOf(
+    odooPrimary,
+    odooPrimaryDark,
+    Color(0xFFF87829),
+    Color(0xFF74B49B),
+    Color(0xFFA55540),
+    Color(0xFFBAAF92),
+)

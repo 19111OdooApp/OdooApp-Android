@@ -81,7 +81,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             mutableStateOf(TextFieldValue())
         }
 
-        val topPadding = 20.dp
+        val topPadding = 24.dp
 
 
         SimpleLogoAppBar()
@@ -103,7 +103,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         SearchTextField(
             value = searchInput,
             onValueChange = { searchInput = it },
-            modifier = Modifier.padding(top = topPadding * 0.6F)
+            modifier = Modifier.padding(top = topPadding * 0.4F)
         )
 
         // TODO Search

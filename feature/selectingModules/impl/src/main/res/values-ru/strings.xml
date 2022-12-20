@@ -4,4 +4,5 @@
     <string name="hello_text">Привет,</string>
     <string name="default_user_name">Крутой пользователь</string>
     <string name="choose_module_text">Выберите модуль</string>
+    <string name="all_modules">Все модули</string>
 </resources>

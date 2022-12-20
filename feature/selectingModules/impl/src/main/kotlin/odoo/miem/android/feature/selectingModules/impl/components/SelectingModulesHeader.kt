@@ -1,0 +1,65 @@
+package odoo.miem.android.feature.selectingModules.impl.components
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.IconButton
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import odoo.miem.android.common.uiKitComponents.text.SubTitleText
+import odoo.miem.android.common.uiKitComponents.text.TitleText
+import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
+import odoo.miem.android.feature.selectingModules.impl.R
+
+@Composable
+internal fun SelectingModulesHeader(
+    userName: String = stringResource(R.string.default_user_name),
+    avatarUrl: String? = null
+) = Row(
+    modifier = Modifier
+        .fillMaxWidth()
+        .padding(
+            horizontal = mainHorizontalPadding
+        ),
+    horizontalArrangement = Arrangement.SpaceBetween
+) {
+    Column {
+        SubTitleText(textRes = R.string.hello_text)
+
+        TitleText(text = userName, isLarge = false)
+    }
+
+    IconButton(
+        onClick = { /*TODO Implement profile click*/ }
+    ) {
+        Image(
+            painter = rememberAsyncImagePainter(
+                ImageRequest
+                    .Builder(LocalContext.current)
+                    .data(avatarUrl ?: R.drawable.default_user_avatar)
+                    .apply {
+                        error(R.drawable.default_user_avatar)
+                        crossfade(true)
+                    }
+                    .build()
+            ),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(40.dp)
+                .clip(CircleShape)
+        )
+    }
+}

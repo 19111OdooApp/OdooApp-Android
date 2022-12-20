@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import odoo.miem.android.common.uiKitComponents.R
 import odoo.miem.android.common.uiKitComponents.utils.getBackgroundColorCard
+import odoo.miem.android.common.uiKitComponents.utils.glowEffect
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
@@ -60,8 +61,7 @@ fun BigModuleCard(
     val topPadding = 12.dp
 
     Spacer(modifier = Modifier.height(topPadding))
-    // TODO Icon click handle
-    // TODO Glow effect when like?
+
     IconButton(
         onClick = onLikeClick,
         modifier = Modifier
@@ -72,7 +72,8 @@ fun BigModuleCard(
         Icon(
             imageVector = if (isLiked) Icons.Outlined.Favorite else Icons.Outlined.FavoriteBorder,
             contentDescription = null,
-            tint = Color.White
+            tint = Color.White,
+            modifier = Modifier.glowEffect(isLiked)
         )
     }
 

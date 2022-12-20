@@ -1,21 +1,20 @@
 package odoo.miem.android.feature.selectingModules.impl
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.IconButton
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -26,36 +25,30 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.lerp
 import androidx.navigation.NavHostController
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.HorizontalPagerIndicator
-import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
-import odoo.miem.android.common.uiKitComponents.cards.BigModuleCard
-import odoo.miem.android.common.uiKitComponents.text.SubTitleText
 import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
+import odoo.miem.android.feature.selectingModules.impl.components.CustomBottomSheetScaffold
+import odoo.miem.android.feature.selectingModules.impl.components.CustomBottomSheetValue
+import odoo.miem.android.feature.selectingModules.impl.components.SelectingModulesFavoriteList
+import odoo.miem.android.feature.selectingModules.impl.components.SelectingModulesHeader
+import odoo.miem.android.feature.selectingModules.impl.components.rememberCustomBottomSheetScaffoldState
+import odoo.miem.android.feature.selectingModules.impl.components.rememberCustomBottomSheetState
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 import javax.inject.Inject
-import kotlin.math.absoluteValue
 
 /**
  * [SelectingModulesScreen] implementation of [ISelectingModulesScreen]
@@ -97,15 +90,57 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         )
     }
 
-    @OptIn(ExperimentalPagerApi::class)
+    @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterialApi::class)
     @Composable
     private fun SelectingModulesScreenContent(
-        favoriteModules: List<OdooModule> = emptyList() // TODO Not empty, always 1 card
+        favoriteModules: List<OdooModule> = emptyList()
+    ) {
+        val topRadius = 35.dp
+
+        val sheetState = rememberCustomBottomSheetState(
+            initialValue = CustomBottomSheetValue.Collapsed
+        )
+        val scaffoldState = rememberCustomBottomSheetScaffoldState(customBottomSheetState = sheetState)
+
+
+        CustomBottomSheetScaffold(
+            scaffoldState = scaffoldState,
+            sheetContent = {
+                val topPadding = 24.dp
+
+                Spacer(modifier = Modifier.height(topPadding))
+
+                SelectingModulesBottomSheetHeader()
+
+                Spacer(modifier = Modifier.height(topPadding))
+
+                SelectingModulesBottomSheetGrid()
+            },
+            sheetShape = RoundedCornerShape(
+                topStart = topRadius,
+                topEnd = topRadius
+            ),
+            sheetPeekHeight = (LocalConfiguration.current.screenHeightDp * 0.25F).dp,
+            sheetElevation = 8.dp,
+            backgroundColor = MaterialTheme.colorScheme.background,
+            sheetBackgroundColor = MaterialTheme.colorScheme.background,
+            halfCoefficient = 0.65F,
+            modifier = Modifier
+                .fillMaxSize()
+                .imePadding()
+        ) {
+            SelectingModulesMainContent(
+                favoriteModules = favoriteModules
+            )
+        }
+    }
+
+    @OptIn(ExperimentalPagerApi::class)
+    @Composable
+    private fun SelectingModulesMainContent(
+        favoriteModules: List<OdooModule> = emptyList()
     ) = Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .imePadding()
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         var searchInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
             mutableStateOf(TextFieldValue())
@@ -115,7 +150,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         val haptic = LocalHapticFeedback.current
         var startTransaction by remember { mutableStateOf(false) }
         LaunchedEffect(pagerState) {
-            snapshotFlow { pagerState.currentPage }.collect { page ->
+            snapshotFlow { pagerState.currentPage }.collect {
                 if (startTransaction)
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                 else
@@ -151,108 +186,52 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             onValueChange = { searchInput = it }
         )
 
-        Spacer(modifier = Modifier.height(topPadding))
+        Spacer(modifier = Modifier.height(topPadding * 1.4F))
 
         // TODO Big Cards
         // Gradient - https://semicolonspace.com/jetpack-compose-circle-animation-gradient/
 
-        HorizontalPager(
-            count = favoriteModules.size,
-            contentPadding = PaddingValues(horizontal = mainHorizontalPadding),
-            state = pagerState,
-            modifier = Modifier.fillMaxWidth()
-        ) { page ->
-            with(favoriteModules[page]) {
-                // TODO Should depence on input data?
-                var isLikedState by remember { mutableStateOf(isLiked) }
-
-                BigModuleCard(
-                    moduleName = name,
-                    numberOfNotification = numberOfNotifications,
-                    isLiked = isLikedState,
-                    onLikeClick = { isLikedState = !isLikedState },
-                    modifier = Modifier
-                        .graphicsLayer {
-                            // Calculate the absolute offset for the current page from the
-                            // scroll position. We use the absolute value which allows us to mirror
-                            // any effects for both directions
-                            val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
-
-                            // We animate the scaleX + scaleY, between 85% and 100%
-                            lerp(
-                                start = 0.93f,
-                                stop = 1f,
-                                fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                            ).also { scale ->
-                                scaleX = scale
-                                scaleY = scale
-                            }
-
-                            // We animate the alpha, between 50% and 100%
-                            alpha = lerp(
-                                start = 0.5f,
-                                stop = 1f,
-                                fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                            )
-                        }
-                )
-            }
-        }
-
-        HorizontalPagerIndicator(
-            pagerState = pagerState,
-            modifier = Modifier
+        SelectingModulesFavoriteList(
+            favoriteModules = favoriteModules,
+            indicatorModifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(
-                    vertical = topPadding,
-                    horizontal = mainHorizontalPadding
-                )
+                .padding(horizontal = mainHorizontalPadding)
         )
-
-        // TODO Bottom Sheet
-
     }
 
     @Composable
-    private fun SelectingModulesHeader(
-        userName: String = stringResource(R.string.default_user_name),
-        avatarUrl: String? = null
-    ) = Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                horizontal = mainHorizontalPadding
-            ),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Column {
-            SubTitleText(textRes = R.string.hello_text)
+    private fun ColumnScope.SelectingModulesBottomSheetHeader() {
+        Divider(
+            modifier = Modifier
+                .width((LocalConfiguration.current.screenWidthDp / 8).dp)
+                .align(Alignment.CenterHorizontally),
+            thickness = 2.dp,
+            color = MaterialTheme.colorScheme.onPrimary
+        )
 
-            TitleText(text = userName, isLarge = false)
-        }
+        Spacer(modifier = Modifier.height(14.dp))
 
-        IconButton(
-            onClick = { /*TODO Implement profile click*/ }
-        ) {
-            Image(
-                painter = rememberAsyncImagePainter(
-                    ImageRequest
-                        .Builder(LocalContext.current)
-                        .data(avatarUrl ?: R.drawable.default_user_avatar)
-                        .apply {
-                            error(R.drawable.default_user_avatar)
-                            crossfade(true)
-                        }
-                        .build()
-                ),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape)
-            )
-        }
+        TitleText(
+            textRes = R.string.all_modules,
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            isLarge = false
+        )
     }
+
+    @Composable
+    private fun ColumnScope.SelectingModulesBottomSheetGrid(
+
+    ) = Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        // TODO
+    }
+
+    //     LazyVerticalGrid(
+    //     columns = GridCells.Fixed(2),
+    // ) {
+    //
+    // }
 
     @Composable
     @Preview(showBackground = true, backgroundColor = 0xFFFFFF)

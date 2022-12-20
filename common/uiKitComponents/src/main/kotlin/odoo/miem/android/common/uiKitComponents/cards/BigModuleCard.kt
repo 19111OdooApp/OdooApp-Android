@@ -17,6 +17,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,6 +41,7 @@ fun BigModuleCard(
     numberOfNotification: Int = 0,
     isLiked: Boolean = false,
     modifier: Modifier = Modifier,
+    onLikeClick: () -> Unit = {},
     onClick: () -> Unit = {}
 ) = Card(
     onClick = onClick,
@@ -60,15 +62,19 @@ fun BigModuleCard(
     Spacer(modifier = Modifier.height(topPadding))
     // TODO Icon click handle
     // TODO Glow effect when like?
-    Icon(
-        imageVector = if (isLiked) Icons.Outlined.Favorite else Icons.Outlined.FavoriteBorder,
-        contentDescription = null,
-        tint = Color.White,
+    IconButton(
+        onClick = onLikeClick,
         modifier = Modifier
             .size(45.dp)
             .align(Alignment.End)
             .padding(end = horizontalPadding / 2)
-    )
+    ) {
+        Icon(
+            imageVector = if (isLiked) Icons.Outlined.Favorite else Icons.Outlined.FavoriteBorder,
+            contentDescription = null,
+            tint = Color.White
+        )
+    }
 
     Text(
         text = moduleName,

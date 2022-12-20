@@ -4,5 +4,5 @@ package odoo.miem.android.feature.selectingModules.impl.data
 class OdooModule(
     val name: String,
     val numberOfNotifications: Int,
-    val isLiked: Boolean = false
+    var isLiked: Boolean = false
 )

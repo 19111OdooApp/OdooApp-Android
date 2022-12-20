@@ -163,10 +163,14 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             modifier = Modifier.fillMaxWidth()
         ) { page ->
             with(favoriteModules[page]) {
+                // TODO Should depence on input data?
+                var isLikedState by remember { mutableStateOf(isLiked) }
+
                 BigModuleCard(
                     moduleName = name,
                     numberOfNotification = numberOfNotifications,
-                    isLiked = isLiked,
+                    isLiked = isLikedState,
+                    onLikeClick = { isLikedState = !isLikedState },
                     modifier = Modifier
                         .graphicsLayer {
                             // Calculate the absolute offset for the current page from the

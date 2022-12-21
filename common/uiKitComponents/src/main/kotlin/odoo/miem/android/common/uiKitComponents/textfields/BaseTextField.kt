@@ -32,6 +32,7 @@ fun BaseTextField(
     @StringRes labelResource: Int,
     leadingIcon: @Composable (() -> Unit)? = null,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     onValueChange: (TextFieldValue) -> Unit = {},
     shape: CornerBasedShape = MaterialTheme.shapes.small,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -44,6 +45,7 @@ fun BaseTextField(
         value = value,
         onValueChange = onValueChange,
         textStyle = MaterialTheme.typography.bodyMedium,
+        enabled = enabled,
         singleLine = true,
         label = { Text(text = stringResource(labelResource), style = MaterialTheme.typography.bodyMedium) },
         visualTransformation = visualTransformation,
@@ -62,7 +64,9 @@ fun BaseTextField(
             focusedLabelColor = MaterialTheme.colorScheme.primary,
             unfocusedLabelColor = MaterialTheme.colorScheme.onSurface,
             errorLabelColor = MaterialTheme.colorScheme.error,
-            placeholderColor = odooPrimaryGray
+            placeholderColor = odooPrimaryGray,
+            disabledBorderColor = odooPrimaryGray,
+            disabledTextColor = MaterialTheme.colorScheme.onSurface
         ),
         trailingIcon = trailingIcon,
         leadingIcon = leadingIcon,

@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
@@ -183,7 +185,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         // https://github.com/mobnetic/compose-shared-element
         SearchTextField(
             value = searchInput,
-            onValueChange = { searchInput = it }
+            onValueChange = { searchInput = it },
+            enabled = false
         )
 
         Spacer(modifier = Modifier.height(topPadding * 1.4F))
@@ -221,17 +224,12 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     @Composable
     private fun ColumnScope.SelectingModulesBottomSheetGrid(
 
-    ) = Box(
+    ) = LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
         modifier = Modifier.fillMaxSize()
     ) {
         // TODO
     }
-
-    //     LazyVerticalGrid(
-    //     columns = GridCells.Fixed(2),
-    // ) {
-    //
-    // }
 
     @Composable
     @Preview(showBackground = true, backgroundColor = 0xFFFFFF)

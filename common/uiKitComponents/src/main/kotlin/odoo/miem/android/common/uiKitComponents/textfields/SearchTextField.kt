@@ -17,11 +17,13 @@ import odoo.miem.android.core.uiKitTheme.odooPrimaryGray
 fun SearchTextField(
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true
 ) = BaseTextField(
     value = value,
     onValueChange = onValueChange,
     labelResource = R.string.search_text_field_label,
+    enabled = enabled,
     leadingIcon = {
         Icon(
             painter = painterResource(R.drawable.ic_search),

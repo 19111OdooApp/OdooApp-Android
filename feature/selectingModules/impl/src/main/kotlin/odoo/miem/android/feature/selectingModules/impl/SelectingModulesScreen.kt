@@ -1,7 +1,6 @@
 package odoo.miem.android.feature.selectingModules.impl
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
@@ -16,7 +15,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -27,7 +25,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -43,12 +40,12 @@ import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
-import odoo.miem.android.feature.selectingModules.impl.components.CustomBottomSheetScaffold
-import odoo.miem.android.feature.selectingModules.impl.components.CustomBottomSheetValue
+import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetScaffold
+import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetValue
 import odoo.miem.android.feature.selectingModules.impl.components.SelectingModulesFavoriteList
 import odoo.miem.android.feature.selectingModules.impl.components.SelectingModulesHeader
-import odoo.miem.android.feature.selectingModules.impl.components.rememberCustomBottomSheetScaffoldState
-import odoo.miem.android.feature.selectingModules.impl.components.rememberCustomBottomSheetState
+import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetScaffoldState
+import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetState
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 import javax.inject.Inject
 

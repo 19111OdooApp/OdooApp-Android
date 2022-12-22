@@ -14,6 +14,7 @@ import androidx.compose.ui.test.performTextInput
 import androidx.navigation.compose.rememberNavController
 import androidx.test.platform.app.InstrumentationRegistry
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
+import odoo.miem.android.core.uiKitTheme.commonPadding
 import org.junit.Rule
 import org.junit.Test
 
@@ -30,7 +31,6 @@ class AuthorizationScreenUITest {
 
     @Test
     fun testUiAndTextFields() {
-        val odooLogoDesc = context.getString(R.string.odoo_logo_desc)
         val headerDesc = context.getString(R.string.login_welcome_header)
         val mainTextDesc = context.getString(R.string.login_welcome_text)
         val serverTextFieldDesc = context.getString(R.string.login_odoo_server)
@@ -48,7 +48,6 @@ class AuthorizationScreenUITest {
                 AuthorizationScreen().AuthorizationScreen(navController) {}
             }
         }
-        val odooLogoNode = composeTestRule.onNodeWithContentDescription(odooLogoDesc)
         val headerNode = composeTestRule.onNodeWithText(headerDesc)
         val mainTextNode = composeTestRule.onNodeWithText(mainTextDesc)
         val serverInputNode = composeTestRule.onNodeWithText(serverTextFieldDesc)
@@ -60,7 +59,6 @@ class AuthorizationScreenUITest {
         // Asserting
 
         // checking if all ui elements are displayed
-        odooLogoNode.assertExists()
         headerNode.assertExists()
         mainTextNode.assertExists()
         serverInputNode.assertExists()
@@ -118,12 +116,12 @@ class AuthorizationScreenUITest {
             )
         )
 
-        // trying to clean text field
+        // trying to toggle visibility
         passwordInputNode
             .onChild()
             .assertExists()
             .performClick()
-            .assertDoesNotExist()
-        passwordInputNode.assert(hasText(""))
+
+        passwordInputNode.assert(hasText(testInput))
     }
 }

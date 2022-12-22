@@ -44,6 +44,8 @@ import odoo.miem.android.core.uiKitTheme.commonPadding
 import odoo.miem.android.core.uiKitTheme.dividerVerticalPadding
 import odoo.miem.android.core.uiKitTheme.hseSecondary
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
+import odoo.miem.android.core.uiKitTheme.odooButtonDisabled
+import odoo.miem.android.core.uiKitTheme.odooOnButtonDisabled
 import odoo.miem.android.core.utils.rx.collectAsState
 import odoo.miem.android.core.utils.state.LoadingResult
 import odoo.miem.android.core.utils.state.SuccessResult
@@ -120,6 +122,8 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
         var isServerInputError by remember { mutableStateOf(false) }
         var isLoginInputError by remember { mutableStateOf(false) }
         var isPasswordInputError by remember { mutableStateOf(false) }
+        val isLoginButtonEnabled = serverInput.text.isNotEmpty() &&
+                emailInput.text.isNotEmpty() && passwordInput.text.isNotEmpty()
 
         val onLoginButtonClick = {
             isServerInputError = serverInput.text.isBlank() || serverInput.text == odooGlobalUrl
@@ -209,9 +213,12 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
         } else {
             TextButton(
                 onClick = { onLoginButtonClick() },
+                isEnabled = isLoginButtonEnabled,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = Color.White
+                    contentColor = Color.White,
+                    disabledContainerColor = odooButtonDisabled,
+                    disabledContentColor = odooOnButtonDisabled
                 ),
                 modifier = Modifier
                     .fillMaxWidth()

@@ -24,6 +24,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import odoo.miem.android.common.uiKitComponents.R
 
+/**
+ * [SimpleLogoAppBar] is base top app bar with Odoo logo
+ *
+ * @author Vorozhtsov Mikhail
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleLogoAppBar(

@@ -8,6 +8,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 
+/**
+ * [SubTitleText] is text for subtitle
+ *
+ * @param textRes resource on text, which will be displayed
+ * @param isLarge true or false, depends on size of subtitle
+ *
+ * @author Vorozhtsov Mikhail
+ */
 @Composable
 fun SubTitleText(
     @StringRes textRes: Int,

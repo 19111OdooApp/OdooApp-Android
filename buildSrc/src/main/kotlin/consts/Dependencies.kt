@@ -194,7 +194,7 @@ object Dependencies {
     }
 
     object Plugins {
-        const val DETEKT_VERSION = "1.22.0-RC1"
+        const val DETEKT_VERSION = "1.22.0"
 
         const val DETEKT_FORMATTING = "io.gitlab.arturbosch.detekt:detekt-formatting:$DETEKT_VERSION"
     }

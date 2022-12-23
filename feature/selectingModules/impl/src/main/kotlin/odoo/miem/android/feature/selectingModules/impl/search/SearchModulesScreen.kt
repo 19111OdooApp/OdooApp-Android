@@ -9,13 +9,10 @@ import androidx.compose.ui.Modifier
 
 // TODO Search Screen UserStory
 @Composable
-private fun SearchModulesScreen(
-
-) = Column(
+private fun SearchModulesScreen() = Column(
     horizontalAlignment = Alignment.CenterHorizontally,
     modifier = Modifier
         .fillMaxSize()
         .imePadding()
 ) {
-
 }

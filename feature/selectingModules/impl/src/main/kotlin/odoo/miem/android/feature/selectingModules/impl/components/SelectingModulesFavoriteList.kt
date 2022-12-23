@@ -52,10 +52,11 @@ internal fun SelectingModulesFavoriteList(
 
     LaunchedEffect(pagerState) {
         snapshotFlow { pagerState.currentPage }.collect { page ->
-            if (startTransaction)
+            if (startTransaction) {
                 haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-            else
+            } else {
                 startTransaction = true
+            }
         }
     }
 

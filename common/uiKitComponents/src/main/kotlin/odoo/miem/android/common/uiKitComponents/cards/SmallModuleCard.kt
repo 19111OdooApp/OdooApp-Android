@@ -59,7 +59,6 @@ fun SmallModuleCard(
         .background(moduleName.getBackgroundColorCard())
         .clickable { onClick() }
 ) {
-
     Spacer(modifier = Modifier.height(6.dp))
 
     IconButton(

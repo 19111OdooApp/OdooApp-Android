@@ -23,8 +23,11 @@ fun SubTitleText(
     isLarge: Boolean = false
 ) = Text(
     text = stringResource(textRes),
-    style = if (isLarge) MaterialTheme.typography.titleMedium.copy(fontSize = 20.sp)
-        else MaterialTheme.typography.titleSmall,
+    style = if (isLarge) {
+        MaterialTheme.typography.titleMedium.copy(fontSize = 20.sp)
+    } else {
+        MaterialTheme.typography.titleSmall
+    },
     modifier = modifier,
     color = MaterialTheme.colorScheme.onPrimaryContainer
 )

@@ -7,6 +7,4 @@ import androidx.lifecycle.ViewModel
  *
  * @author Vorozhtsov Mikhail
  */
-class SelectingModulesViewModel : ViewModel() {
-
-}
+class SelectingModulesViewModel : ViewModel()

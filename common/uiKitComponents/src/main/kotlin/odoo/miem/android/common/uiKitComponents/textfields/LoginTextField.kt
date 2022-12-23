@@ -76,8 +76,11 @@ fun LoginTextField(
         value = value,
         onValueChange = onValueChange,
         labelResource = labelResource,
-        visualTransformation = if (isPasswordVisible) VisualTransformation.None
-            else visualTransformation,
+        visualTransformation = if (isPasswordVisible) {
+            VisualTransformation.None
+        } else {
+            visualTransformation
+        },
         trailingIcon = trailingIcon,
         imeAction = imeAction,
         isError = isError,

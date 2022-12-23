@@ -1,7 +1,6 @@
 package odoo.miem.android.feature.authorization.base.impl
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,7 +20,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -123,7 +120,7 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
         var isLoginInputError by remember { mutableStateOf(false) }
         var isPasswordInputError by remember { mutableStateOf(false) }
         val isLoginButtonEnabled = serverInput.text.isNotEmpty() &&
-                emailInput.text.isNotEmpty() && passwordInput.text.isNotEmpty()
+            emailInput.text.isNotEmpty() && passwordInput.text.isNotEmpty()
 
         val onLoginButtonClick = {
             isServerInputError = serverInput.text.isBlank() || serverInput.text == odooGlobalUrl
@@ -165,8 +162,6 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
                     vertical = commonPadding
                 )
         )
-
-
 
         LoginTextField(
             value = serverInput,

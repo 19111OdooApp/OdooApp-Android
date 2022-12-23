@@ -23,4 +23,6 @@ fun <T> ResultSubject<T>.onLoadingState() {
 }
 
 @Composable
-fun <T> ResultSubject<T>.collectAsState(defaultResult: Result<T> = NothingResult()) = this.subscribeAsState(defaultResult)
+fun <T> ResultSubject<T>.collectAsState(defaultResult: Result<T> = NothingResult()) = this.subscribeAsState(
+    defaultResult
+)

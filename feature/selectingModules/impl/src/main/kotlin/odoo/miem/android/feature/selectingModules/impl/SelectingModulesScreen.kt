@@ -39,19 +39,19 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
+import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetScaffold
+import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetValue
+import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetScaffoldState
+import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetState
+import odoo.miem.android.common.uiKitComponents.cards.SmallModuleCard
+import odoo.miem.android.common.uiKitComponents.text.SubTitleText
 import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
-import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetScaffold
-import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetValue
 import odoo.miem.android.feature.selectingModules.impl.components.SelectingModulesFavoriteList
 import odoo.miem.android.feature.selectingModules.impl.components.SelectingModulesHeader
-import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetScaffoldState
-import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetState
-import odoo.miem.android.common.uiKitComponents.cards.SmallModuleCard
-import odoo.miem.android.common.uiKitComponents.text.SubTitleText
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 import javax.inject.Inject
 
@@ -74,7 +74,6 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         navController: NavHostController,
         showMessage: (Int) -> Unit
     ) {
-
         // TODO Delete Test Data
         val modules = listOf(
             OdooModule(
@@ -118,7 +117,6 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                 scaffoldState.customBottomSheetState.upToHalf()
             }
         }
-
 
         CustomBottomSheetScaffold(
             scaffoldState = scaffoldState,
@@ -168,15 +166,15 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         var startTransaction by remember { mutableStateOf(false) }
         LaunchedEffect(pagerState) {
             snapshotFlow { pagerState.currentPage }.collect {
-                if (startTransaction)
+                if (startTransaction) {
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                else
+                } else {
                     startTransaction = true
+                }
             }
         }
 
         val topPadding = 24.dp
-
 
         SimpleLogoAppBar()
 

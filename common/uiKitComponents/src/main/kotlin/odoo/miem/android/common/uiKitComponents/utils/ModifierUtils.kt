@@ -12,7 +12,11 @@ import androidx.compose.ui.unit.dp
  * @author Vorozhtsov Mikhail
  */
 @Composable
-internal fun Modifier.glowEffect(turned: Boolean) = if (turned) this.shadow(
-    elevation = 12.dp,
-    shape = MaterialTheme.shapes.extraLarge
-) else this
+internal fun Modifier.glowEffect(turned: Boolean) = if (turned) {
+    this.shadow(
+        elevation = 12.dp,
+        shape = MaterialTheme.shapes.extraLarge
+    )
+} else {
+    this
+}

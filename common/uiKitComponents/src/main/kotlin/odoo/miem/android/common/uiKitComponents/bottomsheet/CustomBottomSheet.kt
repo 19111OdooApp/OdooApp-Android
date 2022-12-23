@@ -1,5 +1,6 @@
 package odoo.miem.android.common.uiKitComponents.bottomsheet
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -10,10 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.material.BottomSheetScaffoldDefaults
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.contentColorFor
 import androidx.compose.material.swipeable
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
@@ -32,6 +33,7 @@ import androidx.compose.ui.semantics.collapse
 import androidx.compose.ui.semantics.expand
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -46,10 +48,11 @@ fun CustomBottomSheetScaffold(
     sheetGesturesEnabled: Boolean = true,
     sheetShape: Shape = MaterialTheme.shapes.large,
     sheetElevation: Dp = BottomSheetScaffoldDefaults.SheetElevation,
-    sheetBackgroundColor: Color = MaterialTheme.colors.surface,
+    sheetBackgroundColor: Color = MaterialTheme.colorScheme.surface,
     sheetContentColor: Color = contentColorFor(sheetBackgroundColor),
     sheetPeekHeight: Dp = BottomSheetScaffoldDefaults.SheetPeekHeight,
-    backgroundColor: Color = MaterialTheme.colors.background,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    borderColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = contentColorFor(backgroundColor),
     halfCoefficient: Float = 0.5F,
     content: @Composable (PaddingValues) -> Unit
@@ -120,6 +123,10 @@ fun CustomBottomSheetScaffold(
                         },
                     shape = sheetShape,
                     elevation = sheetElevation,
+                    border = BorderStroke(
+                        width = 1.dp,
+                        color = borderColor.copy(alpha = 0.5f)
+                    ),
                     color = sheetBackgroundColor,
                     contentColor = sheetContentColor,
                     content = { Column(content = sheetContent) }

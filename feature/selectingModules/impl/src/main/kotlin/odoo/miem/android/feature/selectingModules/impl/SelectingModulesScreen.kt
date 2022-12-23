@@ -51,6 +51,7 @@ import odoo.miem.android.feature.selectingModules.impl.components.SelectingModul
 import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetScaffoldState
 import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetState
 import odoo.miem.android.common.uiKitComponents.cards.SmallModuleCard
+import odoo.miem.android.common.uiKitComponents.text.SubTitleText
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 import javax.inject.Inject
 
@@ -220,16 +221,16 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             modifier = Modifier
                 .width((LocalConfiguration.current.screenWidthDp / 8).dp)
                 .align(Alignment.CenterHorizontally),
-            thickness = 2.dp,
+            thickness = 3.dp,
             color = MaterialTheme.colorScheme.onPrimary
         )
 
         Spacer(modifier = Modifier.height(14.dp))
 
-        TitleText(
+        SubTitleText(
             textRes = R.string.all_modules,
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            isLarge = false
+            isLarge = true
         )
     }
 

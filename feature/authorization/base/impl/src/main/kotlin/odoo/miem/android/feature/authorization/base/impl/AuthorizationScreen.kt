@@ -147,6 +147,7 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
 
         TitleText(
             textRes = R.string.login_welcome_header,
+            isLarge = false,
             modifier = Modifier
                 .align(Alignment.Start)
                 .padding(

@@ -22,6 +22,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
@@ -29,7 +30,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.launch
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
 import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
@@ -51,7 +52,6 @@ import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottom
 import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetState
 import odoo.miem.android.common.uiKitComponents.cards.SmallModuleCard
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -111,6 +111,13 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         )
         val scaffoldState = rememberCustomBottomSheetScaffoldState(customBottomSheetState = sheetState)
 
+        val scope = rememberCoroutineScope()
+        val onAddModuleCardClick: () -> Unit = {
+            scope.launch {
+                scaffoldState.customBottomSheetState.upToHalf()
+            }
+        }
+
 
         CustomBottomSheetScaffold(
             scaffoldState = scaffoldState,
@@ -137,7 +144,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                 .imePadding()
         ) {
             SelectingModulesMainContent(
-                favoriteModules = favoriteModules
+                favoriteModules = favoriteModules,
+                onAddModuleCardClick = onAddModuleCardClick
             )
         }
     }
@@ -145,7 +153,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     @OptIn(ExperimentalPagerApi::class)
     @Composable
     private fun SelectingModulesMainContent(
-        favoriteModules: List<OdooModule> = emptyList()
+        favoriteModules: List<OdooModule> = emptyList(),
+        onAddModuleCardClick: () -> Unit = {}
     ) = Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -196,14 +205,12 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
         Spacer(modifier = Modifier.height(topPadding * 1.4F))
 
-        // TODO Big Cards
-        // Gradient - https://semicolonspace.com/jetpack-compose-circle-animation-gradient/
-
         SelectingModulesFavoriteList(
             favoriteModules = favoriteModules,
             indicatorModifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(horizontal = mainHorizontalPadding)
+                .padding(horizontal = mainHorizontalPadding),
+            onAddModuleCardClick = onAddModuleCardClick
         )
     }
 
@@ -240,7 +247,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             SmallModuleCard(
                 moduleName = it.name,
                 isLiked = isLikedState,
-                onLikeClick = { isLikedState != isLikedState }
+                onLikeClick = { isLikedState = !isLikedState }
             )
         }
     }

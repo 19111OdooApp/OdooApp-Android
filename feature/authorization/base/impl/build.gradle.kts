@@ -22,4 +22,5 @@ dependencies {
     // Feature
     // Authorization API
     implementation(project(":feature:authorization:base:api"))
+    implementation(project(mapOf("path" to ":core:platform")))
 }

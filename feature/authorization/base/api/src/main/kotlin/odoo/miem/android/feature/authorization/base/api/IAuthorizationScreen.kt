@@ -1,6 +1,7 @@
 package odoo.miem.android.feature.authorization.base.api
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 
 /**
@@ -14,6 +15,7 @@ interface IAuthorizationScreen {
     @Composable
     fun AuthorizationScreen(
         navController: NavHostController,
-        showMessage: (Int) -> Unit
+        showMessage: (Int) -> Unit,
+        authorizationViewModel: ViewModel
     )
 }

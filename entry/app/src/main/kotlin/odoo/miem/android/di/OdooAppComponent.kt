@@ -10,6 +10,7 @@ import odoo.miem.android.core.di.impl.ApiResolver
 import odoo.miem.android.core.platform.dependecies.DefaultPlatformDependencies
 import odoo.miem.android.core.platform.dependecies.PlatformDependencies
 import odoo.miem.android.core.platform.di.PlatformApiProvider
+import odoo.miem.android.core.utils.di.RxModule
 import odoo.miem.android.feature.authorization.base.impl.di.AuthorizationScreenApiProvider
 
 /**
@@ -39,7 +40,8 @@ import odoo.miem.android.feature.authorization.base.impl.di.AuthorizationScreenA
         AuthorizationScreenApiProvider::class,
         AuthorizationInteractorApiProvider::class,
         DataStoreApiProvider::class,
-        PlatformApiProvider::class
+        PlatformApiProvider::class,
+        RxModule::class
     ]
 )
 interface OdooAppComponent {

@@ -3,6 +3,7 @@ package odoo.miem.android.feature.selectingModules.impl
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
@@ -47,6 +49,7 @@ import odoo.miem.android.feature.selectingModules.impl.components.SelectingModul
 import odoo.miem.android.feature.selectingModules.impl.components.SelectingModulesHeader
 import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetScaffoldState
 import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetState
+import odoo.miem.android.common.uiKitComponents.cards.SmallModuleCard
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 import timber.log.Timber
 import javax.inject.Inject
@@ -71,29 +74,34 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         showMessage: (Int) -> Unit
     ) {
 
+        // TODO Delete Test Data
+        val modules = listOf(
+            OdooModule(
+                name = "CRM",
+                numberOfNotifications = 1
+            ),
+            OdooModule(
+                name = "Recruitment",
+                numberOfNotifications = 5,
+                isLiked = true
+            ),
+            OdooModule(
+                name = "Pricing",
+                numberOfNotifications = 123
+            ),
+        )
+
         // TODO Create base with loading handling
         SelectingModulesScreenContent(
-            // TODO Delete Test Data
-            favoriteModules = listOf(
-                OdooModule(
-                    name = "CRM",
-                    numberOfNotifications = 1
-                ),
-                OdooModule(
-                    name = "Recruitment",
-                    numberOfNotifications = 5
-                ),
-                OdooModule(
-                    name = "Pricing",
-                    numberOfNotifications = 123
-                ),
-            )
+            allModules = modules,
+            favoriteModules = modules
         )
     }
 
     @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterialApi::class)
     @Composable
     private fun SelectingModulesScreenContent(
+        allModules: List<OdooModule> = emptyList(),
         favoriteModules: List<OdooModule> = emptyList()
     ) {
         val topRadius = 35.dp
@@ -113,9 +121,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
                 SelectingModulesBottomSheetHeader()
 
-                Spacer(modifier = Modifier.height(topPadding))
-
-                SelectingModulesBottomSheetGrid()
+                SelectingModulesBottomSheetGrid(allModules = allModules)
             },
             sheetShape = RoundedCornerShape(
                 topStart = topRadius,
@@ -222,12 +228,21 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
     @Composable
     private fun ColumnScope.SelectingModulesBottomSheetGrid(
-
+        allModules: List<OdooModule> = emptyList()
     ) = LazyVerticalGrid(
         columns = GridCells.Fixed(2),
+        contentPadding = PaddingValues(mainHorizontalPadding / 2),
         modifier = Modifier.fillMaxSize()
     ) {
-        // TODO
+        items(allModules) {
+            var isLikedState by remember { mutableStateOf(it.isLiked) }
+
+            SmallModuleCard(
+                moduleName = it.name,
+                isLiked = isLikedState,
+                onLikeClick = { isLikedState != isLikedState }
+            )
+        }
     }
 
     @Composable

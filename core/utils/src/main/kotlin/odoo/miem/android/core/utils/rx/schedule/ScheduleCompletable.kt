@@ -6,7 +6,6 @@ import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.Disposable
 import odoo.miem.android.core.utils.rx.DisposableManager
 
-
 fun <Channel : Any> schedule(
     completable: Completable,
     observeOnScheduler: Scheduler,

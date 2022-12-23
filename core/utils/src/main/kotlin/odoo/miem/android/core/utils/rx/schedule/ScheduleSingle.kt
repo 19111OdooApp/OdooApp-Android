@@ -6,7 +6,6 @@ import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
 import odoo.miem.android.core.utils.rx.DisposableManager
 
-
 fun <T : Any, Channel : Any> schedule(
     single: Single<T>,
     observeOnScheduler: Scheduler,

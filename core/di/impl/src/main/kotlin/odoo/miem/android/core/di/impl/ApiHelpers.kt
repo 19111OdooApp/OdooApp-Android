@@ -11,6 +11,14 @@ import odoo.miem.android.core.di.api.Api
 inline fun <T, reified A : Api> api(crossinline getter: (A) -> T): Lazy<T> = lazy { getter(getApi()) }
 
 /**
+ * Делегат для lazy инжектирования свойств [Api] в properties классов.
+ *
+ * Используется так:
+ * val logger by api(OdooApi::logger)
+ */
+inline fun <T, reified A : Api> apiBlocking(crossinline getter: (A) -> T): T = getter(getApi())
+
+/**
  * Метод получения Api (kotlin)
  *
  * Используется так:

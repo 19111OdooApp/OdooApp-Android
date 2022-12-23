@@ -1,6 +1,5 @@
 package odoo.miem.android.core.utils.di
 
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -11,7 +10,6 @@ import odoo.miem.android.core.utils.rx.schedule.MainScheduler
 import odoo.miem.android.core.utils.rx.schedule.TimerScheduler
 import odoo.miem.android.core.utils.rx.schedule.WorkerScheduler
 import java.util.concurrent.Executors
-import javax.inject.Singleton
 
 @Module
 object RxModule {
@@ -32,7 +30,6 @@ object RxModule {
     }
 
     @Provides
-    @Singleton
     fun providesLocalSingleThreadScheduler(): LocalSingleThreadScheduler {
         return LocalSingleThreadScheduler(Schedulers.from(Executors.newSingleThreadExecutor()))
     }
@@ -51,5 +48,4 @@ object RxModule {
             workerScheduler.scheduler
         )
     }
-
 }

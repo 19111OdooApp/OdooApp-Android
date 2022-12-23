@@ -32,6 +32,7 @@ abstract class ObserverContractHelper<Channel : Any>(
 
     private val upstream = AtomicReference<Disposable>()
 
+    @Suppress("TooGenericExceptionCaught")
     fun handleSubscribeEvent(disposable: Disposable, actualHandler: (Disposable) -> Unit) {
         try {
             if (EndConsumerHelper.setOnce(upstream, disposable, javaClass)) {
@@ -44,6 +45,7 @@ abstract class ObserverContractHelper<Channel : Any>(
         }
     }
 
+    @Suppress("TooGenericExceptionCaught")
     fun handleIntermediateEvent(
         actualHandler: () -> Unit,
         onErrorHandler: (Throwable) -> Unit
@@ -57,6 +59,7 @@ abstract class ObserverContractHelper<Channel : Any>(
         }
     }
 
+    @Suppress("TooGenericExceptionCaught")
     fun handleTerminalEvent(actualHandler: () -> Unit) {
         if (isNotDisposed) {
             dispose()
@@ -68,6 +71,7 @@ abstract class ObserverContractHelper<Channel : Any>(
         }
     }
 
+    @Suppress("TooGenericExceptionCaught")
     fun handleErrorEvent(error: Throwable, actualHandler: (Throwable) -> Unit) {
         if (isNotDisposed) {
             dispose()
@@ -81,6 +85,7 @@ abstract class ObserverContractHelper<Channel : Any>(
         }
     }
 
+    @Suppress("ForbiddenComment")
     private fun handleUncaughtError(e: Throwable, mapPluginError: (Throwable) -> Throwable = { it }) {
         Watson.analyzeAndReportBug(e) // TODO: Добавить set в Watson
         Exceptions.throwIfFatal(e)

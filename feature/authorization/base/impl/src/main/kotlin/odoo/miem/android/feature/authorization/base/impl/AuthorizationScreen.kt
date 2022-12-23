@@ -35,7 +35,6 @@ import androidx.navigation.NavHostController
 import odoo.miem.android.common.uiKitComponents.buttons.TextButton
 import odoo.miem.android.common.uiKitComponents.dividers.Divider
 import odoo.miem.android.common.uiKitComponents.textfields.LoginTextField
-import odoo.miem.android.core.platform.presentation.daggerViewModel
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.commonPadding
 import odoo.miem.android.core.uiKitTheme.dividerVerticalPadding
@@ -61,9 +60,8 @@ class AuthorizationScreen : IAuthorizationScreen {
     override fun AuthorizationScreen(
         navController: NavHostController,
         showMessage: (Int) -> Unit,
-        viewModel: AuthorizationViewModel
     ) {
-
+        val viewModel: AuthorizationViewModel = viewModel()
         // TODO Create extension with result
         // TODO After that just use:
         // val authorizationStatus by viewModel.authorizationState.subscribeAsState(NothingResult)

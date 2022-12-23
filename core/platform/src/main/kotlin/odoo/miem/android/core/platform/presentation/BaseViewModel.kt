@@ -14,7 +14,6 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.functions.Consumer
-import kotlinx.coroutines.Job
 import odoo.miem.android.core.utils.rx.DisposableManager
 import odoo.miem.android.core.utils.rx.PresentationSchedulers
 import odoo.miem.android.core.utils.rx.schedule.schedule
@@ -22,12 +21,12 @@ import odoo.miem.android.core.utils.rx.toFunctional
 import org.reactivestreams.Subscriber
 import org.reactivestreams.Subscription
 
+@Suppress("TooManyFunctions")
 open class BaseViewModel(
     private val schedulers: PresentationSchedulers
-): ViewModel() {
+) : ViewModel() {
 
     private val disposableManager = DisposableManager<Channel>()
-    private val jobs by lazy { mutableMapOf<Any, Job>() }
 
     @JvmOverloads
     protected fun addDisposable(disposable: Disposable, channel: Channel? = null) {
@@ -58,7 +57,6 @@ open class BaseViewModel(
         super.onCleared()
         clearDisposables()
     }
-
 
     protected fun <T : Any> Observable<T>.schedule(
         channel: Channel? = null,
@@ -268,6 +266,7 @@ open class BaseViewModel(
 
     protected val javaFriendlyMethods = JavaFriendlyMethods()
 
+    @Suppress("TooManyFunctions")
     inner class JavaFriendlyMethods {
 
         @JvmOverloads
@@ -456,5 +455,4 @@ open class BaseViewModel(
 
         override fun hashCode() = System.identityHashCode(this)
     }
-
 }

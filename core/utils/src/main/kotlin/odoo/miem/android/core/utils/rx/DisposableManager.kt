@@ -3,6 +3,7 @@ package odoo.miem.android.core.utils.rx
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 
+@Suppress("TooManyFunctions")
 class DisposableManager<Channel : Any> {
 
     private val generalChannel = CompositeDisposable()

@@ -10,7 +10,7 @@ import odoo.miem.android.core.di.impl.ApiResolver
 import odoo.miem.android.core.platform.dependecies.DefaultPlatformDependencies
 import odoo.miem.android.core.platform.dependecies.PlatformDependencies
 import odoo.miem.android.core.platform.di.PlatformApiProvider
-import odoo.miem.android.core.utils.di.RxModule
+import odoo.miem.android.core.utils.di.RxApiProvider
 import odoo.miem.android.feature.authorization.base.impl.di.AuthorizationScreenApiProvider
 
 /**
@@ -33,7 +33,7 @@ import odoo.miem.android.feature.authorization.base.impl.di.AuthorizationScreenA
  */
 @Component(
     dependencies = [
-        PlatformDependencies::class
+        PlatformDependencies::class,
     ],
     modules = [
         AuthorizationRepositoryApiProvider::class,
@@ -41,7 +41,7 @@ import odoo.miem.android.feature.authorization.base.impl.di.AuthorizationScreenA
         AuthorizationInteractorApiProvider::class,
         DataStoreApiProvider::class,
         PlatformApiProvider::class,
-        RxModule::class
+        RxApiProvider::class
     ]
 )
 interface OdooAppComponent {
@@ -54,7 +54,9 @@ interface OdooAppComponent {
  *
  * @param context нужен для инициализации [PlatformDependencies]
  */
-fun Context.initApis(context: Context): OdooAppComponent = DaggerOdooAppComponent
+fun Context.initApis(
+    context: Context,
+): OdooAppComponent = DaggerOdooAppComponent
     .builder()
     .platformDependencies(DefaultPlatformDependencies(context))
     .build()

@@ -127,7 +127,7 @@ complexity:
     threshold: 600
   LongParameterList:
     active: true
-    functionThreshold: 10
+    functionThreshold: 20
     constructorThreshold: 7
     ignoreDefaultParameters: false
     ignoreDataClasses: true
@@ -585,7 +585,7 @@ style:
       - '2'
     ignoreHashCodeFunction: true
     ignorePropertyDeclaration: true
-    ignoreLocalVariableDeclaration: false
+    ignoreLocalVariableDeclaration: true
     ignoreConstantDeclaration: true
     ignoreCompanionObjectPropertyDeclaration: true
     ignoreAnnotation: false

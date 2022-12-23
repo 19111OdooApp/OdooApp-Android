@@ -25,13 +25,14 @@ fun animatedGradientBorder(
     colors: List<Color>,
     startX: Float,
     startY: Float,
-    height: Float
+    height: Float,
+    durationMills: Int = 3000
 ): Brush {
     val infiniteTransition = rememberInfiniteTransition()
     val angle by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = PI.toFloat(),
-        animationSpec = infiniteRepeatable(tween(3000, easing = LinearEasing))
+        animationSpec = infiniteRepeatable(tween(durationMills, easing = LinearEasing))
     )
 
     return Brush.linearGradient(

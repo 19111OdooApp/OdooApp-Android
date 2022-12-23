@@ -106,6 +106,9 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     ) {
         val topRadius = 35.dp
 
+        val sheetPeekHeightCoefficient = 0.25F
+        val halfCoefficient = 0.65F
+
         val sheetState = rememberCustomBottomSheetState(
             initialValue = CustomBottomSheetValue.Collapsed
         )
@@ -133,11 +136,11 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                 topStart = topRadius,
                 topEnd = topRadius
             ),
-            sheetPeekHeight = (LocalConfiguration.current.screenHeightDp * 0.25F).dp,
+            sheetPeekHeight = (LocalConfiguration.current.screenHeightDp * sheetPeekHeightCoefficient).dp,
             sheetElevation = 8.dp,
             backgroundColor = MaterialTheme.colorScheme.background,
             sheetBackgroundColor = MaterialTheme.colorScheme.background,
-            halfCoefficient = 0.65F,
+            halfCoefficient = halfCoefficient,
             modifier = Modifier
                 .fillMaxSize()
                 .imePadding()
@@ -174,7 +177,9 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             }
         }
 
-        val topPadding = 24.dp
+        val baseTopPadding = 24.dp
+        val searchTextFieldTopPadding = baseTopPadding * 0.4F
+        val selectingFavoriteModulesTopPadding = baseTopPadding * 1.4F
 
         SimpleLogoAppBar()
 
@@ -182,7 +187,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             // TODO Add data
         )
 
-        Spacer(modifier = Modifier.height(topPadding))
+        Spacer(modifier = Modifier.height(baseTopPadding))
 
         TitleText(
             textRes = R.string.choose_module_text,
@@ -191,7 +196,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                 .padding(horizontal = mainHorizontalPadding)
         )
 
-        Spacer(modifier = Modifier.height(topPadding * 0.4F))
+        Spacer(modifier = Modifier.height(searchTextFieldTopPadding))
 
         // TODO Search Transaction
         // https://github.com/mxalbert1996/compose-shared-elements
@@ -202,7 +207,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             enabled = false
         )
 
-        Spacer(modifier = Modifier.height(topPadding * 1.4F))
+        Spacer(modifier = Modifier.height(selectingFavoriteModulesTopPadding))
 
         SelectingModulesFavoriteList(
             favoriteModules = favoriteModules,
@@ -215,9 +220,11 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
     @Composable
     private fun ColumnScope.SelectingModulesBottomSheetHeader() {
+        val width = (LocalConfiguration.current.screenWidthDp / 8).dp
+
         Divider(
             modifier = Modifier
-                .width((LocalConfiguration.current.screenWidthDp / 8).dp)
+                .width(width)
                 .align(Alignment.CenterHorizontally),
             thickness = 2.dp,
             color = MaterialTheme.colorScheme.onPrimary

@@ -66,9 +66,9 @@ class CustomBottomSheetState(
 
     companion object {
         /**
-         * The default [Saver] implementation for [BottomSheetState].
+         * The default [saver] implementation for [BottomSheetState].
          */
-        fun Saver(
+        fun saver(
             animationSpec: AnimationSpec<Float>,
             confirmStateChange: (CustomBottomSheetValue) -> Boolean
         ): Saver<CustomBottomSheetState, *> = Saver(

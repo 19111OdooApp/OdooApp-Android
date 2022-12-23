@@ -21,7 +21,7 @@ fun rememberCustomBottomSheetState(
 ): CustomBottomSheetState {
     return rememberSaveable(
         animationSpec,
-        saver = CustomBottomSheetState.Saver(
+        saver = CustomBottomSheetState.saver(
             animationSpec = animationSpec,
             confirmStateChange = confirmStateChange
         )

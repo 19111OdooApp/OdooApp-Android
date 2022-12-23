@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,6 +48,7 @@ import odoo.miem.android.feature.selectingModules.impl.components.SelectingModul
 import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetScaffoldState
 import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetState
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
+import timber.log.Timber
 import javax.inject.Inject
 
 /**

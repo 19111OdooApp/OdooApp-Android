@@ -44,3 +44,12 @@ val cardColors = listOf(
     Color(0xFFA55540),
     Color(0xFFBAAF92),
 )
+
+val animatedCardColors = listOf(
+    odooPrimary,
+    Color(0xFFA55540),
+    Color(0xFFF87829),
+    odooPrimaryLight,
+    Color(0xFF74B49B),
+    Color(0xFFBAAF92),
+)

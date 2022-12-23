@@ -24,6 +24,9 @@ import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
 import odoo.miem.android.common.uiKitComponents.cards.BigModuleCard
+import odoo.miem.android.common.uiKitComponents.cards.BigModuleOutlinedCard
+import odoo.miem.android.core.uiKitTheme.animatedCardColors
+import odoo.miem.android.core.uiKitTheme.cardColors
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 import kotlin.math.absoluteValue
@@ -48,21 +51,51 @@ internal fun SelectingModulesFavoriteList(
     }
 
     HorizontalPager(
-        count = favoriteModules.size,
+        count = favoriteModules.size + 1,
         contentPadding = PaddingValues(horizontal = mainHorizontalPadding),
         state = pagerState,
         modifier = Modifier.fillMaxWidth()
     ) { page ->
-        with(favoriteModules[page]) {
-            // TODO Should depence on input data?
-            var isLikedState by remember { mutableStateOf(isLiked) }
+        if (page != favoriteModules.size) {
+            with(favoriteModules[page]) {
+                // TODO Should depend on input data?
+                var isLikedState by remember { mutableStateOf(isLiked) }
 
-            BigModuleCard(
-                moduleName = name,
-                numberOfNotification = numberOfNotifications,
-                isLiked = isLikedState,
-                onLikeClick = { isLikedState = !isLikedState },
-                modifier = androidx.compose.ui.Modifier
+                BigModuleCard(
+                    moduleName = name,
+                    numberOfNotification = numberOfNotifications,
+                    isLiked = isLikedState,
+                    onLikeClick = { isLikedState = !isLikedState },
+                    modifier = Modifier
+                        .graphicsLayer {
+                            // Calculate the absolute offset for the current page from the
+                            // scroll position. We use the absolute value which allows us to mirror
+                            // any effects for both directions
+                            val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
+
+                            // We animate the scaleX + scaleY, between 85% and 100%
+                            lerp(
+                                start = 0.93f,
+                                stop = 1f,
+                                fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                            ).also { scale ->
+                                scaleX = scale
+                                scaleY = scale
+                            }
+
+                            // We animate the alpha, between 50% and 100%
+                            alpha = lerp(
+                                start = 0.5f,
+                                stop = 1f,
+                                fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                            )
+                        }
+                )
+            }
+        } else {
+            BigModuleOutlinedCard(
+                gradientColors = animatedCardColors,
+                modifier = Modifier
                     .graphicsLayer {
                         // Calculate the absolute offset for the current page from the
                         // scroll position. We use the absolute value which allows us to mirror

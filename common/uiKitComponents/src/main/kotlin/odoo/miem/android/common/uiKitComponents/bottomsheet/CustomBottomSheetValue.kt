@@ -1,13 +1,21 @@
 package odoo.miem.android.common.uiKitComponents.bottomsheet
 
-// TODO Description
+/**
+ * Custom reference of [BottomSheetValue] with new [CustomBottomSheetValue.Half] state
+ *
+ * @see CustomBottomSheetScaffold
+ *
+ * @author Vorozhtsov Mikhail
+ */
 enum class CustomBottomSheetValue {
     /**
      * The bottom sheet is visible, but only showing its peek height.
      */
     Collapsed,
 
-    // TODO Description
+    /**
+     * The bottom sheet is visible at **halfCoefficient** size of maximum height
+     */
     Half,
 
     /**

@@ -9,7 +9,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -23,6 +22,11 @@ import androidx.compose.ui.text.input.VisualTransformation
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.uiKitTheme.odooPrimaryGray
 
+/**
+ * [BaseTextField] is base implementation of text field
+ *
+ * @author Vorozhtsov Mikhail
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BaseTextField(

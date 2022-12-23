@@ -12,7 +12,11 @@ import androidx.compose.ui.unit.dp
 import odoo.miem.android.common.uiKitComponents.R
 import odoo.miem.android.core.uiKitTheme.odooPrimaryGray
 
-// TODO Description
+/**
+ * [SearchTextField] - text field for search in selecting modules screen
+ *
+ * @author Vorozhtsov Mikhail
+ */
 @Composable
 fun SearchTextField(
     value: TextFieldValue,

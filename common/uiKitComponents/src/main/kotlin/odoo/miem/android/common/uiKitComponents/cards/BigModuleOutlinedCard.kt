@@ -26,6 +26,14 @@ import androidx.compose.ui.unit.dp
 import odoo.miem.android.common.uiKitComponents.R
 import odoo.miem.android.common.uiKitComponents.utils.animatedGradientBorder
 
+/**
+ * [BigModuleOutlinedCard] is implementation of big add module's card
+ *
+ * @param onClick - action, when user click on card
+ * @param gradientColors - gradient colors of the border
+ *
+ * @author Egor Danilov
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BigModuleOutlinedCard(

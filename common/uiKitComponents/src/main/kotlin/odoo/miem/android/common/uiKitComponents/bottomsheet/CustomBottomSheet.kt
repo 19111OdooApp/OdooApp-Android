@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.requiredHeightIn
+import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.BottomSheetScaffoldDefaults
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Surface
@@ -37,7 +38,14 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
-// TODO Description
+/**
+ * Custom reference of [BottomSheetScaffold]
+ *
+ * New param:
+ * - [halfCoefficient] - the overlap coefficient of the screen in the [CustomBottomSheetValue.Half] state
+ *
+ * @author Vorozhtsov Mikhail
+ */
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CustomBottomSheetScaffold(
@@ -137,6 +145,11 @@ fun CustomBottomSheetScaffold(
     }
 }
 
+/**
+ * Custom reference of [BottomSheetScaffoldStack]
+ *
+ * @author Vorozhtsov Mikhail
+ */
 @Composable
 private fun CustomBottomSheetScaffoldStack(
     body: @Composable () -> Unit,

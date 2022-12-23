@@ -1,6 +1,5 @@
 package odoo.miem.android.common.uiKitComponents.utils
 
-import androidx.compose.animation.core.EaseInOutQuad
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -16,6 +15,11 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
+/**
+ * [animatedGradientBorder] - fuction for creating Brush of card border
+ *
+ * @author Vorozhtsov Mikhail
+ */
 @Composable
 fun animatedGradientBorder(
     colors: List<Color>,

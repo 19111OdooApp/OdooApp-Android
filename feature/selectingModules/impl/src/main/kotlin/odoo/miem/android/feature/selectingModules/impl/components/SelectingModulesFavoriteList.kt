@@ -30,10 +30,19 @@ import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 import kotlin.math.absoluteValue
 
+/**
+ * [SelectingModulesFavoriteList] creates horizontal list of
+ * favorite modules with [BigModuleCard] and [BigModuleOutlinedCard]
+ *
+ * @param favoriteModules is list of favorite modules
+ * @param onAddModuleCardClick is action, when user click on add card
+ *
+ * @author Vorozhtsov Mikhail
+ */
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 internal fun SelectingModulesFavoriteList(
-    favoriteModules: List<OdooModule> = emptyList(), // TODO Don't forget to handle adding card
+    favoriteModules: List<OdooModule> = emptyList(),
     indicatorModifier: Modifier = Modifier,
     onAddModuleCardClick: () -> Unit = {}
 ) {

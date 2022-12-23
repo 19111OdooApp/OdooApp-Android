@@ -6,6 +6,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 
+/**
+ * Special modifier, which creates glow effect for like icon
+ *
+ * @author Vorozhtsov Mikhail
+ */
 @Composable
 internal fun Modifier.glowEffect(turned: Boolean) = if (turned) this.shadow(
     elevation = 12.dp,

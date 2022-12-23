@@ -12,7 +12,13 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.unit.Velocity
 import kotlinx.coroutines.CancellationException
 
-// TODO Description
+/**
+ * Custom reference of [BottomSheetState] with new [CustomBottomSheetValue.Half] state
+ *
+ * @see CustomBottomSheetScaffold
+ *
+ * @author Vorozhtsov Mikhail
+ */
 @OptIn(ExperimentalMaterialApi::class)
 class CustomBottomSheetState(
     initialValue: CustomBottomSheetValue,

@@ -23,6 +23,14 @@ import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.selectingModules.impl.R
 
+/**
+ * [SelectingModulesHeader] is header of [SelectingModulesScreen]
+ *
+ * @param userName is name of user :)
+ * @param avatarUrl also link of user's avatar. By default used [R.drawable.default_user_avatar]
+ *
+ * @author Vorozhtsov Mikhail
+ */
 @Composable
 internal fun SelectingModulesHeader(
     userName: String = stringResource(R.string.default_user_name),

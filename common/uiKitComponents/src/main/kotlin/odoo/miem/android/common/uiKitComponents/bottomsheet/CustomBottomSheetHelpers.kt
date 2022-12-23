@@ -7,7 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 
-// TODO Description
+/**
+ * Custom reference of [rememberBottomSheetState]
+ *
+ * @author Vorozhtsov Mikhail
+ */
 @Composable
 @ExperimentalMaterialApi
 fun rememberCustomBottomSheetState(
@@ -30,6 +34,11 @@ fun rememberCustomBottomSheetState(
     }
 }
 
+/**
+ * Custom reference of [rememberBottomSheetScaffoldState]
+ *
+ * @author Vorozhtsov Mikhail
+ */
 @Composable
 @ExperimentalMaterialApi
 fun rememberCustomBottomSheetScaffoldState(

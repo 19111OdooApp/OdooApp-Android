@@ -221,7 +221,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             modifier = Modifier
                 .width((LocalConfiguration.current.screenWidthDp / 8).dp)
                 .align(Alignment.CenterHorizontally),
-            thickness = 3.dp,
+            thickness = 2.dp,
             color = MaterialTheme.colorScheme.onPrimary
         )
 

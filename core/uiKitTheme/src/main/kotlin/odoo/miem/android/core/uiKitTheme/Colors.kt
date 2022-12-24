@@ -46,10 +46,15 @@ val cardColors = listOf(
 )
 
 val animatedCardColors = listOf(
+    Color(0xFF66EBFF),
+    Color(0xFF20005C),
     odooPrimary,
-    Color(0xFFA55540),
-    Color(0xFFF87829),
-    odooPrimaryLight,
-    Color(0xFF74B49B),
-    Color(0xFFBAAF92),
+    Color(0xFF996000),
+//    Old Colors
+//    odooPrimary,
+//    Color(0xFFA55540),
+//    Color(0xFFF87829),
+//    odooPrimaryLight,
+//    Color(0xFF74B49B),
+//    Color(0xFFBAAF92),
 )

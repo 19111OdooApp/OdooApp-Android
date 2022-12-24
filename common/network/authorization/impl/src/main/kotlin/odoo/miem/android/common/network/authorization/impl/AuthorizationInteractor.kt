@@ -5,18 +5,19 @@ import odoo.miem.android.common.network.authorization.api.IAuthorizationInteract
 import odoo.miem.android.common.network.authorization.api.di.IAuthorizationRepositoryApi
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
-import odoo.miem.android.core.utils.ErrorResult
-import odoo.miem.android.core.utils.Result
-import odoo.miem.android.core.utils.ResultObservable
-import odoo.miem.android.core.utils.SuccessResult
+import odoo.miem.android.core.utils.state.ErrorResult
+import odoo.miem.android.core.utils.state.Result
+import odoo.miem.android.core.utils.state.ResultObservable
+import odoo.miem.android.core.utils.state.SuccessResult
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * [AuthorizationInteractor] - implementation of [IAuthorizationInteractor]
  *
  * @author Vorozhtsov Mikhail
  */
-class AuthorizationInteractor : IAuthorizationInteractor {
+class AuthorizationInteractor @Inject constructor() : IAuthorizationInteractor {
 
     private val authorizationRepository by api(IAuthorizationRepositoryApi::authorizationRepository)
     private val dataStore by api(IDataStoreApi::dataStore)
@@ -38,7 +39,7 @@ class AuthorizationInteractor : IAuthorizationInteractor {
             }
             .onErrorReturn {
                 Timber.e("generalAuthorization(): error message = ${it.message}")
-                ErrorResult(it.message)
+                ErrorResult(R.string.general_authorization_error)
             }
     }
 }

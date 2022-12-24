@@ -12,7 +12,11 @@ dependencies {
     implementation(project(":feature:authorization:base:impl"))
 
     // Navigation
-    implementation(project(":feature:navigation"))
+    implementation(project(":feature:navigation:impl"))
+
+    // Selecting Modules
+    implementation(project(":feature:selectingModules:api"))
+    implementation(project(":feature:selectingModules:impl"))
 
     // Common
     // Network - authorization

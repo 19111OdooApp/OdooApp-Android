@@ -1,7 +1,7 @@
 package odoo.miem.android.feature.authorization.base.impl.di
 
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
 import odoo.miem.android.feature.authorization.base.impl.AuthorizationScreen
 
@@ -12,8 +12,8 @@ import odoo.miem.android.feature.authorization.base.impl.AuthorizationScreen
  * @author Ворожцов Михаил
  */
 @Module
-class AuthorizationScreenModule {
+interface AuthorizationScreenModule {
 
-    @Provides
-    fun provideAuthorizationScreen(): IAuthorizationScreen = AuthorizationScreen()
+    @Binds
+    fun provideAuthorizationScreen(authorizationScreen: AuthorizationScreen): IAuthorizationScreen
 }

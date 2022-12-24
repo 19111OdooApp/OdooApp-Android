@@ -5,10 +5,16 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import odoo.miem.android.common.network.authorization.api.di.IAuthorizationInteractorApi
 import odoo.miem.android.core.di.impl.api
-import odoo.miem.android.core.utils.ResultSubject
 import odoo.miem.android.core.utils.rx.lazyEmptyResultPublishSubject
+import odoo.miem.android.core.utils.rx.onLoadingState
+import odoo.miem.android.core.utils.state.ResultSubject
 import timber.log.Timber
 
+/**
+ * [AuthorizationViewModel] handle major logic for [AuthorizationScreen]
+ *
+ * @author Vorozhtsov Mikhail
+ */
 class AuthorizationViewModel : ViewModel() {
 
     private val authorizationInteractor by api(IAuthorizationInteractorApi::authorizationInteractor)
@@ -19,6 +25,7 @@ class AuthorizationViewModel : ViewModel() {
     fun generalAuthorization(baseUrl: String, login: String, password: String) {
         Timber.d("generalAuthorization(): baseUrl = $baseUrl, login = $login, password = $password")
 
+        authorizationState.onLoadingState()
         val observable = authorizationInteractor
             .generalAuthorization(
                 baseUrl = baseUrl,
@@ -28,7 +35,6 @@ class AuthorizationViewModel : ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 Timber.d("generalAuthorization(): result = $it")
-                // TODO Is loading?
                 authorizationState.onNext(it)
             }
 

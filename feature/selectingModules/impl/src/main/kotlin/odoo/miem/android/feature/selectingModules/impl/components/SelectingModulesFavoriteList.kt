@@ -51,7 +51,7 @@ internal fun SelectingModulesFavoriteList(
     var startTransaction by remember { mutableStateOf(false) }
 
     LaunchedEffect(pagerState) {
-        snapshotFlow { pagerState.currentPage }.collect { page ->
+        snapshotFlow { pagerState.currentPage }.collect {
             if (startTransaction) {
                 haptic.performHapticFeedback(HapticFeedbackType.LongPress)
             } else {
@@ -66,7 +66,7 @@ internal fun SelectingModulesFavoriteList(
         state = pagerState,
         modifier = Modifier.fillMaxWidth()
     ) { page ->
-        val bidCardModifier = Modifier
+        val bigCardModifier = Modifier
             .graphicsLayer {
                 // Calculate the absolute offset for the current page from the
                 // scroll position. We use the absolute value which allows us to mirror
@@ -101,13 +101,13 @@ internal fun SelectingModulesFavoriteList(
                     numberOfNotification = numberOfNotifications,
                     isLiked = isLikedState,
                     onLikeClick = { isLikedState = !isLikedState },
-                    modifier = bidCardModifier
+                    modifier = bigCardModifier
                 )
             }
         } else {
             BigModuleOutlinedCard(
                 gradientColors = animatedCardColors,
-                modifier = bidCardModifier,
+                modifier = bigCardModifier,
                 onClick = onAddModuleCardClick
             )
         }

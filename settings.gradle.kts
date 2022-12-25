@@ -48,6 +48,8 @@ include(":core:uiKitTheme")
 
 include(":core:utils")
 
+include(":core:sharedElements")
+
 
 // Entry layer
 include(":entry:app")

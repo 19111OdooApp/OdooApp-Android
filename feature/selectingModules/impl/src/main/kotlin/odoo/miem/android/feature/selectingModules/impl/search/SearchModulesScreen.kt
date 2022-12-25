@@ -48,7 +48,10 @@ private fun SearchModulesScreen(
 
     SearchTextField(
         value = searchValue,
-        onValueChange = onValueChange
+        onValueChange = {
+            onValueChange(it)
+            // TODO search logic from viewModel
+        }
     )
     
     Column(

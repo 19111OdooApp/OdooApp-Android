@@ -50,8 +50,8 @@ fun BigModuleOutlinedCard(
         width = 4.dp,
         brush = animatedGradientBorder(
             colors = gradientColors,
-            startX = -150f,
-            startY = -150f,
+            startX = 0f,
+            startY = 0f,
             height = 1050f
         )
     ),

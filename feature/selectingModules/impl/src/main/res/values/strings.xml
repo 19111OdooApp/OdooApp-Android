@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--header-->
+    <!-- header -->
     <string name="hello_text">Hello,</string>
     <string name="default_user_name">Cool user</string>
     <string name="choose_module_text">Choose module</string>
     <string name="all_modules">All modules</string>
+
+    <!-- search screen -->
+    <string name="favourite_modules_header">Favourite modules</string>
+    <string name="all_modules_header">All modules</string>
 </resources>

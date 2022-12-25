@@ -204,7 +204,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         SearchTextField(
             value = searchInput,
             onValueChange = { searchInput = it },
-            enabled = false
+            enabled = true
         )
 
         Spacer(modifier = Modifier.height(selectingFavoriteModulesTopPadding))

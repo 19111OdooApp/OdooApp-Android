@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
 import odoo.miem.android.common.uiKitComponents.cards.SmallModuleCard
-import odoo.miem.android.common.uiKitComponents.text.SubTitleText
+import odoo.miem.android.common.uiKitComponents.text.LabelText
 import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
 import odoo.miem.android.core.sharedElements.FadeMode
 import odoo.miem.android.core.sharedElements.SharedElement
@@ -81,7 +81,7 @@ fun SearchModulesScreen(
         horizontalAlignment = Alignment.Start,
         modifier = Modifier.fillMaxWidth()
     ) {
-        SubTitleText(
+        LabelText(
             textRes = R.string.favourite_modules_header,
             modifier = Modifier.padding(start = 34.dp)
         )
@@ -90,9 +90,7 @@ fun SearchModulesScreen(
 
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(mainHorizontalPadding / 2),
-            modifier = Modifier
-                .fillMaxWidth()
-//                .weight(4f)
+            modifier = Modifier.fillMaxWidth()
         ) {
             item {
                 Spacer(modifier = Modifier.width(mainHorizontalPadding / 2))
@@ -116,7 +114,7 @@ fun SearchModulesScreen(
 
         Spacer(modifier = Modifier.height(mainVerticalPadding))
 
-        SubTitleText(
+        LabelText(
             textRes = R.string.all_modules_header,
             modifier = Modifier.padding(start = 34.dp)
         )
@@ -125,9 +123,7 @@ fun SearchModulesScreen(
 
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(mainHorizontalPadding / 2),
-            modifier = Modifier
-                .fillMaxWidth()
-//                .weight(3f)
+            modifier = Modifier.fillMaxWidth()
         ) {
             item {
                 Spacer(modifier = Modifier.width(mainHorizontalPadding / 2))

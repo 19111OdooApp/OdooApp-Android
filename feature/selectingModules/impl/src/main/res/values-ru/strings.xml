@@ -9,4 +9,5 @@
     <!-- search screen -->
     <string name="favourite_modules_header">Избранное</string>
     <string name="all_modules_header">Все модули</string>
+    <string name="search_result_empty">Модулей с таким названием не найдено</string>
 </resources>

@@ -7,6 +7,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,8 +17,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -28,13 +31,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
+import odoo.miem.android.common.uiKitComponents.cards.BigModuleCard
 import odoo.miem.android.common.uiKitComponents.cards.SmallModuleCard
 import odoo.miem.android.common.uiKitComponents.text.LabelText
+import odoo.miem.android.common.uiKitComponents.text.SubTitleText
 import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
 import odoo.miem.android.core.sharedElements.FadeMode
 import odoo.miem.android.core.sharedElements.SharedElement
@@ -109,6 +115,14 @@ fun SearchModulesScreen(
             allModules = allModules,
             favouriteModules = favouriteModules
         )
+    }
+
+    AnimatedVisibility(
+        visible = !isSearchBarEmpty,
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+
     }
 }
 
@@ -188,8 +202,41 @@ private fun SearchRecommendationsContent(
     }
 }
 
-private fun String.matchesCondition(condition: String) =
-    lowercase(Locale.getDefault()).matches(Regex(".*$condition.*"))
+@Composable
+private fun SearchResultContent(
+    filteredModules: List<OdooModule>
+) {
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(mainVerticalPadding),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.padding(horizontal = mainHorizontalPadding)
+    ) {
+        if (filteredModules.isEmpty()) {
+            item {
+                LabelText(
+                    textRes = R.string.search_result_empty,
+                    isLarge = true
+                )
+
+                Image(
+                    painter = painterResource(R.drawable.ic_sad_smile),
+                    contentDescription = null
+                )
+            }
+        } else {
+            items(filteredModules) {
+                var isLikedState by remember { mutableStateOf(it.isLiked) }
+
+                BigModuleCard(
+                    moduleName = it.name,
+                    numberOfNotification = it.numberOfNotifications,
+                    isLiked = isLikedState,
+                    onLikeClick = { isLikedState = !isLikedState },
+                )
+            }
+        }
+    }
+}
 
 @Composable
 @Preview(showBackground = true, backgroundColor = 0xFFFFFF)

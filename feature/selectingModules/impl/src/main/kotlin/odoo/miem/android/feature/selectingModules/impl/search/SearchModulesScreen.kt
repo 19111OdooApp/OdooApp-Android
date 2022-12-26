@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -206,28 +205,34 @@ private fun SearchRecommendationsContent(
 private fun SearchResultContent(
     filteredModules: List<OdooModule>
 ) {
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(mainVerticalPadding),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = mainHorizontalPadding)
-    ) {
-        if (filteredModules.isEmpty()) {
-            item {
-                LabelText(
-                    textRes = R.string.search_result_empty,
-                    isLarge = true,
-                    textAlign = TextAlign.Center
-                )
+    val columnModifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = mainHorizontalPadding)
 
-                Image(
-                    painter = painterResource(R.drawable.ic_sad_smile),
-                    contentDescription = null,
-                    modifier = Modifier.padding(top = mainVerticalPadding)
-                )
-            }
-        } else {
+    if (filteredModules.isEmpty()) {
+        Column(
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = columnModifier
+        ) {
+            LabelText(
+                textRes = R.string.search_result_empty,
+                isLarge = true,
+                textAlign = TextAlign.Center
+            )
+
+            Image(
+                painter = painterResource(R.drawable.ic_sad_smile),
+                contentDescription = null,
+                modifier = Modifier.padding(top = mainVerticalPadding)
+            )
+        }
+    } else {
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(mainVerticalPadding),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = columnModifier
+        ) {
             items(filteredModules) {
                 var isLikedState by remember { mutableStateOf(it.isLiked) }
 
@@ -237,6 +242,10 @@ private fun SearchResultContent(
                     isLiked = isLikedState,
                     onLikeClick = { isLikedState = !isLikedState },
                 )
+            }
+
+            item {
+                Spacer(modifier = Modifier.height(mainVerticalPadding / 2))
             }
         }
     }

@@ -1,6 +1,9 @@
 package odoo.miem.android.feature.selectingModules.impl
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -48,12 +51,20 @@ import odoo.miem.android.common.uiKitComponents.cards.SmallModuleCard
 import odoo.miem.android.common.uiKitComponents.text.SubTitleText
 import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
+import odoo.miem.android.core.sharedElements.FadeMode
+import odoo.miem.android.core.sharedElements.MaterialContainerTransformSpec
+import odoo.miem.android.core.sharedElements.SharedElement
+import odoo.miem.android.core.sharedElements.SharedElementsRoot
+import odoo.miem.android.core.sharedElements.SharedMaterialContainer
+import odoo.miem.android.core.sharedElements.base.MaterialArcMotionFactory
+import odoo.miem.android.core.sharedElements.utils.DelayExit
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
 import odoo.miem.android.feature.selectingModules.impl.components.SelectingModulesFavoriteList
 import odoo.miem.android.feature.selectingModules.impl.components.SelectingModulesHeader
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
+import odoo.miem.android.feature.selectingModules.impl.search.SearchModulesScreen
 import javax.inject.Inject
 
 /**
@@ -121,54 +132,84 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                 scaffoldState.customBottomSheetState.upToHalf()
             }
         }
+        var searchInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
+            mutableStateOf(TextFieldValue())
+        }
+        val onSearchValueChange: (TextFieldValue) -> Unit = { it ->
+            searchInput = it
+        }
 
-        CustomBottomSheetScaffold(
-            scaffoldState = scaffoldState,
-            sheetContent = {
-                val topPadding = 24.dp
+        var isSearchScreenVisible by remember { mutableStateOf(false) }
 
-                Spacer(modifier = Modifier.height(topPadding))
+        SharedElementsRoot {
+            Crossfade(
+                targetState = isSearchScreenVisible,
+                animationSpec = tween(durationMillis = 1000)
+            ) { visible ->
+                when (visible) {
+                    false -> {
+                        CustomBottomSheetScaffold(
+                            scaffoldState = scaffoldState,
+                            sheetContent = {
+                                val topPadding = 24.dp
 
-                SelectingModulesBottomSheetHeader()
-                
-                Spacer(modifier = Modifier.height(6.dp))
+                                Spacer(modifier = Modifier.height(topPadding))
 
-                SelectingModulesBottomSheetGrid(allModules = allModules)
-            },
-            sheetShape = RoundedCornerShape(
-                topStart = topRadius,
-                topEnd = topRadius
-            ),
-            sheetPeekHeight = (LocalConfiguration.current.screenHeightDp * sheetPeekHeightCoefficient).dp,
-            sheetElevation = 8.dp,
-            backgroundColor = MaterialTheme.colorScheme.background,
-            sheetBackgroundColor = MaterialTheme.colorScheme.background,
-            halfCoefficient = halfCoefficient,
-            modifier = Modifier
-                .fillMaxSize()
-                .imePadding()
-        ) {
-            SelectingModulesMainContent(
-                allModules = allModules,
-                favouriteModules = favoriteModules,
-                onAddModuleCardClick = onAddModuleCardClick
-            )
+                                SelectingModulesBottomSheetHeader()
+
+                                Spacer(modifier = Modifier.height(6.dp))
+
+                                SelectingModulesBottomSheetGrid(allModules = allModules)
+                            },
+                            sheetShape = RoundedCornerShape(
+                                topStart = topRadius,
+                                topEnd = topRadius
+                            ),
+                            sheetPeekHeight = (LocalConfiguration.current.screenHeightDp * sheetPeekHeightCoefficient).dp,
+                            sheetElevation = 8.dp,
+                            backgroundColor = MaterialTheme.colorScheme.background,
+                            sheetBackgroundColor = MaterialTheme.colorScheme.background,
+                            halfCoefficient = halfCoefficient,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .imePadding()
+                        ) {
+                            SelectingModulesMainContent(
+                                searchInputState = searchInput,
+                                onSearchValueChange = onSearchValueChange,
+                                allModules = allModules,
+                                favouriteModules = favoriteModules,
+                                onAddModuleCardClick = onAddModuleCardClick,
+                                onSearchBarClick = { isSearchScreenVisible = true }
+                            )
+                        }
+                    }
+                    else -> {
+                        SearchModulesScreen(
+                            searchInputState = searchInput,
+                            onValueChange = onSearchValueChange,
+                            allModules = allModules,
+                            favouriteModules = favoriteModules,
+                            onExit = { isSearchScreenVisible = false }
+                        )
+                    }
+                }
+            }
         }
     }
 
     @OptIn(ExperimentalPagerApi::class)
     @Composable
     private fun SelectingModulesMainContent(
+        searchInputState: TextFieldValue = TextFieldValue(),
+        onSearchValueChange: (TextFieldValue) -> Unit = {},
         allModules: List<OdooModule> = emptyList(),
         favouriteModules: List<OdooModule> = emptyList(),
-        onAddModuleCardClick: () -> Unit = {}
+        onAddModuleCardClick: () -> Unit = {},
+        onSearchBarClick: () -> Unit = {}
     ) = Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        var searchInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
-            mutableStateOf(TextFieldValue())
-        }
-
         val pagerState = rememberPagerState()
         val haptic = LocalHapticFeedback.current
         var startTransaction by remember { mutableStateOf(false) }
@@ -199,6 +240,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             modifier = Modifier
                 .align(Alignment.Start)
                 .padding(horizontal = mainHorizontalPadding)
+                .clickable { onSearchBarClick() } // TODO REMOVE
         )
 
         Spacer(modifier = Modifier.height(searchTextFieldTopPadding))
@@ -206,11 +248,23 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         // TODO Search Transaction
         // https://github.com/mxalbert1996/compose-shared-elements
         // https://github.com/mobnetic/compose-shared-element
-        SearchTextField(
-            value = searchInput,
-            onValueChange = { searchInput = it },
-            enabled = true
-        )
+        SharedElement(
+            key = "searchBar",
+            screenKey = "mainScreen",
+            transitionSpec = MaterialContainerTransformSpec(
+                durationMillis = 1000,
+                fadeMode = FadeMode.Out
+            )
+        ) {
+            SearchTextField(
+                value = searchInputState,
+                onValueChange = {
+                    onSearchValueChange(it)
+                    onSearchBarClick()
+                },
+                enabled = true
+            )
+        }
 
         Spacer(modifier = Modifier.height(selectingFavoriteModulesTopPadding))
 

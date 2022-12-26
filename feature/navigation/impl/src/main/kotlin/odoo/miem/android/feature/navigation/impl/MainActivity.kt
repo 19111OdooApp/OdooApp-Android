@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Timber.d("onCreate()")
 
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowCompat.setDecorFitsSystemWindows(window, true)
         setContent {
             val navController = rememberNavController()
             val snackbarHostState = remember { SnackbarHostState() }

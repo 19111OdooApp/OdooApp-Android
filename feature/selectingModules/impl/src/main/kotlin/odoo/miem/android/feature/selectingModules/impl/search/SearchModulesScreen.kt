@@ -25,6 +25,11 @@ import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
 import odoo.miem.android.common.uiKitComponents.cards.SmallModuleCard
 import odoo.miem.android.common.uiKitComponents.text.SubTitleText
 import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
+import odoo.miem.android.core.sharedElements.FadeMode
+import odoo.miem.android.core.sharedElements.SharedElement
+import odoo.miem.android.core.sharedElements.base.MaterialArcMotionFactory
+import odoo.miem.android.core.sharedElements.utils.ProgressThresholds
+import odoo.miem.android.core.sharedElements.utils.SharedElementsTransitionSpec
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.selectingModules.impl.R
@@ -32,10 +37,11 @@ import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 
 @Composable
 fun SearchModulesScreen(
-    searchValue: TextFieldValue = TextFieldValue(),
-    onValueChange: (TextFieldValue) -> Unit = {},
     allModules: List<OdooModule>,
     favouriteModules: List<OdooModule>,
+    searchInputState: TextFieldValue = TextFieldValue(),
+    onValueChange: (TextFieldValue) -> Unit = {},
+    onExit: () -> Unit = {},
 ) = Column(
     horizontalAlignment = Alignment.CenterHorizontally,
     modifier = Modifier
@@ -47,13 +53,24 @@ fun SearchModulesScreen(
 
     Spacer(modifier = Modifier.height(39.dp))
 
-    SearchTextField(
-        value = searchValue,
-        onValueChange = {
-            onValueChange(it)
-            // TODO search logic from viewModel
-        }
-    )
+    SharedElement(
+        key = "searchBar",
+        screenKey = "searchScreen",
+        transitionSpec = SharedElementsTransitionSpec(
+            pathMotionFactory = MaterialArcMotionFactory,
+            durationMillis = 1000,
+            fadeMode = FadeMode.Through,
+            fadeProgressThresholds = ProgressThresholds(0.10f, 0.40f)
+        )
+    ) {
+        SearchTextField(
+            value = searchInputState,
+            onValueChange = {
+                onValueChange(it)
+                // TODO search logic from viewModel
+            }
+        )
+    }
 
     val mainVerticalPadding = 24.dp
 
@@ -73,7 +90,9 @@ fun SearchModulesScreen(
 
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(mainHorizontalPadding / 2),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+//                .weight(4f)
         ) {
             item {
                 Spacer(modifier = Modifier.width(mainHorizontalPadding / 2))
@@ -106,7 +125,9 @@ fun SearchModulesScreen(
 
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(mainHorizontalPadding / 2),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+//                .weight(3f)
         ) {
             item {
                 Spacer(modifier = Modifier.width(mainHorizontalPadding / 2))

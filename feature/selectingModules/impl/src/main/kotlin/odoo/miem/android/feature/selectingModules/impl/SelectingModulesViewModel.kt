@@ -20,11 +20,11 @@ class SelectingModulesViewModel : ViewModel() {
 
     val allModulesState: ResultSubject<List<OdooModule>> by lazyEmptyResultPublishSubject()
     val searchState: ResultSubject<List<OdooModule>> by lazyEmptyResultPublishSubject()
-
-    fun getAllModules() {
-        allModulesState.onLoadingState()
-        val observable = Observable<List<OdooModule>>()
-    }
+//
+//    fun getAllModules() {
+//        allModulesState.onLoadingState()
+//        val observable = Observable<List<OdooModule>>()
+//    }
 
     fun performSearch(condition: String) {
 

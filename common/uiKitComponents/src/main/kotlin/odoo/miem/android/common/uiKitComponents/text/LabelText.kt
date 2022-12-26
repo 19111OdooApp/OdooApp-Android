@@ -6,6 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 
 /**
  * [SubTitleText] is text for labels
@@ -19,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 fun LabelText(
     @StringRes textRes: Int,
     modifier: Modifier = Modifier,
+    textAlign: TextAlign = TextAlign.Start,
     isLarge: Boolean = false
 ) = Text(
     text = stringResource(textRes),
@@ -28,5 +30,6 @@ fun LabelText(
         MaterialTheme.typography.labelMedium
     },
     modifier = modifier,
+    textAlign = textAlign,
     color = MaterialTheme.colorScheme.onPrimaryContainer
 )

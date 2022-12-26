@@ -2,11 +2,8 @@ package odoo.miem.android.feature.selectingModules.impl.search
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,11 +13,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -34,13 +31,13 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
 import odoo.miem.android.common.uiKitComponents.cards.BigModuleCard
 import odoo.miem.android.common.uiKitComponents.cards.SmallModuleCard
 import odoo.miem.android.common.uiKitComponents.text.LabelText
-import odoo.miem.android.common.uiKitComponents.text.SubTitleText
 import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
 import odoo.miem.android.core.sharedElements.FadeMode
 import odoo.miem.android.core.sharedElements.SharedElement
@@ -53,7 +50,6 @@ import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
 import odoo.miem.android.feature.selectingModules.impl.R
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
-import java.util.Locale
 
 @Composable
 fun SearchModulesScreen(
@@ -122,7 +118,7 @@ fun SearchModulesScreen(
         enter = fadeIn(),
         exit = fadeOut()
     ) {
-
+        SearchResultContent(filteredModules = emptyList())
     }
 }
 
@@ -136,67 +132,71 @@ private fun SearchRecommendationsContent(
         horizontalAlignment = Alignment.Start,
         modifier = Modifier.fillMaxWidth()
     ) {
-        LabelText(
-            textRes = R.string.favourite_modules_header,
-            modifier = Modifier.padding(start = 34.dp)
-        )
+        if (favouriteModules.isNotEmpty()) {
+            LabelText(
+                textRes = R.string.favourite_modules_header,
+                modifier = Modifier.padding(start = 34.dp)
+            )
 
-        Spacer(modifier = Modifier.height(mainVerticalPadding))
+            Spacer(modifier = Modifier.height(mainVerticalPadding))
 
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(mainHorizontalPadding / 2),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            item {
-                Spacer(modifier = Modifier.width(mainHorizontalPadding / 2))
-            }
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(mainHorizontalPadding / 2),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                item {
+                    Spacer(modifier = Modifier.width(mainHorizontalPadding / 2))
+                }
 
-            items(favouriteModules) {
-                var isLikedState by remember { mutableStateOf(it.isLiked) }
+                items(favouriteModules) {
+                    var isLikedState by remember { mutableStateOf(it.isLiked) }
 
-                SmallModuleCard(
-                    moduleName = it.name,
-                    isLiked = isLikedState,
-                    onLikeClick = { isLikedState = !isLikedState },
-                    modifier = Modifier.width(170.dp)
-                )
-            }
+                    SmallModuleCard(
+                        moduleName = it.name,
+                        isLiked = isLikedState,
+                        onLikeClick = { isLikedState = !isLikedState },
+                        modifier = Modifier.width(170.dp)
+                    )
+                }
 
-            item {
-                Spacer(modifier = Modifier.width(mainHorizontalPadding / 4))
+                item {
+                    Spacer(modifier = Modifier.width(mainHorizontalPadding / 4))
+                }
             }
         }
 
-        Spacer(modifier = Modifier.height(mainVerticalPadding))
+        if (allModules.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(mainVerticalPadding))
 
-        LabelText(
-            textRes = R.string.all_modules_header,
-            modifier = Modifier.padding(start = 34.dp)
-        )
+            LabelText(
+                textRes = R.string.all_modules_header,
+                modifier = Modifier.padding(start = 34.dp)
+            )
 
-        Spacer(modifier = Modifier.height(mainVerticalPadding))
+            Spacer(modifier = Modifier.height(mainVerticalPadding))
 
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(mainHorizontalPadding / 2),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            item {
-                Spacer(modifier = Modifier.width(mainHorizontalPadding / 2))
-            }
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(mainHorizontalPadding / 2),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                item {
+                    Spacer(modifier = Modifier.width(mainHorizontalPadding / 2))
+                }
 
-            items(allModules) {
-                var isLikedState by remember { mutableStateOf(it.isLiked) }
+                items(allModules) {
+                    var isLikedState by remember { mutableStateOf(it.isLiked) }
 
-                SmallModuleCard(
-                    moduleName = it.name,
-                    isLiked = isLikedState,
-                    onLikeClick = { isLikedState = !isLikedState },
-                    modifier = Modifier.width(170.dp)
-                )
-            }
+                    SmallModuleCard(
+                        moduleName = it.name,
+                        isLiked = isLikedState,
+                        onLikeClick = { isLikedState = !isLikedState },
+                        modifier = Modifier.width(170.dp)
+                    )
+                }
 
-            item {
-                Spacer(modifier = Modifier.width(mainHorizontalPadding / 4))
+                item {
+                    Spacer(modifier = Modifier.width(mainHorizontalPadding / 4))
+                }
             }
         }
     }
@@ -209,18 +209,22 @@ private fun SearchResultContent(
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(mainVerticalPadding),
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(horizontal = mainHorizontalPadding)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = mainHorizontalPadding)
     ) {
         if (filteredModules.isEmpty()) {
             item {
                 LabelText(
                     textRes = R.string.search_result_empty,
-                    isLarge = true
+                    isLarge = true,
+                    textAlign = TextAlign.Center
                 )
 
                 Image(
                     painter = painterResource(R.drawable.ic_sad_smile),
-                    contentDescription = null
+                    contentDescription = null,
+                    modifier = Modifier.padding(top = mainVerticalPadding)
                 )
             }
         } else {

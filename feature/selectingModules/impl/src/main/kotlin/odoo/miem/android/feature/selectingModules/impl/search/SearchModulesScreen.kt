@@ -1,5 +1,12 @@
 package odoo.miem.android.feature.selectingModules.impl.search
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,12 +19,16 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,11 +40,14 @@ import odoo.miem.android.core.sharedElements.FadeMode
 import odoo.miem.android.core.sharedElements.SharedElement
 import odoo.miem.android.core.sharedElements.base.MaterialArcMotionFactory
 import odoo.miem.android.core.sharedElements.utils.ProgressThresholds
+import odoo.miem.android.core.sharedElements.utils.SharedElementConstants
 import odoo.miem.android.core.sharedElements.utils.SharedElementsTransitionSpec
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
+import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
 import odoo.miem.android.feature.selectingModules.impl.R
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
+import java.util.Locale
 
 @Composable
 fun SearchModulesScreen(
@@ -41,24 +55,34 @@ fun SearchModulesScreen(
     favouriteModules: List<OdooModule>,
     searchInputState: TextFieldValue = TextFieldValue(),
     onValueChange: (TextFieldValue) -> Unit = {},
-    onExit: () -> Unit = {},
+    onBackPressed: () -> Unit = {},
 ) = Column(
     horizontalAlignment = Alignment.CenterHorizontally,
     modifier = Modifier
         .fillMaxSize()
         .imePadding()
 ) {
+    var isSearchBarEmpty by remember { mutableStateOf(true) }
+    val focusRequester = FocusRequester()
+
+    BackHandler(enabled = true) {
+        onBackPressed()
+    }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
 
     SimpleLogoAppBar()
 
     Spacer(modifier = Modifier.height(39.dp))
 
     SharedElement(
-        key = "searchBar",
-        screenKey = "searchScreen",
+        key = stringResource(R.string.search_bar_key),
+        screenKey = stringResource(R.string.search_screen_key),
         transitionSpec = SharedElementsTransitionSpec(
             pathMotionFactory = MaterialArcMotionFactory,
-            durationMillis = 1000,
+            durationMillis = SharedElementConstants.transitionDurationMills,
             fadeMode = FadeMode.Through,
             fadeProgressThresholds = ProgressThresholds(0.10f, 0.40f)
         )
@@ -67,15 +91,32 @@ fun SearchModulesScreen(
             value = searchInputState,
             onValueChange = {
                 onValueChange(it)
+                isSearchBarEmpty = it.text.isBlank()
                 // TODO search logic from viewModel
-            }
+            },
+            modifier = Modifier.focusRequester(focusRequester)
         )
     }
 
-    val mainVerticalPadding = 24.dp
-
     Spacer(modifier = Modifier.height(mainVerticalPadding))
 
+    AnimatedVisibility(
+        visible = isSearchBarEmpty,
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+        SearchRecommendationsContent(
+            allModules = allModules,
+            favouriteModules = favouriteModules
+        )
+    }
+}
+
+@Composable
+private fun SearchRecommendationsContent(
+    allModules: List<OdooModule>,
+    favouriteModules: List<OdooModule>,
+) {
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start,
@@ -146,6 +187,9 @@ fun SearchModulesScreen(
         }
     }
 }
+
+private fun String.matchesCondition(condition: String) =
+    lowercase(Locale.getDefault()).matches(Regex(".*$condition.*"))
 
 @Composable
 @Preview(showBackground = true, backgroundColor = 0xFFFFFF)

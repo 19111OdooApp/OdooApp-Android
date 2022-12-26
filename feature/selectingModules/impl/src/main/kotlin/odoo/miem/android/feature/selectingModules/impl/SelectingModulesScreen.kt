@@ -35,9 +35,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
@@ -55,9 +57,7 @@ import odoo.miem.android.core.sharedElements.FadeMode
 import odoo.miem.android.core.sharedElements.MaterialContainerTransformSpec
 import odoo.miem.android.core.sharedElements.SharedElement
 import odoo.miem.android.core.sharedElements.SharedElementsRoot
-import odoo.miem.android.core.sharedElements.SharedMaterialContainer
-import odoo.miem.android.core.sharedElements.base.MaterialArcMotionFactory
-import odoo.miem.android.core.sharedElements.utils.DelayExit
+import odoo.miem.android.core.sharedElements.utils.SharedElementConstants
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
@@ -86,6 +86,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         navController: NavHostController,
         showMessage: (Int) -> Unit
     ) {
+        val viewModel: SelectingModulesViewModel = viewModel()
+
         // TODO Delete Test Data
         val modules = listOf(
             OdooModule(
@@ -132,19 +134,17 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                 scaffoldState.customBottomSheetState.upToHalf()
             }
         }
+
         var searchInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
             mutableStateOf(TextFieldValue())
         }
-        val onSearchValueChange: (TextFieldValue) -> Unit = { it ->
-            searchInput = it
-        }
-
+        val onSearchValueChange: (TextFieldValue) -> Unit = { searchInput = it }
         var isSearchScreenVisible by remember { mutableStateOf(false) }
 
         SharedElementsRoot {
             Crossfade(
                 targetState = isSearchScreenVisible,
-                animationSpec = tween(durationMillis = 1000)
+                animationSpec = tween(durationMillis = SharedElementConstants.transitionDurationMills)
             ) { visible ->
                 when (visible) {
                     false -> {
@@ -177,7 +177,6 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                             SelectingModulesMainContent(
                                 searchInputState = searchInput,
                                 onSearchValueChange = onSearchValueChange,
-                                allModules = allModules,
                                 favouriteModules = favoriteModules,
                                 onAddModuleCardClick = onAddModuleCardClick,
                                 onSearchBarClick = { isSearchScreenVisible = true }
@@ -190,7 +189,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                             onValueChange = onSearchValueChange,
                             allModules = allModules,
                             favouriteModules = favoriteModules,
-                            onExit = { isSearchScreenVisible = false }
+                            onBackPressed = { isSearchScreenVisible = false }
                         )
                     }
                 }
@@ -203,7 +202,6 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     private fun SelectingModulesMainContent(
         searchInputState: TextFieldValue = TextFieldValue(),
         onSearchValueChange: (TextFieldValue) -> Unit = {},
-        allModules: List<OdooModule> = emptyList(),
         favouriteModules: List<OdooModule> = emptyList(),
         onAddModuleCardClick: () -> Unit = {},
         onSearchBarClick: () -> Unit = {}
@@ -240,29 +238,23 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             modifier = Modifier
                 .align(Alignment.Start)
                 .padding(horizontal = mainHorizontalPadding)
-                .clickable { onSearchBarClick() } // TODO REMOVE
         )
 
         Spacer(modifier = Modifier.height(searchTextFieldTopPadding))
 
-        // TODO Search Transaction
-        // https://github.com/mxalbert1996/compose-shared-elements
-        // https://github.com/mobnetic/compose-shared-element
         SharedElement(
-            key = "searchBar",
-            screenKey = "mainScreen",
+            key = stringResource(R.string.search_bar_key),
+            screenKey = stringResource(R.string.select_modules_screen_key),
             transitionSpec = MaterialContainerTransformSpec(
-                durationMillis = 1000,
+                durationMillis = SharedElementConstants.transitionDurationMills,
                 fadeMode = FadeMode.Out
             )
         ) {
             SearchTextField(
+                enabled = false,
                 value = searchInputState,
-                onValueChange = {
-                    onSearchValueChange(it)
-                    onSearchBarClick()
-                },
-                enabled = true
+                onValueChange = { onSearchValueChange(it) },
+                modifier = Modifier.clickable { onSearchBarClick() }
             )
         }
 
@@ -270,10 +262,10 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
         SelectingModulesFavoriteList(
             favoriteModules = favouriteModules,
+            onAddModuleCardClick = onAddModuleCardClick,
             indicatorModifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(horizontal = mainHorizontalPadding),
-            onAddModuleCardClick = onAddModuleCardClick
         )
     }
 
@@ -282,19 +274,19 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         val width = (LocalConfiguration.current.screenWidthDp / 8).dp
 
         Divider(
+            thickness = 2.dp,
+            color = MaterialTheme.colorScheme.onPrimary,
             modifier = Modifier
                 .width(width)
-                .align(Alignment.CenterHorizontally),
-            thickness = 2.dp,
-            color = MaterialTheme.colorScheme.onPrimary
+                .align(Alignment.CenterHorizontally)
         )
 
         Spacer(modifier = Modifier.height(14.dp))
 
         SubTitleText(
             textRes = R.string.all_modules,
+            isLarge = true,
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            isLarge = true
         )
     }
 

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -30,11 +31,11 @@ import odoo.miem.android.feature.selectingModules.impl.R
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 
 @Composable
-private fun SearchModulesScreen(
+fun SearchModulesScreen(
     searchValue: TextFieldValue = TextFieldValue(),
     onValueChange: (TextFieldValue) -> Unit = {},
     allModules: List<OdooModule>,
-    favouriteModules: MutableList<OdooModule>,
+    favouriteModules: List<OdooModule>,
 ) = Column(
     horizontalAlignment = Alignment.CenterHorizontally,
     modifier = Modifier
@@ -53,60 +54,86 @@ private fun SearchModulesScreen(
             // TODO search logic from viewModel
         }
     )
-    
+
+    val mainVerticalPadding = 24.dp
+
+    Spacer(modifier = Modifier.height(mainVerticalPadding))
+
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start,
-        modifier = Modifier.padding(start = mainHorizontalPadding)
+        modifier = Modifier.fillMaxWidth()
     ) {
         SubTitleText(
             textRes = R.string.favourite_modules_header,
-            modifier = Modifier.padding(start = 10.dp)
+            modifier = Modifier.padding(start = 34.dp)
         )
+
+        Spacer(modifier = Modifier.height(mainVerticalPadding))
 
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(mainHorizontalPadding / 2),
             modifier = Modifier.fillMaxWidth()
         ) {
+            item {
+                Spacer(modifier = Modifier.width(mainHorizontalPadding / 2))
+            }
+
             items(favouriteModules) {
                 var isLikedState by remember { mutableStateOf(it.isLiked) }
 
                 SmallModuleCard(
                     moduleName = it.name,
                     isLiked = isLikedState,
-                    onLikeClick = { isLikedState = !isLikedState }
+                    onLikeClick = { isLikedState = !isLikedState },
+                    modifier = Modifier.width(170.dp)
                 )
+            }
+
+            item {
+                Spacer(modifier = Modifier.width(mainHorizontalPadding / 4))
             }
         }
 
-        Spacer(modifier = Modifier.height(mainHorizontalPadding))
+        Spacer(modifier = Modifier.height(mainVerticalPadding))
 
         SubTitleText(
             textRes = R.string.all_modules_header,
-            modifier = Modifier.padding(start = 10.dp)
+            modifier = Modifier.padding(start = 34.dp)
         )
+
+        Spacer(modifier = Modifier.height(mainVerticalPadding))
 
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(mainHorizontalPadding / 2),
             modifier = Modifier.fillMaxWidth()
         ) {
+            item {
+                Spacer(modifier = Modifier.width(mainHorizontalPadding / 2))
+            }
+
             items(allModules) {
                 var isLikedState by remember { mutableStateOf(it.isLiked) }
 
                 SmallModuleCard(
                     moduleName = it.name,
                     isLiked = isLikedState,
-                    onLikeClick = { isLikedState = !isLikedState }
+                    onLikeClick = { isLikedState = !isLikedState },
+                    modifier = Modifier.width(170.dp)
                 )
+            }
+
+            item {
+                Spacer(modifier = Modifier.width(mainHorizontalPadding / 4))
             }
         }
     }
 }
 
-@Preview
 @Composable
+@Preview(showBackground = true, backgroundColor = 0xFFFFFF)
 private fun SearchModulesScreenPreview() = OdooMiemAndroidTheme {
-    val modules = mutableListOf(
+    val modules = listOf(
         OdooModule(
             name = "CRM",
             numberOfNotifications = 1

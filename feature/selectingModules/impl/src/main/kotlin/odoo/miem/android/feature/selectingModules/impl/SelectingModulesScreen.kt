@@ -1,6 +1,7 @@
 package odoo.miem.android.feature.selectingModules.impl
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -129,6 +130,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                 Spacer(modifier = Modifier.height(topPadding))
 
                 SelectingModulesBottomSheetHeader()
+                
+                Spacer(modifier = Modifier.height(6.dp))
 
                 SelectingModulesBottomSheetGrid(allModules = allModules)
             },
@@ -146,7 +149,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                 .imePadding()
         ) {
             SelectingModulesMainContent(
-                favoriteModules = favoriteModules,
+                allModules = allModules,
+                favouriteModules = favoriteModules,
                 onAddModuleCardClick = onAddModuleCardClick
             )
         }
@@ -155,7 +159,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     @OptIn(ExperimentalPagerApi::class)
     @Composable
     private fun SelectingModulesMainContent(
-        favoriteModules: List<OdooModule> = emptyList(),
+        allModules: List<OdooModule> = emptyList(),
+        favouriteModules: List<OdooModule> = emptyList(),
         onAddModuleCardClick: () -> Unit = {}
     ) = Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -210,7 +215,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         Spacer(modifier = Modifier.height(selectingFavoriteModulesTopPadding))
 
         SelectingModulesFavoriteList(
-            favoriteModules = favoriteModules,
+            favoriteModules = favouriteModules,
             indicatorModifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(horizontal = mainHorizontalPadding),
@@ -245,6 +250,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     ) = LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(mainHorizontalPadding / 2),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier.fillMaxSize()
     ) {
         items(allModules) {

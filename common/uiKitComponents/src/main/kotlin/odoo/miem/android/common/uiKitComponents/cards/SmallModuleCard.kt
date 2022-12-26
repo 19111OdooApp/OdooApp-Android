@@ -53,8 +53,7 @@ fun SmallModuleCard(
 ) = Box(
     modifier = modifier
         .fillMaxWidth()
-        .padding(8.dp)
-        .height(110.dp)
+        .height(120.dp)
         .clip(RoundedCornerShape(20.dp))
         .background(moduleName.getBackgroundColorCard())
         .clickable { onClick() }
@@ -99,6 +98,9 @@ fun SmallModuleCard(
         color = Color.White,
         modifier = Modifier
             .align(Alignment.BottomCenter)
-            .padding(bottom = 6.dp)
+            .padding(
+                top = 10.dp,
+                bottom = 10.dp
+            )
     )
 }

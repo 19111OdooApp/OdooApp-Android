@@ -50,7 +50,6 @@ include(":core:utils")
 
 include(":core:sharedElements")
 
-
 // Entry layer
 include(":entry:app")
 
@@ -64,4 +63,3 @@ include(":feature:navigation:impl")
 
 include(":feature:selectingModules:api")
 include(":feature:selectingModules:impl")
-

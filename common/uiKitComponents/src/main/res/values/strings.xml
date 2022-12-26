@@ -11,7 +11,7 @@
     <string name="outlined_module_card_header">Add favourite module</string>
 
     <!--  Search Text field  -->
-    <string name="search_text_field_label">Enter module name…</string>
+    <string name="search_text_field_label">Enter module name</string>
 
     <!--  for ui tests  -->
     <string name="text_field_trailing_icon_desc" translatable="false">textFieldTrailingIcon</string>

@@ -37,5 +37,5 @@ dependencies {
 
     // Ui Kit Theme
     implementation(project(":core:uiKitTheme"))
-    implementation(project(mapOf("path" to ":core:utils")))
+    implementation(project(":core:utils"))
 }

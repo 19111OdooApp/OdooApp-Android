@@ -139,8 +139,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         var searchInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
             mutableStateOf(TextFieldValue())
         }
-        val onSearchValueChange: (TextFieldValue) -> Unit = { searchInput = it }
         var isSearchScreenVisible by remember { mutableStateOf(false) }
+        val onSearchValueChange: (TextFieldValue) -> Unit = { searchInput = it }
 
         SharedElementsRoot {
             Crossfade(

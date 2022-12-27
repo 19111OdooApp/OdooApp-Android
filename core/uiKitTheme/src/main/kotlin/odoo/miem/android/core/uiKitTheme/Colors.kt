@@ -45,7 +45,7 @@ val cardColors = listOf(
     Color(0xFFBAAF92),
 )
 
-val animatedCardColors = listOf(
+val gradientColors = listOf(
     Color(0xFFA55540),
     Color(0xFFF87829),
     odooPrimaryLight,

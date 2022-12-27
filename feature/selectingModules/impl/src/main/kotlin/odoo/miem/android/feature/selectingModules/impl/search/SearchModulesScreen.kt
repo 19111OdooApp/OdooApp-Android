@@ -72,6 +72,7 @@ fun SearchModulesScreen(
 
     BackHandler(enabled = true) {
         onBackPressed()
+        onValueChange(TextFieldValue())
     }
 
     LaunchedEffect(Unit) {

@@ -25,7 +25,7 @@ import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
 import odoo.miem.android.common.uiKitComponents.cards.BigModuleCard
 import odoo.miem.android.common.uiKitComponents.cards.BigModuleOutlinedCard
-import odoo.miem.android.core.uiKitTheme.animatedCardColors
+import odoo.miem.android.core.uiKitTheme.gradientColors
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 import kotlin.math.absoluteValue
@@ -106,7 +106,7 @@ internal fun SelectingModulesFavoriteList(
             }
         } else {
             BigModuleOutlinedCard(
-                gradientColors = animatedCardColors,
+                gradientColors = gradientColors,
                 modifier = bigCardModifier,
                 onClick = onAddModuleCardClick
             )

@@ -243,10 +243,11 @@ private fun SearchResultContent(
                 textAlign = TextAlign.Center
             )
 
+            Spacer(modifier = Modifier.height(mainVerticalPadding))
+
             Image(
                 painter = painterResource(R.drawable.ic_sad_smile),
                 contentDescription = null,
-                modifier = Modifier.padding(top = mainVerticalPadding)
             )
         }
     } else {

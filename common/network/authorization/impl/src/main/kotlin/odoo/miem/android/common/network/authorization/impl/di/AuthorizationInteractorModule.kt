@@ -1,7 +1,7 @@
 package odoo.miem.android.common.network.authorization.impl.di
 
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import odoo.miem.android.common.network.authorization.api.IAuthorizationInteractor
 import odoo.miem.android.common.network.authorization.impl.AuthorizationInteractor
 
@@ -12,8 +12,8 @@ import odoo.miem.android.common.network.authorization.impl.AuthorizationInteract
  * @author Vorozhtsov Mikhail
  */
 @Module
-class AuthorizationInteractorModule {
+interface AuthorizationInteractorModule {
 
-    @Provides
-    fun provideAuthorizationUseCase(): IAuthorizationInteractor = AuthorizationInteractor()
+    @Binds
+    fun provideAuthorizationUseCase(authorizationInteractor: AuthorizationInteractor): IAuthorizationInteractor
 }

@@ -7,6 +7,7 @@ import odoo.miem.android.core.dataStore.impl.preferences.delegates
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.platform.di.PlatformApi
 import timber.log.Timber
+import javax.inject.Inject
 
 // TODO Maybe move to DataStore?
 /**
@@ -14,7 +15,7 @@ import timber.log.Timber
  *
  * @author Vorozhtsov Mikhail
  */
-class DataStore : IDataStore {
+class DataStore @Inject constructor() : IDataStore {
 
     private val context by api(PlatformApi::context)
     private val sharedPreferences by lazy { context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE) }

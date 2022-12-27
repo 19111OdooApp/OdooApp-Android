@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="text_field_trailing_icon_desc">textFieldTrailingIcon</string>
-    <string name="button_icon_desc">buttonIcon</string>
+    <!--  Modules Card  -->
+    <plurals name="module_number_of_notifications">
+        <item quantity="one">%d New Notifications</item>
+        <item quantity="few">%d New Notifications</item>
+        <item quantity="many">%d New Notifications</item>
+        <item quantity="other">%d New Notifications</item>
+    </plurals>
+    <string name="module_default_name">Cool module</string>
+    <string name="outlined_module_card_header">Add favourite module</string>
+
+    <!--  Search Text field  -->
+    <string name="search_text_field_label">Enter module name…</string>
 
     <!--  for ui tests  -->
-    <string name="test_text_field_desc">testTextField</string>
-    <string name="test_input">Test input</string>
+    <string name="text_field_trailing_icon_desc" translatable="false">textFieldTrailingIcon</string>
+    <string name="search_text_field_trailing_icon" translatable="false">searchTextFieldTrailingIcon</string>
+    <string name="button_icon_desc" translatable="false">buttonIcon</string>
+    <string name="odoo_logo_desc" translatable="false">odooLogo</string>
+    <string name="add_favourite_module_button_icon" translatable="false">addFavouriteModule</string>
+    <string name="test_text_field_desc" translatable="false">testTextField</string>
+    <string name="test_input" translatable="false">Test input</string>
 </resources>

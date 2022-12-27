@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OdooApp">
         <activity
-            android:name=".feature.navigation.MainActivity"
+            android:name=".feature.navigation.impl.MainActivity"
             android:theme="@style/Theme.OdooApp"
             android:windowSoftInputMode="adjustResize"
             android:exported="true">

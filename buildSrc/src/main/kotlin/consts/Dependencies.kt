@@ -38,6 +38,7 @@ object Dependencies {
             private const val MATERIAL3_VERSION = "1.0.0"
 
             const val UI = "androidx.compose.ui:ui:$COMPOSE_VERSION"
+            const val UI_UTILS = "androidx.compose.ui:ui-util:$COMPOSE_VERSION"
 
             const val MATERIAL = "androidx.compose.material3:material3:$MATERIAL3_VERSION"
             const val MATERIAL_ICONS = "androidx.compose.material:material-icons-extended:$COMPOSE_VERSION"
@@ -50,7 +51,7 @@ object Dependencies {
             const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout-compose:$CONSTRAINT_VERSION"
 
             val ALL_CORE_DEPS =
-                listOf(UI, MATERIAL, MATERIAL_ICONS, UI_TOOLING_PREVIEW, ACTIVITY_COMPOSE, CONSTRAINT_LAYOUT)
+                listOf(UI, UI_UTILS, MATERIAL, MATERIAL_ICONS, UI_TOOLING_PREVIEW, ACTIVITY_COMPOSE, CONSTRAINT_LAYOUT)
             val ALL_CORE_DEBUG_DEPS = listOf(UI_TOOLING)
         }
 
@@ -86,6 +87,23 @@ object Dependencies {
             val ALL_RXJAVA_DEPS = listOf(RX_JAVA)
         }
 
+        object Coil {
+            private const val VERSION = "2.2.2"
+
+            const val COIL_COMPOSE = "io.coil-kt:coil-compose:$VERSION"
+
+            val ALL_COIL_DEPS = listOf(COIL_COMPOSE)
+        }
+
+        object Accompanist {
+            private const val VERSION = "0.28.0"
+
+            const val ACCOMPANIST_CORE = "com.google.accompanist:accompanist-pager:$VERSION"
+            const val ACCOMPANIST_INDICATORS = "com.google.accompanist:accompanist-pager-indicators:$VERSION"
+
+            val ALL_ACCOMPANIST_DEPS = listOf(ACCOMPANIST_CORE, ACCOMPANIST_INDICATORS)
+        }
+
         object UiTest {
 
             // add to build.gradle with androidTestImplementation()
@@ -97,7 +115,8 @@ object Dependencies {
 
         val ALL_DEPS =
             Core.ALL_CORE_DEPS + Lifecycle.ALL_LIFECYCLE_DEPS + Foundation.ALL_FOUNDATION_DEPS +
-                RxJava.ALL_RXJAVA_DEPS + Navigation.ALL_NAVIGATION_DEPS
+                RxJava.ALL_RXJAVA_DEPS + Navigation.ALL_NAVIGATION_DEPS + Coil.ALL_COIL_DEPS +
+                Accompanist.ALL_ACCOMPANIST_DEPS
     }
 
     object Dagger {

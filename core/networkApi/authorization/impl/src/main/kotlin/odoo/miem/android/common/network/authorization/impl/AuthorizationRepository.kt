@@ -6,13 +6,14 @@ import odoo.miem.android.common.network.authorization.impl.source.IGeneralAuthor
 import odoo.miem.android.core.retrofitApiFabric.retrofitApi
 import odoo.miem.android.core.utils.network.RequestHelpers
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * [AuthorizationRepository] - implementation of [IAuthorizationRepository]
  *
  * @author Vorozhtsov Mikhail
  */
-class AuthorizationRepository : IAuthorizationRepository {
+class AuthorizationRepository @Inject constructor() : IAuthorizationRepository {
 
     private val generalAuthorization by retrofitApi<IGeneralAuthorization>()
 

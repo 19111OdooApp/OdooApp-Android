@@ -2,7 +2,11 @@ package odoo.miem.android.core.sharedElements
 
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalContext
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.key
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.graphicsLayer
@@ -53,13 +57,22 @@ private fun Placeholder(state: SharedElementsTransitionState) {
         val fadeFraction = state.spec?.fadeProgressThresholds?.applyTo(fraction) ?: fraction
         val scaleFraction = state.spec?.scaleProgressThresholds?.applyTo(fraction) ?: fraction
 
-        val startScale = if (startBounds == null) Identity else
+        val startScale = if (startBounds == null) {
+            Identity
+        } else {
             calculateScale(startBounds, endBounds, scaleFraction)
-        val offset = if (startBounds == null) IntOffset.Zero else calculateOffset(
-            startBounds, endBounds,
-            fraction, state.pathMotion,
-            startBounds.width * startScale.scaleX
-        ).round()
+        }
+        val offset = if (startBounds == null) {
+            IntOffset.Zero
+        } else {
+            calculateOffset(
+                startBounds,
+                endBounds,
+                fraction,
+                state.pathMotion,
+                startBounds.width * startScale.scaleX
+            ).round()
+        }
 
         @Composable
         fun Container(
@@ -71,8 +84,11 @@ private fun Placeholder(state: SharedElementsTransitionState) {
             content: @Composable () -> Unit,
             zIndex: Float = 0f,
         ) {
-            val alpha = if (bounds == null) 1f else
+            val alpha = if (bounds == null) {
+                1f
+            } else {
                 calculateAlpha(state.direction, state.spec?.fadeMode, fadeFraction, isStart)
+            }
             if (alpha > 0) {
                 val modifier = if (bounds == null) {
                     Fullscreen.layoutId(FullscreenLayoutId)
@@ -102,8 +118,11 @@ private fun Placeholder(state: SharedElementsTransitionState) {
         for (i in 0..1) {
             val info = if (i == 0) state.startInfo else state.endInfo ?: break
             key(info.screenKey) {
-                val (scaleX, scaleY) = if (i == 0) startScale else
+                val (scaleX, scaleY) = if (i == 0) {
+                    startScale
+                } else {
                     calculateScale(endBounds!!, startBounds, 1 - scaleFraction)
+                }
                 Container(
                     compositionLocalContext = if (i == 0) {
                         state.startCompositionLocalContext

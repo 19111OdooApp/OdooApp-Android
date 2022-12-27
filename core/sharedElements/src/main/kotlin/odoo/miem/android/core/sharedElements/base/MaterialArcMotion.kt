@@ -1,8 +1,6 @@
 package odoo.miem.android.core.sharedElements.base
 
 import androidx.compose.ui.geometry.Offset
-import odoo.miem.android.core.sharedElements.base.KeyframeBasedMotion
-import odoo.miem.android.core.sharedElements.base.PathMotionFactory
 import odoo.miem.android.core.sharedElements.utils.QuadraticBezier
 
 class MaterialArcMotion : KeyframeBasedMotion() {
@@ -12,9 +10,12 @@ class MaterialArcMotion : KeyframeBasedMotion() {
             start,
             if (start.y > end.y) Offset(end.x, start.y) else Offset(start.x, end.y),
             end,
-            0.5f
+            ACCEPTABLE_ERROR
         )
 
+    private companion object {
+        const val ACCEPTABLE_ERROR = 0.5f
+    }
 }
 
 val MaterialArcMotionFactory: PathMotionFactory = { MaterialArcMotion() }

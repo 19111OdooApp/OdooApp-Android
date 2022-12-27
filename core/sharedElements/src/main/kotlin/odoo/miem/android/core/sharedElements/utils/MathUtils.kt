@@ -22,15 +22,18 @@ internal fun calculateDirection(start: Rect, end: Rect): TransitionDirection =
 internal fun calculateAlpha(
     direction: TransitionDirection?,
     fadeMode: FadeMode?,
-    fraction: Float,  // Absolute
+    fraction: Float, // Absolute
     isStart: Boolean
 ) = when (fadeMode) {
     FadeMode.In, null -> if (isStart) 1f else fraction
     FadeMode.Out -> if (isStart) 1 - fraction else 1f
     FadeMode.Cross -> if (isStart) 1 - fraction else fraction
     FadeMode.Through -> {
-        val threshold = if (direction == TransitionDirection.Enter)
-            FadeThroughProgressThreshold else 1 - FadeThroughProgressThreshold
+        val threshold = if (direction == TransitionDirection.Enter) {
+            FadeThroughProgressThreshold
+        } else {
+            1 - FadeThroughProgressThreshold
+        }
         if (fraction < threshold) {
             if (isStart) 1 - fraction / threshold else 0f
         } else {
@@ -42,10 +45,12 @@ internal fun calculateAlpha(
 internal fun calculateOffset(
     start: Rect,
     end: Rect?,
-    fraction: Float,  // Relative
+    fraction: Float, // Relative
     pathMotion: PathMotion?,
     width: Float
-): Offset = if (end == null) start.topLeft else {
+): Offset = if (end == null) {
+    start.topLeft
+} else {
     val topCenter = pathMotion!!.invoke(
         start.topCenter,
         end.topCenter,
@@ -59,6 +64,6 @@ internal val Identity = ScaleFactor(1f, 1f)
 internal fun calculateScale(
     start: Rect,
     end: Rect?,
-    fraction: Float  // Relative
+    fraction: Float // Relative
 ): ScaleFactor =
     if (end == null) Identity else lerp(Identity, end.size / start.size, fraction)

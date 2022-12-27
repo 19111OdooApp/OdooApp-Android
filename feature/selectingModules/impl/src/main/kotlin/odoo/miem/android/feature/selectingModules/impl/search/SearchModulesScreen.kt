@@ -41,7 +41,6 @@ import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
 import odoo.miem.android.core.sharedElements.FadeMode
 import odoo.miem.android.core.sharedElements.SharedElement
 import odoo.miem.android.core.sharedElements.base.MaterialArcMotionFactory
-import odoo.miem.android.core.sharedElements.utils.ProgressThresholds
 import odoo.miem.android.core.sharedElements.utils.SharedElementConstants
 import odoo.miem.android.core.sharedElements.utils.SharedElementsTransitionSpec
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
@@ -50,6 +49,11 @@ import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
 import odoo.miem.android.feature.selectingModules.impl.R
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 
+/**
+ * [SearchModulesScreen] - screen for searching Odoo modules in [SelectingModulesScreen]
+ *
+ * @author Egor Danilov
+ */
 @Composable
 fun SearchModulesScreen(
     allModules: List<OdooModule>,
@@ -85,7 +89,7 @@ fun SearchModulesScreen(
             pathMotionFactory = MaterialArcMotionFactory,
             durationMillis = SharedElementConstants.transitionDurationMills,
             fadeMode = FadeMode.Through,
-            fadeProgressThresholds = ProgressThresholds(0.10f, 0.40f)
+            fadeProgressThresholds = SharedElementConstants.progressThreshold
         )
     ) {
         SearchTextField(
@@ -121,11 +125,22 @@ fun SearchModulesScreen(
     }
 }
 
+/**
+ * [SearchRecommendationsContent] is located in [SearchModulesScreen]
+ * Looks like two lazy rows with favourite and all modules
+ * Disappears when the search began
+ *
+ * @author Egor Danilov
+ */
 @Composable
 private fun SearchRecommendationsContent(
     allModules: List<OdooModule>,
     favouriteModules: List<OdooModule>,
 ) {
+    val itemSpacing = mainHorizontalPadding / 2
+    val startRowPadding = mainHorizontalPadding / 2
+    val endRowPadding = mainHorizontalPadding / 4
+
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start,
@@ -140,11 +155,11 @@ private fun SearchRecommendationsContent(
             Spacer(modifier = Modifier.height(mainVerticalPadding))
 
             LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(mainHorizontalPadding / 2),
+                horizontalArrangement = Arrangement.spacedBy(itemSpacing),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 item {
-                    Spacer(modifier = Modifier.width(mainHorizontalPadding / 2))
+                    Spacer(modifier = Modifier.width(startRowPadding))
                 }
 
                 items(favouriteModules) {
@@ -159,7 +174,7 @@ private fun SearchRecommendationsContent(
                 }
 
                 item {
-                    Spacer(modifier = Modifier.width(mainHorizontalPadding / 4))
+                    Spacer(modifier = Modifier.width(endRowPadding))
                 }
             }
         }
@@ -175,11 +190,11 @@ private fun SearchRecommendationsContent(
             Spacer(modifier = Modifier.height(mainVerticalPadding))
 
             LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(mainHorizontalPadding / 2),
+                horizontalArrangement = Arrangement.spacedBy(itemSpacing),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 item {
-                    Spacer(modifier = Modifier.width(mainHorizontalPadding / 2))
+                    Spacer(modifier = Modifier.width(startRowPadding))
                 }
 
                 items(allModules) {
@@ -194,13 +209,20 @@ private fun SearchRecommendationsContent(
                 }
 
                 item {
-                    Spacer(modifier = Modifier.width(mainHorizontalPadding / 4))
+                    Spacer(modifier = Modifier.width(endRowPadding))
                 }
             }
         }
     }
 }
 
+/**
+ * [SearchResultContent] - search results for [SearchModulesScreen]
+ * If result is empty, shows relevant text and sad picture :(
+ * Otherwise, shows column with [BigModuleCard] items
+ *
+ * @author Egor Danilov
+ */
 @Composable
 private fun SearchResultContent(
     filteredModules: List<OdooModule>

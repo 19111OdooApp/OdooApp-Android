@@ -6,20 +6,42 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalContext
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.RecomposeScope
+import androidx.compose.runtime.currentCompositionLocalContext
+import androidx.compose.runtime.currentRecomposeScope
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.TransformOrigin
-import androidx.compose.ui.layout.*
+import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastMap
 import odoo.miem.android.core.sharedElements.SharedElementTransition.InProgress
 import odoo.miem.android.core.sharedElements.SharedElementTransition.WaitingForEndElementPosition
-import odoo.miem.android.core.sharedElements.SharedElementsTracker.State.*
+import odoo.miem.android.core.sharedElements.SharedElementsTracker.State.Empty
+import odoo.miem.android.core.sharedElements.SharedElementsTracker.State.EndElementRegistered
+import odoo.miem.android.core.sharedElements.SharedElementsTracker.State.InTransition
+import odoo.miem.android.core.sharedElements.SharedElementsTracker.State.StartElementPositioned
+import odoo.miem.android.core.sharedElements.SharedElementsTracker.State.StartElementRegistered
 import odoo.miem.android.core.sharedElements.base.PathMotion
 import odoo.miem.android.core.sharedElements.utils.SharedElementsTransitionSpec
 import odoo.miem.android.core.sharedElements.utils.calculateDirection
@@ -79,10 +101,12 @@ fun SharedElementsRoot(
 ) {
     val rootState = remember { SharedElementsRootState() }
 
-    Box(modifier = Modifier.onGloballyPositioned { layoutCoordinates ->
-        rootState.rootCoordinates = layoutCoordinates
-        rootState.rootBounds = Rect(Offset.Zero, layoutCoordinates.size.toSize())
-    }) {
+    Box(
+        modifier = Modifier.onGloballyPositioned { layoutCoordinates ->
+            rootState.rootCoordinates = layoutCoordinates
+            rootState.rootBounds = Rect(Offset.Zero, layoutCoordinates.size.toSize())
+        }
+    ) {
         CompositionLocalProvider(
             LocalSharedElementsRootState provides rootState,
             LocalSharedElementsRootScope provides rootState.scope
@@ -137,18 +161,29 @@ private fun SharedElementTransitionsOverlay(rootState: SharedElementsRootState) 
                 startElement.info.onFractionChanged?.invoke(fraction)
                 endElement?.info?.onFractionChanged?.invoke(1 - fraction)
 
-                val direction = if (endElement == null) null else remember(startScreenKey) {
-                    val direction = spec.direction
-                    if (direction != TransitionDirection.Auto) direction else
-                        calculateDirection(
-                            startElement.bounds ?: rootState.rootBounds!!,
-                            endElement.bounds ?: rootState.rootBounds!!
-                        )
+                val direction = if (endElement == null) {
+                    null
+                } else {
+                    remember(startScreenKey) {
+                        val direction = spec.direction
+                        if (direction != TransitionDirection.Auto) {
+                            direction
+                        } else {
+                            calculateDirection(
+                                startElement.bounds ?: rootState.rootBounds!!,
+                                endElement.bounds ?: rootState.rootBounds!!
+                            )
+                        }
+                    }
                 }
 
                 startElement.Placeholder(
-                    rootState, fraction, endElement,
-                    direction, spec, tracker.pathMotion
+                    rootState,
+                    fraction,
+                    endElement,
+                    direction,
+                    spec,
+                    tracker.pathMotion
                 )
 
                 if (transition is InProgress) {
@@ -247,15 +282,19 @@ private class SharedElementsRootState {
     private fun getTracker(elementInfo: SharedElementInfo): SharedElementsTracker {
         return trackers[elementInfo.key] ?: SharedElementsTracker { transition ->
             recomposeScope?.invalidate()
-            (scope as Scope).isRunningTransition = if (transition != null) true else
+            (scope as Scope).isRunningTransition = if (transition != null) {
+                true
+            } else {
                 trackers.values.any { it.transition != null }
+            }
         }.also { trackers = trackers + (elementInfo.key to it) }
     }
 
     private fun LayoutCoordinates.calculateBoundsInRoot(): Rect =
         Rect(
             rootCoordinates?.localPositionOf(this, Offset.Zero)
-                ?: positionInRoot(), size.toSize()
+                ?: positionInRoot(),
+            size.toSize()
         )
 
     private inner class Scope : SharedElementsRootScope {
@@ -267,9 +306,7 @@ private class SharedElementsRootState {
                 trackers[it]?.prepareTransition()
             }
         }
-
     }
-
 }
 
 private class SharedElementsTracker(
@@ -307,9 +344,9 @@ private class SharedElementsTracker(
         var shouldHide = false
 
         val transition = transition
-        if (transition is InProgress
-            && elementInfo != transition.startElement.info
-            && elementInfo != transition.endElement.info
+        if (transition is InProgress &&
+            elementInfo != transition.startElement.info &&
+            elementInfo != transition.endElement.info
         ) {
             state = StartElementPositioned(startElement = transition.endElement)
             this.transition = null
@@ -456,7 +493,6 @@ internal open class SharedElementInfo(
         other is SharedElementInfo && other.key == key && other.screenKey == screenKey
 
     final override fun hashCode(): Int = 31 * key.hashCode() + screenKey.hashCode()
-
 }
 
 private class PositionedSharedElement(
@@ -477,7 +513,6 @@ private sealed class SharedElementTransition(val startElement: PositionedSharedE
         val endElement: PositionedSharedElement,
         val onTransitionFinished: () -> Unit
     ) : SharedElementTransition(startElement)
-
 }
 
 private class ChoreographerWrapper {

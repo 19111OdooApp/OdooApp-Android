@@ -10,22 +10,40 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.*
+import androidx.compose.foundation.shape.CornerBasedShape
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.ZeroCornerSize
 import androidx.compose.material.LocalAbsoluteElevation
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.LocalElevationOverlay
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.contentColorFor
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalContext
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.key
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.*
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.lerp
+import androidx.compose.ui.unit.round
 import androidx.compose.ui.util.lerp
 import androidx.compose.ui.zIndex
 import odoo.miem.android.core.sharedElements.base.ElementContainer
@@ -141,37 +159,54 @@ private fun Placeholder(state: SharedElementsTransitionState) {
         if (start == null) {
             surfaceModifier = Modifier.layoutId(FullscreenLayoutId)
         } else {
-            val fitMode = if (spec == null || end == null) null else remember {
-                val mode = spec.fitMode
-                if (mode != FitMode.Auto) mode else
-                    calculateFitMode(direction == TransitionDirection.Enter, start, end)
+            val fitMode = if (spec == null || end == null) {
+                null
+            } else {
+                remember {
+                    val mode = spec.fitMode
+                    if (mode != FitMode.Auto) {
+                        mode
+                    } else {
+                        calculateFitMode(direction == TransitionDirection.Enter, start, end)
+                    }
+                }
             }
 
             val thresholds =
-                if (spec == null || direction == null) DefaultEnterThresholds else remember {
-                    spec.progressThresholdsGroupFor(direction, state.pathMotion!!)
+                if (spec == null || direction == null) {
+                    DefaultEnterThresholds
+                } else {
+                    remember {
+                        spec.progressThresholdsGroupFor(direction, state.pathMotion!!)
+                    }
                 }
 
             val scaleFraction = thresholds.scale.applyTo(fraction)
             val scale = calculateScale(start, end, scaleFraction)
             val contentScale = if (fitMode == FitMode.Height) scale.scaleY else scale.scaleX
             val scaleMaskFraction = thresholds.scaleMask.applyTo(fraction)
-            val (containerWidth, containerHeight) = if (end == null) start.size * contentScale else {
-                if (fitMode == FitMode.Height) Size(
-                    width = lerp(
-                        start.width * contentScale,
-                        start.height * contentScale / end.height * end.width,
-                        scaleMaskFraction
-                    ),
-                    height = start.height * contentScale
-                ) else Size(
-                    width = start.width * contentScale,
-                    height = lerp(
-                        start.height * contentScale,
-                        start.width * contentScale / end.width * end.height,
-                        scaleMaskFraction
+            val (containerWidth, containerHeight) = if (end == null) {
+                start.size * contentScale
+            } else {
+                if (fitMode == FitMode.Height) {
+                    Size(
+                        width = lerp(
+                            start.width * contentScale,
+                            start.height * contentScale / end.height * end.width,
+                            scaleMaskFraction
+                        ),
+                        height = start.height * contentScale
                     )
-                )
+                } else {
+                    Size(
+                        width = start.width * contentScale,
+                        height = lerp(
+                            start.height * contentScale,
+                            start.width * contentScale / end.width * end.height,
+                            scaleMaskFraction
+                        )
+                    )
+                }
             }
 
             val offset =
@@ -194,8 +229,11 @@ private fun Placeholder(state: SharedElementsTransitionState) {
                     }
                     val containerColor = spec?.endContainerColor ?: Color.Transparent
                     val containerModifier = Modifier.fillMaxSize().run {
-                        if (containerColor == Color.Transparent) this else
+                        if (containerColor == Color.Transparent) {
+                            this
+                        } else {
                             background(containerColor.copy(alpha = containerColor.alpha * endAlpha))
+                        }
                     }.run {
                         if (state.spec?.fadeMode != FadeMode.Out) zIndex(1f) else this
                     }
@@ -205,12 +243,16 @@ private fun Placeholder(state: SharedElementsTransitionState) {
                             end.height.toDp()
                         )
                         .run {
-                            if (fitMode == FitMode.Height) offset {
-                                IntOffset(
-                                    ((containerWidth - end.width * endScale) / 2).roundToInt(),
-                                    0
-                                )
-                            } else this
+                            if (fitMode == FitMode.Height) {
+                                offset {
+                                    IntOffset(
+                                        ((containerWidth - end.width * endScale) / 2).roundToInt(),
+                                        0
+                                    )
+                                }
+                            } else {
+                                this
+                            }
                         }
                         .graphicsLayer {
                             this.transformOrigin = TopLeft
@@ -253,12 +295,16 @@ private fun Placeholder(state: SharedElementsTransitionState) {
                         start.height.toDp()
                     )
                     .run {
-                        if (fitMode == FitMode.Height) offset {
-                            IntOffset(
-                                ((containerWidth - start.width * contentScale) / 2).roundToInt(),
-                                0
-                            )
-                        } else this
+                        if (fitMode == FitMode.Height) {
+                            offset {
+                                IntOffset(
+                                    ((containerWidth - start.width * contentScale) / 2).roundToInt(),
+                                    0
+                                )
+                            }
+                        } else {
+                            this
+                        }
                     }
                     .graphicsLayer {
                         this.transformOrigin = TopLeft
@@ -272,8 +318,11 @@ private fun Placeholder(state: SharedElementsTransitionState) {
         if (startAlpha > 0) {
             val containerColor = spec?.startContainerColor ?: Color.Transparent
             val containerModifier = Modifier.fillMaxSize().run {
-                if (containerColor == Color.Transparent) this else
+                if (containerColor == Color.Transparent) {
+                    this
+                } else {
                     background(containerColor.copy(alpha = containerColor.alpha * startAlpha))
+                }
             }
 
             elements.add(
@@ -334,8 +383,11 @@ private fun calculateFitMode(entering: Boolean, start: Rect, end: Rect): FitMode
 
     val endHeightFitToWidth = endHeight * startWidth / endWidth
     val startHeightFitToWidth = startHeight * endWidth / startWidth
-    val fitWidth = if (entering)
-        endHeightFitToWidth >= startHeight else startHeightFitToWidth >= endHeight
+    val fitWidth = if (entering) {
+        endHeightFitToWidth >= startHeight
+    } else {
+        startHeightFitToWidth >= endHeight
+    }
     return if (fitWidth) FitMode.Width else FitMode.Height
 }
 
@@ -343,7 +395,9 @@ private fun lerp(start: Shape, end: Shape, fraction: Float): Shape {
     if ((start == RectangleShape && end == RectangleShape) ||
         (start != RectangleShape && start !is CornerBasedShape) ||
         (end != RectangleShape && end !is CornerBasedShape)
-    ) return start
+    ) {
+        return start
+    }
     val topStart = lerp(
         (start as? CornerBasedShape)?.topStart,
         (end as? CornerBasedShape)?.topStart,
@@ -478,11 +532,17 @@ private fun MaterialContainerTransformSpec.progressThresholdsGroupFor(
     pathMotion: PathMotion
 ): ProgressThresholdsGroup {
     val default = if (pathMotion is MaterialArcMotion) {
-        if (direction == TransitionDirection.Enter)
-            DefaultEnterThresholdsArc else DefaultReturnThresholdsArc
+        if (direction == TransitionDirection.Enter) {
+            DefaultEnterThresholdsArc
+        } else {
+            DefaultReturnThresholdsArc
+        }
     } else {
-        if (direction == TransitionDirection.Enter)
-            DefaultEnterThresholds else DefaultReturnThresholds
+        if (direction == TransitionDirection.Enter) {
+            DefaultEnterThresholds
+        } else {
+            DefaultReturnThresholds
+        }
     }
     return ProgressThresholdsGroup(
         fadeProgressThresholds ?: default.fade,

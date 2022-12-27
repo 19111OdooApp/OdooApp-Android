@@ -126,7 +126,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         val sheetState = rememberCustomBottomSheetState(
             initialValue = CustomBottomSheetValue.Collapsed
         )
-        val scaffoldState = rememberCustomBottomSheetScaffoldState(customBottomSheetState = sheetState)
+        val scaffoldState =
+            rememberCustomBottomSheetScaffoldState(customBottomSheetState = sheetState)
 
         val scope = rememberCoroutineScope()
         val onAddModuleCardClick: () -> Unit = {
@@ -165,7 +166,9 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                                 topStart = topRadius,
                                 topEnd = topRadius
                             ),
-                            sheetPeekHeight = (LocalConfiguration.current.screenHeightDp * sheetPeekHeightCoefficient).dp,
+                            sheetPeekHeight = (
+                                LocalConfiguration.current.screenHeightDp * sheetPeekHeightCoefficient
+                                ).dp,
                             sheetElevation = 8.dp,
                             backgroundColor = MaterialTheme.colorScheme.background,
                             sheetBackgroundColor = MaterialTheme.colorScheme.background,

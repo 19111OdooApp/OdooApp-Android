@@ -23,7 +23,9 @@ internal object QuadraticBezier {
         )
 
     fun approximate(
-        p0: Offset, p1: Offset, p2: Offset,
+        p0: Offset,
+        p1: Offset,
+        p2: Offset,
         acceptableError: Float
     ): Pair<FloatArray, LongArray> {
         val errorSquared = acceptableError * acceptableError
@@ -84,5 +86,4 @@ internal object QuadraticBezier {
 
         return lengths to result
     }
-
 }

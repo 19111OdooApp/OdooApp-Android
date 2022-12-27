@@ -15,7 +15,7 @@ internal fun ElementContainer(
 ) {
     Layout(content, modifier) { measurables, constraints ->
         if (measurables.size > 1) {
-            throw IllegalStateException("SharedElement can have only one direct measurable child!")
+            error("SharedElement can have only one direct measurable child!")
         }
         val placeable = measurables.firstOrNull()?.measure(
             Constraints(

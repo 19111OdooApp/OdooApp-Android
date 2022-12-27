@@ -12,7 +12,8 @@ abstract class KeyframeBasedMotion : PathMotion {
     protected abstract fun getKeyframes(start: Offset, end: Offset): Pair<FloatArray, LongArray>
 
     private fun LongArray.getOffset(index: Int) =
-        @Suppress("INVISIBLE_MEMBER") Offset(get(index))
+        @Suppress("INVISIBLE_MEMBER")
+        Offset(get(index))
 
     override fun invoke(start: Offset, end: Offset, fraction: Float): Offset {
         var frac = fraction
@@ -55,8 +56,11 @@ abstract class KeyframeBasedMotion : PathMotion {
     }
 
     private fun interpolateInRange(
-        fractions: FloatArray, offsets: LongArray,
-        fraction: Float, startIndex: Int, endIndex: Int
+        fractions: FloatArray,
+        offsets: LongArray,
+        fraction: Float,
+        startIndex: Int,
+        endIndex: Int
     ): Offset {
         val startFraction = fractions[startIndex]
         val endFraction = fractions[endIndex]
@@ -65,5 +69,4 @@ abstract class KeyframeBasedMotion : PathMotion {
         val end = offsets.getOffset(endIndex)
         return lerp(start, end, intervalFraction)
     }
-
 }

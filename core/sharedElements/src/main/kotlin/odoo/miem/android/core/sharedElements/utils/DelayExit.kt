@@ -1,11 +1,14 @@
 package odoo.miem.android.core.sharedElements.utils
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import odoo.miem.android.core.sharedElements.SharedElementsRootScope
+import odoo.miem.android.core.sharedElements.utils.DelayExitState.ExitDelayed
 import odoo.miem.android.core.sharedElements.utils.DelayExitState.Invisible
 import odoo.miem.android.core.sharedElements.utils.DelayExitState.Visible
-import odoo.miem.android.core.sharedElements.utils.DelayExitState.ExitDelayed
-
 
 /**
  * When [visible] becomes false, if transition is running, delay the exit of the content until

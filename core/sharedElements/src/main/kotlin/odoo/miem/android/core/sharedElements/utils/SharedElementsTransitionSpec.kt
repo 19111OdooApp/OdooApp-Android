@@ -4,9 +4,9 @@ import androidx.compose.animation.core.AnimationConstants
 import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.FastOutSlowInEasing
 import odoo.miem.android.core.sharedElements.FadeMode
+import odoo.miem.android.core.sharedElements.TransitionDirection
 import odoo.miem.android.core.sharedElements.base.LinearMotionFactory
 import odoo.miem.android.core.sharedElements.base.PathMotionFactory
-import odoo.miem.android.core.sharedElements.TransitionDirection
 
 open class SharedElementsTransitionSpec(
     val pathMotionFactory: PathMotionFactory = LinearMotionFactory,

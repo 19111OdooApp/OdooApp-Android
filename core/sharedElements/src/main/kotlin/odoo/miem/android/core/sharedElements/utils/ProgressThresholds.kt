@@ -25,7 +25,6 @@ value class ProgressThresholds(private val packedValue: Long) {
     @Suppress("NOTHING_TO_INLINE")
     @Stable
     inline operator fun component2(): Float = end
-
 }
 
 @Stable

@@ -106,13 +106,11 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     ) {
         val topRadius = 35.dp
 
-        val sheetPeekHeightCoefficient = 0.25F
-        val halfCoefficient = 0.65F
-
         val sheetState = rememberCustomBottomSheetState(
             initialValue = CustomBottomSheetValue.Collapsed
         )
-        val scaffoldState = rememberCustomBottomSheetScaffoldState(customBottomSheetState = sheetState)
+        val scaffoldState =
+            rememberCustomBottomSheetScaffoldState(customBottomSheetState = sheetState)
 
         val scope = rememberCoroutineScope()
         val onAddModuleCardClick: () -> Unit = {
@@ -136,11 +134,11 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                 topStart = topRadius,
                 topEnd = topRadius
             ),
-            sheetPeekHeight = (LocalConfiguration.current.screenHeightDp * sheetPeekHeightCoefficient).dp,
+            sheetPeekHeight = (LocalConfiguration.current.screenHeightDp * SHEET_PEEK_HEIGHT_COEFFICIENT).dp,
             sheetElevation = 8.dp,
             backgroundColor = MaterialTheme.colorScheme.background,
             sheetBackgroundColor = MaterialTheme.colorScheme.background,
-            halfCoefficient = halfCoefficient,
+            halfCoefficient = HALF_COEFFICIENT,
             modifier = Modifier
                 .fillMaxSize()
                 .imePadding()
@@ -152,6 +150,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         }
     }
 
+    @Suppress("MagicNumber")
     @OptIn(ExperimentalPagerApi::class)
     @Composable
     private fun SelectingModulesMainContent(
@@ -220,7 +219,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
     @Composable
     private fun ColumnScope.SelectingModulesBottomSheetHeader() {
-        val width = (LocalConfiguration.current.screenWidthDp / 8).dp
+        val width = (LocalConfiguration.current.screenWidthDp * DIVIDER_WIDTH_COEFFICIENT).dp
 
         Divider(
             modifier = Modifier
@@ -277,5 +276,11 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                 ),
             )
         )
+    }
+
+    companion object {
+        private const val SHEET_PEEK_HEIGHT_COEFFICIENT = 0.25F
+        private const val HALF_COEFFICIENT = 0.65F
+        private const val DIVIDER_WIDTH_COEFFICIENT = 0.125F
     }
 }

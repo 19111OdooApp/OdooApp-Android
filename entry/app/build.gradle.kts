@@ -37,4 +37,5 @@ dependencies {
 
     // Ui Kit Theme
     implementation(project(":core:uiKitTheme"))
+    implementation(project(":core:utils"))
 }

@@ -68,7 +68,7 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
     @Composable
     override fun AuthorizationScreen(
         navController: NavHostController,
-        showMessage: (Int) -> Unit
+        showMessage: (Int) -> Unit,
     ) {
         val viewModel: AuthorizationViewModel = viewModel()
 

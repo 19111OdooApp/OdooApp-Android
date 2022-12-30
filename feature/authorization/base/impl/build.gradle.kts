@@ -23,4 +23,7 @@ dependencies {
 
     // Navigation API
     implementation(project(":feature:navigation:api"))
+
+    // Platform
+    implementation(project(":core:platform"))
 }

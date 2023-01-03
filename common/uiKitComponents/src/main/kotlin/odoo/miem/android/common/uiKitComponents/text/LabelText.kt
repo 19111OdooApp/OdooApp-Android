@@ -9,7 +9,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 
 /**
- * [SubTitleText] is text for labels
+ * [LabelText] is text for things like the text inside components
+ * or for very small text in the content body, such as captions
  *
  * @param textRes resource on text, which will be displayed
  * @param isLarge true or false, depends on size of subtitle

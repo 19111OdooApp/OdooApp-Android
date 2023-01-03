@@ -98,9 +98,6 @@ fun SmallModuleCard(
         color = Color.White,
         modifier = Modifier
             .align(Alignment.BottomCenter)
-            .padding(
-                top = 10.dp,
-                bottom = 10.dp
-            )
+            .padding(vertical = 10.dp)
     )
 }

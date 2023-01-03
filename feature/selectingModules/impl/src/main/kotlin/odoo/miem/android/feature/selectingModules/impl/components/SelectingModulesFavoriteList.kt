@@ -44,6 +44,7 @@ import kotlin.math.absoluteValue
 internal fun SelectingModulesFavoriteList(
     favoriteModules: List<OdooModule> = emptyList(),
     indicatorModifier: Modifier = Modifier,
+    onModuleCardClick: () -> Unit = {},
     onAddModuleCardClick: () -> Unit = {}
 ) {
     val haptic = LocalHapticFeedback.current
@@ -100,6 +101,7 @@ internal fun SelectingModulesFavoriteList(
                     moduleName = name,
                     numberOfNotification = numberOfNotifications,
                     isLiked = isLikedState,
+                    onClick = onModuleCardClick,
                     onLikeClick = { isLikedState = !isLikedState },
                     modifier = bigCardModifier
                 )

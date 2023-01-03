@@ -8,31 +8,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.sp
 
 /**
- * [SubTitleText] is text for subtitle
+ * [DisplayText] is largest text on the screen,
+ * reserved for short, important info
  *
  * @param textRes resource on text, which will be displayed
  * @param isLarge true or false, depends on size of subtitle
  *
- * @author Vorozhtsov Mikhail
+ * @author Egor Danilov
  */
 @Composable
-fun SubTitleText(
+fun DisplayText(
     @StringRes textRes: Int,
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onPrimaryContainer,
     textAlign: TextAlign = TextAlign.Start,
-    isLarge: Boolean = false
+    isLarge: Boolean = true
 ) = Text(
     text = stringResource(textRes),
     style = if (isLarge) {
-        MaterialTheme.typography.titleMedium.copy(fontSize = 20.sp)
+        MaterialTheme.typography.displayLarge
     } else {
-        MaterialTheme.typography.titleSmall
+        MaterialTheme.typography.displayMedium
     },
     modifier = modifier,
-    color = color,
-    textAlign = textAlign
+    textAlign = textAlign,
+    color = color
 )

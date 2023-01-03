@@ -20,14 +20,14 @@ import odoo.miem.android.core.uiKitTheme.odooPrimaryGray
 /**
  * [SearchTextField] - text field for search in selecting modules screen
  *
- * @author Vorozhtsov Mikhail
+ * @author Vorozhtsov Mikhail, Egor Danilov
  */
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SearchTextField(
     value: TextFieldValue,
-    onValueChange: (TextFieldValue) -> Unit = {},
     modifier: Modifier = Modifier,
+    onValueChange: (TextFieldValue) -> Unit = {},
     enabled: Boolean = true,
 ) = BaseTextField(
     value = value,
@@ -42,7 +42,7 @@ fun SearchTextField(
             tint = odooPrimaryGray
         )
     },
-    trailingIcon = @Composable {
+    trailingIcon = {
         AnimatedVisibility(
             visible = value.text.isNotEmpty(),
             enter = scaleIn(),

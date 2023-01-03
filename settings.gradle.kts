@@ -5,6 +5,7 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
         maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
     }
 }
 
@@ -15,6 +16,7 @@ dependencyResolutionManagement {
         mavenCentral()
         gradlePluginPortal()
         maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
     }
 }
 
@@ -50,8 +52,6 @@ include(":core:retrofitApiFabric:impl")
 include(":core:uiKitTheme")
 
 include(":core:utils")
-
-include(":core:sharedElements")
 
 // Entry layer
 include(":entry:app")

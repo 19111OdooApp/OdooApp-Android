@@ -13,8 +13,6 @@ dependencies {
     // Core
     // UiKitTheme
     implementation(project(":core:uiKitTheme"))
-    // SharedElements
-    implementation(project(":core:sharedElements"))
 
     // Feature
     // Selecting modules API

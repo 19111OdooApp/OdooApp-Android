@@ -57,5 +57,11 @@ val typography = Typography(
         fontWeight = FontWeight.Medium,
         fontSize = 32.sp,
         letterSpacing = 0.15.sp,
+    ),
+    displayLarge = TextStyle(
+        fontFamily = fonts,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 80.sp,
+        letterSpacing = 0.sp
     )
 )

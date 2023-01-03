@@ -24,7 +24,8 @@ import odoo.miem.android.common.uiKitComponents.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleLogoAppBar(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigationIcon: @Composable () -> Unit = {},
 ) = CenterAlignedTopAppBar(
     title = {
         Box(
@@ -39,5 +40,6 @@ fun SimpleLogoAppBar(
             )
         }
     },
+    navigationIcon = navigationIcon,
     modifier = modifier.statusBarsPadding()
 )

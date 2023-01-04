@@ -59,6 +59,7 @@ import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
+import odoo.miem.android.feature.selectingModules.impl.R
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 import odoo.miem.android.feature.selectingModules.impl.searchScreen.SearchModulesScreen
 import odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components.SelectingModulesFavoriteList
@@ -117,9 +118,6 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     ) {
         val topRadius = 35.dp
 
-        val sheetPeekHeightCoefficient = 0.25F
-        val halfCoefficient = 0.65F
-
         val sheetState = rememberCustomBottomSheetState(
             initialValue = CustomBottomSheetValue.Collapsed
         )
@@ -158,12 +156,12 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                             topEnd = topRadius
                         ),
                         sheetPeekHeight = (
-                            LocalConfiguration.current.screenHeightDp * sheetPeekHeightCoefficient
+                            LocalConfiguration.current.screenHeightDp * SHEET_PEEK_HEIGHT_COEFFICIENT
                             ).dp,
                         sheetElevation = 8.dp,
                         backgroundColor = MaterialTheme.colorScheme.background,
                         sheetBackgroundColor = MaterialTheme.colorScheme.background,
-                        halfCoefficient = halfCoefficient,
+                        halfCoefficient = HALF_COEFFICIENT,
                         modifier = Modifier
                             .fillMaxSize()
                             .imePadding()

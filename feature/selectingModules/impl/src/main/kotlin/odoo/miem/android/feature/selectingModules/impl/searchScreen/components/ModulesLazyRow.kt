@@ -30,6 +30,7 @@ import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
  *
  * @author Egor Danilov
  */
+@Suppress("MagicNumber")
 @Composable
 fun ModulesLazyRow(
     @StringRes headerRes: Int,

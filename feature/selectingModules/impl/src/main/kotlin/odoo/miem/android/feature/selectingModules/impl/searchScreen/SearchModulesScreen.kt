@@ -57,7 +57,7 @@ fun SearchModulesScreen(
     var searchInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue())
     }
-    val filteredModules: List<OdooModule> = allModules
+    val filteredModules: List<OdooModule> = emptyList()
     val focusRequester = FocusRequester()
 
     BackHandler(enabled = true) {

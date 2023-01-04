@@ -59,7 +59,6 @@ import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
-import odoo.miem.android.feature.selectingModules.impl.R
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 import odoo.miem.android.feature.selectingModules.impl.searchScreen.SearchModulesScreen
 import odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components.SelectingModulesFavoriteList
@@ -187,6 +186,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         }
     }
 
+    @Suppress("MagicNumber")
     @OptIn(ExperimentalPagerApi::class)
     @Composable
     private fun SelectingModulesMainContent(
@@ -260,7 +260,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
     @Composable
     private fun ColumnScope.SelectingModulesBottomSheetHeader() {
-        val width = (LocalConfiguration.current.screenWidthDp / 8).dp
+        val width = (LocalConfiguration.current.screenWidthDp * DIVIDER_WIDTH_COEFFICIENT).dp
 
         Divider(
             thickness = 2.dp,
@@ -319,5 +319,11 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                 ),
             )
         )
+    }
+
+    companion object {
+        private const val SHEET_PEEK_HEIGHT_COEFFICIENT = 0.25F
+        private const val HALF_COEFFICIENT = 0.65F
+        private const val DIVIDER_WIDTH_COEFFICIENT = 0.125F
     }
 }

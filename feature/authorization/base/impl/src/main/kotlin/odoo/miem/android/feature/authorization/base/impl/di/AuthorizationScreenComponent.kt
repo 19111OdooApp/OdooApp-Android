@@ -15,7 +15,7 @@ import odoo.miem.android.feature.authorization.base.api.di.IAuthorizationApi
 @Component(
     modules = [
         AuthorizationScreenModule::class
-    ]
+    ],
 )
 interface AuthorizationScreenComponent : IAuthorizationApi {
     companion object {

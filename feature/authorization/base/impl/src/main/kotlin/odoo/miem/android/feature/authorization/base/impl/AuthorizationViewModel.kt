@@ -1,10 +1,11 @@
 package odoo.miem.android.feature.authorization.base.impl
 
-import androidx.lifecycle.ViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import odoo.miem.android.common.network.authorization.api.di.IAuthorizationInteractorApi
 import odoo.miem.android.core.di.impl.api
+import odoo.miem.android.core.di.impl.apiBlocking
+import odoo.miem.android.core.platform.presentation.BaseViewModel
+import odoo.miem.android.core.utils.di.RxApi
+import odoo.miem.android.core.utils.rx.PresentationSchedulers
 import odoo.miem.android.core.utils.rx.lazyEmptyResultPublishSubject
 import odoo.miem.android.core.utils.rx.onLoadingState
 import odoo.miem.android.core.utils.state.ResultSubject
@@ -13,12 +14,13 @@ import timber.log.Timber
 /**
  * [AuthorizationViewModel] handle major logic for [AuthorizationScreen]
  *
- * @author Vorozhtsov Mikhail
+ * @author Vorozhtsov Mikhail, Alexander Lyutikov
  */
-class AuthorizationViewModel : ViewModel() {
+class AuthorizationViewModel(
+    schedulers: PresentationSchedulers = apiBlocking(RxApi::presentationSchedulers)
+) : BaseViewModel(schedulers) {
 
     private val authorizationInteractor by api(IAuthorizationInteractorApi::authorizationInteractor)
-    private val compositeDisposable by lazy { CompositeDisposable() }
 
     val authorizationState: ResultSubject<Int> by lazyEmptyResultPublishSubject()
 
@@ -26,23 +28,24 @@ class AuthorizationViewModel : ViewModel() {
         Timber.d("generalAuthorization(): baseUrl = $baseUrl, login = $login, password = $password")
 
         authorizationState.onLoadingState()
-        val observable = authorizationInteractor
+        authorizationInteractor
             .generalAuthorization(
                 baseUrl = baseUrl,
                 login = login,
                 password = password
-            )
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                Timber.d("generalAuthorization(): result = $it")
-                authorizationState.onNext(it)
-            }
+            ).schedule(
+                authChannel,
+                onNext = {
+                    Timber.d("generalAuthorization(): result = $it")
 
-        compositeDisposable.add(observable)
+                    authorizationState.onNext(it)
+                },
+                onError = Timber::e
+            )
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.clear()
+    companion object {
+        // Do this if there are multiple Rx chains in a viewModel
+        private val authChannel = Channel()
     }
 }

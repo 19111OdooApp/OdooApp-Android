@@ -17,4 +17,6 @@ dependencies {
     // Feature
     // Selecting modules API
     implementation(project(":feature:selectingModules:api"))
+    // Platform
+    implementation(project(":core:platform"))
 }

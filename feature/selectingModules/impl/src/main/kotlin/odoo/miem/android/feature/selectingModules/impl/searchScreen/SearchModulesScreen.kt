@@ -33,9 +33,10 @@ import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
 import odoo.miem.android.feature.selectingModules.impl.R
-import odoo.miem.android.feature.selectingModules.impl.components.SearchRecommendationsContent
-import odoo.miem.android.feature.selectingModules.impl.components.SearchResultContent
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
+import odoo.miem.android.feature.selectingModules.impl.searchScreen.components.SearchRecommendationsContent
+import odoo.miem.android.feature.selectingModules.impl.searchScreen.components.SearchResultContent
+import odoo.miem.android.feature.selectingModules.impl.searchScreen.components.SearchResultEmpty
 
 /**
  * [SearchModulesScreen] - screen for searching Odoo modules in [SelectingModulesScreen]
@@ -56,6 +57,7 @@ fun SearchModulesScreen(
     var searchInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue())
     }
+    val filteredModules: List<OdooModule> = allModules
     val focusRequester = FocusRequester()
 
     BackHandler(enabled = true) {
@@ -66,7 +68,7 @@ fun SearchModulesScreen(
         focusRequester.requestFocus()
     }
 
-    SimpleLogoAppBar()
+    SimpleLogoAppBar(onBackButtonClick = onBackPressed)
 
     Spacer(modifier = Modifier.height(40.dp))
 
@@ -108,10 +110,11 @@ fun SearchModulesScreen(
         enter = fadeIn(),
         exit = fadeOut()
     ) {
-        SearchResultContent(
-            searchInput = searchInput,
-            filteredModules = emptyList()
-        )
+        if (filteredModules.isEmpty()) {
+            SearchResultEmpty(searchInput = searchInput.text)
+        } else {
+            SearchResultContent(filteredModules = filteredModules)
+        }
     }
 }
 

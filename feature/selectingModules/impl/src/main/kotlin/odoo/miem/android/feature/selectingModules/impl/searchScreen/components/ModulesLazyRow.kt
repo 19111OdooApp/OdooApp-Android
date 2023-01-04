@@ -1,5 +1,6 @@
-package odoo.miem.android.feature.selectingModules.impl.components
+package odoo.miem.android.feature.selectingModules.impl.searchScreen.components
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,11 +20,19 @@ import odoo.miem.android.common.uiKitComponents.cards.SmallModuleCard
 import odoo.miem.android.common.uiKitComponents.text.LabelText
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
-import odoo.miem.android.feature.selectingModules.impl.R
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 
+/**
+ * [ModulesLazyRow] - row with modules for [SearchRecommendationsContent]
+ * Looks like header with horizontally spaced module cards
+ *
+ * @see [SearchRecommendationsContent]
+ *
+ * @author Egor Danilov
+ */
 @Composable
 fun ModulesLazyRow(
+    @StringRes headerRes: Int,
     modules: List<OdooModule>
 ) {
     val itemSpacing = mainHorizontalPadding / 2
@@ -31,7 +40,7 @@ fun ModulesLazyRow(
     val endRowPadding = mainHorizontalPadding / 4
 
     LabelText(
-        textRes = R.string.favourite_modules_header,
+        textRes = headerRes,
         modifier = Modifier.padding(start = 34.dp)
     )
 

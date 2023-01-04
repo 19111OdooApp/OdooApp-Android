@@ -1,4 +1,4 @@
-package odoo.miem.android.feature.selectingModules.impl
+package odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.Crossfade
@@ -38,7 +38,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
@@ -60,10 +59,11 @@ import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
-import odoo.miem.android.feature.selectingModules.impl.components.SelectingModulesFavoriteList
-import odoo.miem.android.feature.selectingModules.impl.components.SelectingModulesHeader
+import odoo.miem.android.feature.selectingModules.impl.R
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 import odoo.miem.android.feature.selectingModules.impl.searchScreen.SearchModulesScreen
+import odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components.SelectingModulesFavoriteList
+import odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components.SelectingModulesHeader
 import javax.inject.Inject
 
 /**
@@ -85,8 +85,6 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         navController: NavHostController,
         showMessage: (Int) -> Unit
     ) {
-        val viewModel: SelectingModulesViewModel = viewModel()
-
         // TODO Delete Test Data
         val modules = listOf(
             OdooModule(
@@ -148,9 +146,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     CustomBottomSheetScaffold(
                         scaffoldState = scaffoldState,
                         sheetContent = {
-                            val topPadding = 24.dp
-
-                            Spacer(modifier = Modifier.height(topPadding))
+                            Spacer(modifier = Modifier.height(24.dp))
 
                             SelectingModulesBottomSheetHeader()
 

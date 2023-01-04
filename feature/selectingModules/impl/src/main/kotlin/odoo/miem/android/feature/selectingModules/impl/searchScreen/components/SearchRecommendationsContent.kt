@@ -1,11 +1,15 @@
-package odoo.miem.android.feature.selectingModules.impl.components
+package odoo.miem.android.feature.selectingModules.impl.searchScreen.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
+import odoo.miem.android.feature.selectingModules.impl.R
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 import odoo.miem.android.feature.selectingModules.impl.searchScreen.SearchModulesScreen
 
@@ -27,11 +31,19 @@ fun SearchRecommendationsContent(
         modifier = Modifier.fillMaxWidth()
     ) {
         if (favouriteModules.isNotEmpty()) {
-            ModulesLazyRow(modules = favouriteModules)
+            ModulesLazyRow(
+                headerRes = R.string.favourite_modules_header,
+                modules = favouriteModules
+            )
         }
 
         if (allModules.isNotEmpty()) {
-            ModulesLazyRow(modules = allModules)
+            Spacer(modifier = Modifier.height(mainVerticalPadding))
+
+            ModulesLazyRow(
+                headerRes = R.string.all_modules_header,
+                modules = allModules
+            )
         }
     }
 }

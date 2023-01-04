@@ -1,4 +1,4 @@
-package odoo.miem.android.feature.selectingModules.impl.components
+package odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

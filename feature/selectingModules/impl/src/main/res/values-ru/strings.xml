@@ -13,7 +13,7 @@
     <string name="search_result_empty_desc">По запросу "%s" ничего не найдено.\nПопробуйте еще раз.</string>
 
     <!-- module not found screen -->
-    <string name="sorry">Сожалеем</string>
+    <string name="sorry">Упс!</string>
     <string name="module_not_found">Модуль не найден</string>
     <string name="sorry_desc">К сожалению, этот модуль еще не реализован.\nНаши разработчики работают над этим, вернитесь позже.</string>
 </resources>

@@ -53,7 +53,7 @@ import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetVal
 import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetScaffoldState
 import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetState
 import odoo.miem.android.common.uiKitComponents.cards.SmallModuleCard
-import odoo.miem.android.common.uiKitComponents.text.SubTitleText
+import odoo.miem.android.common.uiKitComponents.text.SubtitleText
 import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
 import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
@@ -276,7 +276,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
         Spacer(modifier = Modifier.height(14.dp))
 
-        SubTitleText(
+        SubtitleText(
             textRes = R.string.all_modules,
             isLarge = true,
             modifier = Modifier.align(Alignment.CenterHorizontally),

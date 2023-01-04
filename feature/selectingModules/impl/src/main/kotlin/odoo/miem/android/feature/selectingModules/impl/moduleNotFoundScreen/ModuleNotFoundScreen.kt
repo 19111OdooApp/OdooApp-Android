@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
 import odoo.miem.android.common.uiKitComponents.text.DisplayText
 import odoo.miem.android.common.uiKitComponents.text.LabelText
-import odoo.miem.android.common.uiKitComponents.text.SubTitleText
+import odoo.miem.android.common.uiKitComponents.text.SubtitleText
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.commonPadding
 import odoo.miem.android.feature.selectingModules.impl.R
@@ -71,7 +71,7 @@ fun ModuleNotFoundScreen(
 
     Spacer(modifier = Modifier.height(commonPadding))
 
-    SubTitleText(
+    SubtitleText(
         textRes = R.string.sorry_desc,
         color = MaterialTheme.colorScheme.tertiary,
         textAlign = TextAlign.Center,

@@ -108,7 +108,10 @@ fun SearchModulesScreen(
         enter = fadeIn(),
         exit = fadeOut()
     ) {
-        SearchResultContent(filteredModules = emptyList())
+        SearchResultContent(
+            searchInput = searchInput,
+            filteredModules = emptyList()
+        )
     }
 }
 

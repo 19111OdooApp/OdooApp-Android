@@ -145,7 +145,7 @@ object Dependencies {
 
     object Retrofit {
         private const val RETROFIT_VERSION = "2.9.0"
-        private const val XMLRPC_VERSION = "1.3"
+        private const val XMLRPC_VERSION = "v1.2"
 
         const val CONVERTER_GSON = "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
         const val RETROFIT_DEPENDENCY = "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"

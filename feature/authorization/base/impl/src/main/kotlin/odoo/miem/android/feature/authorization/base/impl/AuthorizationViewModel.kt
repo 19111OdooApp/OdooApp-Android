@@ -16,9 +16,7 @@ import timber.log.Timber
  *
  * @author Vorozhtsov Mikhail, Alexander Lyutikov
  */
-class AuthorizationViewModel(
-    schedulers: PresentationSchedulers = apiBlocking(RxApi::presentationSchedulers)
-) : BaseViewModel(schedulers) {
+class AuthorizationViewModel : BaseViewModel() {
 
     private val authorizationInteractor by api(IAuthorizationInteractorApi::authorizationInteractor)
 

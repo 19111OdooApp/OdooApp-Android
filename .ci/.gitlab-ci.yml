@@ -93,7 +93,7 @@ build-app:
   rules:
     - when: always
   tags:
-    - docker_miem
+    - docker
   script:
     - ./gradlew :entry:app:assembleRelease
   artifacts:
@@ -107,6 +107,6 @@ unit-testing:
   rules:
     - when: always
   tags:
-    - docker_miem
+    - docker
   script:
     - ./gradlew test

@@ -10,6 +10,6 @@
     <string name="module_default_name">Cool module</string>
 
     <!--  Search Text field  -->
-    <string name="search_text_field_label">Введите название модуля…</string>
+    <string name="search_text_field_label">Введите название модуля</string>
     <string name="outlined_module_card_header">Добавить любимый модуль</string>
 </resources>

@@ -104,6 +104,14 @@ object Dependencies {
             val ALL_ACCOMPANIST_DEPS = listOf(ACCOMPANIST_CORE, ACCOMPANIST_INDICATORS)
         }
 
+        object SharedElements {
+            private const val VERSION = "0.1.0-SNAPSHOT"
+
+            const val SHARED_ELEMENTS = "com.mxalbert.sharedelements:shared-elements:$VERSION"
+
+            val ALL_SHARED_ELEMENTS_DEPS = listOf(SHARED_ELEMENTS)
+        }
+
         object UiTest {
 
             // add to build.gradle with androidTestImplementation()
@@ -116,7 +124,7 @@ object Dependencies {
         val ALL_DEPS =
             Core.ALL_CORE_DEPS + Lifecycle.ALL_LIFECYCLE_DEPS + Foundation.ALL_FOUNDATION_DEPS +
                 RxJava.ALL_RXJAVA_DEPS + Navigation.ALL_NAVIGATION_DEPS + Coil.ALL_COIL_DEPS +
-                Accompanist.ALL_ACCOMPANIST_DEPS
+                Accompanist.ALL_ACCOMPANIST_DEPS + SharedElements.ALL_SHARED_ELEMENTS_DEPS
     }
 
     object Dagger {
@@ -137,14 +145,12 @@ object Dependencies {
 
     object Retrofit {
         private const val RETROFIT_VERSION = "2.9.0"
-        private const val XMLRPC_VERSION = "1.2"
 
         const val CONVERTER_GSON = "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
         const val RETROFIT_DEPENDENCY = "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
-        const val RETROFIT_XMLRPC = "com.github.erickok:retrofit-xmlrpc:$XMLRPC_VERSION"
         const val RX_ADAPTER = "com.squareup.retrofit2:adapter-rxjava3:$RETROFIT_VERSION"
 
-        val ALL_DEPS = listOf(CONVERTER_GSON, RETROFIT_DEPENDENCY, RETROFIT_XMLRPC, RX_ADAPTER)
+        val ALL_DEPS = listOf(CONVERTER_GSON, RETROFIT_DEPENDENCY, RX_ADAPTER)
     }
 
     object RxJava {

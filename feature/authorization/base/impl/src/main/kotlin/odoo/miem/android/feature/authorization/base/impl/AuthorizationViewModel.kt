@@ -2,10 +2,7 @@ package odoo.miem.android.feature.authorization.base.impl
 
 import odoo.miem.android.common.network.authorization.api.di.IAuthorizationInteractorApi
 import odoo.miem.android.core.di.impl.api
-import odoo.miem.android.core.di.impl.apiBlocking
 import odoo.miem.android.core.platform.presentation.BaseViewModel
-import odoo.miem.android.core.utils.di.RxApi
-import odoo.miem.android.core.utils.rx.PresentationSchedulers
 import odoo.miem.android.core.utils.rx.lazyEmptyResultPublishSubject
 import odoo.miem.android.core.utils.rx.onLoadingState
 import odoo.miem.android.core.utils.state.ResultSubject
@@ -16,9 +13,7 @@ import timber.log.Timber
  *
  * @author Vorozhtsov Mikhail, Alexander Lyutikov
  */
-class AuthorizationViewModel(
-    schedulers: PresentationSchedulers = apiBlocking(RxApi::presentationSchedulers)
-) : BaseViewModel(schedulers) {
+class AuthorizationViewModel : BaseViewModel() {
 
     private val authorizationInteractor by api(IAuthorizationInteractorApi::authorizationInteractor)
 

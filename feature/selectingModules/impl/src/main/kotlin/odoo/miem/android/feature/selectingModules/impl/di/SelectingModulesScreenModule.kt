@@ -3,7 +3,7 @@ package odoo.miem.android.feature.selectingModules.impl.di
 import dagger.Binds
 import dagger.Module
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
-import odoo.miem.android.feature.selectingModules.impl.SelectingModulesScreen
+import odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.SelectingModulesScreen
 
 /**
  * [SelectingModulesScreenModule] - module for proving instance of [SelectingModulesScreen]

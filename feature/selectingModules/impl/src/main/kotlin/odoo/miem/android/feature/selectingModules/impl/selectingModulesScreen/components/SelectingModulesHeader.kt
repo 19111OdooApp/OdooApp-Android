@@ -1,4 +1,4 @@
-package odoo.miem.android.feature.selectingModules.impl.components
+package odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import odoo.miem.android.common.uiKitComponents.text.SubTitleText
+import odoo.miem.android.common.uiKitComponents.text.SubtitleText
 import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.selectingModules.impl.R
@@ -44,7 +44,7 @@ internal fun SelectingModulesHeader(
     horizontalArrangement = Arrangement.SpaceBetween
 ) {
     Column {
-        SubTitleText(textRes = R.string.hello_text)
+        SubtitleText(textRes = R.string.hello_text)
 
         TitleText(text = userName, isLarge = false)
     }

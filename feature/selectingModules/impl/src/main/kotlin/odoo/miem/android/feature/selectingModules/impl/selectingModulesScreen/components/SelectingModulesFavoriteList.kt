@@ -1,4 +1,4 @@
-package odoo.miem.android.feature.selectingModules.impl.components
+package odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -25,7 +25,7 @@ import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
 import odoo.miem.android.common.uiKitComponents.cards.BigModuleCard
 import odoo.miem.android.common.uiKitComponents.cards.BigModuleOutlinedCard
-import odoo.miem.android.core.uiKitTheme.animatedCardColors
+import odoo.miem.android.core.uiKitTheme.gradientColors
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 import kotlin.math.absoluteValue
@@ -44,6 +44,7 @@ import kotlin.math.absoluteValue
 internal fun SelectingModulesFavoriteList(
     favoriteModules: List<OdooModule> = emptyList(),
     indicatorModifier: Modifier = Modifier,
+    onModuleCardClick: () -> Unit = {},
     onAddModuleCardClick: () -> Unit = {}
 ) {
     val haptic = LocalHapticFeedback.current
@@ -100,13 +101,14 @@ internal fun SelectingModulesFavoriteList(
                     moduleName = name,
                     numberOfNotification = numberOfNotifications,
                     isLiked = isLikedState,
+                    onClick = onModuleCardClick,
                     onLikeClick = { isLikedState = !isLikedState },
                     modifier = bigCardModifier
                 )
             }
         } else {
             BigModuleOutlinedCard(
-                gradientColors = animatedCardColors,
+                gradientColors = gradientColors,
                 modifier = bigCardModifier,
                 onClick = onAddModuleCardClick
             )

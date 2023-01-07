@@ -5,6 +5,7 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
         maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
     }
 }
 
@@ -15,6 +16,7 @@ dependencyResolutionManagement {
         mavenCentral()
         gradlePluginPortal()
         maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
     }
 }
 
@@ -25,6 +27,9 @@ rootProject.name = "Odoo App"
 // Common layer
 include(":common:network:authorization:api")
 include(":common:network:authorization:impl")
+
+include(":common:network:selectingmodules:api")
+include(":common:network:selectingmodules:impl")
 
 include(":common:uiKitComponents")
 
@@ -48,7 +53,6 @@ include(":core:uiKitTheme")
 
 include(":core:utils")
 
-
 // Entry layer
 include(":entry:app")
 
@@ -62,4 +66,3 @@ include(":feature:navigation:impl")
 
 include(":feature:selectingModules:api")
 include(":feature:selectingModules:impl")
-

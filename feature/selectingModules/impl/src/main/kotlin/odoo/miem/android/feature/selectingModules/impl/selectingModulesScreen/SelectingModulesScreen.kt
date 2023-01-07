@@ -1,6 +1,10 @@
-package odoo.miem.android.feature.selectingModules.impl
+package odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -23,7 +27,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -31,12 +34,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
+import com.mxalbert.sharedelements.FadeMode
+import com.mxalbert.sharedelements.MaterialContainerTransformSpec
+import com.mxalbert.sharedelements.SharedElement
+import com.mxalbert.sharedelements.SharedElementsRoot
 import kotlinx.coroutines.launch
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
 import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetScaffold
@@ -44,15 +52,18 @@ import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetVal
 import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetScaffoldState
 import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetState
 import odoo.miem.android.common.uiKitComponents.cards.SmallModuleCard
-import odoo.miem.android.common.uiKitComponents.text.SubTitleText
+import odoo.miem.android.common.uiKitComponents.text.SubtitleText
 import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
+import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
-import odoo.miem.android.feature.selectingModules.impl.components.SelectingModulesFavoriteList
-import odoo.miem.android.feature.selectingModules.impl.components.SelectingModulesHeader
+import odoo.miem.android.feature.selectingModules.impl.R
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
+import odoo.miem.android.feature.selectingModules.impl.searchScreen.SearchModulesScreen
+import odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components.SelectingModulesFavoriteList
+import odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components.SelectingModulesHeader
 import javax.inject.Inject
 
 /**
@@ -94,7 +105,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         // TODO Create base with loading handling
         SelectingModulesScreenContent(
             allModules = modules,
-            favoriteModules = modules
+            favoriteModules = modules,
         )
     }
 
@@ -102,15 +113,17 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     @Composable
     private fun SelectingModulesScreenContent(
         allModules: List<OdooModule> = emptyList(),
-        favoriteModules: List<OdooModule> = emptyList()
+        favoriteModules: List<OdooModule> = emptyList(),
+        onModuleCardClick: () -> Unit = {}
     ) {
         val topRadius = 35.dp
 
         val sheetState = rememberCustomBottomSheetState(
             initialValue = CustomBottomSheetValue.Collapsed
         )
-        val scaffoldState =
-            rememberCustomBottomSheetScaffoldState(customBottomSheetState = sheetState)
+        val scaffoldState = rememberCustomBottomSheetScaffoldState(
+            customBottomSheetState = sheetState
+        )
 
         val scope = rememberCoroutineScope()
         val onAddModuleCardClick: () -> Unit = {
@@ -119,34 +132,55 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             }
         }
 
-        CustomBottomSheetScaffold(
-            scaffoldState = scaffoldState,
-            sheetContent = {
-                val topPadding = 24.dp
+        var isSearchScreenVisible by remember { mutableStateOf(false) }
 
-                Spacer(modifier = Modifier.height(topPadding))
+        SharedElementsRoot {
+            Crossfade(
+                targetState = isSearchScreenVisible,
+                animationSpec = tween(durationMillis = SharedElementConstants.transitionDurationMills)
+            ) { visible ->
+                if (!visible) {
+                    CustomBottomSheetScaffold(
+                        scaffoldState = scaffoldState,
+                        sheetContent = {
+                            Spacer(modifier = Modifier.height(24.dp))
 
-                SelectingModulesBottomSheetHeader()
+                            SelectingModulesBottomSheetHeader()
 
-                SelectingModulesBottomSheetGrid(allModules = allModules)
-            },
-            sheetShape = RoundedCornerShape(
-                topStart = topRadius,
-                topEnd = topRadius
-            ),
-            sheetPeekHeight = (LocalConfiguration.current.screenHeightDp * SHEET_PEEK_HEIGHT_COEFFICIENT).dp,
-            sheetElevation = 8.dp,
-            backgroundColor = MaterialTheme.colorScheme.background,
-            sheetBackgroundColor = MaterialTheme.colorScheme.background,
-            halfCoefficient = HALF_COEFFICIENT,
-            modifier = Modifier
-                .fillMaxSize()
-                .imePadding()
-        ) {
-            SelectingModulesMainContent(
-                favoriteModules = favoriteModules,
-                onAddModuleCardClick = onAddModuleCardClick
-            )
+                            Spacer(modifier = Modifier.height(6.dp))
+
+                            SelectingModulesBottomSheetGrid(allModules = allModules)
+                        },
+                        sheetShape = RoundedCornerShape(
+                            topStart = topRadius,
+                            topEnd = topRadius
+                        ),
+                        sheetPeekHeight = (
+                            LocalConfiguration.current.screenHeightDp * SHEET_PEEK_HEIGHT_COEFFICIENT
+                            ).dp,
+                        sheetElevation = 8.dp,
+                        backgroundColor = MaterialTheme.colorScheme.background,
+                        sheetBackgroundColor = MaterialTheme.colorScheme.background,
+                        halfCoefficient = HALF_COEFFICIENT,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .imePadding()
+                    ) {
+                        SelectingModulesMainContent(
+                            favouriteModules = favoriteModules,
+                            onModuleCardClick = onModuleCardClick,
+                            onAddModuleCardClick = onAddModuleCardClick,
+                            onSearchBarClick = { isSearchScreenVisible = true }
+                        )
+                    }
+                } else {
+                    SearchModulesScreen(
+                        allModules = allModules,
+                        favouriteModules = favoriteModules,
+                        onBackPressed = { isSearchScreenVisible = false }
+                    )
+                }
+            }
         }
     }
 
@@ -154,15 +188,13 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     @OptIn(ExperimentalPagerApi::class)
     @Composable
     private fun SelectingModulesMainContent(
-        favoriteModules: List<OdooModule> = emptyList(),
-        onAddModuleCardClick: () -> Unit = {}
+        favouriteModules: List<OdooModule> = emptyList(),
+        onModuleCardClick: () -> Unit = {},
+        onAddModuleCardClick: () -> Unit = {},
+        onSearchBarClick: () -> Unit = {}
     ) = Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        var searchInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
-            mutableStateOf(TextFieldValue())
-        }
-
         val pagerState = rememberPagerState()
         val haptic = LocalHapticFeedback.current
         var startTransaction by remember { mutableStateOf(false) }
@@ -197,23 +229,30 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
         Spacer(modifier = Modifier.height(searchTextFieldTopPadding))
 
-        // TODO Search Transaction
-        // https://github.com/mxalbert1996/compose-shared-elements
-        // https://github.com/mobnetic/compose-shared-element
-        SearchTextField(
-            value = searchInput,
-            onValueChange = { searchInput = it },
-            enabled = false
-        )
+        SharedElement(
+            key = stringResource(R.string.search_bar_key),
+            screenKey = stringResource(R.string.select_modules_screen_key),
+            transitionSpec = MaterialContainerTransformSpec(
+                durationMillis = SharedElementConstants.transitionDurationMills,
+                fadeMode = FadeMode.Out
+            )
+        ) {
+            SearchTextField(
+                enabled = false,
+                value = TextFieldValue(),
+                modifier = Modifier.clickable { onSearchBarClick() }
+            )
+        }
 
         Spacer(modifier = Modifier.height(selectingFavoriteModulesTopPadding))
 
         SelectingModulesFavoriteList(
-            favoriteModules = favoriteModules,
+            favoriteModules = favouriteModules,
+            onModuleCardClick = onModuleCardClick,
+            onAddModuleCardClick = onAddModuleCardClick,
             indicatorModifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(horizontal = mainHorizontalPadding),
-            onAddModuleCardClick = onAddModuleCardClick
         )
     }
 
@@ -222,19 +261,19 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         val width = (LocalConfiguration.current.screenWidthDp * DIVIDER_WIDTH_COEFFICIENT).dp
 
         Divider(
+            thickness = 2.dp,
+            color = MaterialTheme.colorScheme.onPrimary,
             modifier = Modifier
                 .width(width)
-                .align(Alignment.CenterHorizontally),
-            thickness = 2.dp,
-            color = MaterialTheme.colorScheme.onPrimary
+                .align(Alignment.CenterHorizontally)
         )
 
         Spacer(modifier = Modifier.height(14.dp))
 
-        SubTitleText(
+        SubtitleText(
             textRes = R.string.all_modules,
+            isLarge = true,
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            isLarge = true
         )
     }
 
@@ -244,6 +283,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     ) = LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(mainHorizontalPadding / 2),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier.fillMaxSize()
     ) {
         items(allModules) {

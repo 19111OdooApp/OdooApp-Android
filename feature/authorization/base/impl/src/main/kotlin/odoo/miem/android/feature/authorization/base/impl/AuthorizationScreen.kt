@@ -33,7 +33,7 @@ import androidx.navigation.NavHostController
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
 import odoo.miem.android.common.uiKitComponents.buttons.TextButton
 import odoo.miem.android.common.uiKitComponents.dividers.Divider
-import odoo.miem.android.common.uiKitComponents.text.SubTitleText
+import odoo.miem.android.common.uiKitComponents.text.SubtitleText
 import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.common.uiKitComponents.textfields.LoginTextField
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
@@ -153,7 +153,7 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
                 )
         )
 
-        SubTitleText(
+        SubtitleText(
             textRes = R.string.login_welcome_text,
             modifier = Modifier
                 .align(Alignment.Start)

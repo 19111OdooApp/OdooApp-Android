@@ -4,6 +4,10 @@ plugins {
     id("com.google.firebase.crashlytics")
 }
 
+android {
+    namespace = "odoo.miem.android"
+}
+
 dependencies {
 
     // Feature

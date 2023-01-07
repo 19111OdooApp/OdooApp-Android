@@ -3,6 +3,9 @@ plugins {
 }
 
 android {
+
+    namespace = "odoo.miem.android.core.utils"
+
     buildFeatures {
         compose = true
     }

@@ -2,6 +2,10 @@ plugins {
     conventions.`module-impl`
 }
 
+android {
+    namespace = "odoo.miem.android.common.networkapi.authorization.impl"
+}
+
 dependencies {
 
     Dependencies.Retrofit.ALL_DEPS.forEach { implementation(it) }

@@ -2,6 +2,10 @@ plugins {
     conventions.`base-impl`
 }
 
+android {
+    namespace = "odoo.miem.android.core.di.impl"
+}
+
 dependencies {
 
     // Coroutines

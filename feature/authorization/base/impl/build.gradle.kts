@@ -2,6 +2,10 @@ plugins {
     conventions.`module-compose-impl`
 }
 
+android {
+    namespace = "odoo.miem.android.feature.authorization.base.impl"
+}
+
 dependencies {
 
     Dependencies.RxJava.ALL_DEPS.forEach { implementation(it) }

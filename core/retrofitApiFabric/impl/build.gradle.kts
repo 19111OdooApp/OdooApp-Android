@@ -2,6 +2,10 @@ plugins {
     conventions.`module-impl`
 }
 
+android {
+    namespace = "odoo.miem.android.core.retrofitapifabric"
+}
+
 dependencies {
 
     Dependencies.Retrofit.ALL_DEPS.forEach { implementation(it) }

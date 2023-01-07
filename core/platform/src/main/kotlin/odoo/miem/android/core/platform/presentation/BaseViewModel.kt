@@ -14,7 +14,6 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.functions.Consumer
-import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.di.impl.apiBlocking
 import odoo.miem.android.core.utils.di.RxApi
 import odoo.miem.android.core.utils.rx.DisposableManager

@@ -1,7 +1,6 @@
 package odoo.miem.android.feature.authorization.base.impl
 
 import androidx.compose.ui.test.assert
-import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.hasAnyChild
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasText
@@ -14,7 +13,6 @@ import androidx.compose.ui.test.performTextInput
 import androidx.navigation.compose.rememberNavController
 import androidx.test.platform.app.InstrumentationRegistry
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
-import odoo.miem.android.core.uiKitTheme.commonPadding
 import org.junit.Rule
 import org.junit.Test
 

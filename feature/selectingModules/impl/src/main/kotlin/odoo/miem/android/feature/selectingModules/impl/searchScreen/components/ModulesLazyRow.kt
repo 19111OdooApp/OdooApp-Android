@@ -34,7 +34,8 @@ import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 @Composable
 fun ModulesLazyRow(
     @StringRes headerRes: Int,
-    modules: List<OdooModule>
+    modules: List<OdooModule>,
+    onModuleCardClick: () -> Unit = {}
 ) {
     val itemSpacing = mainHorizontalPadding / 2
     val startRowPadding = mainHorizontalPadding / 2
@@ -61,6 +62,7 @@ fun ModulesLazyRow(
             SmallModuleCard(
                 moduleName = it.name,
                 isLiked = isLikedState,
+                onClick = onModuleCardClick,
                 onLikeClick = { isLikedState = !isLikedState },
                 modifier = Modifier.width(170.dp)
             )

@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "odoo.miem.android.feature.selectingModules.impl"
+    namespace = "odoo.miem.android.feature.moduleNotFound.impl"
 }
 
 dependencies {
@@ -20,9 +20,7 @@ dependencies {
 
     // Feature
     // Selecting modules API
-    implementation(project(":feature:selectingModules:api"))
+    implementation(project(":feature:moduleNotFound:api"))
     // Platform
     implementation(project(":core:platform"))
-    // Navigation API
-    implementation(project(":feature:navigation:api"))
 }

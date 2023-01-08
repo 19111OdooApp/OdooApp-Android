@@ -47,6 +47,7 @@ import odoo.miem.android.feature.selectingModules.impl.searchScreen.components.S
 fun SearchModulesScreen(
     allModules: List<OdooModule>,
     favouriteModules: List<OdooModule>,
+    onModuleCardClick: () -> Unit = {},
     onBackPressed: () -> Unit = {},
 ) = Column(
     horizontalAlignment = Alignment.CenterHorizontally,
@@ -101,7 +102,8 @@ fun SearchModulesScreen(
     ) {
         SearchRecommendationsContent(
             allModules = allModules,
-            favouriteModules = favouriteModules
+            favouriteModules = favouriteModules,
+            onModuleCardClick = onModuleCardClick
         )
     }
 
@@ -113,7 +115,10 @@ fun SearchModulesScreen(
         if (filteredModules.isEmpty()) {
             SearchResultEmpty(searchInput = searchInput.text)
         } else {
-            SearchResultContent(filteredModules = filteredModules)
+            SearchResultContent(
+                filteredModules = filteredModules,
+                onModuleCardClick = onModuleCardClick
+            )
         }
     }
 }

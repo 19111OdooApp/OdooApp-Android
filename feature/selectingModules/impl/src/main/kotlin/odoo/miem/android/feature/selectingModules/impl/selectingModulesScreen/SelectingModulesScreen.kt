@@ -58,6 +58,7 @@ import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
 import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
+import odoo.miem.android.feature.navigation.api.data.Routes
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
 import odoo.miem.android.feature.selectingModules.impl.R
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
@@ -85,6 +86,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         navController: NavHostController,
         showMessage: (Int) -> Unit
     ) {
+        val onModuleCardClick = { navController.navigate(Routes.moduleNotFound) }
+
         // TODO Delete Test Data
         val modules = listOf(
             OdooModule(
@@ -106,6 +109,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         SelectingModulesScreenContent(
             allModules = modules,
             favoriteModules = modules,
+            onModuleCardClick = onModuleCardClick
         )
     }
 
@@ -149,7 +153,10 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
                             Spacer(modifier = Modifier.height(6.dp))
 
-                            SelectingModulesBottomSheetGrid(allModules = allModules)
+                            SelectingModulesBottomSheetGrid(
+                                allModules = allModules,
+                                onModuleCardClick = onModuleCardClick
+                            )
                         },
                         sheetShape = RoundedCornerShape(
                             topStart = topRadius,
@@ -177,6 +184,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     SearchModulesScreen(
                         allModules = allModules,
                         favouriteModules = favoriteModules,
+                        onModuleCardClick = onModuleCardClick,
                         onBackPressed = { isSearchScreenVisible = false }
                     )
                 }
@@ -279,7 +287,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
     @Composable
     private fun ColumnScope.SelectingModulesBottomSheetGrid(
-        allModules: List<OdooModule> = emptyList()
+        allModules: List<OdooModule> = emptyList(),
+        onModuleCardClick: () -> Unit = {}
     ) = LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(mainHorizontalPadding / 2),
@@ -293,6 +302,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             SmallModuleCard(
                 moduleName = it.name,
                 isLiked = isLikedState,
+                onClick = onModuleCardClick,
                 onLikeClick = { isLikedState = !isLikedState }
             )
         }

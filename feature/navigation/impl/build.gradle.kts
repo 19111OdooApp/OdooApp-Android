@@ -21,4 +21,7 @@ dependencies {
 
     // Selecting Modules API
     implementation(project(":feature:selectingModules:api"))
+
+    // Module Not Found API
+    implementation(project(":feature:moduleNotFound:api"))
 }

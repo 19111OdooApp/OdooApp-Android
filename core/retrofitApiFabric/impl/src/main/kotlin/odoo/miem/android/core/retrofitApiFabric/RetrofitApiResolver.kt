@@ -1,6 +1,5 @@
 package odoo.miem.android.core.retrofitApiFabric
 
-import nl.nl2312.xmlrpc.XmlRpcConverterFactory
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.retrofitApiFabric.api.RetrofitApi
@@ -37,9 +36,10 @@ object RetrofitApiResolver {
     }
 
     private fun createRetrofitAdapter(): Retrofit {
+        // TODO Check url
+        // TODO Move to JSON RPC Factory
         return Retrofit.Builder()
             .baseUrl(dataStore.url)
-            .addConverterFactory(XmlRpcConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()
     }

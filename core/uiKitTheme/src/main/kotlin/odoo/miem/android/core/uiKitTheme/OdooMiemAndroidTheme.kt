@@ -17,7 +17,10 @@ private val DarkColorPalette = darkColorScheme(
     surfaceVariant = odooPrimary.copy(alpha = 0.1f),
     inverseSurface = Color.White,
     inverseOnSurface = Color.Black,
+    tertiary = Color.White,
+    onTertiary = Color.White,
     background = odooDarkBackground,
+    onBackground = Color.White,
     surface = odooDarkBackground
 )
 
@@ -26,20 +29,26 @@ private val LightColorPalette = lightColorScheme(
     onPrimary = Color.Black,
     secondary = odooPrimaryLight,
     primaryContainer = odooPrimaryLight,
-    onPrimaryContainer = odooPrimaryGray,
+    onPrimaryContainer = Color.Black,
     onSecondaryContainer = Color.Black,
     surfaceVariant = odooPrimary.copy(alpha = 0.1f),
     inverseSurface = Color.White,
     inverseOnSurface = Color.Black,
+    tertiary = odooPrimaryGray,
+    onTertiary = Color.Black,
     background = odooLightGrayBackground,
+    onBackground = Color.Black,
     surface = odooLightGrayBackground
 )
 
 @Composable
 fun OdooMiemAndroidTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     // TODO Adaptation for dynamic colors
-    val colors = if (darkTheme) DarkColorPalette
-    else LightColorPalette
+    val colors = if (darkTheme) {
+        DarkColorPalette
+    } else {
+        LightColorPalette
+    }
 
     MaterialTheme(
         colorScheme = colors,

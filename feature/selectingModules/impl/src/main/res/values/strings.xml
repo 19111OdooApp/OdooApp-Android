@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- header -->
+    <string name="hello_text">Hello,</string>
+    <string name="default_user_name">Cool user</string>
+    <string name="choose_module_text">Choose module</string>
+    <string name="all_modules">All modules</string>
+
+    <!-- search screen -->
+    <string name="favourite_modules_header">Favourite modules</string>
+    <string name="all_modules_header">All modules</string>
+    <string name="search_result_empty">No results</string>
+    <string name="search_result_empty_desc">There were no results for "%s".\nTry a new search.</string>
+    
+    <!-- module not found screen -->
+    <string name="sorry">Sorry</string>
+    <string name="module_not_found">Module Not Found</string>
+    <string name="sorry_desc">Unfortunately, this module has not been implemented yet.\nOur developers are already working on it, come back later.</string>
+
+    <!-- for shared elements -->
+    <string name="search_bar_key" translatable="false">searchBar</string>
+    <string name="select_modules_screen_key" translatable="false">selectModulesScreen</string>
+    <string name="search_screen_key" translatable="false">searchScreen</string>
+</resources>

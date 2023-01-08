@@ -84,7 +84,7 @@ detekt:
   tags:
     - docker_miem
   script:
-    - ./gradlew detektAll
+    - ./gradlew detektAll --parallel
 
 build-app:
   stage: build
@@ -95,7 +95,7 @@ build-app:
   tags:
     - docker_miem
   script:
-    - ./gradlew :entry:app:assembleRelease
+    - ./gradlew :entry:app:assembleRelease --parallel
   artifacts:
     paths:
       - entry/app/build/outputs/
@@ -109,4 +109,4 @@ unit-testing:
   tags:
     - docker_miem
   script:
-    - ./gradlew test
+    - ./gradlew test --parallel

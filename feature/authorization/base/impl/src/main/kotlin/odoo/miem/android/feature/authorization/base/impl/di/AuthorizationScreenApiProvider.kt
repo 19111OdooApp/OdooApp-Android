@@ -19,5 +19,5 @@ class AuthorizationScreenApiProvider {
     @Provides
     @IntoMap
     @ApiKey(IAuthorizationApi::class)
-    fun providesLoggerFactoryApiProvider() = ApiProvider { AuthorizationScreenComponent.create() }
+    fun providesAuthorizationScreenApiProvider() = ApiProvider { AuthorizationScreenComponent.create() }
 }

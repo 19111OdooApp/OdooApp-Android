@@ -4,6 +4,10 @@ plugins {
     id("com.google.firebase.crashlytics")
 }
 
+android {
+    namespace = "odoo.miem.android"
+}
+
 dependencies {
 
     // Feature
@@ -12,7 +16,11 @@ dependencies {
     implementation(project(":feature:authorization:base:impl"))
 
     // Navigation
-    implementation(project(":feature:navigation"))
+    implementation(project(":feature:navigation:impl"))
+
+    // Selecting Modules
+    implementation(project(":feature:selectingModules:api"))
+    implementation(project(":feature:selectingModules:impl"))
 
     // Common
     // Network - authorization
@@ -33,4 +41,5 @@ dependencies {
 
     // Ui Kit Theme
     implementation(project(":core:uiKitTheme"))
+    implementation(project(":core:utils"))
 }

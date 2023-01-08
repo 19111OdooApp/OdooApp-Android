@@ -1,7 +1,6 @@
 package odoo.miem.android.feature.authorization.base.impl
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,8 +10,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,7 +20,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -32,15 +30,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
 import odoo.miem.android.common.uiKitComponents.buttons.TextButton
 import odoo.miem.android.common.uiKitComponents.dividers.Divider
+import odoo.miem.android.common.uiKitComponents.text.SubtitleText
+import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.common.uiKitComponents.textfields.LoginTextField
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.commonPadding
 import odoo.miem.android.core.uiKitTheme.dividerVerticalPadding
 import odoo.miem.android.core.uiKitTheme.hseSecondary
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
+import odoo.miem.android.core.uiKitTheme.odooButtonDisabled
+import odoo.miem.android.core.uiKitTheme.odooOnButtonDisabled
+import odoo.miem.android.core.utils.rx.collectAsState
+import odoo.miem.android.core.utils.state.LoadingResult
+import odoo.miem.android.core.utils.state.SuccessResult
+import odoo.miem.android.core.utils.state.subscribeOnError
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
+import odoo.miem.android.feature.navigation.api.data.Routes
+import javax.inject.Inject
 
 /**
  * [AuthorizationScreen] реализация интерфейса [IAuthorizationScreen]
@@ -53,30 +62,39 @@ import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
  *
  * @author Ворожцов Михаил, Данилов Егор
  */
-class AuthorizationScreen : IAuthorizationScreen {
+class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
 
     @SuppressLint("NotConstructor")
     @Composable
     override fun AuthorizationScreen(
         navController: NavHostController,
-        showMessage: (Int) -> Unit
+        showMessage: (Int) -> Unit,
     ) {
         val viewModel: AuthorizationViewModel = viewModel()
 
-        // TODO Create extension with result
-        // TODO After that just use:
-        // val authorizationStatus by viewModel.authorizationState.subscribeAsState(NothingResult)
+        val authorizationStatus by viewModel.authorizationState.collectAsState()
+        authorizationStatus.subscribeOnError(showMessage)
+
+        if (authorizationStatus is SuccessResult) {
+            LaunchedEffect(Unit) {
+                navController.navigate(Routes.selectingModules) {
+                    popUpTo(Routes.authorization) { inclusive = true }
+                }
+            }
+        }
 
         AuthorizationScreenContent(
             onGeneralAuthorization = viewModel::generalAuthorization,
-            showMessage = showMessage
+            showMessage = showMessage,
+            isLoading = authorizationStatus is LoadingResult || authorizationStatus is SuccessResult
         )
     }
 
     @Composable
     private fun AuthorizationScreenContent(
         onGeneralAuthorization: (baseUrl: String, login: String, password: String) -> Unit = { _, _, _ -> },
-        showMessage: (Int) -> Unit = {}
+        showMessage: (Int) -> Unit = {},
+        isLoading: Boolean = false
     ) = Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -98,12 +116,11 @@ class AuthorizationScreen : IAuthorizationScreen {
             mutableStateOf(TextFieldValue())
         }
 
-        // TODO replace it with ViewModel flow passed in arguments
-        var isLoginInProgress by rememberSaveable { mutableStateOf(false) }
-
         var isServerInputError by remember { mutableStateOf(false) }
         var isLoginInputError by remember { mutableStateOf(false) }
         var isPasswordInputError by remember { mutableStateOf(false) }
+        val isLoginButtonEnabled = serverInput.text.isNotEmpty() &&
+            emailInput.text.isNotEmpty() && passwordInput.text.isNotEmpty()
 
         val onLoginButtonClick = {
             isServerInputError = serverInput.text.isBlank() || serverInput.text == odooGlobalUrl
@@ -113,8 +130,6 @@ class AuthorizationScreen : IAuthorizationScreen {
             if (isServerInputError || isLoginInputError || isPasswordInputError) {
                 showMessage(R.string.login_alert_message)
             } else {
-                isLoginInProgress = true
-
                 onGeneralAuthorization(
                     serverInput.text,
                     emailInput.text,
@@ -123,36 +138,29 @@ class AuthorizationScreen : IAuthorizationScreen {
             }
         }
 
-        Image(
-            painter = painterResource(R.drawable.logo_odoo),
-            contentDescription = stringResource(R.string.odoo_logo_desc),
-            modifier = Modifier
-                .padding(top = 30.dp)
-                .size(width = 80.dp, height = 26.dp),
-        )
+        val textFieldTopPadding = 20.dp
 
-        Text(
-            text = stringResource(R.string.login_welcome_header),
-            style = MaterialTheme.typography.titleLarge,
+        SimpleLogoAppBar()
+
+        TitleText(
+            textRes = R.string.login_welcome_header,
+            isLarge = false,
             modifier = Modifier
                 .align(Alignment.Start)
                 .padding(
                     start = mainHorizontalPadding,
-                    top = 40.dp
-                ),
-            color = MaterialTheme.colorScheme.onSecondaryContainer
+                    top = 10.dp
+                )
         )
 
-        Text(
-            text = stringResource(R.string.login_welcome_text),
-            style = MaterialTheme.typography.titleSmall,
+        SubtitleText(
+            textRes = R.string.login_welcome_text,
             modifier = Modifier
                 .align(Alignment.Start)
                 .padding(
                     horizontal = mainHorizontalPadding,
                     vertical = commonPadding
-                ),
-            color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
         )
 
         LoginTextField(
@@ -163,7 +171,8 @@ class AuthorizationScreen : IAuthorizationScreen {
                 serverInput = it
             },
             imeAction = ImeAction.Next,
-            isError = isServerInputError
+            isError = isServerInputError,
+            modifier = Modifier.padding(top = textFieldTopPadding)
         )
 
         LoginTextField(
@@ -174,7 +183,8 @@ class AuthorizationScreen : IAuthorizationScreen {
                 emailInput = it
             },
             imeAction = ImeAction.Next,
-            isError = isLoginInputError
+            isError = isLoginInputError,
+            modifier = Modifier.padding(top = textFieldTopPadding)
         )
 
         LoginTextField(
@@ -185,10 +195,11 @@ class AuthorizationScreen : IAuthorizationScreen {
                 passwordInput = it
             },
             visualTransformation = PasswordVisualTransformation(),
-            isError = isPasswordInputError
+            isError = isPasswordInputError,
+            modifier = Modifier.padding(top = textFieldTopPadding)
         )
 
-        if (isLoginInProgress) {
+        if (isLoading) {
             CircularProgressIndicator(
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
@@ -198,9 +209,12 @@ class AuthorizationScreen : IAuthorizationScreen {
         } else {
             TextButton(
                 onClick = { onLoginButtonClick() },
+                isEnabled = isLoginButtonEnabled,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = Color.White
+                    contentColor = Color.White,
+                    disabledContainerColor = odooButtonDisabled,
+                    disabledContentColor = odooOnButtonDisabled
                 ),
                 modifier = Modifier
                     .fillMaxWidth()

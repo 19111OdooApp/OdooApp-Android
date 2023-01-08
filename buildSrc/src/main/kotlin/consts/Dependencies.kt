@@ -38,6 +38,7 @@ object Dependencies {
             private const val MATERIAL3_VERSION = "1.0.0"
 
             const val UI = "androidx.compose.ui:ui:$COMPOSE_VERSION"
+            const val UI_UTILS = "androidx.compose.ui:ui-util:$COMPOSE_VERSION"
 
             const val MATERIAL = "androidx.compose.material3:material3:$MATERIAL3_VERSION"
             const val MATERIAL_ICONS = "androidx.compose.material:material-icons-extended:$COMPOSE_VERSION"
@@ -50,7 +51,7 @@ object Dependencies {
             const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout-compose:$CONSTRAINT_VERSION"
 
             val ALL_CORE_DEPS =
-                listOf(UI, MATERIAL, MATERIAL_ICONS, UI_TOOLING_PREVIEW, ACTIVITY_COMPOSE, CONSTRAINT_LAYOUT)
+                listOf(UI, UI_UTILS, MATERIAL, MATERIAL_ICONS, UI_TOOLING_PREVIEW, ACTIVITY_COMPOSE, CONSTRAINT_LAYOUT)
             val ALL_CORE_DEBUG_DEPS = listOf(UI_TOOLING)
         }
 
@@ -86,6 +87,31 @@ object Dependencies {
             val ALL_RXJAVA_DEPS = listOf(RX_JAVA)
         }
 
+        object Coil {
+            private const val VERSION = "2.2.2"
+
+            const val COIL_COMPOSE = "io.coil-kt:coil-compose:$VERSION"
+
+            val ALL_COIL_DEPS = listOf(COIL_COMPOSE)
+        }
+
+        object Accompanist {
+            private const val VERSION = "0.28.0"
+
+            const val ACCOMPANIST_CORE = "com.google.accompanist:accompanist-pager:$VERSION"
+            const val ACCOMPANIST_INDICATORS = "com.google.accompanist:accompanist-pager-indicators:$VERSION"
+
+            val ALL_ACCOMPANIST_DEPS = listOf(ACCOMPANIST_CORE, ACCOMPANIST_INDICATORS)
+        }
+
+        object SharedElements {
+            private const val VERSION = "0.1.0-SNAPSHOT"
+
+            const val SHARED_ELEMENTS = "com.mxalbert.sharedelements:shared-elements:$VERSION"
+
+            val ALL_SHARED_ELEMENTS_DEPS = listOf(SHARED_ELEMENTS)
+        }
+
         object UiTest {
 
             // add to build.gradle with androidTestImplementation()
@@ -97,7 +123,8 @@ object Dependencies {
 
         val ALL_DEPS =
             Core.ALL_CORE_DEPS + Lifecycle.ALL_LIFECYCLE_DEPS + Foundation.ALL_FOUNDATION_DEPS +
-                RxJava.ALL_RXJAVA_DEPS + Navigation.ALL_NAVIGATION_DEPS
+                RxJava.ALL_RXJAVA_DEPS + Navigation.ALL_NAVIGATION_DEPS + Coil.ALL_COIL_DEPS +
+                Accompanist.ALL_ACCOMPANIST_DEPS + SharedElements.ALL_SHARED_ELEMENTS_DEPS
     }
 
     object Dagger {
@@ -118,14 +145,12 @@ object Dependencies {
 
     object Retrofit {
         private const val RETROFIT_VERSION = "2.9.0"
-        private const val XMLRPC_VERSION = "1.2"
 
         const val CONVERTER_GSON = "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
         const val RETROFIT_DEPENDENCY = "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
-        const val RETROFIT_XMLRPC = "com.github.erickok:retrofit-xmlrpc:$XMLRPC_VERSION"
         const val RX_ADAPTER = "com.squareup.retrofit2:adapter-rxjava3:$RETROFIT_VERSION"
 
-        val ALL_DEPS = listOf(CONVERTER_GSON, RETROFIT_DEPENDENCY, RETROFIT_XMLRPC, RX_ADAPTER)
+        val ALL_DEPS = listOf(CONVERTER_GSON, RETROFIT_DEPENDENCY, RX_ADAPTER)
     }
 
     object RxJava {
@@ -176,7 +201,7 @@ object Dependencies {
     }
 
     object Plugins {
-        const val DETEKT_VERSION = "1.22.0-RC1"
+        const val DETEKT_VERSION = "1.22.0"
 
         const val DETEKT_FORMATTING = "io.gitlab.arturbosch.detekt:detekt-formatting:$DETEKT_VERSION"
     }

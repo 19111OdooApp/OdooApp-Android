@@ -2,6 +2,6 @@ plugins {
     conventions.`module-compose-api`
 }
 
-dependencies {
-
+android {
+    namespace = "odoo.miem.android.feature.authorization.base.api"
 }

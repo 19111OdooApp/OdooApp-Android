@@ -4,14 +4,14 @@ import android.content.Context
 import odoo.miem.android.core.di.api.Api
 
 /**
- * [PlatformApi] предназначен для обертки платформенных объектов для последующего
- * предоставления интерфейса в компоненты **Dagger 2**
+ * [PlatformApi] is intended for wrapping platform objects for providing interface to components of
+ * **Dagger 2**
  *
- * @property context является экземпляром абстрактного класса [Context]
+ * @property context is an instance of an abstract class [Context]
  *
  * @see Api
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 interface PlatformApi : Api {
 

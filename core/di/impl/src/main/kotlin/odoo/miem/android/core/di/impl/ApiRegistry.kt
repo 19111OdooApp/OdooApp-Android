@@ -4,33 +4,33 @@ import odoo.miem.android.core.di.api.Api
 import odoo.miem.android.core.di.impl.exception.ResolverNotInstalledException
 
 /**
- * [ApiProvider] - Singleton класс, который нужен для обертки **ApiResolver**
+ * [ApiProvider] - Singleton, which wraps **[ApiResolver]**
  *
- * @param apiResolver нужен для хранения инстанса [ApiResolver] после инициализации в *app* модуле
+ * @param apiResolver is needed for storing instance of [ApiResolver] after initialization in *app* module
  *
  * @see ApiKey
  * @see ApiResolver
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 object ApiRegistry {
 
     private var apiResolver: ApiResolver? = null
 
     /**
-     * Метод для предоставления [Api] из **Map** в [ApiResolver].
+     * Method for providing [Api] from **DI Map** to [ApiResolver].
      *
-     * @throws ResolverNotInstalledException в случае, если не удается найти нужный **Api** по ключу
+     * @throws ResolverNotInstalledException in case it is not possible to find the required **Api** by key
      * @return реализация **Api**
      */
     fun <T : Api> getApi(cls: Class<T>): T =
         apiResolver?.getApi(cls) ?: throw ResolverNotInstalledException("Resolver is not installed")
 
     /**
-     * Инициализация [apiResolver] свойства
+     * Initialization of [apiResolver] property
      *
-     * @param newApiResolver новый [ApiResolver] для сохранения в
-     * [ApiRegistry] после начальной инициализации в *app* модуле
+     * @param newApiResolver - new [ApiResolver] for storing in
+     * [ApiRegistry] after initialization in *app* module
      */
     fun init(newApiResolver: ApiResolver) {
         apiResolver = newApiResolver

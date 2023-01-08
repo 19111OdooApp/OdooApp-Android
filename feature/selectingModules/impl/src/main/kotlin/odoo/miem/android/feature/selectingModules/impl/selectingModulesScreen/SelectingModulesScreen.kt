@@ -230,6 +230,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
         TitleText(
             textRes = R.string.choose_module_text,
+            isLarge = false,
             modifier = Modifier
                 .align(Alignment.Start)
                 .padding(horizontal = mainHorizontalPadding)

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="module_not_found_header">Упс</string>
+    <string name="module_not_found_header">Упс!</string>
     <string name="module_not_found_desc">К сожалению, этот модуль еще не реализован.\nНаши разработчики уже работают над этим, возвращайтесь позже.</string>
 </resources>

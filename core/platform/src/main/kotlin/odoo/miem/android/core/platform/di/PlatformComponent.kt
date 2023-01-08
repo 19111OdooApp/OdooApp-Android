@@ -4,15 +4,15 @@ import dagger.Component
 import odoo.miem.android.core.platform.dependecies.PlatformDependencies
 
 /**
- * [PlatformComponent] - **Dagger** компонент, реализующий интерфейс [PlatformApi] и
- * предоставляющий статический метод для создания экземпляра [PlatformApi].
+ * [PlatformComponent] - **Dagger** component, which implements interface [PlatformApi] and
+ * provides static method for creating an instance of [PlatformApi].
  *
- * Провайдиться в общий **DI граф** через [PlatformApiProvider].
+ * It is provided to general **DI graph** through [PlatformApiProvider].
  *
  * Зависимости:
- *  - [PlatformDependencies] - платформенные объекты
+ *  - [PlatformDependencies] - platform objects
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 @Component(
     dependencies = [

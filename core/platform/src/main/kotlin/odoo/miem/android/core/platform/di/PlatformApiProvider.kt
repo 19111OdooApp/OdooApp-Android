@@ -8,12 +8,12 @@ import odoo.miem.android.core.di.impl.ApiProvider
 import odoo.miem.android.core.platform.dependecies.PlatformDependencies
 
 /**
- * [PlatformApiProvider] - **Dagger** модуль, который предоставляет
- * инстанс платформенных объектов в общий **DI граф**
+ * [PlatformApiProvider] - **Dagger** modules, which provides instances of platform objects
+ * to general **DI graph**
  *
- * @param dependencies нужно для обертки платформенных объектов, от которых зависит компонент
+ * @param dependencies is needed to wrap the platform objects on which the component depends
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 @Module
 class PlatformApiProvider {

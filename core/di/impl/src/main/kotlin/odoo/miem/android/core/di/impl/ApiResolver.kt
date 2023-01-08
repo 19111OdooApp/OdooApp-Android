@@ -5,34 +5,34 @@ import odoo.miem.android.core.di.impl.exception.ProviderNotFoundException
 import javax.inject.Inject
 
 /**
- * [ApiResolver] - класс, который инкапсулирует в себе **Map** со всеми реализациями **Api**
+ * [ApiResolver] - class, that encapsulates **Map** with all implementations of **Api**
  *
- * @constructor содержит [apiFactories], в котором ключом является [Api] и значением [ApiProvider] с
- * реализацией
+ * @constructor contains [apiFactories], where the key is [Api] and the value is [ApiProvider] with
+ * implementation
  *
  * @see ApiProvider
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 class ApiResolver @Inject constructor(
     private val apiFactories: Map<Class<out Api>, @JvmSuppressWildcards ApiProvider>
 ) {
 
     /**
-     * Достает [ApiProvider] из [apiFactories]
+     * Takes [ApiProvider] from [apiFactories]
      *
-     * @param cls ключ, по которому достаем [ApiProvider] из [apiFactories]
-     * @return [ApiProvider] соответствующий ключу [cls]
+     * @param cls - key, by which we get [ApiProvider] from [apiFactories]
+     * @return [ApiProvider] corresponding to key [cls]
      */
     private fun <T : Api> getProvider(cls: Class<T>): ApiProvider =
         apiFactories[cls] ?: throw ProviderNotFoundException("Not found provider for class $cls")
 
     /**
-     * Вызывает метод [getProvider] для предоставления нужного [ApiProvider] и
-     * касту к нужному дженерику
+     * Calls method [getProvider] for providing required [ApiProvider] and
+     * casting to required Generic
      *
-     * @param cls ключ, по которому достаем [ApiProvider] из [apiFactories]
-     * @return [T] нужная реализация [Api]
+     * @param cls - key, by which we get [ApiProvider] from [apiFactories]
+     * @return [T] - required implementation of [Api]
      */
     @Suppress("UNCHECKED_CAST")
     fun <T : Api> getApi(cls: Class<T>): T = getProvider(cls).get() as T

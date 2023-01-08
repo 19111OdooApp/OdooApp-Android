@@ -17,7 +17,7 @@ import odoo.miem.android.feature.moduleNotFound.api.di.IModuleNotFoundApi
         ModuleNotFoundScreenModule::class
     ],
 )
-interface ModuleNotFoundScreenComponent: IModuleNotFoundApi {
+interface ModuleNotFoundScreenComponent : IModuleNotFoundApi {
     companion object {
         fun create(): IModuleNotFoundApi = DaggerModuleNotFoundScreenComponent.builder().build()
     }

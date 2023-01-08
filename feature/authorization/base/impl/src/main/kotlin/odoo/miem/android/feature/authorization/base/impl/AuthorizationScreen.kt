@@ -52,15 +52,15 @@ import odoo.miem.android.feature.navigation.api.data.Routes
 import javax.inject.Inject
 
 /**
- * [AuthorizationScreen] реализация интерфейса [IAuthorizationScreen]
+ * [AuthorizationScreen] - implementation of [IAuthorizationScreen] interface
  *
- * Методы по назначению:
- * - [AuthorizationScreen] - входная точка в этот экран, нужен для начальных инициализация.
- * Например, инициализация viewModel
- * - [AuthorizationScreenContent] - непосредственно верстка данного экрана
- * - [AuthorizationScreenPreview] - превью верстки, которая получилась в [AuthorizationScreenContent]
+ * Methods by its purpose:
+ * - [AuthorizationScreen] - enty point to this screen, which is need for initializations.
+ * E.g., for viewModel initialization
+ * - [AuthorizationScreenContent] - layout of this screen
+ * - [AuthorizationScreenPreview] - preview of the layout, which was done in [AuthorizationScreenContent]
  *
- * @author Ворожцов Михаил, Данилов Егор
+ * @author Vorozhtsov Mikhail, Danilov Egor
  */
 class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
 

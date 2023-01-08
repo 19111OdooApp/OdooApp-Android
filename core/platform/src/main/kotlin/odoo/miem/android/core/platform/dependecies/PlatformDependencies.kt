@@ -3,12 +3,11 @@ package odoo.miem.android.core.platform.dependecies
 import android.content.Context
 
 /**
- * [PlatformDependencies] - интерфейс для **Dagger** компонентов, которым нужны
- * платформенные объекты
+ * [PlatformDependencies] - interface for **Dagger** components, that need platform objects
  *
  * @see DefaultPlatformDependencies
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 interface PlatformDependencies {
 

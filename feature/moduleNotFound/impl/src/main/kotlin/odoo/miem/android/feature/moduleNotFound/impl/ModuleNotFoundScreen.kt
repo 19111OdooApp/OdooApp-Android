@@ -19,7 +19,6 @@ import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
 import odoo.miem.android.common.uiKitComponents.text.DisplayText
 import odoo.miem.android.common.uiKitComponents.text.SubtitleText
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
-import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
 import odoo.miem.android.feature.moduleNotFound.api.IModuleNotFoundScreen
 import javax.inject.Inject
 
@@ -59,8 +58,6 @@ class ModuleNotFoundScreen @Inject constructor() : IModuleNotFoundScreen {
             color = MaterialTheme.colorScheme.primary
         )
 
-        Spacer(modifier = Modifier.height(mainVerticalPadding))
-
         SubtitleText(
             textRes = R.string.module_not_found_desc,
             color = MaterialTheme.colorScheme.tertiary,
@@ -68,7 +65,6 @@ class ModuleNotFoundScreen @Inject constructor() : IModuleNotFoundScreen {
             modifier = Modifier.padding(horizontal = 36.dp)
         )
     }
-
 
     @Composable
     @Preview(showBackground = true, backgroundColor = 0xFFF9F9F9)

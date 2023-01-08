@@ -7,10 +7,10 @@ import odoo.miem.android.di.initApis
 import timber.log.Timber
 
 /**
- * [OdooAppApplication] - application для инициализации di графа, [Timber] и
- * включение Strict Mode
+ * [OdooAppApplication] - application for initialization of DI Graph, [Timber] and enabling
+ * Strict Mode
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 class OdooAppApplication : Application() {
 

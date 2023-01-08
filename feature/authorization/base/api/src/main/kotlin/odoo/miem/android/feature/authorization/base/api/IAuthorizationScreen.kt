@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 
 /**
- * [IAuthorizationScreen] - интерфейс для обертки [AuthorizationScreen], предоставления
- * для внешних потребителей и реализации
+ * [IAuthorizationScreen] - interface for wrapping [AuthorizationScreen], providing it for
+ * external consumers and implementatiob
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 interface IAuthorizationScreen {
 

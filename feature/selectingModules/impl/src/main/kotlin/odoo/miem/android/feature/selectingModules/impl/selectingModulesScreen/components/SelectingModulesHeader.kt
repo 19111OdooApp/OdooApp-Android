@@ -18,8 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import odoo.miem.android.common.uiKitComponents.text.SubtitleText
-import odoo.miem.android.common.uiKitComponents.text.TitleText
+import odoo.miem.android.common.uiKitComponents.text.HeadlineText
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.selectingModules.impl.R
 
@@ -44,9 +43,12 @@ internal fun SelectingModulesHeader(
     horizontalArrangement = Arrangement.SpaceBetween
 ) {
     Column {
-        SubtitleText(textRes = R.string.hello_text)
+        HeadlineText(
+            textRes = R.string.hello_text,
+            isLarge = false
+        )
 
-        TitleText(text = userName, isLarge = false)
+        HeadlineText(text = userName)
     }
 
     IconButton(

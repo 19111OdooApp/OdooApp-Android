@@ -8,8 +8,8 @@ android {
 
 dependencies {
 
-    implementation(Dependencies.Retrofit.CONVERTER_MOSHI)
-    implementation(Dependencies.Retrofit.MOSHI_KOTLIN)
+    implementation(Dependencies.Network.CONVERTER_MOSHI)
+    implementation(Dependencies.Network.MOSHI_KOTLIN)
 
     // Core
     // Network API - authorization

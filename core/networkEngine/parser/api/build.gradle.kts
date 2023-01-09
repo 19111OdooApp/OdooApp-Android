@@ -5,6 +5,6 @@ plugins {
 dependencies {
 
     // Core
-    // Network Engine API
+    // Network Engine API - jsonrpc
     api(project(":core:networkEngine:jsonrpc:api"))
 }

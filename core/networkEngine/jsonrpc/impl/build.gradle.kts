@@ -8,7 +8,12 @@ android {
 
 dependencies {
 
+    implementation(Dependencies.Network.OKHTTP)
+
     // Core
-    // Network Engine API
+    // Network Engine API - jsonrpc
     api(project(":core:networkEngine:jsonrpc:api"))
+
+    // Network Engine API - parser
+    api(project(":core:networkEngine:parser:api"))
 }

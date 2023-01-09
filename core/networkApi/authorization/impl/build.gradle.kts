@@ -8,7 +8,7 @@ android {
 
 dependencies {
 
-    Dependencies.Retrofit.ALL_DEPS.forEach { implementation(it) }
+    Dependencies.Network.ALL_DEPS.forEach { implementation(it) }
 
     Dependencies.RxJava.ALL_DEPS.forEach { implementation(it) }
 

@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
  * [HeadlineText] is best-suited for short, high-emphasis text
  *
  * @param textRes - resource on text, which will be displayed
- * @param isLarge - true or false, depends on size of subtitle
+ * @param isLarge - true or false, depends on size of headline
  *
  * @author Egor Danilov
  */
@@ -36,7 +36,7 @@ fun HeadlineText(
  * [HeadlineText] is best-suited for short, high-emphasis text
  *
  * @param text - text, which will be displayed
- * @param isLarge - true or false, depends on size of subtitle
+ * @param isLarge - true or false, depends on size of headline
  *
  * @author Egor Danilov
  */
@@ -59,12 +59,12 @@ fun HeadlineText(
  * [HeadlineText] base realization of [HeadlineText]
  *
  * @param text - string with text, which will be displayed
- * @param isLarge - true or false, depends on size of subtitle
+ * @param isLarge - true or false, depends on size of headline
  *
  * @author Egor Danilov
  */
 @Composable
-fun BaseHeadlineText(
+private fun BaseHeadlineText(
     text: String,
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onPrimaryContainer,

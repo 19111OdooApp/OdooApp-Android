@@ -24,12 +24,13 @@ import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreen
  *  - [PlatformDependencies] - request platform objects to general *DI graphg*
  *
  * Connected modules:
- *  - TODO AuthorizationRepositoryApiProvider
- *  - TODO AuthorizationScreenApiProvider
- *  - TODO AuthorizationUseCaseApiProvider
- *  - TODO DataStoreApiProvider
+ *  - [AuthorizationRepositoryApiProvider] - to deliver the dependency of authorization repository
+ *  - [AuthorizationScreenApiProvider] - to deliver the dependency of authorization screen
+ *  - [AuthorizationInteractorApiProvider] - to deliver the dependency of authorization interactor
+ *  - [DataStoreApiProvider] - to deliver the dependency of data store
  *  - [PlatformApiProvider] - to deliver the dependency of platform objects
- *  - TODO SelectingModulesScreenApiProvider
+ *  - [SelectingModulesScreenApiProvider] - to deliver the dependency of selecting modules screen
+ *  - [ModuleNotFoundScreenApiProvider] - to deliver the dependency of module not found screen
  *
  * @author Vorozhtsov Mikhail
  */

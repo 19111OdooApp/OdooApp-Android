@@ -40,6 +40,9 @@ dependencies {
     // Network API - authorization
     implementation(project(":core:networkApi:authorization:impl"))
 
+    // Network Engine - authorization
+    implementation(project(":core:networkEngine:parser:impl"))
+
     // Platform
     implementation(project(":core:platform"))
 

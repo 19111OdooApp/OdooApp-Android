@@ -41,17 +41,29 @@ object Dependencies {
             const val UI_UTILS = "androidx.compose.ui:ui-util:$COMPOSE_VERSION"
 
             const val MATERIAL = "androidx.compose.material3:material3:$MATERIAL3_VERSION"
-            const val MATERIAL_ICONS = "androidx.compose.material:material-icons-extended:$COMPOSE_VERSION"
+            const val MATERIAL_ICONS =
+                "androidx.compose.material:material-icons-extended:$COMPOSE_VERSION"
 
             const val UI_TOOLING_PREVIEW = "androidx.compose.ui:ui-tooling-preview:$COMPOSE_VERSION"
-            const val UI_TOOLING = "androidx.compose.ui:ui-tooling:$COMPOSE_VERSION" // debugImplementation
+            const val UI_TOOLING =
+                "androidx.compose.ui:ui-tooling:$COMPOSE_VERSION" // debugImplementation
 
-            const val ACTIVITY_COMPOSE = "androidx.activity:activity-compose:$ACTIVITY_COMPOSE_VERSION"
+            const val ACTIVITY_COMPOSE =
+                "androidx.activity:activity-compose:$ACTIVITY_COMPOSE_VERSION"
 
-            const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout-compose:$CONSTRAINT_VERSION"
+            const val CONSTRAINT_LAYOUT =
+                "androidx.constraintlayout:constraintlayout-compose:$CONSTRAINT_VERSION"
 
             val ALL_CORE_DEPS =
-                listOf(UI, UI_UTILS, MATERIAL, MATERIAL_ICONS, UI_TOOLING_PREVIEW, ACTIVITY_COMPOSE, CONSTRAINT_LAYOUT)
+                listOf(
+                    UI,
+                    UI_UTILS,
+                    MATERIAL,
+                    MATERIAL_ICONS,
+                    UI_TOOLING_PREVIEW,
+                    ACTIVITY_COMPOSE,
+                    CONSTRAINT_LAYOUT
+                )
             val ALL_CORE_DEBUG_DEPS = listOf(UI_TOOLING)
         }
 
@@ -67,7 +79,8 @@ object Dependencies {
             private const val LIFECYCLE_VERSION = "2.5.1"
 
             const val RUNTIME = "androidx.lifecycle:lifecycle-runtime-ktx:$LIFECYCLE_VERSION"
-            const val VIEW_MODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:$LIFECYCLE_VERSION"
+            const val VIEW_MODEL =
+                "androidx.lifecycle:lifecycle-viewmodel-compose:$LIFECYCLE_VERSION"
 
             val ALL_LIFECYCLE_DEPS = listOf(RUNTIME, VIEW_MODEL)
         }
@@ -75,7 +88,8 @@ object Dependencies {
         object Foundation {
 
             const val COMPOSE_FOUNDATION = "androidx.compose.foundation:foundation:$COMPOSE_VERSION"
-            const val COMPOSE_FOUNDATION_LAYOUT = "androidx.compose.foundation:foundation-layout:$COMPOSE_VERSION"
+            const val COMPOSE_FOUNDATION_LAYOUT =
+                "androidx.compose.foundation:foundation-layout:$COMPOSE_VERSION"
 
             val ALL_FOUNDATION_DEPS = listOf(COMPOSE_FOUNDATION, COMPOSE_FOUNDATION_LAYOUT)
         }
@@ -99,7 +113,8 @@ object Dependencies {
             private const val VERSION = "0.28.0"
 
             const val ACCOMPANIST_CORE = "com.google.accompanist:accompanist-pager:$VERSION"
-            const val ACCOMPANIST_INDICATORS = "com.google.accompanist:accompanist-pager-indicators:$VERSION"
+            const val ACCOMPANIST_INDICATORS =
+                "com.google.accompanist:accompanist-pager-indicators:$VERSION"
 
             val ALL_ACCOMPANIST_DEPS = listOf(ACCOMPANIST_CORE, ACCOMPANIST_INDICATORS)
         }
@@ -123,8 +138,8 @@ object Dependencies {
 
         val ALL_DEPS =
             Core.ALL_CORE_DEPS + Lifecycle.ALL_LIFECYCLE_DEPS + Foundation.ALL_FOUNDATION_DEPS +
-                RxJava.ALL_RXJAVA_DEPS + Navigation.ALL_NAVIGATION_DEPS + Coil.ALL_COIL_DEPS +
-                Accompanist.ALL_ACCOMPANIST_DEPS + SharedElements.ALL_SHARED_ELEMENTS_DEPS
+                    RxJava.ALL_RXJAVA_DEPS + Navigation.ALL_NAVIGATION_DEPS + Coil.ALL_COIL_DEPS +
+                    Accompanist.ALL_ACCOMPANIST_DEPS + SharedElements.ALL_SHARED_ELEMENTS_DEPS
     }
 
     object Dagger {
@@ -145,12 +160,14 @@ object Dependencies {
 
     object Retrofit {
         private const val RETROFIT_VERSION = "2.9.0"
+        private const val MOSHI_KOTLIN_VERSION = "1.14.0"
 
-        const val CONVERTER_GSON = "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
+        const val CONVERTER_MOSHI = "com.squareup.retrofit2:converter-moshi:$RETROFIT_VERSION"
+        const val MOSHI_KOTLIN = "com.squareup.moshi:moshi-kotlin:$MOSHI_KOTLIN_VERSION"
         const val RETROFIT_DEPENDENCY = "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
         const val RX_ADAPTER = "com.squareup.retrofit2:adapter-rxjava3:$RETROFIT_VERSION"
 
-        val ALL_DEPS = listOf(CONVERTER_GSON, RETROFIT_DEPENDENCY, RX_ADAPTER)
+        val ALL_DEPS = listOf(CONVERTER_MOSHI, MOSHI_KOTLIN, RETROFIT_DEPENDENCY, RX_ADAPTER)
     }
 
     object RxJava {
@@ -176,7 +193,8 @@ object Dependencies {
         private const val CONSTRAINT_LAYOUT_VERSION = "2.1.4"
         private const val MATERIAL_VERSION = "1.7.0"
 
-        const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:$CONSTRAINT_LAYOUT_VERSION"
+        const val CONSTRAINT_LAYOUT =
+            "androidx.constraintlayout:constraintlayout:$CONSTRAINT_LAYOUT_VERSION"
         const val CORE = "com.google.android.material:material:$MATERIAL_VERSION"
 
         val ALL_DEPS = listOf(CONSTRAINT_LAYOUT, CORE)
@@ -187,7 +205,8 @@ object Dependencies {
         private const val BOM_VERSION = "31.1.0"
         private const val CRASHLYTICS_GRADLE_VERSION = "2.9.2"
 
-        const val GOOGLE_SERVICES_GRADLE_PLUGIN = "com.google.gms:google-services:$GOOGLE_SERVICES_VERSION"
+        const val GOOGLE_SERVICES_GRADLE_PLUGIN =
+            "com.google.gms:google-services:$GOOGLE_SERVICES_VERSION"
         const val FIREBASE_CRASHLYTICS_GRADLE_PLUGIN =
             "com.google.firebase:firebase-crashlytics-gradle:$CRASHLYTICS_GRADLE_VERSION"
 
@@ -195,7 +214,8 @@ object Dependencies {
         const val FIREBASE_ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
         const val FIREBASE_CRASHLYTICS = "com.google.firebase:firebase-crashlytics-ktx"
 
-        val ALL_GRADLE_PLUGINS = listOf(GOOGLE_SERVICES_GRADLE_PLUGIN, FIREBASE_CRASHLYTICS_GRADLE_PLUGIN)
+        val ALL_GRADLE_PLUGINS =
+            listOf(GOOGLE_SERVICES_GRADLE_PLUGIN, FIREBASE_CRASHLYTICS_GRADLE_PLUGIN)
 
         val ALL_DEPS = listOf(FIREBASE_ANALYTICS, FIREBASE_CRASHLYTICS)
     }
@@ -203,6 +223,7 @@ object Dependencies {
     object Plugins {
         const val DETEKT_VERSION = "1.22.0"
 
-        const val DETEKT_FORMATTING = "io.gitlab.arturbosch.detekt:detekt-formatting:$DETEKT_VERSION"
+        const val DETEKT_FORMATTING =
+            "io.gitlab.arturbosch.detekt:detekt-formatting:$DETEKT_VERSION"
     }
 }

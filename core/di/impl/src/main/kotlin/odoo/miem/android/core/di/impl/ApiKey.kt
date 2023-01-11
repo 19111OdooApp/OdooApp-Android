@@ -5,15 +5,15 @@ import odoo.miem.android.core.di.api.Api
 import kotlin.reflect.KClass
 
 /**
- * [ApiKey] - аннотация, которая нужна для удобной подстановки [Api]
- * как ключа в общую **Map** после *@Provides* методов
+ * [ApiKey] - annotation, which is needed for convenient [Api] substitution
+ * as key to shared **Map** after *@Provides* methods
  *
- * Используется так:
+ * Use like this:
  * *@ApiKey(SomeStarFeatureApi::class)*
  *
- * @param value параметр, который предоставляет реализацию под ключом [Api]
+ * @param value - parameter, which provides implementation by [Api] key
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 @MustBeDocumented
 @Target(AnnotationTarget.FUNCTION)

@@ -66,3 +66,6 @@ include(":feature:navigation:impl")
 
 include(":feature:selectingModules:api")
 include(":feature:selectingModules:impl")
+
+include(":feature:moduleNotFound:api")
+include(":feature:moduleNotFound:impl")

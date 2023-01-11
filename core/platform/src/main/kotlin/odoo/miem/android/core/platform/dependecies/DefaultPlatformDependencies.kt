@@ -3,11 +3,11 @@ package odoo.miem.android.core.platform.dependecies
 import android.content.Context
 
 /**
- * Стандартная реализация PlatformDependencies для подстановки при инициализации
- * **Dagger** компонента.
+ * Default implementation of PlatformDependencies for substitution at initialization of
+ * **Dagger** component.
  *
- * @param context который нужно доставить в остальные модули
+ * @param context to be delivered to other modules
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 class DefaultPlatformDependencies(override val context: Context) : PlatformDependencies

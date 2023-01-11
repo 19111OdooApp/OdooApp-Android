@@ -12,25 +12,27 @@ import odoo.miem.android.core.platform.dependecies.PlatformDependencies
 import odoo.miem.android.core.platform.di.PlatformApiProvider
 import odoo.miem.android.core.utils.di.RxApiProvider
 import odoo.miem.android.feature.authorization.base.impl.di.AuthorizationScreenApiProvider
+import odoo.miem.android.feature.moduleNotFound.impl.di.ModuleNotFoundScreenApiProvider
 import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreenApiProvider
 
 /**
- * [OdooAppComponent] - **Dagger** компонент, который является родительским компонентом
- * для всех остальных компонентов и предоставляет ApiResolver с общей **Map** со всеми
+ * [OdooAppComponent] - **Dagger** component, which is the parent component
+ * for all  other components and provides [ApiResolver] with a common **Map** with all
  * **Api**
  *
- * Зависимости:
- *  - [PlatformDependencies] - запрос платформенных объектов в общий *DI граф*
+ * Dependencies:
+ *  - [PlatformDependencies] - request platform objects to general *DI graphg*
  *
- * Подключаемые модули:
- *  - TODO AuthorizationRepositoryApiProvider
- *  - TODO AuthorizationScreenApiProvider
- *  - TODO AuthorizationUseCaseApiProvider
- *  - TODO DataStoreApiProvider
- *  - [PlatformApiProvider] - для доставки зависимости платформенных объектов
- *  - TODO SelectingModulesScreenApiProvider
+ * Connected modules:
+ *  - [AuthorizationRepositoryApiProvider] - to deliver the dependency of authorization repository
+ *  - [AuthorizationScreenApiProvider] - to deliver the dependency of authorization screen
+ *  - [AuthorizationInteractorApiProvider] - to deliver the dependency of authorization interactor
+ *  - [DataStoreApiProvider] - to deliver the dependency of data store
+ *  - [PlatformApiProvider] - to deliver the dependency of platform objects
+ *  - [SelectingModulesScreenApiProvider] - to deliver the dependency of selecting modules screen
+ *  - [ModuleNotFoundScreenApiProvider] - to deliver the dependency of module not found screen
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 @Component(
     dependencies = [
@@ -43,7 +45,8 @@ import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreen
         DataStoreApiProvider::class,
         PlatformApiProvider::class,
         RxApiProvider::class,
-        SelectingModulesScreenApiProvider::class
+        SelectingModulesScreenApiProvider::class,
+        ModuleNotFoundScreenApiProvider::class,
     ]
 )
 interface OdooAppComponent {
@@ -52,9 +55,9 @@ interface OdooAppComponent {
 }
 
 /**
- * Инициализация **DI графа** в application
+ * Initialization of application's **DI graph**
  *
- * @param context нужен для инициализации [PlatformDependencies]
+ * @param context is needed for initialization of [PlatformDependencies]
  */
 fun Context.initApis(
     context: Context,

@@ -1,8 +1,8 @@
 package odoo.miem.android.core.di.api
 
 /**
- * [Api] - базовый интерфейс дл] всех Api в общую map
+ * [Api] - basic interface for all API in general DI map
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 interface Api

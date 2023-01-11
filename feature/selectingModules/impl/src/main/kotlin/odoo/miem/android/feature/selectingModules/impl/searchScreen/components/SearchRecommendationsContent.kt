@@ -24,6 +24,7 @@ import odoo.miem.android.feature.selectingModules.impl.searchScreen.SearchModule
 fun SearchRecommendationsContent(
     allModules: List<OdooModule>,
     favouriteModules: List<OdooModule>,
+    onModuleCardClick: () -> Unit,
 ) {
     Column(
         verticalArrangement = Arrangement.Top,
@@ -33,7 +34,8 @@ fun SearchRecommendationsContent(
         if (favouriteModules.isNotEmpty()) {
             ModulesLazyRow(
                 headerRes = R.string.favourite_modules_header,
-                modules = favouriteModules
+                modules = favouriteModules,
+                onModuleCardClick = onModuleCardClick
             )
         }
 
@@ -42,7 +44,8 @@ fun SearchRecommendationsContent(
 
             ModulesLazyRow(
                 headerRes = R.string.all_modules_header,
-                modules = allModules
+                modules = allModules,
+                onModuleCardClick = onModuleCardClick
             )
         }
     }

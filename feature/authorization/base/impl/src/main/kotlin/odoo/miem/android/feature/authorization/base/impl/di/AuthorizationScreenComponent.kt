@@ -4,13 +4,13 @@ import dagger.Component
 import odoo.miem.android.feature.authorization.base.api.di.IAuthorizationApi
 
 /**
- * [AuthorizationScreenComponent] - **Dagger** компонент, который реализует интерфейс [IAuthorizationApi]
- * Провайдиться в общий **DI граф** через [AuthorizationScreenApiProvider].
+ * [AuthorizationScreenComponent] - **Dagger** component, which implements interface [IAuthorizationApi]
+ * It is provided to the general **DI graph** through [AuthorizationScreenApiProvider].
  *
- * Подключаемые модули:
- *  - [AuthorizationScreenModule] - предоставляет [AuthorizationScreen] в *DI граф*
+ * Connected modules:
+ *  - [AuthorizationScreenModule] - provides [AuthorizationScreen] to the *DI graph*
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 @Component(
     modules = [

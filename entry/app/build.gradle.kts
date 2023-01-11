@@ -22,6 +22,10 @@ dependencies {
     implementation(project(":feature:selectingModules:api"))
     implementation(project(":feature:selectingModules:impl"))
 
+    // Module Not Found
+    implementation(project(":feature:moduleNotFound:api"))
+    implementation(project(":feature:moduleNotFound:impl"))
+
     // Common
     // Network - authorization
     implementation(project(":common:network:authorization:impl"))

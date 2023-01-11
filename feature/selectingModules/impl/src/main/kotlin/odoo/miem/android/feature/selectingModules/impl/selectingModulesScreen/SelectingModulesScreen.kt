@@ -86,6 +86,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         navController: NavHostController,
         showMessage: (Int) -> Unit
     ) {
+        // TODO implementation based on some meta-information about implemented modules
         val onModuleCardClick = { navController.navigate(Routes.moduleNotFound) }
 
         // TODO Delete Test Data

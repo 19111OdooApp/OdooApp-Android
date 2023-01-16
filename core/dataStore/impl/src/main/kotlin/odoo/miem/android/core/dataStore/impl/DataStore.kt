@@ -40,6 +40,16 @@ class DataStore @Inject constructor() : IDataStore {
         }
     }
 
+    override val isHseAuthorized by sharedPreferences.delegates.boolean()
+    override fun setHseAuthorized(authorized: Boolean) {
+        if (authorized != isHseAuthorized) {
+            sharedPreferences.edit {
+                putBoolean(::isHseAuthorized.name, authorized)
+            }
+            Timber.d("setHseAuthorized(): authorized = $authorized")
+        }
+    }
+
     private companion object {
         const val PREFERENCES_NAME = "dataStore"
     }

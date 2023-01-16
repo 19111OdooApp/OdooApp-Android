@@ -1,6 +1,5 @@
 package odoo.miem.android.common.network.authorization.impl
 
-import io.reactivex.rxjava3.schedulers.Schedulers
 import odoo.miem.android.common.network.authorization.api.IAuthorizationInteractor
 import odoo.miem.android.common.network.authorization.api.di.IAuthorizationRepositoryApi
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
@@ -29,7 +28,8 @@ class AuthorizationInteractor @Inject constructor() : IAuthorizationInteractor {
     ): ResultSingle<Int> {
         Timber.d("generalAuthorization(): baseUrl = $baseUrl, login = $login, password = $password")
 
-        dataStore.setUrl(baseUrl)
+        dataStore.setHseAuthorized(false)
+        dataStore.setUrl(proceedUrl(baseUrl))
 
         return authorizationRepository.generalAuthorization(
             login = login,
@@ -45,4 +45,24 @@ class AuthorizationInteractor @Inject constructor() : IAuthorizationInteractor {
                 ErrorResult(R.string.general_authorization_error)
             }
     }
+
+    private fun proceedUrl(inputUrl: String): String {
+
+        var proceededUrl = if (!inputUrl.run { startsWith("https://") || startsWith("http://") })
+            "https://"
+        else {
+            ""
+        } + inputUrl
+
+        if (!inputUrl.endsWith("/"))
+            proceededUrl += "/"
+
+        return proceededUrl + urlSuffix
+    }
+
+    private val urlSuffix: String
+        get() = if (dataStore.isHseAuthorized)
+            "web/datastore/"
+        else
+            "jsonrpc/"
 }

@@ -8,8 +8,9 @@ android {
 
 dependencies {
 
-    implementation(Dependencies.Network.CONVERTER_MOSHI)
     implementation(Dependencies.Network.MOSHI_KOTLIN)
+
+    implementation(Dependencies.Network.GSON)
 
     // Core
     // Json RPC - Base

@@ -1,7 +1,7 @@
 package odoo.miem.android.core.utils.state
 
 import androidx.annotation.StringRes
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.PublishSubject
 
 /**
@@ -28,4 +28,4 @@ class NothingResult<T> : Result<T>()
  */
 typealias ResultSubject<T> = PublishSubject<Result<T>>
 
-typealias ResultObservable<T> = Observable<Result<T>>
+typealias ResultSingle<T> = Single<Result<T>>

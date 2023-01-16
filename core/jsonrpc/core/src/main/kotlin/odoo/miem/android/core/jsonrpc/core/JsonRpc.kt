@@ -10,6 +10,7 @@ import odoo.miem.android.core.jsonrpc.base.parser.ResponseParser
 import odoo.miem.android.core.jsonrpc.base.parser.ResultParser
 import odoo.miem.android.core.jsonrpc.parser.api.di.IParserApi
 import okhttp3.OkHttpClient
+import timber.log.Timber
 import java.lang.reflect.Proxy
 
 // TODO Description
@@ -33,10 +34,11 @@ class JsonRpcClient internal constructor(
         )
 
         val invocationHandler = createInvocationHandler(
-            service,
-            caller,
-            builder.resultParser,
-            builder.interceptors
+            service = service,
+            caller = caller,
+            resultParser = builder.resultParser,
+            interceptors = builder.interceptors,
+            logger = Timber::d
         )
 
         @Suppress("UNCHECKED_CAST")

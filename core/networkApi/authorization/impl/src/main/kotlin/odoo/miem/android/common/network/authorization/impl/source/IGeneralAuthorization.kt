@@ -1,9 +1,8 @@
 package odoo.miem.android.common.network.authorization.impl.source
 
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
+import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpc
 import odoo.miem.android.core.retrofitApiFabric.api.RetrofitApi
-import retrofit2.http.Body
-import retrofit2.http.POST
 
 /**
  * [IGeneralAuthorization] - interface for making Retrofit instance of general authorization
@@ -14,10 +13,12 @@ interface IGeneralAuthorization : RetrofitApi {
 
     // TODO Move to Json RPC
     @JvmSuppressWildcards
-    @POST(AUTH_PATH)
+    @JsonRpc("call")
     fun authorization(
-        @Body body: List<Any> = emptyList()
-    ): Observable<Int>
+        @JsonRpc("service") service: String,
+        @JsonRpc("method") method: String = "login",
+        @JsonRpc("args") args: List<Any> = emptyList()
+    ): Int
 
     private companion object {
         const val AUTH_PATH = "/xmlrpc/2/common"

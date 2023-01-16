@@ -8,9 +8,9 @@ android {
 
 dependencies {
 
-    Dependencies.Network.ALL_DEPS.forEach { implementation(it) }
-
     Dependencies.RxJava.ALL_DEPS.forEach { implementation(it) }
+
+    implementation(project(":core:jsonrpc:base"))
 
     // Core
     // Network API - authorization

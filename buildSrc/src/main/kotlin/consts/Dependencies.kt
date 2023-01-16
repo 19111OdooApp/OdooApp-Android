@@ -163,17 +163,23 @@ object Dependencies {
         private const val MOSHI_KOTLIN_VERSION = "1.14.0"
         private const val OKHTTP_VERSION = "4.10.0"
 
-        const val CONVERTER_MOSHI = "com.squareup.retrofit2:converter-moshi:$RETROFIT_VERSION"
         const val MOSHI_KOTLIN = "com.squareup.moshi:moshi-kotlin:$MOSHI_KOTLIN_VERSION"
+        const val GSON = "com.google.code.gson:gson:2.10.1" // TODO Delete?
         const val OKHTTP = "com.squareup.okhttp3:okhttp:$OKHTTP_VERSION"
+        const val LOGGING_INTERCEPTOR = "com.squareup.okhttp3:logging-interceptor:$OKHTTP_VERSION"
 
         // TODO Delete Retrofit
         const val RETROFIT_DEPENDENCY = "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
         const val RX_ADAPTER = "com.squareup.retrofit2:adapter-rxjava3:$RETROFIT_VERSION"
 
 
-        val ALL_DEPS =
-            listOf(CONVERTER_MOSHI, MOSHI_KOTLIN, OKHTTP, RETROFIT_DEPENDENCY, RX_ADAPTER)
+        val ALL_DEPS = listOf(
+            MOSHI_KOTLIN,
+            OKHTTP,
+            LOGGING_INTERCEPTOR,
+            RETROFIT_DEPENDENCY,
+            RX_ADAPTER
+        )
     }
 
     object RxJava {

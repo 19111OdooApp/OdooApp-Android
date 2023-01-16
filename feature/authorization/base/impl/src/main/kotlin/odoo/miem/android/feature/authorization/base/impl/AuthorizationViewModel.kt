@@ -30,7 +30,7 @@ class AuthorizationViewModel : BaseViewModel() {
                 password = password
             ).schedule(
                 authChannel,
-                onNext = {
+                onSuccess = {
                     Timber.d("generalAuthorization(): result = $it")
 
                     authorizationState.onNext(it)

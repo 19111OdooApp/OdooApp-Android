@@ -13,22 +13,14 @@ object RequestHelpers {
     private val dataStore by api(IDataStoreApi::dataStore)
 
     private val isHseUrl: Boolean
-        get() = dataStore.url == Hse.HSE_URL
+        get() = dataStore.url.contains(Hse.HSE_DOMAIN)
 
-    fun authorizationRequestBody(
-        login: String,
-        password: String,
-        args: Map<Any, Any> = emptyMap()
-    ) = listOf(
-        if (isHseUrl) Hse.HSE_DATABASE else dataStore.url.getDatabaseFromUrl(),
-        login,
-        password,
-        args
-    )
+    val databaseName: String
+        get() = if (isHseUrl) Hse.HSE_DATABASE else dataStore.url.getDatabaseFromUrl()
 
     // Crutch, but you know, this is backend of hse...
     private object Hse {
-        const val HSE_URL = "https://odoo.miem.tv/"
+        const val HSE_DOMAIN = "miem.tv"
         const val HSE_DATABASE = "crm"
     }
 }

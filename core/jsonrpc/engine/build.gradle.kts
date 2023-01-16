@@ -10,6 +10,8 @@ dependencies {
 
     implementation(Dependencies.Network.OKHTTP)
 
+    Dependencies.RxJava.ALL_DEPS.forEach { implementation(it) }
+
     // Core
     // Json RPC - Base
     api(project(":core:jsonrpc:base"))

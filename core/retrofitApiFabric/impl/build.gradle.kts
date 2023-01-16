@@ -8,11 +8,14 @@ android {
 
 dependencies {
 
-    Dependencies.Network.ALL_DEPS.forEach { implementation(it) }
+    implementation(Dependencies.Network.LOGGING_INTERCEPTOR)
 
     // Core
     // DataStore
     api(project(":core:dataStore:api"))
+
+    // Json RPC - CORE
+    implementation(project(":core:jsonrpc:core"))
 
     // Retrofit Fabric API
     api(project(":core:retrofitApiFabric:api"))

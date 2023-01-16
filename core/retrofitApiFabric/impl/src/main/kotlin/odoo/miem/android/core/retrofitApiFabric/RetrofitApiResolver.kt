@@ -2,9 +2,11 @@ package odoo.miem.android.core.retrofitApiFabric
 
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
+import odoo.miem.android.core.jsonrpc.core.JsonRpcClient
 import odoo.miem.android.core.retrofitApiFabric.api.RetrofitApi
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import timber.log.Timber
 
 /**
  * [RetrofitApiResolver] is a resolver of [RetrofitApi]
@@ -35,12 +37,18 @@ object RetrofitApiResolver {
         return RetrofitApiProvider { createRetrofitAdapter().create(api) }
     }
 
-    private fun createRetrofitAdapter(): Retrofit {
+    private fun createRetrofitAdapter(): JsonRpcClient {
         // TODO Check url
-        // TODO Move to JSON RPC Factory
-        return Retrofit.Builder()
+
+        val okHttpClient = OkHttpClient.Builder()
+            .addInterceptor(
+                HttpLoggingInterceptor(Timber::d).setLevel(HttpLoggingInterceptor.Level.BODY)
+            )
+            .build()
+
+        return JsonRpcClient.Builder()
             .baseUrl(dataStore.url)
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            .setOkhttpClient(okHttpClient)
             .build()
     }
 }

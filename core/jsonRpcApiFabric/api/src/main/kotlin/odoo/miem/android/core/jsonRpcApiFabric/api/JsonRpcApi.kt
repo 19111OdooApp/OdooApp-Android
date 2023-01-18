@@ -1,4 +1,4 @@
-package odoo.miem.android.core.retrofitApiFabric.api
+package odoo.miem.android.core.jsonRpcApiFabric.api
 
 /**
  * [JsonRpcApi] - base API for all Retrofit interfaces

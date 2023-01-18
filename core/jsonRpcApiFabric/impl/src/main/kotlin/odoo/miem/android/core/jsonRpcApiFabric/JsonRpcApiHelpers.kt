@@ -1,6 +1,6 @@
-package odoo.miem.android.core.retrofitApiFabric
+package odoo.miem.android.core.jsonRpcApiFabric
 
-import odoo.miem.android.core.retrofitApiFabric.api.JsonRpcApi
+import odoo.miem.android.core.jsonRpcApiFabric.api.JsonRpcApi
 
 /**
  * Delegate for lazy properties

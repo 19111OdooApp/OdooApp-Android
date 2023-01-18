@@ -1,9 +1,9 @@
-package odoo.miem.android.core.retrofitApiFabric
+package odoo.miem.android.core.jsonRpcApiFabric
 
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.jsonrpc.core.JsonRpcClient
-import odoo.miem.android.core.retrofitApiFabric.api.JsonRpcApi
+import odoo.miem.android.core.jsonRpcApiFabric.api.JsonRpcApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber

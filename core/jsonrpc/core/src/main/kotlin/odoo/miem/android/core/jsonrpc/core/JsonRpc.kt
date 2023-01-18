@@ -14,10 +14,35 @@ import okhttp3.OkHttpClient
 import timber.log.Timber
 import java.lang.reflect.Proxy
 
-// TODO Description
+/**
+ * Extension for creating new implementation of JsonRpc interfaces
+ * (like in retrofit)
+ *
+ * Usage:
+ * ```
+ * val someCoolApi by create<SomeCoolApi>()
+ * ```
+ *
+ * @author Vorozhtsov Mikhail
+ */
 inline fun <reified T> JsonRpcClient.create(): T = create(T::class.java)
 
-// TODO Description
+/**
+ * [JsonRpcClient] is a special class, which is create a JsonRpc interfaces,
+ * with a help of method [create] and additional info from [Builder]
+ *
+ * Usage:
+ * ```
+ * val client = JsonRpcClient.Builder()
+ *      .baseUrl(url)
+ *      .setOkhttpClient(okHttpClient)
+ *      .build()
+ *
+ * val apiInstance = client.create(apiInterface)
+ * ```
+ *
+ * @author Vorozhtsov Mikhail
+ */
 class JsonRpcClient internal constructor(
     private val builder: Builder
 ) {
@@ -94,7 +119,6 @@ class JsonRpcClient internal constructor(
         fun build(): JsonRpcClient = JsonRpcClient(this)
     }
 
-    // TODO Take to Base singleton?
     private companion object {
         val DEFAULT_OKHTTP_CLIENT by lazy { OkHttpClient.Builder().build() }
         val DEFAULT_REQUEST_CONVERTER by api(IParserApi::requestConverter)

@@ -18,8 +18,12 @@ import java.util.concurrent.atomic.AtomicLong
 
 val requestId = AtomicLong(0)
 
-// TODO Description
-// TODO Add new params
+/**
+ * Extension for resolving all data from annotation in method and
+ * convert it to the map of json body request
+ *
+ * @author Vorozhtsov Mikhail
+ */
 internal fun Method.jsonRpcParameters(args: Array<Any?>?, service: Class<*>): Map<String, Any?> {
     return parameterAnnotations
         .map { annotation ->
@@ -40,7 +44,12 @@ internal fun Method.jsonRpcParameters(args: Array<Any?>?, service: Class<*>): Ma
         .associate { it }
 }
 
-// TODO Description
+/**
+ * Function for creating [InvocationHandler], which will
+ * create, send and convert final result
+ *
+ * @author Vorozhtsov Mikhail
+ */
 fun <T> createInvocationHandler(
     service: Class<T>,
     caller: JsonRpcCaller,

@@ -5,7 +5,11 @@ import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcInterceptor
 import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcRequest
 import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcResponse
 
-// TODO Description
+/**
+ * [RealInterceptorChain] is implementation of [JsonRpcInterceptor.Chain]
+ *
+ * @author Vorozhtsov Mikhail
+ */
 data class RealInterceptorChain(
     private val client: JsonRpcCaller,
     val interceptors: List<JsonRpcInterceptor>,

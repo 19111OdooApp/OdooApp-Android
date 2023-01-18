@@ -17,7 +17,7 @@ dependencies {
     api(project(":core:networkApi:authorization:api"))
 
     // Retrofit Api Fabric
-    implementation(project(":core:retrofitApiFabric:impl"))
+    implementation(project(":core:jsonRpcApiFabric:impl"))
 
     // Utils
     implementation(project(":core:utils"))

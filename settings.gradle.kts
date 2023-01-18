@@ -45,18 +45,16 @@ include(":core:networkApi:authorization:api")
 include(":core:networkApi:authorization:impl")
 
 include(":core:jsonrpc:base")
-
 include(":core:jsonrpc:core")
-
 include(":core:jsonrpc:engine")
+
+include(":core:jsonRpcApiFabric:api")
+include(":core:jsonRpcApiFabric:impl")
 
 include(":core:jsonrpc:parser:api")
 include(":core:jsonrpc:parser:impl")
 
 include(":core:platform")
-
-include(":core:retrofitApiFabric:api")
-include(":core:retrofitApiFabric:impl")
 
 include(":core:uiKitTheme")
 

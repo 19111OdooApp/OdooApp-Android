@@ -19,5 +19,5 @@ dependencies {
 
     // Core
     // Retrofit Api Fabric
-    implementation(project(":core:retrofitApiFabric:impl"))
+    implementation(project(":core:jsonRpcApiFabric:impl"))
 }

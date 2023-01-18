@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "odoo.miem.android.core.retrofitapifabric"
+    namespace = "odoo.miem.android.core.jsonrpcapifabric"
 }
 
 dependencies {
@@ -18,5 +18,5 @@ dependencies {
     implementation(project(":core:jsonrpc:core"))
 
     // Retrofit Fabric API
-    api(project(":core:retrofitApiFabric:api"))
+    api(project(":core:jsonRpcApiFabric:api"))
 }

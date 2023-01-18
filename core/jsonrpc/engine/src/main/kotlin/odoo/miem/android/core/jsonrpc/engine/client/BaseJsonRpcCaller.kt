@@ -66,10 +66,16 @@ class BaseJsonRpcCaller(
     ): Request.Builder = apply {
         url(
             baseUrl + if (paths.isNotEmpty()) paths.joinToString(
-                separator = "/",
-                postfix = "/"
-            ) else ""
+                separator = DEFAULT_SEPARATOR,
+                postfix = DEFAULT_POSTFIX
+            ) else DEFAULT_PATH
         )
 
+    }
+
+    private companion object {
+        const val DEFAULT_SEPARATOR = "/"
+        const val DEFAULT_POSTFIX = "/"
+        const val DEFAULT_PATH = ""
     }
 }

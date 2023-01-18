@@ -4,7 +4,7 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import odoo.miem.android.common.network.authorization.api.IAuthorizationRepository
 import odoo.miem.android.common.network.authorization.impl.source.IGeneralAuthorization
-import odoo.miem.android.core.retrofitApiFabric.retrofitApi
+import odoo.miem.android.core.retrofitApiFabric.jsonRpcApi
 import odoo.miem.android.core.utils.network.RequestHelpers
 import timber.log.Timber
 import javax.inject.Inject
@@ -16,7 +16,7 @@ import javax.inject.Inject
  */
 class AuthorizationRepository @Inject constructor() : IAuthorizationRepository {
 
-    private val generalAuthorization by retrofitApi<IGeneralAuthorization>()
+    private val generalAuthorization by jsonRpcApi<IGeneralAuthorization>()
 
     override fun generalAuthorization(login: String, password: String): Single<Int> {
         Timber.d("generalAuthorization(): login = $login, password = $password")

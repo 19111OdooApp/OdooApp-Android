@@ -3,43 +3,41 @@ package odoo.miem.android.core.retrofitApiFabric
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.jsonrpc.core.JsonRpcClient
-import odoo.miem.android.core.retrofitApiFabric.api.RetrofitApi
+import odoo.miem.android.core.retrofitApiFabric.api.JsonRpcApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
 
-// TODO Retrofit -> JsonRpc
 /**
- * [RetrofitApiResolver] is a resolver of [RetrofitApi]
+ * [JsonRpcApiResolver] is a resolver of [JsonRpcApi]
  *
- * It accumulates all instance of [RetrofitApi] and create new one, if
+ * It accumulates all instance of [JsonRpcApi] and create new one, if
  * it is not exists
  *
  * @author Vorozhtsov Mikhail
  */
-object RetrofitApiResolver {
+object JsonRpcApiResolver {
 
-    private val apiMap by lazy { mutableMapOf<Class<out RetrofitApi>, @JvmSuppressWildcards RetrofitApiProvider>() }
+    private val apiMap by lazy { mutableMapOf<Class<out JsonRpcApi>, @JvmSuppressWildcards JsonRpcApiProvider>() }
     private val dataStore by api(IDataStoreApi::dataStore)
 
     @Suppress("UNCHECKED_CAST")
-    fun <T : RetrofitApi> getRetrofitApi(api: Class<T>): T {
-        val apiProvider = apiMap[api] ?: createRetrofitApi(api)
+    fun <T : JsonRpcApi> getJsonRpcApi(api: Class<T>): T {
+        val apiProvider = apiMap[api] ?: createJsonRpcApi(api)
         return apiProvider.get() as T
     }
 
-    private fun <T : RetrofitApi> createRetrofitApi(api: Class<T>): RetrofitApiProvider {
-        val newApi = createRetrofitProvider(api)
+    private fun <T : JsonRpcApi> createJsonRpcApi(api: Class<T>): JsonRpcApiProvider {
+        val newApi = createJsonRpcProvider(api)
         apiMap[api] = newApi
         return newApi
     }
 
-    private fun <T : RetrofitApi> createRetrofitProvider(api: Class<T>): RetrofitApiProvider {
-        return RetrofitApiProvider { createRetrofitAdapter().create(api) }
+    private fun <T : JsonRpcApi> createJsonRpcProvider(api: Class<T>): JsonRpcApiProvider {
+        return JsonRpcApiProvider { createJsonRpcAdapter().create(api) }
     }
 
-    private fun createRetrofitAdapter(): JsonRpcClient {
-        // TODO Check url
+    private fun createJsonRpcAdapter(): JsonRpcClient {
 
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(

@@ -10,8 +10,6 @@ dependencies {
 
     implementation(Dependencies.Network.MOSHI_KOTLIN)
 
-    implementation(Dependencies.Network.GSON)
-
     // Core
     // Json RPC - Base
     api(project(":core:jsonrpc:base"))

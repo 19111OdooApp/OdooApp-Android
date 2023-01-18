@@ -5,6 +5,7 @@ import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcResponse
 import odoo.miem.android.core.jsonrpc.base.parser.ResponseParser
 import javax.inject.Inject
 
+// TODO Description
 class MoshiResponseParser @Inject constructor(
     private val moshi: Moshi
 ) : ResponseParser {

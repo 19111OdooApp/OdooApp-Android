@@ -5,6 +5,7 @@ import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcRequest
 import odoo.miem.android.core.jsonrpc.base.parser.RequestConverter
 import javax.inject.Inject
 
+// TODO Description
 class MoshiRequestConverter @Inject constructor(
     private val moshi: Moshi
 ) : RequestConverter {

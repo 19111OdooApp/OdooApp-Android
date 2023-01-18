@@ -17,6 +17,8 @@ import java.util.concurrent.atomic.AtomicLong
 
 val requestId = AtomicLong(0)
 
+// TODO Description
+// TODO Add new params
 internal fun Method.jsonRpcParameters(args: Array<Any?>?, service: Class<*>): Map<String, Any?> {
     return parameterAnnotations
         .map { annotation -> annotation?.firstOrNull { JsonRpc::class.java.isInstance(it) } }
@@ -33,6 +35,7 @@ internal fun Method.jsonRpcParameters(args: Array<Any?>?, service: Class<*>): Ma
         .associate { it }
 }
 
+// TODO Description
 fun <T> createInvocationHandler(
     service: Class<T>,
     caller: JsonRpcCaller,

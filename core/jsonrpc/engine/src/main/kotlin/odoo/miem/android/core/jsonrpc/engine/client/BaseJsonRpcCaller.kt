@@ -11,6 +11,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 
+// TODO Description
 class BaseJsonRpcCaller(
     private val baseUrl: String,
     private val okHttpClient: OkHttpClient,

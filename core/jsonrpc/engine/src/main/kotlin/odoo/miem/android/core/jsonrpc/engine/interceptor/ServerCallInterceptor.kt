@@ -1,10 +1,10 @@
 package odoo.miem.android.core.jsonrpc.engine.interceptor
 
-import io.reactivex.rxjava3.core.Single
 import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcCaller
 import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcInterceptor
 import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcResponse
 
+// TODO Description
 class ServerCallInterceptor(private val client: JsonRpcCaller) : JsonRpcInterceptor {
 
     override fun intercept(chain: JsonRpcInterceptor.Chain): JsonRpcResponse {

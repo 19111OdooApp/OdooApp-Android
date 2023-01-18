@@ -14,7 +14,6 @@ import timber.log.Timber
 import java.lang.reflect.Proxy
 
 // TODO Description
-// TODO Helpers?
 inline fun <reified T> JsonRpcClient.create(): T = create(T::class.java)
 
 // TODO Description

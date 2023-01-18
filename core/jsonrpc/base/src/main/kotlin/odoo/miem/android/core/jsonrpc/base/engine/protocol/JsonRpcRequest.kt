@@ -1,5 +1,6 @@
 package odoo.miem.android.core.jsonrpc.base.engine.protocol
 
+// TODO Description
 data class JsonRpcRequest(
     val id: Long,
     val method: String,

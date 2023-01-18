@@ -2,6 +2,7 @@ package odoo.miem.android.core.jsonrpc.engine.helpers
 
 import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcCaller
 import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcInterceptor
+import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonArgument
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpc
 import odoo.miem.android.core.jsonrpc.base.engine.exception.JsonRpcException
 import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcRequest
@@ -21,13 +22,17 @@ val requestId = AtomicLong(0)
 // TODO Add new params
 internal fun Method.jsonRpcParameters(args: Array<Any?>?, service: Class<*>): Map<String, Any?> {
     return parameterAnnotations
-        .map { annotation -> annotation?.firstOrNull { JsonRpc::class.java.isInstance(it) } }
+        .map { annotation ->
+            annotation?.firstOrNull {
+                JsonArgument::class.java.isInstance(it)
+            }
+        }
         .mapIndexed { index, annotation ->
             when (annotation) {
-                is JsonRpc -> annotation.value
+                is JsonArgument -> annotation.value
                 else -> throw IllegalStateException(
                     "Argument #$index of ${service.name}#$name()" +
-                            " must be annotated with @${JsonRpc::class.java.simpleName}"
+                            " must be annotated with @${JsonArgument::class.java.simpleName}"
                 )
             }
         }

@@ -52,7 +52,7 @@ class AuthorizationInteractor @Inject constructor() : IAuthorizationInteractor {
             "https://"
         else {
             ""
-        } + inputUrl
+        } + inputUrl.trim()
 
         if (!inputUrl.endsWith("/"))
             proceededUrl += "/"

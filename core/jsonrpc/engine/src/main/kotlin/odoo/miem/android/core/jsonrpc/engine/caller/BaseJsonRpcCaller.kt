@@ -1,4 +1,4 @@
-package odoo.miem.android.core.jsonrpc.engine.client
+package odoo.miem.android.core.jsonrpc.engine.caller
 
 import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcCaller
 import odoo.miem.android.core.jsonrpc.base.engine.exception.NetworkRequestException
@@ -38,9 +38,9 @@ class BaseJsonRpcCaller(
             )
             .build()
 
-        val response = try {
+        val response = runCatching {
             okHttpClient.newCall(request).execute()
-        } catch (e: Exception) {
+        }.getOrElse { e ->
             throw NetworkRequestException(
                 message = "Network error: ${e.message}",
                 cause = e
@@ -48,7 +48,7 @@ class BaseJsonRpcCaller(
         }
         return if (response.isSuccessful) {
             response.body?.let { responseParser.parse(it.bytes()) }
-                ?: throw IllegalStateException("Response body is null")
+                ?: error("Response body is null")
         } else {
             throw TransportException(
                 httpCode = response.code,
@@ -69,12 +69,15 @@ class BaseJsonRpcCaller(
         paths: List<String>
     ): Request.Builder = apply {
         url(
-            baseUrl + if (paths.isNotEmpty()) paths.joinToString(
-                separator = DEFAULT_SEPARATOR,
-                postfix = DEFAULT_POSTFIX
-            ) else DEFAULT_PATH
+            baseUrl + if (paths.isNotEmpty()) {
+                paths.joinToString(
+                    separator = DEFAULT_SEPARATOR,
+                    postfix = DEFAULT_POSTFIX
+                )
+            } else {
+                DEFAULT_PATH
+            }
         )
-
     }
 
     private companion object {

@@ -31,7 +31,6 @@ class AuthorizationRepository @Inject constructor() : IAuthorizationRepository {
                     password
                 )
             )
-
         }.subscribeOn(Schedulers.io())
     }
 }

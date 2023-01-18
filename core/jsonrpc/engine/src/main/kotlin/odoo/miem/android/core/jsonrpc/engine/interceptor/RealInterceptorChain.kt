@@ -1,6 +1,5 @@
 package odoo.miem.android.core.jsonrpc.engine.interceptor
 
-import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcCaller
 import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcInterceptor
 import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcRequest
 import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcResponse
@@ -11,7 +10,6 @@ import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcResponse
  * @author Vorozhtsov Mikhail
  */
 data class RealInterceptorChain(
-    private val client: JsonRpcCaller,
     val interceptors: List<JsonRpcInterceptor>,
     private val request: JsonRpcRequest,
     private val index: Int = 0

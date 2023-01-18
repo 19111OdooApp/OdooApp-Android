@@ -138,8 +138,8 @@ object Dependencies {
 
         val ALL_DEPS =
             Core.ALL_CORE_DEPS + Lifecycle.ALL_LIFECYCLE_DEPS + Foundation.ALL_FOUNDATION_DEPS +
-                    RxJava.ALL_RXJAVA_DEPS + Navigation.ALL_NAVIGATION_DEPS + Coil.ALL_COIL_DEPS +
-                    Accompanist.ALL_ACCOMPANIST_DEPS + SharedElements.ALL_SHARED_ELEMENTS_DEPS
+                RxJava.ALL_RXJAVA_DEPS + Navigation.ALL_NAVIGATION_DEPS + Coil.ALL_COIL_DEPS +
+                Accompanist.ALL_ACCOMPANIST_DEPS + SharedElements.ALL_SHARED_ELEMENTS_DEPS
     }
 
     object Dagger {
@@ -159,7 +159,6 @@ object Dependencies {
     }
 
     object Network {
-        private const val RETROFIT_VERSION = "2.9.0"
         private const val MOSHI_KOTLIN_VERSION = "1.14.0"
         private const val OKHTTP_VERSION = "4.10.0"
 

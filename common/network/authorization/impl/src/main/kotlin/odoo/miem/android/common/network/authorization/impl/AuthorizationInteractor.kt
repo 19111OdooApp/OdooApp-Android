@@ -47,22 +47,23 @@ class AuthorizationInteractor @Inject constructor() : IAuthorizationInteractor {
     }
 
     private fun proceedUrl(inputUrl: String): String {
-
-        var proceededUrl = if (!inputUrl.run { startsWith("https://") || startsWith("http://") })
+        var proceededUrl = if (!inputUrl.run { startsWith("https://") || startsWith("http://") }) {
             "https://"
-        else {
+        } else {
             ""
         } + inputUrl.trim()
 
-        if (!inputUrl.endsWith("/"))
+        if (!inputUrl.endsWith("/")) {
             proceededUrl += "/"
+        }
 
         return proceededUrl + urlSuffix
     }
 
     private val urlSuffix: String
-        get() = if (dataStore.isHseAuthorized)
+        get() = if (dataStore.isHseAuthorized) {
             "web/datastore/"
-        else
+        } else {
             "jsonrpc/"
+        }
 }

@@ -1,7 +1,6 @@
 package odoo.miem.android.core.jsonrpc.parser.impl.moshi
 
 import com.squareup.moshi.Moshi
-import odoo.miem.android.core.jsonrpc.base.parser.ResponseParser
 import odoo.miem.android.core.jsonrpc.base.parser.ResultParser
 import java.lang.reflect.Type
 import javax.inject.Inject
@@ -16,6 +15,6 @@ class MoshiResultParser @Inject constructor(
 ) : ResultParser {
     override fun <T> parse(type: Type, data: Any): T {
         return moshi.adapter<T>(type).fromJsonValue(data)
-            ?: throw IllegalStateException("Unexpectedly null json parse result for value: $data!")
+            ?: error("Unexpectedly null json parse result for value: $data!")
     }
 }

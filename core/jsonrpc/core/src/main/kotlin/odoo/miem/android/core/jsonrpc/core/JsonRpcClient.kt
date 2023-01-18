@@ -4,11 +4,11 @@ import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcCaller
 import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcInterceptor
-import odoo.miem.android.core.jsonrpc.engine.client.BaseJsonRpcCaller
-import odoo.miem.android.core.jsonrpc.engine.helpers.createInvocationHandler
 import odoo.miem.android.core.jsonrpc.base.parser.RequestConverter
 import odoo.miem.android.core.jsonrpc.base.parser.ResponseParser
 import odoo.miem.android.core.jsonrpc.base.parser.ResultParser
+import odoo.miem.android.core.jsonrpc.engine.caller.BaseJsonRpcCaller
+import odoo.miem.android.core.jsonrpc.engine.helpers.createInvocationHandler
 import odoo.miem.android.core.jsonrpc.parser.api.di.IParserApi
 import okhttp3.OkHttpClient
 import timber.log.Timber
@@ -73,11 +73,11 @@ class JsonRpcClient internal constructor(
         return Proxy.newProxyInstance(classLoader, interfaces, invocationHandler) as T
     }
 
-    private fun resolveRequestHeaders(): Map<String, String> = if (dataStore.isHseAuthorized)
+    private fun resolveRequestHeaders(): Map<String, String> = if (dataStore.isHseAuthorized) {
         DEFAULT_REQUEST_HEADERS
-    else
+    } else {
         DEFAULT_REQUEST_HEADERS // TODO Resolve session_id?
-
+    }
 
     class Builder {
         internal var caller: JsonRpcCaller? = null

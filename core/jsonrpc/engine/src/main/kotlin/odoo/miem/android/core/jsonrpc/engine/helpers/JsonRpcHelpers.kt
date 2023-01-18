@@ -6,15 +6,14 @@ import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonArgument
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpc
 import odoo.miem.android.core.jsonrpc.base.engine.exception.JsonRpcException
 import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcRequest
+import odoo.miem.android.core.jsonrpc.base.parser.ResultParser
 import odoo.miem.android.core.jsonrpc.engine.interceptor.RealInterceptorChain
 import odoo.miem.android.core.jsonrpc.engine.interceptor.ServerCallInterceptor
-import odoo.miem.android.core.jsonrpc.base.parser.ResultParser
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import java.util.concurrent.atomic.AtomicLong
-
 
 val requestId = AtomicLong(0)
 
@@ -36,7 +35,7 @@ internal fun Method.jsonRpcParameters(args: Array<Any?>?, service: Class<*>): Ma
                 is JsonArgument -> annotation.value
                 else -> throw IllegalStateException(
                     "Argument #$index of ${service.name}#$name()" +
-                            " must be annotated with @${JsonArgument::class.java.simpleName}"
+                        " must be annotated with @${JsonArgument::class.java.simpleName}"
                 )
             }
         }
@@ -64,7 +63,7 @@ fun <T> createInvocationHandler(
             // TODO Resolve hse or not
             val methodAnnotation =
                 method.getAnnotation(JsonRpc::class.java)
-                    ?: throw IllegalStateException("Method should be annotated with JsonRpc annotation")
+                    ?: error("Method should be annotated with JsonRpc annotation")
 
             val id = requestId.incrementAndGet()
             val methodName = methodAnnotation.value
@@ -72,14 +71,14 @@ fun <T> createInvocationHandler(
 
             val request = JsonRpcRequest(id, methodName, parameters)
 
-            //add interceptor, which makes network call
+            // add interceptor, which makes network call
             val serverCallInterceptor = ServerCallInterceptor(
                 client = caller,
                 headers = headers
             )
             val finalInterceptors = interceptors.plus(serverCallInterceptor)
 
-            val chain = RealInterceptorChain(caller, finalInterceptors, request)
+            val chain = RealInterceptorChain(finalInterceptors, request)
 
             val response = chain.interceptors.first().intercept(chain)
 

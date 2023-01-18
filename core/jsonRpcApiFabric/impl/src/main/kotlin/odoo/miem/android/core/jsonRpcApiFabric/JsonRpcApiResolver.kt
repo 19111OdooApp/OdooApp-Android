@@ -2,8 +2,8 @@ package odoo.miem.android.core.jsonRpcApiFabric
 
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
-import odoo.miem.android.core.jsonrpc.core.JsonRpcClient
 import odoo.miem.android.core.jsonRpcApiFabric.api.JsonRpcApi
+import odoo.miem.android.core.jsonrpc.core.JsonRpcClient
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
@@ -38,7 +38,6 @@ object JsonRpcApiResolver {
     }
 
     private fun createJsonRpcAdapter(): JsonRpcClient {
-
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(
                 HttpLoggingInterceptor(Timber::d).setLevel(HttpLoggingInterceptor.Level.BODY)

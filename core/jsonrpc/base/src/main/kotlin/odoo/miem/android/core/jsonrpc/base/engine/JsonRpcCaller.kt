@@ -6,5 +6,9 @@ import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcResponse
 // TODO Description
 interface JsonRpcCaller {
 
-    fun call(jsonRpcRequest: JsonRpcRequest): JsonRpcResponse
+    fun call(
+        jsonRpcRequest: JsonRpcRequest,
+        headers: Map<String, String> = emptyMap(),
+        paths: List<String> = emptyList()
+    ): JsonRpcResponse
 }

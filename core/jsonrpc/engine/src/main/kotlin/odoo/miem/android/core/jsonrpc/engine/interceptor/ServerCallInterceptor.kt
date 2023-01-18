@@ -5,9 +5,17 @@ import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcInterceptor
 import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcResponse
 
 // TODO Description
-class ServerCallInterceptor(private val client: JsonRpcCaller) : JsonRpcInterceptor {
+class ServerCallInterceptor(
+    private val client: JsonRpcCaller,
+    private val headers: Map<String, String> = emptyMap(),
+    private val paths: List<String> = emptyList()
+) : JsonRpcInterceptor {
 
     override fun intercept(chain: JsonRpcInterceptor.Chain): JsonRpcResponse {
-        return client.call(chain.request())
+        return client.call(
+            jsonRpcRequest = chain.request(),
+            headers = headers,
+            paths = paths
+        )
     }
 }

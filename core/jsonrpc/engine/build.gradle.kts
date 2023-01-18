@@ -13,6 +13,9 @@ dependencies {
     Dependencies.RxJava.ALL_DEPS.forEach { implementation(it) }
 
     // Core
+    // Datastore
+    api(project(":core:dataStore:api"))
+
     // Json RPC - Base
     api(project(":core:jsonrpc:base"))
 }

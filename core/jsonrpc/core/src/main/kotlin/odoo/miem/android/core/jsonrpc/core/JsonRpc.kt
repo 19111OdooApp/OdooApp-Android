@@ -1,5 +1,6 @@
 package odoo.miem.android.core.jsonrpc.core
 
+import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcCaller
 import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcInterceptor
@@ -20,6 +21,8 @@ inline fun <reified T> JsonRpcClient.create(): T = create(T::class.java)
 class JsonRpcClient internal constructor(
     private val builder: Builder
 ) {
+    private val dataStore by api(IDataStoreApi::dataStore)
+
     fun <T> create(
         service: Class<T>
     ): T {
@@ -37,12 +40,19 @@ class JsonRpcClient internal constructor(
             caller = caller,
             resultParser = builder.resultParser,
             interceptors = builder.interceptors,
+            headers = resolveRequestHeaders(),
             logger = Timber::d
         )
 
         @Suppress("UNCHECKED_CAST")
         return Proxy.newProxyInstance(classLoader, interfaces, invocationHandler) as T
     }
+
+    private fun resolveRequestHeaders(): Map<String, String> = if (dataStore.isHseAuthorized)
+        DEFAULT_REQUEST_HEADERS
+    else
+        DEFAULT_REQUEST_HEADERS // TODO Resolve session_id?
+
 
     class Builder {
         internal var caller: JsonRpcCaller? = null
@@ -82,14 +92,19 @@ class JsonRpcClient internal constructor(
         }
 
         fun build(): JsonRpcClient = JsonRpcClient(this)
+    }
 
-        // TODO Take to Base singleton?
-        private companion object {
-            val DEFAULT_OKHTTP_CLIENT = OkHttpClient.Builder().build()
-            val DEFAULT_REQUEST_CONVERTER by api(IParserApi::requestConverter)
-            val DEFAULT_RESPONSE_PARSER by api(IParserApi::responseParser)
-            val DEFAULT_RESULT_PARSER by api(IParserApi::resultParser)
-            const val DEFAULT_URL = ""
+    // TODO Take to Base singleton?
+    private companion object {
+        val DEFAULT_OKHTTP_CLIENT by lazy { OkHttpClient.Builder().build() }
+        val DEFAULT_REQUEST_CONVERTER by api(IParserApi::requestConverter)
+        val DEFAULT_REQUEST_HEADERS by lazy {
+            mapOf(
+                "Content-Type" to "application/json"
+            )
         }
+        val DEFAULT_RESPONSE_PARSER by api(IParserApi::responseParser)
+        val DEFAULT_RESULT_PARSER by api(IParserApi::resultParser)
+        const val DEFAULT_URL = ""
     }
 }

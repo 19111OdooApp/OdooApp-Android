@@ -8,6 +8,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
 
+// TODO Retrofit -> JsonRpc
 /**
  * [RetrofitApiResolver] is a resolver of [RetrofitApi]
  *

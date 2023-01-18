@@ -46,11 +46,13 @@ fun <T> createInvocationHandler(
     caller: JsonRpcCaller,
     resultParser: ResultParser,
     interceptors: List<JsonRpcInterceptor> = listOf(),
+    headers: Map<String, String> = emptyMap(),
     logger: (String) -> Unit = { _ -> }
 ): InvocationHandler {
     return object : InvocationHandler {
 
         override fun invoke(proxy: Any, method: Method, args: Array<Any?>?): Any {
+            // TODO Resolve hse or not
             val methodAnnotation =
                 method.getAnnotation(JsonRpc::class.java)
                     ?: throw IllegalStateException("Method should be annotated with JsonRpc annotation")
@@ -62,7 +64,10 @@ fun <T> createInvocationHandler(
             val request = JsonRpcRequest(id, methodName, parameters)
 
             //add interceptor, which makes network call
-            val serverCallInterceptor = ServerCallInterceptor(caller)
+            val serverCallInterceptor = ServerCallInterceptor(
+                client = caller,
+                headers = headers
+            )
             val finalInterceptors = interceptors.plus(serverCallInterceptor)
 
             val chain = RealInterceptorChain(caller, finalInterceptors, request)

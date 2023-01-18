@@ -19,12 +19,19 @@ class BaseJsonRpcCaller(
     private val responseParser: ResponseParser
 ) : JsonRpcCaller {
 
-    override fun call(jsonRpcRequest: JsonRpcRequest): JsonRpcResponse {
+    override fun call(
+        jsonRpcRequest: JsonRpcRequest,
+        headers: Map<String, String>,
+        paths: List<String>
+    ): JsonRpcResponse {
         val requestBody = requestConverter.convert(jsonRpcRequest).toByteArray().toRequestBody()
         val request = Request.Builder()
             .post(requestBody)
-            .addHeader("Content-Type", "application/json") // TODO From params
-            .url(baseUrl) // TODO Params for Hse...
+            .setHeaders(headers)
+            .setUrlWithPath(
+                baseUrl = baseUrl,
+                paths = paths
+            )
             .build()
 
         val response = try {
@@ -45,5 +52,24 @@ class BaseJsonRpcCaller(
                 response = response,
             )
         }
+    }
+
+    private fun Request.Builder.setHeaders(headers: Map<String, String>): Request.Builder = apply {
+        for ((key, value) in headers) {
+            addHeader(key, value)
+        }
+    }
+
+    private fun Request.Builder.setUrlWithPath(
+        baseUrl: String,
+        paths: List<String>
+    ): Request.Builder = apply {
+        url(
+            baseUrl + if (paths.isNotEmpty()) paths.joinToString(
+                separator = "/",
+                postfix = "/"
+            ) else ""
+        )
+
     }
 }

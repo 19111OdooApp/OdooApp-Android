@@ -9,7 +9,7 @@ import odoo.miem.android.common.network.authorization.impl.AuthorizationInteract
  * Providing in general **DI graph** with a help of [AuthorizationInteractorApiProvider].
  *
  * Included modules:
- *  - [AuthorizationInteractorModule] - provide [AuthorizationInteractor] in *DI graph*
+ *  - [AuthorizationInteractorModule] - provides [AuthorizationInteractor] in *DI graph*
  *
  * @author Vorozhtsov Mikhail
  */

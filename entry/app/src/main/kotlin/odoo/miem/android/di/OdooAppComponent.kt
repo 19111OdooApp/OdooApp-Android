@@ -3,6 +3,7 @@ package odoo.miem.android.di
 import android.content.Context
 import dagger.Component
 import odoo.miem.android.common.network.authorization.impl.di.AuthorizationInteractorApiProvider
+import odoo.miem.android.common.network.selectingModules.impl.di.SelectingModulesInteractorApiProvider
 import odoo.miem.android.core.dataStore.impl.di.DataStoreApiProvider
 import odoo.miem.android.core.di.impl.ApiRegistry
 import odoo.miem.android.core.di.impl.ApiResolver
@@ -50,6 +51,7 @@ import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreen
         ModuleNotFoundScreenApiProvider::class,
         // Interactors
         AuthorizationInteractorApiProvider::class,
+        SelectingModulesInteractorApiProvider::class,
         // Utils
         DataStoreApiProvider::class,
         MoshiParserApiProvider::class,

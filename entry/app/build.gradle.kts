@@ -30,6 +30,9 @@ dependencies {
     // Network - authorization
     implementation(project(":common:network:authorization:impl"))
 
+    // Network - selecting modules
+    implementation(project(":common:network:selectingModules:impl"))
+
     // Core
     // Datastore
     implementation(project(":core:dataStore:impl"))

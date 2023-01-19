@@ -12,4 +12,6 @@ import odoo.miem.android.core.utils.rx.PresentationSchedulers
  */
 class SelectingModulesViewModel(
     schedulers: PresentationSchedulers = apiBlocking(RxApi::presentationSchedulers)
-) : BaseViewModel(schedulers)
+) : BaseViewModel(schedulers) {
+
+}

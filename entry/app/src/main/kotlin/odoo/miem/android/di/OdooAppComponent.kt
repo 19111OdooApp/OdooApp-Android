@@ -8,6 +8,7 @@ import odoo.miem.android.core.di.impl.ApiRegistry
 import odoo.miem.android.core.di.impl.ApiResolver
 import odoo.miem.android.core.jsonrpc.parser.impl.di.MoshiParserApiProvider
 import odoo.miem.android.core.networkApi.authorization.impl.di.AuthorizationRepositoryApiProvider
+import odoo.miem.android.core.networkApi.selectingModules.impl.di.SelectingModulesRepositoryApiProvider
 import odoo.miem.android.core.platform.dependecies.DefaultPlatformDependencies
 import odoo.miem.android.core.platform.dependecies.PlatformDependencies
 import odoo.miem.android.core.platform.di.PlatformApiProvider
@@ -40,15 +41,20 @@ import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreen
         PlatformDependencies::class,
     ],
     modules = [
+        // Repositories
         AuthorizationRepositoryApiProvider::class,
+        SelectingModulesRepositoryApiProvider::class,
+        // Screens
         AuthorizationScreenApiProvider::class,
+        SelectingModulesScreenApiProvider::class,
+        ModuleNotFoundScreenApiProvider::class,
+        // Interactors
         AuthorizationInteractorApiProvider::class,
+        // Utils
         DataStoreApiProvider::class,
         MoshiParserApiProvider::class,
         PlatformApiProvider::class,
-        RxApiProvider::class,
-        SelectingModulesScreenApiProvider::class,
-        ModuleNotFoundScreenApiProvider::class,
+        RxApiProvider::class
     ]
 )
 interface OdooAppComponent {

@@ -14,7 +14,7 @@ dependencies {
 
     // Core
     // Network API - authorization
-    api(project(":core:networkApi:authorization:api"))
+    api(project(":core:networkApi:selectingModules:api"))
 
     // Retrofit Api Fabric
     implementation(project(":core:jsonRpcApiFabric:impl"))

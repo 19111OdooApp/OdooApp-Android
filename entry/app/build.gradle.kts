@@ -40,6 +40,9 @@ dependencies {
     // Network API - authorization
     implementation(project(":core:networkApi:authorization:impl"))
 
+    // Network API - selecting modules
+    implementation(project(":core:networkApi:selectingModules:impl"))
+
     // Json RPC - Engine
     implementation(project(":core:jsonrpc:engine"))
 

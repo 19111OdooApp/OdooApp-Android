@@ -81,8 +81,8 @@ fun NavigationContent(
     ) {
         NavHost(
             navController = navController,
-            startDestination = remember { // TODO RETURN AUTH
-                Routes.selectingModules // TODO Depends on is login in or not
+            startDestination = remember {
+                Routes.authorization // TODO Depends on is login in or not
             }
         ) {
             composable(Routes.authorization) {

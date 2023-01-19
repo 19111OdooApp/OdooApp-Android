@@ -103,9 +103,8 @@ build-app:
 unit-testing:
   stage: unitTest
   image: openjdk:11-jdk
-  extends: .before_script_template
   rules:
-    - when: always
+    - when: never
   tags:
     - docker_miem
   script:

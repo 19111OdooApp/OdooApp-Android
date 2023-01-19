@@ -1,4 +1,4 @@
-package odoo.miem.android.common.network.authorization.impl.source
+package odoo.miem.android.core.networkApi.authorization.impl.source
 
 import odoo.miem.android.core.jsonRpcApiFabric.api.JsonRpcApi
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonArgument

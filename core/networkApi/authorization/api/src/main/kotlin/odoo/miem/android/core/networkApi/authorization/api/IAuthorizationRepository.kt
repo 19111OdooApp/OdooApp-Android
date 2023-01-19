@@ -1,4 +1,4 @@
-package odoo.miem.android.common.network.authorization.api
+package odoo.miem.android.core.networkApi.authorization.api
 
 import io.reactivex.rxjava3.core.Single
 

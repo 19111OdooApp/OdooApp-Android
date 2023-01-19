@@ -1,9 +1,9 @@
 package odoo.miem.android.common.network.authorization.impl
 
 import odoo.miem.android.common.network.authorization.api.IAuthorizationInteractor
-import odoo.miem.android.common.network.authorization.api.di.IAuthorizationRepositoryApi
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
+import odoo.miem.android.core.networkApi.authorization.api.di.IAuthorizationRepositoryApi
 import odoo.miem.android.core.utils.state.ErrorResult
 import odoo.miem.android.core.utils.state.Result
 import odoo.miem.android.core.utils.state.ResultSingle

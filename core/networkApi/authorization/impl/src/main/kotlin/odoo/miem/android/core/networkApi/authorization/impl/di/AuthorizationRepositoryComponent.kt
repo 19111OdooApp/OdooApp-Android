@@ -1,8 +1,8 @@
-package odoo.miem.android.common.network.authorization.impl.di
+package odoo.miem.android.core.networkApi.authorization.impl.di
 
 import dagger.Component
-import odoo.miem.android.common.network.authorization.api.di.IAuthorizationRepositoryApi
-import odoo.miem.android.common.network.authorization.impl.AuthorizationRepository
+import odoo.miem.android.core.networkApi.authorization.api.di.IAuthorizationRepositoryApi
+import odoo.miem.android.core.networkApi.authorization.impl.AuthorizationRepository
 
 /**
  * [AuthorizationRepositoryComponent] - **Dagger** component, which implements interface [IAuthorizationRepositoryApi]
@@ -20,6 +20,7 @@ import odoo.miem.android.common.network.authorization.impl.AuthorizationReposito
 )
 interface AuthorizationRepositoryComponent : IAuthorizationRepositoryApi {
     companion object {
-        fun create(): IAuthorizationRepositoryApi = DaggerAuthorizationRepositoryComponent.builder().build()
+        fun create(): IAuthorizationRepositoryApi = DaggerAuthorizationRepositoryComponent.builder()
+            .build()
     }
 }

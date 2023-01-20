@@ -6,6 +6,7 @@ import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.platform.presentation.BaseViewModel
 import odoo.miem.android.core.utils.builder.HseUriAuthorizationBuilder
 import odoo.miem.android.core.utils.builder.urlProcessing
+import odoo.miem.android.core.utils.regex.getSessionIdFromCookie
 import odoo.miem.android.core.utils.rx.lazyEmptyResultPublishSubject
 import odoo.miem.android.core.utils.rx.onLoadingState
 import odoo.miem.android.core.utils.state.ErrorResult
@@ -57,11 +58,10 @@ class AuthorizationViewModel : BaseViewModel() {
         .generateHseAuthorizationUrl()
 
     fun hseWebViewExitCondition(rawUrl: String, currentUrl: String?, cookie: String?): Boolean {
-        // TODO Make new package in utils for regex only
-        // TODO Bug with Вы уже вошли
         // TODO Loading state
         // TODO Optimize jsonrpc for it
         // TODO Close webview, floating button?
+        // TODO Description
         return when {
             currentUrl == null -> false
             currentUrl.startsWith(urlProcessing(rawUrl)) -> {
@@ -71,7 +71,7 @@ class AuthorizationViewModel : BaseViewModel() {
                 } else {
                     Timber.d("hseWebViewExitCondition(): cookie not empty, authorization complete")
                     dataStore.setHseAuthorized(true)
-                    dataStore.setSessionId(cookie) // TODO get from cookie session_id
+                    dataStore.setSessionId(cookie.getSessionIdFromCookie())
                     authorizationState.onNext(SuccessResult())
                 }
                 true

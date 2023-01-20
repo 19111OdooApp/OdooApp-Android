@@ -1,4 +1,4 @@
-package odoo.miem.android.core.utils.network
+package odoo.miem.android.core.utils.regex
 
 import java.util.regex.Pattern
 

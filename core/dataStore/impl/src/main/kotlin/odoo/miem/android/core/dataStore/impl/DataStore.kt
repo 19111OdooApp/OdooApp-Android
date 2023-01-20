@@ -55,6 +55,16 @@ class DataStore @Inject constructor() : IDataStore {
         }
     }
 
+    override val sessionId by sharedPreferences.delegates.string()
+    override fun setSessionId(newSessionId: String) {
+        if (newSessionId != sessionId) {
+            sharedPreferences.edit {
+                putString(::sessionId.name, newSessionId)
+            }
+            Timber.d("setSessionId(): sessionId = $newSessionId")
+        }
+    }
+
     private companion object {
         const val PREFERENCES_NAME = "dataStore"
     }

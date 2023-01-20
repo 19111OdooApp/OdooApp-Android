@@ -16,6 +16,9 @@
 
     <string name="login_alert_message">Please, enter your Odoo URL, email and password</string>
 
+    <!-- Error -->
+    <string name="hse_authorization_error">Hse authorization error, please try again</string>
+
     <!-- for ui tests  -->
     <string name="login_button_desc" translatable="false">loginButton</string>
     <string name="login_with_hse_button_desc" translatable="false">loginWithHseButton</string>

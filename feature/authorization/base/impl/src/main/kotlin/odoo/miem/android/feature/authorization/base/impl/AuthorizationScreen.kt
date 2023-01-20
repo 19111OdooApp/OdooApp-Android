@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -33,6 +34,7 @@ import androidx.navigation.NavHostController
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
 import odoo.miem.android.common.uiKitComponents.buttons.TextButton
 import odoo.miem.android.common.uiKitComponents.dividers.Divider
+import odoo.miem.android.common.uiKitComponents.text.LabelText
 import odoo.miem.android.common.uiKitComponents.text.SubtitleText
 import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.common.uiKitComponents.textfields.LoginTextField
@@ -106,13 +108,11 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
             .fillMaxSize()
             .imePadding(),
     ) {
-        val odooGlobalUrl = stringResource(R.string.global_odoo_url)
-
         val loginButtonDesc = stringResource(R.string.login_button_desc)
         val loginWithHseButtonDesc = stringResource(R.string.login_with_hse_button_desc)
 
         var serverInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
-            mutableStateOf(TextFieldValue(odooGlobalUrl))
+            mutableStateOf(TextFieldValue())
         }
         var emailInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
             mutableStateOf(TextFieldValue())
@@ -128,7 +128,7 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
                 emailInput.text.isNotEmpty() && passwordInput.text.isNotEmpty()
 
         val onLoginButtonClick = {
-            isServerInputError = serverInput.text.isBlank() || serverInput.text == odooGlobalUrl
+            isServerInputError = serverInput.text.isBlank()
             isLoginInputError = emailInput.text.isBlank()
             isPasswordInputError = passwordInput.text.isBlank()
 
@@ -159,7 +159,10 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
 
             HseAuthorizationScreen(
                 baseUrl = getHseAuthorizationUrl(serverInput.text),
-                exitCondition = wrappedExitCondition
+                exitCondition = wrappedExitCondition,
+                setInvisible = {
+                    showHseAuthorization = false
+                }
             )
         }
 
@@ -195,6 +198,12 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
             },
             imeAction = ImeAction.Next,
             isError = isServerInputError,
+            placeholder = {
+                SubtitleText(
+                    textRes = R.string.global_odoo_url,
+                    color = Color.Gray
+                )
+            },
             modifier = Modifier.padding(top = textFieldTopPadding)
         )
 
@@ -255,8 +264,12 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
 
             TextButton(
                 onClick = {
-                    showHseAuthorization = true // TODO
-                    getHseAuthorizationUrl(serverInput.text)
+                    if (serverInput.text.isEmpty()) {
+                        showMessage(R.string.hse_empty_url_error)
+                    } else {
+                        showHseAuthorization = true
+                        getHseAuthorizationUrl(serverInput.text)
+                    }
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = hseSecondary,

@@ -25,7 +25,7 @@ class AuthorizationInteractor @Inject constructor() : IAuthorizationInteractor {
         baseUrl: String,
         login: String,
         password: String
-    ): ResultSingle<Int> {
+    ): ResultSingle<Unit> {
         Timber.d("generalAuthorization(): baseUrl = $baseUrl, login = $login, password = $password")
 
         dataStore.setHseAuthorized(false)
@@ -35,10 +35,10 @@ class AuthorizationInteractor @Inject constructor() : IAuthorizationInteractor {
             login = login,
             password = password
         )
-            .map<Result<Int>> {
+            .map<Result<Unit>> {
                 Timber.d("generalAuthorization(): uid = $it")
                 dataStore.setUID(it)
-                SuccessResult(data = it)
+                SuccessResult()
             }
             .onErrorReturn {
                 Timber.e("generalAuthorization(): error message = ${it.message}")

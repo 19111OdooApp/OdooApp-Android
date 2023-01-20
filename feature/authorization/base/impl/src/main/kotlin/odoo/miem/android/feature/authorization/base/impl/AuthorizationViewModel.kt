@@ -23,7 +23,7 @@ class AuthorizationViewModel : BaseViewModel() {
     private val authorizationInteractor by api(IAuthorizationInteractorApi::authorizationInteractor)
     private val dataStore by api(IDataStoreApi::dataStore)
 
-    val authorizationState: ResultSubject<Int> by lazyEmptyResultPublishSubject()
+    val authorizationState: ResultSubject<Unit> by lazyEmptyResultPublishSubject()
 
     fun generalAuthorization(
         baseUrl: String,
@@ -43,7 +43,7 @@ class AuthorizationViewModel : BaseViewModel() {
                 onSuccess = {
                     Timber.d("generalAuthorization(): result = $it")
 
-                    authorizationState.onNext(SuccessResult())
+                    authorizationState.onNext(it)
                 },
                 onError = Timber::e
             )
@@ -57,11 +57,12 @@ class AuthorizationViewModel : BaseViewModel() {
         .generateHseAuthorizationUrl()
 
     fun hseWebViewExitCondition(rawUrl: String, currentUrl: String?, cookie: String?): Boolean {
-        // TODO check rawUrl in Screen, if it is not empty
         // TODO Make refactoring with urlProcessing in interactor
         // TODO Make new package in utils for regex only
         // TODO Bug with Вы уже вошли
         // TODO Loading state
+        // TODO Optimize jsonrpc for it
+        // TODO Close webview
         return when {
             currentUrl == null -> false
             currentUrl.startsWith(urlProcessing(rawUrl)) -> {

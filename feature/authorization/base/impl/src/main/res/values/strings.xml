@@ -18,6 +18,7 @@
 
     <!-- Error -->
     <string name="hse_authorization_error">Hse authorization error, please try again</string>
+    <string name="hse_empty_url_error">Please fill in Odoo Server URL field</string>
 
     <!-- for ui tests  -->
     <string name="login_button_desc" translatable="false">loginButton</string>

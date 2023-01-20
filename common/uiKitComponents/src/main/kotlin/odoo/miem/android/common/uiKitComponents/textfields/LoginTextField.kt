@@ -41,6 +41,7 @@ fun LoginTextField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     imeAction: ImeAction = ImeAction.Done,
     isError: Boolean = false,
+    placeholder: @Composable (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
     var isPasswordVisible by remember { mutableStateOf(false) }
@@ -84,6 +85,7 @@ fun LoginTextField(
         trailingIcon = trailingIcon,
         imeAction = imeAction,
         isError = isError,
+        placeholder = placeholder,
         modifier = modifier
     )
 }

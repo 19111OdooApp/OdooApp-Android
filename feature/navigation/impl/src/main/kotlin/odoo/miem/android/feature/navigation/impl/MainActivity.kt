@@ -13,6 +13,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
@@ -47,10 +48,11 @@ class MainActivity : AppCompatActivity() {
                         ) {
                             Snackbar(
                                 snackbarData = it,
-                                containerColor = MaterialTheme.colorScheme.inverseSurface,
-                                contentColor = contentColorFor(
-                                    backgroundColor = MaterialTheme.colorScheme.inverseSurface
-                                ),
+                                containerColor = MaterialTheme.colorScheme.background,
+                                contentColor = MaterialTheme.colorScheme.onPrimary,
+//                                contentColorFor(
+//                                    backgroundColor = MaterialTheme.colorScheme.inverseSurface
+//                                ),
                                 shape = MaterialTheme.shapes.small
                             )
                         }

@@ -5,8 +5,9 @@ import android.view.ViewGroup
 import android.webkit.CookieManager
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import timber.log.Timber
@@ -15,13 +16,16 @@ import timber.log.Timber
 @Composable
 fun HseAuthorizationScreen(
     baseUrl: String,
-    exitCondition: (currentUrl: String?, cookie: String?) -> Boolean = { _, _ -> false }
+    exitCondition: (currentUrl: String?, cookie: String?) -> Boolean = { _, _ -> false },
+    setInvisible: () -> Unit = {}
 ) {
     val cookieManager by lazy { CookieManager.getInstance() }
+    var backEnabled by remember { mutableStateOf(false) }
+    var webView: WebView? = null
 
     AndroidView(
         factory = { context ->
-            val webView = WebView(context).apply {
+            WebView(context).apply {
 
                 layoutParams = ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
@@ -29,9 +33,10 @@ fun HseAuthorizationScreen(
                 )
 
                 webViewClient = object : WebViewClient() {
-                    override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                    override fun onPageStarted(view: WebView, url: String?, favicon: Bitmap?) {
                         super.onPageStarted(view, url, favicon)
                         Timber.d("onPageStarted(): url - $url")
+                        backEnabled = view.canGoBack()
                     }
 
                     override fun onPageFinished(view: WebView?, url: String?) {
@@ -53,13 +58,24 @@ fun HseAuthorizationScreen(
                 }
 
                 loadUrl(baseUrl)
+                webView = this
             }
-
-            webView
         },
         update = {
             it.loadUrl(baseUrl)
         },
         modifier = Modifier.fillMaxSize()
     )
+
+    BackHandler {
+        if (backEnabled) {
+            webView?.goBack()
+        } else {
+            webView?.let {
+                setInvisible()
+                it.removeAllViews()
+                it.destroy()
+            }
+        }
+    }
 }

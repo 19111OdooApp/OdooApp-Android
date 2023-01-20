@@ -57,12 +57,11 @@ class AuthorizationViewModel : BaseViewModel() {
         .generateHseAuthorizationUrl()
 
     fun hseWebViewExitCondition(rawUrl: String, currentUrl: String?, cookie: String?): Boolean {
-        // TODO Make refactoring with urlProcessing in interactor
         // TODO Make new package in utils for regex only
         // TODO Bug with Вы уже вошли
         // TODO Loading state
         // TODO Optimize jsonrpc for it
-        // TODO Close webview
+        // TODO Close webview, floating button?
         return when {
             currentUrl == null -> false
             currentUrl.startsWith(urlProcessing(rawUrl)) -> {

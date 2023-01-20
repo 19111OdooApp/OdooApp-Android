@@ -4,16 +4,9 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.contentColorFor
+import androidx.compose.material3.*
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
@@ -50,9 +43,6 @@ class MainActivity : AppCompatActivity() {
                                 snackbarData = it,
                                 containerColor = MaterialTheme.colorScheme.background,
                                 contentColor = MaterialTheme.colorScheme.onPrimary,
-//                                contentColorFor(
-//                                    backgroundColor = MaterialTheme.colorScheme.inverseSurface
-//                                ),
                                 shape = MaterialTheme.shapes.small
                             )
                         }

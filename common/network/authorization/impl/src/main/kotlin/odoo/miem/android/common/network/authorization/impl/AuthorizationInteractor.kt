@@ -4,6 +4,7 @@ import odoo.miem.android.common.network.authorization.api.IAuthorizationInteract
 import odoo.miem.android.common.network.authorization.api.di.IAuthorizationRepositoryApi
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
+import odoo.miem.android.core.utils.builder.urlProcessing
 import odoo.miem.android.core.utils.state.ErrorResult
 import odoo.miem.android.core.utils.state.Result
 import odoo.miem.android.core.utils.state.ResultSingle
@@ -46,19 +47,7 @@ class AuthorizationInteractor @Inject constructor() : IAuthorizationInteractor {
             }
     }
 
-    private fun proceedUrl(inputUrl: String): String {
-        var proceededUrl = if (!inputUrl.run { startsWith("https://") || startsWith("http://") }) {
-            "https://"
-        } else {
-            ""
-        } + inputUrl.trim()
-
-        if (!inputUrl.endsWith("/")) {
-            proceededUrl += "/"
-        }
-
-        return proceededUrl + urlSuffix
-    }
+    private fun proceedUrl(inputUrl: String): String = urlProcessing(inputUrl) + urlSuffix
 
     private val urlSuffix: String
         get() = if (dataStore.isHseAuthorized) {

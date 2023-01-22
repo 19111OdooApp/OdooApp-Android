@@ -12,7 +12,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import timber.log.Timber
 
-// TODO Description
+/**
+ * [HseAuthorizationScreen] is a screen based on webview. It opens the
+ * website with a help of [baseUrl]. Also, it can close if [exitCondition] will return true,
+ * or by itself with [setInvisible] method
+ *
+ * @param baseUrl which open webview
+ * @param exitCondition external condition, which give the information should webview close or not
+ * @param setInvisible gives webview opportunity to close itself
+ *
+ * @author Vorozhtsov Mikhaik
+ */
 @Composable
 fun HseAuthorizationScreen(
     baseUrl: String,

@@ -58,9 +58,6 @@ class AuthorizationViewModel : BaseViewModel() {
         .generateHseAuthorizationUrl()
 
     fun hseWebViewExitCondition(rawUrl: String, currentUrl: String?, cookie: String?): Boolean {
-        // TODO Loading state
-        // TODO Close webview, floating button?
-        // TODO Description
         return when {
             currentUrl == null -> false
             currentUrl.startsWith(urlProcessing(rawUrl)) -> {

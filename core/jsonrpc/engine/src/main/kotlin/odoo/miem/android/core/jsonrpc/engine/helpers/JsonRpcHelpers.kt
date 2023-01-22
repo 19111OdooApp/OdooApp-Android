@@ -22,16 +22,10 @@ val requestId = AtomicLong(0)
 
 /**
  * Extension for resolving all data from annotation in method and
- * convert it to the map of json body request
+ * convert it to the map of json body request or path
  *
  * @author Vorozhtsov Mikhail
  */
-// TODO Move
-data class ProceedMethod(
-    val params: Map<String, Any?>,
-    val headers: List<String>
-)
-
 internal fun Method.jsonRpcParameters(args: Array<Any?>?, service: Class<*>): ProceedMethod {
     val params = mutableMapOf<String, Any?>()
     val headers = mutableListOf<String>()
@@ -71,7 +65,6 @@ fun <T> createInvocationHandler(
     return object : InvocationHandler {
 
         override fun invoke(proxy: Any, method: Method, args: Array<Any?>?): Any {
-            // TODO Resolve hse or not
             val methodAnnotation =
                 method.getAnnotation(JsonRpc::class.java)
                     ?: error("Method should be annotated with JsonRpc annotation")

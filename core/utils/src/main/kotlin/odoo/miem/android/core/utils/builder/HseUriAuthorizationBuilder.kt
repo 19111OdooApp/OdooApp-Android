@@ -4,7 +4,12 @@ import android.net.Uri
 import odoo.miem.android.core.utils.network.RequestHelpers
 import org.json.JSONObject
 
-// TODO Refactoring
+/**
+ * [HseUriAuthorizationBuilder] is a special class with [Builder] of
+ * authorization url of HSE/MIEM instance.
+ *
+ * @author Vorozhtsov Mikhail
+ */
 class HseUriAuthorizationBuilder internal constructor(
     private val builder: Builder
 ) {

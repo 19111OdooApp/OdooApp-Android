@@ -84,10 +84,13 @@ class JsonRpcClient internal constructor(
         }
 
     private fun resolveOnResponseProceed(isAuthRequest: Boolean): ((id: Long, Response) -> JsonRpcResponse)? =
-        if (isAuthRequest) { id, response ->
-            JsonRpcResponse(id, response.headers.values("set-cookie")[0], null)
-        } else null
-
+        if (isAuthRequest) {
+            { id, response ->
+                JsonRpcResponse(id, response.headers.values("set-cookie")[0], null)
+            }
+        } else {
+            null
+        }
 
     class Builder {
         internal var caller: JsonRpcCaller? = null

@@ -65,7 +65,7 @@ class HseUriAuthorizationBuilder internal constructor(
             queryParameters[FIELD_CLIENT_ID] = baseDomain
             queryParameters[FIELD_STATE] = JSONObject()
                 .put(FIELD_STATE_DATABASE, RequestHelpers.databaseName)
-                .put(FIELD_STATE_PAGE, 4)
+                .put(FIELD_STATE_PAGE, FIELD_STATE_PAGE_VALUE)
                 .put(FIELD_STATE_REDIRECT_URL, Uri.encode(generateRedirectStateUrl()))
                 .toString()
 
@@ -93,6 +93,7 @@ class HseUriAuthorizationBuilder internal constructor(
 
         const val FIELD_STATE_DATABASE = "d"
         const val FIELD_STATE_PAGE = "p"
+        const val FIELD_STATE_PAGE_VALUE = 4
         const val FIELD_STATE_REDIRECT_URL = "r"
     }
 }

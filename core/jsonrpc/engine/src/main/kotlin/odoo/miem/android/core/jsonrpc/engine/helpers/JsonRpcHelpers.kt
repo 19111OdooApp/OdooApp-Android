@@ -2,8 +2,8 @@ package odoo.miem.android.core.jsonrpc.engine.helpers
 
 import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcCaller
 import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcInterceptor
-import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcArgument
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpc
+import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcArgument
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcPath
 import odoo.miem.android.core.jsonrpc.base.engine.exception.JsonRpcException
 import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcRequest
@@ -39,7 +39,7 @@ internal fun Method.jsonRpcParameters(args: Array<Any?>?, service: Class<*>): Pr
                 else ->
                     throw IllegalStateException(
                         "Argument #$index of ${service.name}#$name()" +
-                                " must be annotated with @${JsonRpcArgument::class.java.simpleName}"
+                            " must be annotated with @${JsonRpcArgument::class.java.simpleName}"
                     )
             }
         }

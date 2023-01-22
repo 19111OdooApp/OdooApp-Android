@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.*
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -121,7 +123,7 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
         var isLoginInputError by remember { mutableStateOf(false) }
         var isPasswordInputError by remember { mutableStateOf(false) }
         val isLoginButtonEnabled = serverInput.text.isNotEmpty() &&
-                emailInput.text.isNotEmpty() && passwordInput.text.isNotEmpty()
+            emailInput.text.isNotEmpty() && passwordInput.text.isNotEmpty()
 
         val onLoginButtonClick = {
             isServerInputError = serverInput.text.isBlank()
@@ -147,8 +149,9 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
             val wrappedExitCondition = { currentUrl: String?, cookie: String? ->
                 val result = exitCondition(serverInput.text, currentUrl, cookie)
 
-                if (result)
+                if (result) {
                     showHseAuthorization = false
+                }
 
                 result
             }

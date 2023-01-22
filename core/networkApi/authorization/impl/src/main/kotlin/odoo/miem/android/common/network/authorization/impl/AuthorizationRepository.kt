@@ -18,18 +18,14 @@ class AuthorizationRepository @Inject constructor() : IAuthorizationRepository {
 
     private val generalAuthorization by jsonRpcApi<IGeneralAuthorization>()
 
-    override fun generalAuthorization(login: String, password: String): Single<Int> {
+    override fun generalAuthorization(login: String, password: String): Single<String> {
         Timber.d("generalAuthorization(): login = $login, password = $password")
 
         return Single.fromCallable {
             generalAuthorization.authorization(
-                service = "common",
-                method = "login",
-                args = listOf(
-                    RequestHelpers.databaseName,
-                    login,
-                    password
-                )
+                database = RequestHelpers.databaseName,
+                login = login,
+                password = password
             )
         }.subscribeOn(Schedulers.io())
     }

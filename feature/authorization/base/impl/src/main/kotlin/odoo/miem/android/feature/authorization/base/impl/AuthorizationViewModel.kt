@@ -59,7 +59,6 @@ class AuthorizationViewModel : BaseViewModel() {
 
     fun hseWebViewExitCondition(rawUrl: String, currentUrl: String?, cookie: String?): Boolean {
         // TODO Loading state
-        // TODO Optimize jsonrpc for it
         // TODO Close webview, floating button?
         // TODO Description
         return when {
@@ -70,7 +69,7 @@ class AuthorizationViewModel : BaseViewModel() {
                     authorizationState.onNext(ErrorResult())
                 } else {
                     Timber.d("hseWebViewExitCondition(): cookie not empty, authorization complete")
-                    dataStore.setHseAuthorized(true)
+                    dataStore.setAuthorized(true)
                     dataStore.setSessionId(cookie.getSessionIdFromCookie())
                     authorizationState.onNext(SuccessResult())
                 }

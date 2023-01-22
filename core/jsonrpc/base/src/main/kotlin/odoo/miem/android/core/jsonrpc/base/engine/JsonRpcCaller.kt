@@ -2,6 +2,7 @@ package odoo.miem.android.core.jsonrpc.base.engine
 
 import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcRequest
 import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcResponse
+import okhttp3.Response
 
 /**
  * [JsonRpcCaller] is a client, with a help of which
@@ -29,6 +30,7 @@ interface JsonRpcCaller {
     fun call(
         jsonRpcRequest: JsonRpcRequest,
         headers: Map<String, String> = emptyMap(),
-        paths: List<String> = emptyList()
+        paths: List<String> = emptyList(),
+        onResponseProceed: ((id: Long, Response) -> JsonRpcResponse)? = null
     ): JsonRpcResponse
 }

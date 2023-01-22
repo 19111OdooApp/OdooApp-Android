@@ -16,7 +16,7 @@ interface IAuthorizationRepository {
      * @param login of user
      * @param password of user
      *
-     * @return Observable<Int> which provides UID of user
+     * @return Observable<Int> which provides UID of user // TODO
      */
-    fun generalAuthorization(login: String, password: String): Single<Int>
+    fun generalAuthorization(login: String, password: String): Single<String>
 }

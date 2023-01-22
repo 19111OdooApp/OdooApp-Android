@@ -26,7 +26,7 @@ package odoo.miem.android.core.jsonrpc.base.engine.annotation
 annotation class JsonRpc(val value: String)
 
 /**
- * [JsonArgument] is annotation, which provide parameters
+ * [JsonRpcArgument] is annotation, which provide parameters
  * in `params` field of json body.
  *
  * @param value contains name of field
@@ -35,7 +35,7 @@ annotation class JsonRpc(val value: String)
  * ```
  * @JsonRpc("call")
  * fun getCoolUser(
- *      @JsonArgument("name") name: String = "Mike"
+ *      @JsonRpcArgument("name") name: String = "Mike"
  * ): User
  * ```
  *
@@ -46,4 +46,7 @@ annotation class JsonRpc(val value: String)
  *
  * @author Vorozhtsov Mikhail
  */
-annotation class JsonArgument(val value: String)
+annotation class JsonRpcArgument(val value: String)
+
+// TODO Description
+annotation class JsonRpcPath

@@ -5,6 +5,7 @@ import odoo.miem.android.common.network.authorization.api.di.IAuthorizationRepos
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.utils.builder.urlProcessing
+import odoo.miem.android.core.utils.regex.getSessionIdFromCookie
 import odoo.miem.android.core.utils.state.ErrorResult
 import odoo.miem.android.core.utils.state.Result
 import odoo.miem.android.core.utils.state.ResultSingle
@@ -29,16 +30,21 @@ class AuthorizationInteractor @Inject constructor() : IAuthorizationInteractor {
     ): ResultSingle<Unit> {
         Timber.d("generalAuthorization(): baseUrl = $baseUrl, login = $login, password = $password")
 
-        dataStore.setHseAuthorized(false)
         dataStore.setUrl(proceedUrl(baseUrl))
 
         return authorizationRepository.generalAuthorization(
             login = login,
             password = password
         )
-            .map<Result<Unit>> {
-                Timber.d("generalAuthorization(): uid = $it")
-                dataStore.setUID(it)
+            .map<Result<Unit>> { cookie ->
+                Timber.d("generalAuthorization(): sessionId = $cookie")
+                dataStore.setAuthorized(true)
+                dataStore.setSessionId(
+                    cookie.split(COOKIE_SPLIT_SIGN)
+                        .find { it.contains(FIELD_SESSION_ID) }
+                        .orEmpty()
+                        .getSessionIdFromCookie()
+                )
                 SuccessResult()
             }
             .onErrorReturn {
@@ -47,12 +53,10 @@ class AuthorizationInteractor @Inject constructor() : IAuthorizationInteractor {
             }
     }
 
-    private fun proceedUrl(inputUrl: String): String = urlProcessing(inputUrl) + urlSuffix
+    private fun proceedUrl(inputUrl: String): String = "${urlProcessing(inputUrl)}web/"
 
-    private val urlSuffix: String
-        get() = if (dataStore.isHseAuthorized) {
-            "web/datastore/"
-        } else {
-            "jsonrpc/"
-        }
+    private companion object {
+        const val COOKIE_SPLIT_SIGN = ";"
+        const val FIELD_SESSION_ID = "session_id"
+    }
 }

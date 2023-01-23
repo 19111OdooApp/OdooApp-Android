@@ -10,6 +10,10 @@
     <string name="login">Войти</string>
     <string name="login_hse">Войти через ЕЛК ВШЭ</string>
 
+    <!-- Error -->
+    <string name="hse_authorization_error">Произошла ошибка авторизации ВШЭ, попробуйте ещё раз</string>
+    <string name="hse_empty_url_error">Пожалуйств, напишите URL сервера Odoo</string>
+
     <string name="login_divider_text">ИЛИ</string>
     <string name="login_alert_message">Пожалуйста, введите URL Вашего сервера Odoo, почту и пароль</string>
 </resources>

@@ -15,7 +15,7 @@ sealed class Result<T>(
     @StringRes val message: Int? = null
 )
 
-class SuccessResult<T>(data: T?) : Result<T>(data = data)
+class SuccessResult<T>(data: T? = null) : Result<T>(data = data)
 
 class ErrorResult<T>(@StringRes message: Int? = null) : Result<T>(message = message)
 

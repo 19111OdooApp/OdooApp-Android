@@ -10,7 +10,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
@@ -47,10 +46,8 @@ class MainActivity : AppCompatActivity() {
                         ) {
                             Snackbar(
                                 snackbarData = it,
-                                containerColor = MaterialTheme.colorScheme.inverseSurface,
-                                contentColor = contentColorFor(
-                                    backgroundColor = MaterialTheme.colorScheme.inverseSurface
-                                ),
+                                containerColor = MaterialTheme.colorScheme.background,
+                                contentColor = MaterialTheme.colorScheme.onPrimary,
                                 shape = MaterialTheme.shapes.small
                             )
                         }

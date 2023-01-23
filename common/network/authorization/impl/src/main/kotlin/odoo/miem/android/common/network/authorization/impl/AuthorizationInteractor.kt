@@ -4,6 +4,8 @@ import odoo.miem.android.common.network.authorization.api.IAuthorizationInteract
 import odoo.miem.android.common.network.authorization.api.di.IAuthorizationRepositoryApi
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
+import odoo.miem.android.core.utils.builder.urlProcessing
+import odoo.miem.android.core.utils.regex.getSessionIdFromCookie
 import odoo.miem.android.core.utils.state.ErrorResult
 import odoo.miem.android.core.utils.state.Result
 import odoo.miem.android.core.utils.state.ResultSingle
@@ -25,20 +27,25 @@ class AuthorizationInteractor @Inject constructor() : IAuthorizationInteractor {
         baseUrl: String,
         login: String,
         password: String
-    ): ResultSingle<Int> {
+    ): ResultSingle<Unit> {
         Timber.d("generalAuthorization(): baseUrl = $baseUrl, login = $login, password = $password")
 
-        dataStore.setHseAuthorized(false)
         dataStore.setUrl(proceedUrl(baseUrl))
 
         return authorizationRepository.generalAuthorization(
             login = login,
             password = password
         )
-            .map<Result<Int>> {
-                Timber.d("generalAuthorization(): uid = $it")
-                dataStore.setUID(it)
-                SuccessResult(data = it)
+            .map<Result<Unit>> { cookie ->
+                Timber.d("generalAuthorization(): sessionId = $cookie")
+                dataStore.setAuthorized(true)
+                dataStore.setSessionId(
+                    cookie.split(COOKIE_SPLIT_SIGN)
+                        .find { it.contains(FIELD_SESSION_ID) }
+                        .orEmpty()
+                        .getSessionIdFromCookie()
+                )
+                SuccessResult()
             }
             .onErrorReturn {
                 Timber.e("generalAuthorization(): error message = ${it.message}")
@@ -46,24 +53,10 @@ class AuthorizationInteractor @Inject constructor() : IAuthorizationInteractor {
             }
     }
 
-    private fun proceedUrl(inputUrl: String): String {
-        var proceededUrl = if (!inputUrl.run { startsWith("https://") || startsWith("http://") }) {
-            "https://"
-        } else {
-            ""
-        } + inputUrl.trim()
+    private fun proceedUrl(inputUrl: String): String = "${urlProcessing(inputUrl)}web/"
 
-        if (!inputUrl.endsWith("/")) {
-            proceededUrl += "/"
-        }
-
-        return proceededUrl + urlSuffix
+    private companion object {
+        const val COOKIE_SPLIT_SIGN = ";"
+        const val FIELD_SESSION_ID = "session_id"
     }
-
-    private val urlSuffix: String
-        get() = if (dataStore.isHseAuthorized) {
-            "web/datastore/"
-        } else {
-            "jsonrpc/"
-        }
 }

@@ -4,6 +4,7 @@ import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcCaller
 import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcInterceptor
+import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcResponse
 import odoo.miem.android.core.jsonrpc.base.parser.RequestConverter
 import odoo.miem.android.core.jsonrpc.base.parser.ResponseParser
 import odoo.miem.android.core.jsonrpc.base.parser.ResultParser
@@ -11,6 +12,7 @@ import odoo.miem.android.core.jsonrpc.engine.caller.BaseJsonRpcCaller
 import odoo.miem.android.core.jsonrpc.engine.helpers.createInvocationHandler
 import odoo.miem.android.core.jsonrpc.parser.api.di.IParserApi
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import timber.log.Timber
 import java.lang.reflect.Proxy
 
@@ -66,18 +68,29 @@ class JsonRpcClient internal constructor(
             resultParser = builder.resultParser,
             interceptors = builder.interceptors,
             headers = resolveRequestHeaders(),
-            logger = Timber::d
+            logger = Timber::d,
+            onResponseProceed = resolveOnResponseProceed(!dataStore.isAuthorized)
         )
 
         @Suppress("UNCHECKED_CAST")
         return Proxy.newProxyInstance(classLoader, interfaces, invocationHandler) as T
     }
 
-    private fun resolveRequestHeaders(): Map<String, String> = if (dataStore.isHseAuthorized) {
-        DEFAULT_REQUEST_HEADERS
-    } else {
-        DEFAULT_REQUEST_HEADERS // TODO Resolve session_id?
-    }
+    private fun resolveRequestHeaders(): Map<String, String> =
+        if (!dataStore.isAuthorized) {
+            DEFAULT_REQUEST_HEADERS
+        } else {
+            DEFAULT_REQUEST_HEADERS + mapOf(FIELD_SESSION_ID to dataStore.sessionId)
+        }
+
+    private fun resolveOnResponseProceed(isAuthRequest: Boolean): ((id: Long, Response) -> JsonRpcResponse)? =
+        if (isAuthRequest) {
+            { id, response ->
+                JsonRpcResponse(id, response.headers.values("set-cookie")[0], null)
+            }
+        } else {
+            null
+        }
 
     class Builder {
         internal var caller: JsonRpcCaller? = null
@@ -130,5 +143,6 @@ class JsonRpcClient internal constructor(
         val DEFAULT_RESPONSE_PARSER by api(IParserApi::responseParser)
         val DEFAULT_RESULT_PARSER by api(IParserApi::resultParser)
         const val DEFAULT_URL = ""
+        const val FIELD_SESSION_ID = "X-Openerp-Session-Id"
     }
 }

@@ -10,6 +10,7 @@ import odoo.miem.android.core.jsonrpc.base.parser.ResponseParser
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
 
 /**
  * [BaseJsonRpcCaller] is a base implementation of [JsonRpcCaller]
@@ -26,7 +27,8 @@ class BaseJsonRpcCaller(
     override fun call(
         jsonRpcRequest: JsonRpcRequest,
         headers: Map<String, String>,
-        paths: List<String>
+        paths: List<String>,
+        onResponseProceed: ((id: Long, Response) -> JsonRpcResponse)?
     ): JsonRpcResponse {
         val requestBody = requestConverter.convert(jsonRpcRequest).toByteArray().toRequestBody()
         val request = Request.Builder()
@@ -47,7 +49,8 @@ class BaseJsonRpcCaller(
             )
         }
         return if (response.isSuccessful) {
-            response.body?.let { responseParser.parse(it.bytes()) }
+            onResponseProceed?.let { it(jsonRpcRequest.id, response) }
+                ?: response.body?.let { responseParser.parse(it.bytes()) }
                 ?: error("Response body is null")
         } else {
             throw TransportException(

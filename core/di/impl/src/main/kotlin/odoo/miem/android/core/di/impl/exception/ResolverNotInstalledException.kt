@@ -1,10 +1,10 @@
 package odoo.miem.android.core.di.impl.exception
 
 /**
- * Исключение для [ApiRegistry]
+ * Exception for [ApiRegistry]
  *
  * @see ApiRegistry
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 class ResolverNotInstalledException(override val message: String) : RuntimeException()

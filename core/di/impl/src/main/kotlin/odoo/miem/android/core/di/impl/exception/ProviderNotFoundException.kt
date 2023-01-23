@@ -1,10 +1,10 @@
 package odoo.miem.android.core.di.impl.exception
 
 /**
- * Исключение для [ApiResolver]
+ * Exception for [ApiResolver]
  *
  * @see ApiResolver
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 class ProviderNotFoundException(override val message: String) : RuntimeException()

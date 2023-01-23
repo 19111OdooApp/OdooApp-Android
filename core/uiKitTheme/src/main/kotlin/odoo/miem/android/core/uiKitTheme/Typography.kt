@@ -16,11 +16,23 @@ private val fonts = FontFamily(
 )
 
 val typography = Typography(
+    headlineSmall = TextStyle(
+        fontFamily = fonts,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 16.sp,
+        letterSpacing = 0.3.sp
+    ),
     titleSmall = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         letterSpacing = 0.3.sp,
+    ),
+    headlineMedium = TextStyle(
+        fontFamily = fonts,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 18.sp,
+        letterSpacing = 0.5.sp
     ),
     labelMedium = TextStyle(
         fontFamily = fonts,
@@ -31,7 +43,7 @@ val typography = Typography(
     titleMedium = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 24.sp,
+        fontSize = 26.sp,
         letterSpacing = 0.5.sp
     ),
     bodyMedium = TextStyle(

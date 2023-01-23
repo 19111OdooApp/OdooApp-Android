@@ -1,6 +1,6 @@
 package odoo.miem.android.common.network.authorization.api
 
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * [IAuthorizationRepository] - interface for wrapping data layer
@@ -16,7 +16,7 @@ interface IAuthorizationRepository {
      * @param login of user
      * @param password of user
      *
-     * @return Observable<Int> which provides UID of user
+     * @return Observable<String> which provides cookie of session
      */
-    fun generalAuthorization(login: String, password: String): Observable<Int>
+    fun generalAuthorization(login: String, password: String): Single<String>
 }

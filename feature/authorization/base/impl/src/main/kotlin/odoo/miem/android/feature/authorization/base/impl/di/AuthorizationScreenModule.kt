@@ -6,10 +6,10 @@ import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
 import odoo.miem.android.feature.authorization.base.impl.AuthorizationScreen
 
 /**
- * [AuthorizationScreenModule] - модуль для предоставления инстанса [AuthorizationScreen]
- * в общей di граф
+ * [AuthorizationScreenModule] - module for providing instance of [AuthorizationScreen]
+ * to the general DI graph
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 @Module
 interface AuthorizationScreenModule {

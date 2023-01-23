@@ -48,19 +48,20 @@ import odoo.miem.android.core.utils.state.LoadingResult
 import odoo.miem.android.core.utils.state.SuccessResult
 import odoo.miem.android.core.utils.state.subscribeOnError
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
+import odoo.miem.android.feature.authorization.base.impl.hse.HseAuthorizationScreen
 import odoo.miem.android.feature.navigation.api.data.Routes
 import javax.inject.Inject
 
 /**
- * [AuthorizationScreen] реализация интерфейса [IAuthorizationScreen]
+ * [AuthorizationScreen] - implementation of [IAuthorizationScreen] interface
  *
- * Методы по назначению:
- * - [AuthorizationScreen] - входная точка в этот экран, нужен для начальных инициализация.
- * Например, инициализация viewModel
- * - [AuthorizationScreenContent] - непосредственно верстка данного экрана
- * - [AuthorizationScreenPreview] - превью верстки, которая получилась в [AuthorizationScreenContent]
+ * Methods by its purpose:
+ * - [AuthorizationScreen] - enty point to this screen, which is need for initializations.
+ * E.g., for viewModel initialization
+ * - [AuthorizationScreenContent] - layout of this screen
+ * - [AuthorizationScreenPreview] - preview of the layout, which was done in [AuthorizationScreenContent]
  *
- * @author Ворожцов Михаил, Данилов Егор
+ * @author Vorozhtsov Mikhail, Danilov Egor
  */
 class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
 
@@ -86,7 +87,9 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
         AuthorizationScreenContent(
             onGeneralAuthorization = viewModel::generalAuthorization,
             showMessage = showMessage,
-            isLoading = authorizationStatus is LoadingResult || authorizationStatus is SuccessResult
+            isLoading = authorizationStatus is LoadingResult || authorizationStatus is SuccessResult,
+            getHseAuthorizationUrl = viewModel::generateHseAuthorizationUrl,
+            exitCondition = viewModel::hseWebViewExitCondition
         )
     }
 
@@ -94,20 +97,20 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
     private fun AuthorizationScreenContent(
         onGeneralAuthorization: (baseUrl: String, login: String, password: String) -> Unit = { _, _, _ -> },
         showMessage: (Int) -> Unit = {},
-        isLoading: Boolean = false
+        isLoading: Boolean = false,
+        getHseAuthorizationUrl: (rawUrl: String) -> String = { _ -> "" },
+        exitCondition: (rawDomain: String, currentUrl: String?, cookie: String?) -> Boolean = { _, _, _ -> false }
     ) = Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
             .imePadding(),
     ) {
-        val odooGlobalUrl = stringResource(R.string.global_odoo_url)
-
         val loginButtonDesc = stringResource(R.string.login_button_desc)
         val loginWithHseButtonDesc = stringResource(R.string.login_with_hse_button_desc)
 
         var serverInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
-            mutableStateOf(TextFieldValue(odooGlobalUrl))
+            mutableStateOf(TextFieldValue())
         }
         var emailInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
             mutableStateOf(TextFieldValue())
@@ -123,7 +126,7 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
             emailInput.text.isNotEmpty() && passwordInput.text.isNotEmpty()
 
         val onLoginButtonClick = {
-            isServerInputError = serverInput.text.isBlank() || serverInput.text == odooGlobalUrl
+            isServerInputError = serverInput.text.isBlank()
             isLoginInputError = emailInput.text.isBlank()
             isPasswordInputError = passwordInput.text.isBlank()
 
@@ -139,6 +142,28 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
         }
 
         val textFieldTopPadding = 20.dp
+
+        var showHseAuthorization by remember { mutableStateOf(false) }
+
+        if (showHseAuthorization) {
+            val wrappedExitCondition = { currentUrl: String?, cookie: String? ->
+                val result = exitCondition(serverInput.text, currentUrl, cookie)
+
+                if (result) {
+                    showHseAuthorization = false
+                }
+
+                result
+            }
+
+            HseAuthorizationScreen(
+                baseUrl = getHseAuthorizationUrl(serverInput.text),
+                exitCondition = wrappedExitCondition,
+                setInvisible = {
+                    showHseAuthorization = false
+                }
+            )
+        }
 
         SimpleLogoAppBar()
 
@@ -172,6 +197,12 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
             },
             imeAction = ImeAction.Next,
             isError = isServerInputError,
+            placeholder = {
+                SubtitleText(
+                    textRes = R.string.global_odoo_url,
+                    color = Color.Gray
+                )
+            },
             modifier = Modifier.padding(top = textFieldTopPadding)
         )
 
@@ -231,7 +262,14 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
             )
 
             TextButton(
-                onClick = { /* TODO */ },
+                onClick = {
+                    if (serverInput.text.isEmpty()) {
+                        showMessage(R.string.hse_empty_url_error)
+                    } else {
+                        showHseAuthorization = true
+                        getHseAuthorizationUrl(serverInput.text)
+                    }
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = hseSecondary,
                     contentColor = Color.White,

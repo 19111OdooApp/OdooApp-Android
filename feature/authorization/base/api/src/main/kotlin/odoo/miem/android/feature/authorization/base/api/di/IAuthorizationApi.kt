@@ -4,12 +4,11 @@ import odoo.miem.android.core.di.api.Api
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
 
 /**
- * [IAuthorizationApi] нужен для обертки [IAuthorizationScreen] для последующего
- * предоставления в di граф
+ * [IAuthorizationApi] is needed for wrapping  [IAuthorizationScreen] for providing it to DI graph
  *
  * @see Api
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 interface IAuthorizationApi : Api {
 

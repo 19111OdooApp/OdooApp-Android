@@ -19,6 +19,8 @@ import kotlinx.coroutines.launch
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
 import odoo.miem.android.feature.authorization.base.api.di.IAuthorizationApi
+import odoo.miem.android.feature.moduleNotFound.api.IModuleNotFoundScreen
+import odoo.miem.android.feature.moduleNotFound.api.di.IModuleNotFoundApi
 import odoo.miem.android.feature.navigation.api.data.Routes
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
 import odoo.miem.android.feature.selectingModules.api.di.ISelectingModulesApi
@@ -50,10 +52,12 @@ fun Navigation(
     // Screens
     val authorizationScreen by api(IAuthorizationApi::authorizationScreen)
     val selectingModulesScreen by api(ISelectingModulesApi::selectingModulesScreen)
+    val moduleNotFoundScreen by api(IModuleNotFoundApi::moduleNotFoundScreen)
 
     NavigationContent(
         authorizationScreen = authorizationScreen,
         selectingModulesScreen = selectingModulesScreen,
+        moduleNotFoundScreen = moduleNotFoundScreen,
         paddingValues = paddingValues,
         navController = navController,
         showMessage = showMessage,
@@ -64,6 +68,7 @@ fun Navigation(
 fun NavigationContent(
     authorizationScreen: IAuthorizationScreen,
     selectingModulesScreen: ISelectingModulesScreen,
+    moduleNotFoundScreen: IModuleNotFoundScreen,
     paddingValues: PaddingValues,
     navController: NavHostController,
     showMessage: (Int) -> Unit,
@@ -76,8 +81,8 @@ fun NavigationContent(
     ) {
         NavHost(
             navController = navController,
-            startDestination = remember { // TODO RETURN AUTH
-                Routes.selectingModules // TODO Depends on is login in or not
+            startDestination = remember {
+                Routes.authorization // TODO Depends on is login in or not (database.isAuthorized)
             }
         ) {
             composable(Routes.authorization) {
@@ -91,6 +96,12 @@ fun NavigationContent(
                 selectingModulesScreen.SelectingModulesScreen(
                     navController = navController,
                     showMessage = showMessage
+                )
+            }
+
+            composable(Routes.moduleNotFound) {
+                moduleNotFoundScreen.ModuleNotFoundScreen(
+                    navController = navController
                 )
             }
         }

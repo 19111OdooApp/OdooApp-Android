@@ -3,15 +3,15 @@ package odoo.miem.android.core.di.impl
 import odoo.miem.android.core.di.api.Api
 
 /**
- * [ApiProvider] - SAM интерфейс для обертки реализации [Api] и последующего добавления
- * в общий **Map** у [ApiResolver]
+ * [ApiProvider] - SAM interface for wrapping implementation of [Api] and subsequent addition
+ * to general **DI Map** of [ApiResolver]
  *
- * Используется так:
+ * Use like this:
  * ApiProvider { SomeStarFeatureApiProvider.create() }
  *
  * @see ApiResolver
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 fun interface ApiProvider {
     fun get(): Api

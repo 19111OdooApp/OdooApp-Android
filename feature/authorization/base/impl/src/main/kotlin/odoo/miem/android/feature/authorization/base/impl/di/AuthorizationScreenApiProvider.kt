@@ -8,10 +8,10 @@ import odoo.miem.android.core.di.impl.ApiProvider
 import odoo.miem.android.feature.authorization.base.api.di.IAuthorizationApi
 
 /**
- * [AuthorizationScreenApiProvider] - **Dagger** модуль для предоставления
- * [AuthorizationScreenComponent] в общую мапу
+ * [AuthorizationScreenApiProvider] - **Dagger** module for providing
+ * [AuthorizationScreenComponent] to the general DI Map
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 @Module
 class AuthorizationScreenApiProvider {

@@ -18,7 +18,12 @@ import javax.inject.Inject
 class DataStore @Inject constructor() : IDataStore {
 
     private val context by api(PlatformApi::context)
-    private val sharedPreferences by lazy { context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE) }
+    private val sharedPreferences by lazy {
+        context.getSharedPreferences(
+            PREFERENCES_NAME,
+            Context.MODE_PRIVATE
+        )
+    }
 
     override val url by sharedPreferences.delegates.string()
     override fun setUrl(baseUrl: String) {
@@ -36,7 +41,27 @@ class DataStore @Inject constructor() : IDataStore {
             sharedPreferences.edit {
                 putInt(::currentUID.name, uid)
             }
-            Timber.d("setUrl(): currentUID = $currentUID")
+            Timber.d("setUID(): currentUID = $currentUID")
+        }
+    }
+
+    override val isAuthorized by sharedPreferences.delegates.boolean()
+    override fun setAuthorized(authorized: Boolean) {
+        if (authorized != isAuthorized) {
+            sharedPreferences.edit {
+                putBoolean(::isAuthorized.name, authorized)
+            }
+            Timber.d("setHseAuthorized(): authorized = $authorized")
+        }
+    }
+
+    override val sessionId by sharedPreferences.delegates.string()
+    override fun setSessionId(newSessionId: String) {
+        if (newSessionId != sessionId) {
+            sharedPreferences.edit {
+                putString(::sessionId.name, newSessionId)
+            }
+            Timber.d("setSessionId(): sessionId = $newSessionId")
         }
     }
 

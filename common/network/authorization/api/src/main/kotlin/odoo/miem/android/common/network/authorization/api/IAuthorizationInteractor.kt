@@ -1,6 +1,6 @@
 package odoo.miem.android.common.network.authorization.api
 
-import odoo.miem.android.core.utils.state.ResultObservable
+import odoo.miem.android.core.utils.state.ResultSingle
 
 /**
  * [IAuthorizationInteractor] - interface for wrapping authorization
@@ -19,5 +19,5 @@ interface IAuthorizationInteractor {
      *
      * @return Observable<Result> which we can observer and get Success or Error result
      */
-    fun generalAuthorization(baseUrl: String, login: String, password: String): ResultObservable<Int>
+    fun generalAuthorization(baseUrl: String, login: String, password: String): ResultSingle<Unit>
 }

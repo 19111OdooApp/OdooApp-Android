@@ -19,4 +19,10 @@ interface IDataStore {
      */
     val currentUID: Int
     fun setUID(uid: Int)
+
+    val isAuthorized: Boolean
+    fun setAuthorized(authorized: Boolean)
+
+    val sessionId: String
+    fun setSessionId(newSessionId: String)
 }

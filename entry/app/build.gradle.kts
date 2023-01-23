@@ -22,6 +22,10 @@ dependencies {
     implementation(project(":feature:selectingModules:api"))
     implementation(project(":feature:selectingModules:impl"))
 
+    // Module Not Found
+    implementation(project(":feature:moduleNotFound:api"))
+    implementation(project(":feature:moduleNotFound:impl"))
+
     // Common
     // Network - authorization
     implementation(project(":common:network:authorization:impl"))
@@ -35,6 +39,12 @@ dependencies {
 
     // Network API - authorization
     implementation(project(":core:networkApi:authorization:impl"))
+
+    // Json RPC - Engine
+    implementation(project(":core:jsonrpc:engine"))
+
+    // Json RPC - Parser
+    implementation(project(":core:jsonrpc:parser:impl"))
 
     // Platform
     implementation(project(":core:platform"))

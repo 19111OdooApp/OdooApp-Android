@@ -1,35 +1,35 @@
 # OdooApp-Android
 
 
-## Описание
-> Приложение мобильный клиент Odoo для платформы Android
+## Description
+> Odoo mobile client application for Android platform
 
 ## Общая структура проекта
-- [buildSrc](buildSrc/) - модуль, предназначенный для хранения всех gradle зависимостей, для дальнейшего поделючения во всех остальных модулях
-- [common](common/) - модуль, который содержит в себе функциональный куски кода, которые в дальнейшем можно переиспользовать
-- [.ci](.ci/) - инкапсуляция конфигов для ci/cd
-- [core](core/) - модуль компонентов, которые используются в других модулях проекта
-- [.detekt](.detekt/) - конфиги для `detekt` на ci
-- [entry](entry/) - модуль для входных точек в приложение
-- [feature](feature/) - модуль, который будет описывать логику фичей (например, авторизация)
+- [buildSrc](buildSrc/) - a module designed to store all gradle dependencies for further connection in all other modules
+- [common](common/) - a module that contains functional pieces of code that can be reused in the future
+- [.ci](.ci/) - encapsulation of configs for ci/cd
+- [core](core/) - a module of components that are used in other modules of the project
+- [.detekt](.detekt/) - configs for `detekt` on ci
+- [entry](entry/) - module for input points to the application
+- [feature](feature/) - a module that will describe the logic of features (for example, authorization)
 
 ## Git flow
-Есть несколько основных веток
+There are several main branches
 
-- prod - стабильная ветка релизов
-- develop - ветка активной разработки, checkout от prod
-- Различные ветки фичей/багфиксов (соостветсвенно по названиям `feature/some_description` и `bugfix/some_description`)
+- prod - stable release branch
+- develop - active development branch, checkout from prod
+- Various branches of features/bugfixes (respectively by name `feature/some_description` and `bugfix/some_description`)
 
-В конце каждого спринта будет релиз:
-- Доливаем все доработки в prod
-- Обновляем github
+There will be a release at the end of each sprint:
+- Topping up all the improvements in prod
+- Updating github
 
-## Договоренности
-- Комментарии пишем на **русском**
-- Разделяем по возможности на **api** **impl**, для разделения методов наружу и их реализацией соответсвенно
-- Naming модулей через **camelCase**. Пример - `buildSrc`
-- Naming различных реализаций `impl` через *snake_case*, чтобы четко можно выделить особенносить
-конректной реализации. Пример: 
+## Agreements
+- We write comments in **english**
+- We divide , if possible , into **api** **impl**, to separate the methods outwards and their implementation respectively
+- Naming modules via **camelCase**. For example - `buildSrc`
+- Naming different implementations of `impl` via *snake_case* so that a feature
+of a particular implementation can be clearly distinguished. Example:
 ```
     login/
         api/
@@ -37,17 +37,20 @@
         impl_hse/
         impl_google/
 ```
-- Документация в api модулях очень приветсвуется, как и логгирование
-- Naming пакетов должен быть следующим: 
-`odoo.miem.android.{feature/common/core}.{название модуля}.{api/impl}`  
-  - api/impl - опционально, если присутсвует
-  - Не касаеися `entry/*` модулей, так как там содержиться базовый путь `odoo.miem.android`
-  - Пример: `odoo.miem.android.core.di.impl`
+- Documentation in api modules is very welcome, as is logging
+- Package naming should be as follows: 
+`odoo.miem.android.{feature/common/core}.{name of module}.{api/impl}`  
+  - api/impl - optional, if present
+  - Does not apply to `entry/*` modules, as it contains the base path `odoo.miem.android`
+  - For example: `odoo.miem.android.core.di.impl`
 
-## Как добавить новую gradle зависимость? Что такое модуль buildSrc и зачем он нужен?
-В модуле [buildSrc](buildSrc/) в файле [Dependencies](buildSrc/src/main/kotlin/consts/Dependencies.kt)
-прописаны все gradle зависимости, при необходимости добавляем/обновляем зависимости именно там.
-Подробнее об модуле [buildSrc](buildSrc/) можно почитать в соответсвующем [README.md](buildSrc/README.md)
+## How do I add a new cradle dependency? What is the build Src module and why is it needed?
+In the module [buildSrc](buildSrc/) in the file [Dependencies](buildSrc/src/main/kotlin/consts/Dependencies.kt),
+all gradle dependencies are registered, if necessary, add/update dependencies there.
+More information about the module [buildSrc](buildSrc/) can be found in the corresponding [README.md ](buildSrc/README.md)
 
-## Как подключить модуль к общему DI графу?
-Побробнее об этом можно прочитать в соответсвующем [README](core/di/README.md)
+## How to connect a module to a common DI graph?
+You can read more about this in the corresponding [README](core/di/README.md)
+
+## What is the Json Rpc library and how to use it?
+You can read more about this in the corresponding [README](core/jsonrpc/README.md)

@@ -15,7 +15,7 @@
 - Profile `coming soon!`
 
 ## Example of screens
-<img src="documentation/screenshots/Authorization_light.png" width=300/> <img src="documentation/screenshots/Authorization_dark.png" width=300/>
+<img src="documentation/screenshots/Authorization_light.webp" width=300/> <img src="documentation/screenshots/Authorization_dark.webp" width=300/>
 
 ## Stack
 - Kotlin

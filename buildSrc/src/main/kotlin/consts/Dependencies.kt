@@ -1,6 +1,5 @@
 /**
- * [Dependencies] предназначен для хранения всех зависимостей, которые нужны
- * в данном проекте
+ * [Dependencies] is designed to store all the dependencies that are needed in this project
  *
  *
  * @author Ворожцов Михаил

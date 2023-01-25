@@ -1,5 +1,5 @@
 /**
- * [CompileVersions] нужен для хранения актуальных версий для сборки проекта
+ * [CompileVersions] is needed for storing actual versions to build the project
  *
  * @author Ворожцов Михаил
  * @since 09.10.2022

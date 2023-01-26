@@ -1,53 +1,31 @@
-# OdooApp-Android
+# OdooApp
 
+<a href=''><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width=300/></a>
 
-## Описание
-> Приложение мобильный клиент Odoo для платформы Android
+## Description
+> This is **unofficial** [Odoo](https://www.odoo.com/) mobile client for Android with [HSE](https://www.hse.ru/en/) support. Enjoy!
 
-## Общая структура проекта
-- [buildSrc](buildSrc/) - модуль, предназначенный для хранения всех gradle зависимостей, для дальнейшего поделючения во всех остальных модулях
-- [common](common/) - модуль, который содержит в себе функциональный куски кода, которые в дальнейшем можно переиспользовать
-- [.ci](.ci/) - инкапсуляция конфигов для ci/cd
-- [core](core/) - модуль компонентов, которые используются в других модулях проекта
-- [.detekt](.detekt/) - конфиги для `detekt` на ci
-- [entry](entry/) - модуль для входных точек в приложение
-- [feature](feature/) - модуль, который будет описывать логику фичей (например, авторизация)
+## Features
+- Authorization
+  - General
+  - HSE
+- Selecting modules, pick your favorite
+- Recruitment module `coming soon!`
+- CRM module `coming soon!`
+- Profile `coming soon!`
 
-## Git flow
-Есть несколько основных веток
+## Example of screens
+<img src="documentation/screenshots/Authorization_light.webp" width=300/> <img src="documentation/screenshots/Authorization_dark.webp" width=300/>
 
-- prod - стабильная ветка релизов
-- develop - ветка активной разработки, checkout от prod
-- Различные ветки фичей/багфиксов (соостветсвенно по названиям `feature/some_description` и `bugfix/some_description`)
+## Stack
+- Kotlin
+- Jetpack Compose
+- RxJava
+- Clean Architecture + MVVM
+- And other interesting staff
 
-В конце каждого спринта будет релиз:
-- Доливаем все доработки в prod
-- Обновляем github
+## Are you a developer?
+Check [README](documentation/README.md) for developers
 
-## Договоренности
-- Комментарии пишем на **русском**
-- Разделяем по возможности на **api** **impl**, для разделения методов наружу и их реализацией соответсвенно
-- Naming модулей через **camelCase**. Пример - `buildSrc`
-- Naming различных реализаций `impl` через *snake_case*, чтобы четко можно выделить особенносить
-конректной реализации. Пример: 
-```
-    login/
-        api/
-        impl/
-        impl_hse/
-        impl_google/
-```
-- Документация в api модулях очень приветсвуется, как и логгирование
-- Naming пакетов должен быть следующим: 
-`odoo.miem.android.{feature/common/core}.{название модуля}.{api/impl}`  
-  - api/impl - опционально, если присутсвует
-  - Не касаеися `entry/*` модулей, так как там содержиться базовый путь `odoo.miem.android`
-  - Пример: `odoo.miem.android.core.di.impl`
-
-## Как добавить новую gradle зависимость? Что такое модуль buildSrc и зачем он нужен?
-В модуле [buildSrc](buildSrc/) в файле [Dependencies](buildSrc/src/main/kotlin/consts/Dependencies.kt)
-прописаны все gradle зависимости, при необходимости добавляем/обновляем зависимости именно там.
-Подробнее об модуле [buildSrc](buildSrc/) можно почитать в соответсвующем [README.md](buildSrc/README.md)
-
-## Как подключить модуль к общему DI графу?
-Побробнее об этом можно прочитать в соответсвующем [README](core/di/README.md)
+## Download
+Stable release coming soon, keep in touch ＼(＾▽＾)／

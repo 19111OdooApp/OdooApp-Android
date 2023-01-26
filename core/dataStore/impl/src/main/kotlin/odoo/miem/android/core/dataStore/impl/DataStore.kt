@@ -45,13 +45,23 @@ class DataStore @Inject constructor() : IDataStore {
         }
     }
 
-    override val isHseAuthorized by sharedPreferences.delegates.boolean()
-    override fun setHseAuthorized(authorized: Boolean) {
-        if (authorized != isHseAuthorized) {
+    override val isAuthorized by sharedPreferences.delegates.boolean()
+    override fun setAuthorized(authorized: Boolean) {
+        if (authorized != isAuthorized) {
             sharedPreferences.edit {
-                putBoolean(::isHseAuthorized.name, authorized)
+                putBoolean(::isAuthorized.name, authorized)
             }
             Timber.d("setHseAuthorized(): authorized = $authorized")
+        }
+    }
+
+    override val sessionId by sharedPreferences.delegates.string()
+    override fun setSessionId(newSessionId: String) {
+        if (newSessionId != sessionId) {
+            sharedPreferences.edit {
+                putString(::sessionId.name, newSessionId)
+            }
+            Timber.d("setSessionId(): sessionId = $newSessionId")
         }
     }
 

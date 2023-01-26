@@ -1,39 +1,39 @@
-# DI модуль в core слое
+# DI module in the core layer
 
 ## Назначение
- - Предоставление необходимых интерфейсов, метода расширения, классов для корректной
-работы **Dagger 2** во всем проекте
+ - Providing the necessary interfaces, extension method, classes for the correct
+operation of **Dagger 2** throughout the project
 
-## Описание
-- DI модуль разбит на 2 части - **api** и **impl**:
-  - **api** - модуль, содержащий интерфейс **Api**, который нужен для объединения всех api в
-одну **Map** (см. **ApiResolver**)
-  - **impl** - модуль, который инкапсулирует в себе раширения и классы для получения
-необходимой реализации **Api**
+## Description
+- The DI module is divided into 2 parts - **api** and **impl**:
+  - **api** - a module containing the **Api** interface, which is needed to combine all the apis into
+one **Map** (see **ApiResolver**)
+  - **impl** - a module that encapsulates extensions and classes to get
+the necessary implementation of the **Api**
 
-## Как мне подключить новый модуль в общий DI граф?
-- Ваш модуль должен быть разделен на **api** и **impl**
-- В обоих модулях делаем папку **di**
-- Затем рассмотрим каждый модуль:
+## How do I connect a new module to a common DI graph?
+- Your module should be divided into **api** and **impl**
+- In both modules we make a folder **di**
+- Then consider each module:
   - **api**
-    - Содержит интерфейсы того, чего будет провайдить (обычно будет храниться в корне).
-Например, **SomeOdooFeature**
-    - В **di** папке будет храниться **SomeOdooFeatureApi**, которое **обязательно**
-должно быть наследником **Api**, чтобы в последующем можно было достать через **getApi()**
+    - Contains interfaces of what it will hold (usually stored in the root).
+For example, **SomeOdooFeature**
+    - The **di** folder will store **SomeOdooFeatureApi**, which **
+must** be the heir of **Api**, so that later it can be accessed via **getApi()**
   - **impl**
-    - Обычно в корне будет храниться релизация интерфейса **SomeOdooFeature** в виде
+    - Usually, the implementation of the **SomeOdooFeature** interface will be stored in the root as
 **SomeOdooFeatureImpl**
-    - В **di** папке будут храниться 3 класса/интерфейса:
+    - 3 classes/interfaces will be stored in the **di** folder:
       - **SomeOdooFeatureApiProviderModule** 
-        - **Dagger** модуль, который предоставляет нашу реализацию **SomeOdooFeatureApi** в общий DI граф. 
-        - Не забывайте обязательно в *@Provides* методах добавлять аннотации *@IntoMap* для добавления в общую
-**Map** у **ApiResolver** и *@ApiKey(SomeStarFeatureApi::class)* для предоставления необходимого ключа под которым 
-будет храниться реализация в **Map**. 
-        - **ОБЯЗАТЕЛЬНО** добавляйте **SomeOdooFeatureApiProviderModule** в **OdooAppComponent** в раздел *modules*,
-иначе новое **SomeOdooFeatureApi** не добавиться в общую **Map**
+        - **Dagger** a module that provides our implementation of **SomeOdooFeatureApi** in the general DI graph. 
+        - Do not forget to add annotations in *@Provides* methods *@IntoMap* to add to the general
+**Map** at **ApiResolver** and *@ApiKey(SomeStarFeatureApi::class)* to provide the necessary key under which
+the implementation in **Map** will be stored.
+        - **BE SURE TO** add **SomeOdooFeatureApiProviderModule** to **OdooAppComponent** in the *modules* section,
+otherwise the new **SomeOdooFeatureApi** will not be added to the general **Map**
       - **SomeOdooFeatureComponent**
-        - **Dagger** компонент, который реализует интерфейс **SomeOdooFeatureApi**
-        - Как обычный **Dagger** компонент, он может содержать *modules* (**SomeOdooFeatureModule**, например),
-который провайдит необходимые реализации **SomeOdooFeatureImpl** и *dependencies* от которых завист. Чаще всего это
-будут **Api**, которое можно будет легко получить через **getApi()**
-        - **SomeOdooFeatureModule** - **Dagger** модуль, который провайдит **SomeOdooFeatureImpl**
+        - **Dagger** a component that implements the **SomeOdooFeatureApi interface**
+        - As a regular **Dagger** component, it can contain *modules* (**SomeOdooFeatureModule**, for example),
+which conducts the necessary implementations of **SomeOdooFeatureImpl** and *dependencies* from which envy. Most often these
+will be **Api**, which can be easily accessed via **getApi()**
+        - **SomeOdooFeatureModule** - **Dagger** module that provides **SomeOdooFeatureImpl**

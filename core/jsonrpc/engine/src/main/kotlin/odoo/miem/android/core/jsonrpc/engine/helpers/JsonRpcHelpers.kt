@@ -2,13 +2,16 @@ package odoo.miem.android.core.jsonrpc.engine.helpers
 
 import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcCaller
 import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcInterceptor
-import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonArgument
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpc
+import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcArgument
+import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcPath
 import odoo.miem.android.core.jsonrpc.base.engine.exception.JsonRpcException
 import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcRequest
+import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcResponse
 import odoo.miem.android.core.jsonrpc.base.parser.ResultParser
 import odoo.miem.android.core.jsonrpc.engine.interceptor.RealInterceptorChain
 import odoo.miem.android.core.jsonrpc.engine.interceptor.ServerCallInterceptor
+import okhttp3.Response
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
 import java.lang.reflect.ParameterizedType
@@ -19,28 +22,29 @@ val requestId = AtomicLong(0)
 
 /**
  * Extension for resolving all data from annotation in method and
- * convert it to the map of json body request
+ * convert it to the map of json body request or path
  *
  * @author Vorozhtsov Mikhail
  */
-internal fun Method.jsonRpcParameters(args: Array<Any?>?, service: Class<*>): Map<String, Any?> {
-    return parameterAnnotations
-        .map { annotation ->
-            annotation?.firstOrNull {
-                JsonArgument::class.java.isInstance(it)
-            }
-        }
+internal fun Method.jsonRpcParameters(args: Array<Any?>?, service: Class<*>): ProceedMethod {
+    val params = mutableMapOf<String, Any?>()
+    val headers = mutableListOf<String>()
+
+    parameterAnnotations
+        .flatten()
         .mapIndexed { index, annotation ->
             when (annotation) {
-                is JsonArgument -> annotation.value
-                else -> throw IllegalStateException(
-                    "Argument #$index of ${service.name}#$name()" +
-                        " must be annotated with @${JsonArgument::class.java.simpleName}"
-                )
+                is JsonRpcArgument -> params[annotation.value] = args?.get(index)
+                is JsonRpcPath -> headers.add(args?.get(index) as String)
+                else ->
+                    throw IllegalStateException(
+                        "Argument #$index of ${service.name}#$name()" +
+                            " must be annotated with @${JsonRpcArgument::class.java.simpleName}"
+                    )
             }
         }
-        .mapIndexed { i, name -> name to args?.get(i) }
-        .associate { it }
+
+    return ProceedMethod(params, headers)
 }
 
 /**
@@ -55,26 +59,28 @@ fun <T> createInvocationHandler(
     resultParser: ResultParser,
     interceptors: List<JsonRpcInterceptor> = listOf(),
     headers: Map<String, String> = emptyMap(),
-    logger: (String) -> Unit = { _ -> }
+    logger: (String) -> Unit = { _ -> },
+    onResponseProceed: ((id: Long, Response) -> JsonRpcResponse)? = null
 ): InvocationHandler {
     return object : InvocationHandler {
 
         override fun invoke(proxy: Any, method: Method, args: Array<Any?>?): Any {
-            // TODO Resolve hse or not
             val methodAnnotation =
                 method.getAnnotation(JsonRpc::class.java)
                     ?: error("Method should be annotated with JsonRpc annotation")
 
             val id = requestId.incrementAndGet()
             val methodName = methodAnnotation.value
-            val parameters = method.jsonRpcParameters(args, service)
+            val proceedMethod = method.jsonRpcParameters(args, service)
 
-            val request = JsonRpcRequest(id, methodName, parameters)
+            val request = JsonRpcRequest(id, methodName, proceedMethod.params)
 
             // add interceptor, which makes network call
             val serverCallInterceptor = ServerCallInterceptor(
                 client = caller,
-                headers = headers
+                headers = headers,
+                paths = proceedMethod.headers,
+                onResponseProceed = onResponseProceed
             )
             val finalInterceptors = interceptors.plus(serverCallInterceptor)
 

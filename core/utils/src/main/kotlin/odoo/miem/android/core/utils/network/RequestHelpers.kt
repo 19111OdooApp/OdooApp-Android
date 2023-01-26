@@ -2,6 +2,7 @@ package odoo.miem.android.core.utils.network
 
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
+import odoo.miem.android.core.utils.regex.getDatabaseFromUrl
 
 /**
  * [RequestHelpers] needs for wrapping request body in the desired format

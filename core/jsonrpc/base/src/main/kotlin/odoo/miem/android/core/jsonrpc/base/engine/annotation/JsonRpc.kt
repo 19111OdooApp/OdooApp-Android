@@ -17,16 +17,12 @@ package odoo.miem.android.core.jsonrpc.base.engine.annotation
  * { "id": 1, "method": "call", .... }
  * ```
  *
- * ATTENTION
- * Depending on the type of authorization (hse or general, for example),
- * this method will be in body of `params` map or like in example above
- *
  * @author Vorozhtsov Mikhail
  */
 annotation class JsonRpc(val value: String)
 
 /**
- * [JsonArgument] is annotation, which provide parameters
+ * [JsonRpcArgument] is annotation, which provide parameters
  * in `params` field of json body.
  *
  * @param value contains name of field
@@ -35,7 +31,7 @@ annotation class JsonRpc(val value: String)
  * ```
  * @JsonRpc("call")
  * fun getCoolUser(
- *      @JsonArgument("name") name: String = "Mike"
+ *      @JsonRpcArgument("name") name: String = "Mike"
  * ): User
  * ```
  *
@@ -46,4 +42,36 @@ annotation class JsonRpc(val value: String)
  *
  * @author Vorozhtsov Mikhail
  */
-annotation class JsonArgument(val value: String)
+annotation class JsonRpcArgument(val value: String)
+
+/**
+ * [JsonRpcPath] is annotation, which provide path in request url
+ *
+ *
+ * For example:
+ * ```
+ * val baseUrl = "https://odoo.com/"
+ *
+ * @JsonRpc("call")
+ * fun getCoolUser(
+ *      @JsonRpcPath path: String = "web"
+ *      @JsonRpcPath path: String = "dataset"
+ * ): User
+ * ```
+ *
+ * So, in example above final url will be:
+ * ```
+ * https://odoo.com/web/dataset/
+ * ```
+ *
+ * It is also possible make path, and we will have same result url:
+ * ```
+ * @JsonRpc("call")
+ * fun getCoolUser(
+ *      @JsonRpcPath path: String = "web/dataset"
+ * ): User
+ * ```
+ *
+ * @author Vorozhtsov Mikhail
+ */
+annotation class JsonRpcPath

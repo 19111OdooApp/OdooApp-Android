@@ -204,6 +204,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     ) = Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // TODO DELETE
         val pagerState = rememberPagerState()
         val haptic = LocalHapticFeedback.current
         var startTransaction by remember { mutableStateOf(false) }

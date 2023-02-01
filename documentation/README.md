@@ -4,7 +4,7 @@
 ## Description
 > Odoo mobile client application for Android platform
 
-## Общая структура проекта
+## General structure of the project
 - [buildSrc](buildSrc/) - a module designed to store all gradle dependencies for further connection in all other modules
 - [common](common/) - a module that contains functional pieces of code that can be reused in the future
 - [.ci](.ci/) - encapsulation of configs for ci/cd

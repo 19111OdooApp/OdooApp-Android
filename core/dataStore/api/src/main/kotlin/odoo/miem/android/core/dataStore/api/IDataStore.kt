@@ -25,4 +25,10 @@ interface IDataStore {
 
     val sessionId: String
     fun setSessionId(newSessionId: String)
+
+    /**
+     * Name and last name of current user
+     */
+    val username: String
+    fun setUsername(newName: String)
 }

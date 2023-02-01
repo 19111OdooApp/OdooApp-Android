@@ -1,6 +1,7 @@
 package odoo.miem.android.core.networkApi.selectingModules.api
 
 import io.reactivex.rxjava3.core.Single
+import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooGroup
 
 /**
  * [ISelectiongModulesRepository] - interface for wrapping data layer
@@ -12,11 +13,8 @@ interface ISelectingModulesRepository {
 
     /**
      * [getAllModules] - function for requesting all modules of Odoo
-     *
-     * @param login of user
-     * @param password of user
-     *
-     * @return Observable<Int> which provides UID of user
+
+     * @return Observable<[OdooGroup]> which provides modules accessible for user
      */
-    fun getAllModules(login: String, password: String): Single<Int>
+    fun getAllModules(): Single<List<OdooGroup>>
 }

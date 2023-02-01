@@ -1,10 +1,11 @@
 package odoo.miem.android.common.network.authorization.impl
 
+import android.annotation.SuppressLint
 import odoo.miem.android.common.network.authorization.api.IAuthorizationInteractor
-import odoo.miem.android.common.network.authorization.api.di.IAuthorizationRepositoryApi
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.networkApi.authorization.api.di.IAuthorizationRepositoryApi
+import odoo.miem.android.core.networkApi.authorization.api.source.UserInfoResponse
 import odoo.miem.android.core.utils.builder.urlProcessing
 import odoo.miem.android.core.utils.regex.getSessionIdFromCookie
 import odoo.miem.android.core.utils.state.ErrorResult
@@ -50,6 +51,25 @@ class AuthorizationInteractor @Inject constructor() : IAuthorizationInteractor {
             }
             .onErrorReturn {
                 Timber.e("generalAuthorization(): error message = ${it.message}")
+                ErrorResult(R.string.general_authorization_error)
+            }
+    }
+
+    override fun getUserInfo(): ResultSingle<Unit> {
+        Timber.d("getUserInfo()")
+
+        return authorizationRepository.getUserInfo()
+            .map<Result<Unit>> {result ->
+                val userInfo = result.result.records[0].userInfo
+
+                Timber.d("getUserInfo(): uid = ${userInfo.uid}")
+                dataStore.setUsername(userInfo.name)
+                dataStore.setUID(userInfo.uid)
+
+                SuccessResult()
+            }
+            .onErrorReturn {
+                Timber.e("getUserInfo(): error message = ${it.message}")
                 ErrorResult(R.string.general_authorization_error)
             }
     }

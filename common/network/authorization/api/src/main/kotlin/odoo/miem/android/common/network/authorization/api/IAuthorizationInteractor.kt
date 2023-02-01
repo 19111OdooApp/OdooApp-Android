@@ -20,4 +20,6 @@ interface IAuthorizationInteractor {
      * @return Observable<Result> which we can observer and get Success or Error result
      */
     fun generalAuthorization(baseUrl: String, login: String, password: String): ResultSingle<Unit>
+
+    fun getUserInfo(): ResultSingle<Unit>
 }

@@ -65,6 +65,16 @@ class DataStore @Inject constructor() : IDataStore {
         }
     }
 
+    override val username by sharedPreferences.delegates.string()
+    override fun setUsername(newName: String) {
+        if (newName != username) {
+            sharedPreferences.edit {
+                putString(::username.name, newName)
+            }
+            Timber.d("setUsername(): username = $newName")
+        }
+    }
+
     private companion object {
         const val PREFERENCES_NAME = "dataStore"
     }

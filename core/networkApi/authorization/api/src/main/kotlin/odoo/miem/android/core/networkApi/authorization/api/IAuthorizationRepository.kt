@@ -1,6 +1,7 @@
 package odoo.miem.android.core.networkApi.authorization.api
 
 import io.reactivex.rxjava3.core.Single
+import odoo.miem.android.core.networkApi.authorization.api.source.UserInfoResponse
 
 /**
  * [IAuthorizationRepository] - interface for wrapping data layer
@@ -19,4 +20,6 @@ interface IAuthorizationRepository {
      * @return Observable<String> which provides cookie of session
      */
     fun generalAuthorization(login: String, password: String): Single<String>
+
+    fun getUserInfo(): Single<UserInfoResponse>
 }

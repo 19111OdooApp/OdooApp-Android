@@ -51,10 +51,13 @@ class AuthorizationViewModel : BaseViewModel() {
 
     fun generateHseAuthorizationUrl(
         rawDomain: String
-    ): String = HseUriAuthorizationBuilder.Builder()
-        .setBaseDomain(rawDomain)
-        .build()
-        .generateHseAuthorizationUrl()
+    ): String {
+        dataStore.setUrl(urlProcessing(rawDomain))
+        return HseUriAuthorizationBuilder.Builder()
+            .setBaseDomain(rawDomain)
+            .build()
+            .generateHseAuthorizationUrl()
+    }
 
     fun hseWebViewExitCondition(rawUrl: String, currentUrl: String?, cookie: String?): Boolean {
         val convertedUrl = urlProcessing(rawUrl)

@@ -57,14 +57,17 @@ class AuthorizationViewModel : BaseViewModel() {
         .generateHseAuthorizationUrl()
 
     fun hseWebViewExitCondition(rawUrl: String, currentUrl: String?, cookie: String?): Boolean {
+        val convertedUrl = urlProcessing(rawUrl)
+
         return when {
             currentUrl == null -> false
-            currentUrl.startsWith(urlProcessing(rawUrl)) -> {
+            currentUrl.startsWith(convertedUrl) -> {
                 if (cookie == null) {
                     Timber.d("hseWebViewExitCondition(): cookie is empty, error")
                     authorizationState.onNext(ErrorResult())
                 } else {
-                    Timber.d("hseWebViewExitCondition(): cookie not empty, authorization complete")
+                    Timber.d("hseWebViewExitCondition(): cookie is not empty, authorization complete")
+                    dataStore.setUrl(convertedUrl)
                     dataStore.setAuthorized(true)
                     dataStore.setSessionId(cookie.getSessionIdFromCookie())
                     authorizationState.onNext(SuccessResult())

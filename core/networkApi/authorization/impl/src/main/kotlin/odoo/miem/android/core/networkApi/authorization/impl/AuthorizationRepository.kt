@@ -4,7 +4,6 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import odoo.miem.android.core.jsonRpcApiFabric.jsonRpcApi
 import odoo.miem.android.core.networkApi.authorization.api.IAuthorizationRepository
-import odoo.miem.android.core.networkApi.authorization.api.source.UserInfoResponse
 import odoo.miem.android.core.networkApi.authorization.impl.source.IGeneralAuthorization
 import odoo.miem.android.core.utils.network.RequestHelpers
 import timber.log.Timber
@@ -29,9 +28,5 @@ class AuthorizationRepository @Inject constructor() : IAuthorizationRepository {
                 password = password
             )
         }.subscribeOn(Schedulers.io())
-    }
-
-    override fun getUserInfo(): Single<UserInfoResponse> = Single.fromCallable {
-        generalAuthorization.userInfo()
     }
 }

@@ -43,22 +43,7 @@ class AuthorizationViewModel : BaseViewModel() {
                 authChannel,
                 onSuccess = {
                     Timber.d("generalAuthorization(): result = $it")
-
-                    getUserInfo()
                     authorizationState.onNext(it)
-                },
-                onError = Timber::e
-            )
-    }
-
-    private fun getUserInfo() {
-        Timber.d("getUserInfo()")
-
-        authorizationInteractor.getUserInfo()
-            .schedule(
-                authChannel,
-                onSuccess = {
-                    Timber.d("getUserInfo(): result = $it")
                 },
                 onError = Timber::e
             )

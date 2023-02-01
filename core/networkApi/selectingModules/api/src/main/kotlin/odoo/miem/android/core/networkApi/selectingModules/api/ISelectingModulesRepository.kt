@@ -2,6 +2,7 @@ package odoo.miem.android.core.networkApi.selectingModules.api
 
 import io.reactivex.rxjava3.core.Single
 import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooGroup
+import odoo.miem.android.core.networkApi.selectingModules.api.source.UserInfoResponse
 
 /**
  * [ISelectiongModulesRepository] - interface for wrapping data layer
@@ -10,6 +11,8 @@ import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooGroup
  * @author Egor Danilov
  */
 interface ISelectingModulesRepository {
+
+    fun getUserInfo(): Single<UserInfoResponse>
 
     /**
      * [getAllModules] - function for requesting all modules of Odoo

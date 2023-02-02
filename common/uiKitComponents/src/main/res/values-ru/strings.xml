@@ -11,5 +11,5 @@
 
     <!--  Search Text field  -->
     <string name="search_text_field_label">Введите название модуля</string>
-    <string name="outlined_module_card_header">Добавить\nлюбимый модуль</string>
+    <string name="outlined_module_card_header">Добавить любимый модуль</string>
 </resources>

@@ -55,7 +55,6 @@ fun SmallModuleCard(
         .background(moduleName.getBackgroundColorCard())
         .clickable { onClick() }
 ) {
-
     IconButton(
         onClick = onLikeClick,
         modifier = Modifier

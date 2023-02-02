@@ -1,16 +1,13 @@
 package odoo.miem.android.common.uiKitComponents.cards
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
@@ -26,10 +23,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import odoo.miem.android.common.uiKitComponents.R
 import odoo.miem.android.common.uiKitComponents.utils.getBackgroundColorCard
-import odoo.miem.android.common.uiKitComponents.utils.getBackgroundIconColorSmallCard
 import odoo.miem.android.common.uiKitComponents.utils.glowEffect
 
 /**
@@ -58,14 +55,13 @@ fun SmallModuleCard(
         .background(moduleName.getBackgroundColorCard())
         .clickable { onClick() }
 ) {
-    Spacer(modifier = Modifier.height(6.dp))
 
     IconButton(
         onClick = onLikeClick,
         modifier = Modifier
             .size(42.dp)
+            .padding(top = 14.dp, end = 14.dp)
             .align(Alignment.TopEnd)
-            .padding(end = 8.dp)
     ) {
         Icon(
             imageVector = if (isLiked) Icons.Outlined.Favorite else Icons.Outlined.FavoriteBorder,
@@ -77,10 +73,7 @@ fun SmallModuleCard(
 
     Box(
         modifier = Modifier
-            .size(50.dp)
-            .clip(CircleShape)
-            .background(moduleName.getBackgroundIconColorSmallCard())
-            .border(width = 1.dp, color = Color.White.copy(alpha = 0.25F), shape = CircleShape)
+            .size(80.dp)
             .align(Alignment.Center),
         contentAlignment = Alignment.Center
     ) {
@@ -98,6 +91,8 @@ fun SmallModuleCard(
         color = Color.White,
         modifier = Modifier
             .align(Alignment.BottomCenter)
-            .padding(vertical = 10.dp)
+            .padding(vertical = 10.dp),
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
     )
 }

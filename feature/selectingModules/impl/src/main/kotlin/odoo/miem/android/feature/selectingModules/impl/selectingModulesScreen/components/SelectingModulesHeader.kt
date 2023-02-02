@@ -79,7 +79,9 @@ internal fun SelectingModulesHeader(
                     .size(iconSize)
                     .clip(CircleShape)
             )
-        } else DefaultProfileIcon(userName, iconSize)
+        } else {
+            DefaultProfileIcon(userName, iconSize)
+        }
     }
 }
 

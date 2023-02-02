@@ -38,6 +38,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
@@ -58,9 +59,12 @@ import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
 import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
+import odoo.miem.android.core.utils.rx.collectAsState
+import odoo.miem.android.core.utils.state.subscribeOnError
 import odoo.miem.android.feature.navigation.api.data.Routes
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
 import odoo.miem.android.feature.selectingModules.impl.R
+import odoo.miem.android.feature.selectingModules.impl.SelectingModulesViewModel
 import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 import odoo.miem.android.feature.selectingModules.impl.searchScreen.SearchModulesScreen
 import odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components.SelectingModulesFavoriteList
@@ -86,6 +90,15 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         navController: NavHostController,
         showMessage: (Int) -> Unit
     ) {
+        val viewModel: SelectingModulesViewModel = viewModel()
+
+        val selectingModulesState by viewModel.selectingModulesState.collectAsState()
+        selectingModulesState.subscribeOnError(showMessage)
+
+        LaunchedEffect(Unit) {
+            viewModel.getUserInfo()
+        }
+
         // TODO implementation based on some meta-information about implemented modules
         val onModuleCardClick = { navController.navigate(Routes.moduleNotFound) }
 

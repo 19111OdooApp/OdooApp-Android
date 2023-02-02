@@ -70,7 +70,6 @@ class AuthorizationViewModel : BaseViewModel() {
                     authorizationState.onNext(ErrorResult())
                 } else {
                     Timber.d("hseWebViewExitCondition(): cookie is not empty, authorization complete")
-                    dataStore.setUrl(convertedUrl)
                     dataStore.setAuthorized(true)
                     dataStore.setSessionId(cookie.getSessionIdFromCookie())
                     authorizationState.onNext(SuccessResult())

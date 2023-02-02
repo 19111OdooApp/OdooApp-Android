@@ -111,11 +111,13 @@ object Dependencies {
         object Accompanist {
             private const val VERSION = "0.28.0"
 
-            const val ACCOMPANIST_CORE = "com.google.accompanist:accompanist-pager:$VERSION"
+            const val ACCOMPANIST_PAGER = "com.google.accompanist:accompanist-pager:$VERSION"
             const val ACCOMPANIST_INDICATORS =
                 "com.google.accompanist:accompanist-pager-indicators:$VERSION"
 
-            val ALL_ACCOMPANIST_DEPS = listOf(ACCOMPANIST_CORE, ACCOMPANIST_INDICATORS)
+            val ALL_ACCOMPANIST_DEPS = listOf(
+                ACCOMPANIST_PAGER, ACCOMPANIST_INDICATORS
+            )
         }
 
         object SharedElements {

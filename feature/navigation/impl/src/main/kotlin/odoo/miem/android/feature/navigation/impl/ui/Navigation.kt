@@ -82,7 +82,7 @@ fun NavigationContent(
         NavHost(
             navController = navController,
             startDestination = remember {
-                Routes.authorization // TODO Depends on is login in or not (database.isAuthorized)
+                Routes.selectingModules // TODO Depends on is login in or not (database.isAuthorized)
             }
         ) {
             composable(Routes.authorization) {

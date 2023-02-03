@@ -3,10 +3,10 @@ package odoo.miem.android.core.networkApi.selectingModules.impl
 import io.reactivex.rxjava3.core.Single
 import odoo.miem.android.core.jsonRpcApiFabric.jsonRpcApi
 import odoo.miem.android.core.networkApi.selectingModules.api.ISelectingModulesRepository
-import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooGroup
+import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooGroupsResponse
+import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooModulesResponse
 import odoo.miem.android.core.networkApi.selectingModules.api.source.UserInfoResponse
 import odoo.miem.android.core.networkApi.selectingModules.impl.source.IGetBaseInfo
-import odoo.miem.android.core.utils.network.RequestHelpers
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -23,18 +23,23 @@ class SelectingModulesRepository @Inject constructor(): ISelectingModulesReposit
         Timber.d("getUserInfo()")
 
         return Single.fromCallable {
-            getBaseInfo.userInfo()
+            getBaseInfo.getUserInfo()
         }
     }
 
-    override fun getAllModules(): Single<List<OdooGroup>> {
+    override fun getOdooGroups(): Single<OdooGroupsResponse> {
+        Timber.d("getOdooGroups")
+
+        return Single.fromCallable {
+            getBaseInfo.getOdooGroups()
+        }
+    }
+
+    override fun getOdooModules(): Single<OdooModulesResponse> {
         Timber.d("getAllModules()")
 
         return Single.fromCallable {
-            getBaseInfo.getModules(
-                model = RequestHelpers.allModulesModel,
-                fields = RequestHelpers.allModulesFields
-            )
+            getBaseInfo.getOdooModules()
         }
     }
 }

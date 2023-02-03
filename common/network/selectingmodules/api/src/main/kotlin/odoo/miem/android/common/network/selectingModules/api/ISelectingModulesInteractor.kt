@@ -1,5 +1,7 @@
 package odoo.miem.android.common.network.selectingModules.api
 
+import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
+import odoo.miem.android.common.network.selectingModules.api.entities.User
 import odoo.miem.android.core.utils.state.ResultSingle
 
 /**
@@ -10,5 +12,7 @@ import odoo.miem.android.core.utils.state.ResultSingle
  */
 interface ISelectingModulesInteractor {
 
-    fun getUserInfo(): ResultSingle<Unit>
+    fun getUserInfo(): ResultSingle<User>
+
+    fun getOdooModules(userUid: Int): ResultSingle<List<OdooModule>>
 }

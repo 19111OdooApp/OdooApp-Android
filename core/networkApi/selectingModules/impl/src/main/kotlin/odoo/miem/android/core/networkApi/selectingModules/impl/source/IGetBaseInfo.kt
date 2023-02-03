@@ -1,10 +1,11 @@
 package odoo.miem.android.core.networkApi.selectingModules.impl.source
 
 import odoo.miem.android.core.jsonRpcApiFabric.api.JsonRpcApi
-import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcArgument
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpc
+import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcArgument
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcPath
-import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooGroup
+import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooGroupsResponse
+import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooModulesResponse
 import odoo.miem.android.core.networkApi.selectingModules.api.source.UserInfoResponse
 
 /**
@@ -15,21 +16,23 @@ import odoo.miem.android.core.networkApi.selectingModules.api.source.UserInfoRes
 interface IGetBaseInfo: JsonRpcApi {
 
     @JsonRpc("call")
-    fun getUserGroups(
+    fun getOdooGroups(
         @JsonRpcPath path: String = "web/dataset/search_read",
-        @JsonRpcArgument("model") model: String,
-        @JsonRpcArgument("fields") fields: List<String>
-    ): List<OdooGroup>
+        @JsonRpcArgument("model") model: String = "res.groups",
+        @JsonRpcArgument("fields") fields: List<String> = listOf("id", "name", "users")
+    ): OdooGroupsResponse
 
     @JsonRpc("call")
-    fun getModules(
+    fun getOdooModules(
         @JsonRpcPath path: String = "web/dataset/search_read",
-        @JsonRpcArgument("model") model: String,
-        @JsonRpcArgument("fields") fields: List<String>
-    ): List<OdooGroup>
+        @JsonRpcArgument("model") model: String = "res.users.settings",
+        @JsonRpcArgument("fields") fields: List<String> = listOf(
+            "id", "name", "complete_name", "child_id", "parent_id", "groups_id"
+        )
+    ): OdooModulesResponse
 
     @JsonRpc("call")
-    fun userInfo(
+    fun getUserInfo(
         @JsonRpcPath path: String = "web/dataset/search_read",
         @JsonRpcArgument("model") model: String = "res.users.settings",
         @JsonRpcArgument("fields") fields: List<String> = listOf("id", "user_id")

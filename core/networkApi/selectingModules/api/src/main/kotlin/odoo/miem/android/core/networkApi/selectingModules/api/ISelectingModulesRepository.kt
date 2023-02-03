@@ -1,7 +1,8 @@
 package odoo.miem.android.core.networkApi.selectingModules.api
 
 import io.reactivex.rxjava3.core.Single
-import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooGroup
+import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooGroupsResponse
+import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooModulesResponse
 import odoo.miem.android.core.networkApi.selectingModules.api.source.UserInfoResponse
 
 /**
@@ -12,12 +13,24 @@ import odoo.miem.android.core.networkApi.selectingModules.api.source.UserInfoRes
  */
 interface ISelectingModulesRepository {
 
+    /**
+     * [getUserInfo] - function for requesting info about current user
+
+     * @return Observable<[UserInfoResponse]> which provides modules accessible for user
+     */
     fun getUserInfo(): Single<UserInfoResponse>
 
     /**
-     * [getAllModules] - function for requesting all modules of Odoo
+     * [getOdooGroups] - function for requesting all user groups of Odoo
 
-     * @return Observable<[OdooGroup]> which provides modules accessible for user
+     * @return Observable<[OdooGroupsResponse]> which provides modules accessible for user
      */
-    fun getAllModules(): Single<List<OdooGroup>>
+    fun getOdooGroups(): Single<OdooGroupsResponse>
+
+    /**
+     * [getOdooModules] - function for requesting all modules of Odoo
+
+     * @return Observable<[OdooModulesResponse]> which provides modules accessible for user
+     */
+    fun getOdooModules(): Single<OdooModulesResponse>
 }

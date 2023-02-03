@@ -60,6 +60,7 @@ import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.utils.rx.collectAsState
+import odoo.miem.android.core.utils.state.SuccessResult
 import odoo.miem.android.core.utils.state.subscribeOnError
 import odoo.miem.android.feature.navigation.api.data.Routes
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
@@ -92,8 +93,15 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     ) {
         val viewModel: SelectingModulesViewModel = viewModel()
 
-        val selectingModulesState by viewModel.selectingModulesState.collectAsState()
-        selectingModulesState.subscribeOnError(showMessage)
+        val userInfoState by viewModel.userInfoState.collectAsState()
+        userInfoState.subscribeOnError(showMessage)
+
+        val modulesState by viewModel.modulesState.collectAsState()
+        modulesState.subscribeOnError(showMessage)
+
+        if (userInfoState is SuccessResult) {
+            viewModel.getUserModules(userInfoState.data?.uid!!)
+        }
 
         LaunchedEffect(Unit) {
             viewModel.getUserInfo()
@@ -121,6 +129,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
         // TODO Create base with loading handling
         SelectingModulesScreenContent(
+            userName = userInfoState.data?.name,
             allModules = modules,
             favoriteModules = modules,
             onModuleCardClick = onModuleCardClick
@@ -130,6 +139,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterialApi::class)
     @Composable
     private fun SelectingModulesScreenContent(
+        userName: String? = null,
         allModules: List<OdooModule> = emptyList(),
         favoriteModules: List<OdooModule> = emptyList(),
         onModuleCardClick: () -> Unit = {}
@@ -188,6 +198,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                             .imePadding()
                     ) {
                         SelectingModulesMainContent(
+                            userName = userName,
                             favouriteModules = favoriteModules,
                             onModuleCardClick = onModuleCardClick,
                             onAddModuleCardClick = onAddModuleCardClick,
@@ -210,6 +221,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     @OptIn(ExperimentalPagerApi::class)
     @Composable
     private fun SelectingModulesMainContent(
+        userName: String? = null,
         favouriteModules: List<OdooModule> = emptyList(),
         onModuleCardClick: () -> Unit = {},
         onAddModuleCardClick: () -> Unit = {},
@@ -238,7 +250,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         SimpleLogoAppBar()
 
         SelectingModulesHeader(
-            // TODO Add data
+            userName = userName ?: stringResource(R.string.default_user_name)
         )
 
         Spacer(modifier = Modifier.height(baseTopPadding))

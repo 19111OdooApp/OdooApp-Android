@@ -25,7 +25,7 @@ interface IGetBaseInfo: JsonRpcApi {
     @JsonRpc("call")
     fun getOdooModules(
         @JsonRpcPath path: String = "web/dataset/search_read",
-        @JsonRpcArgument("model") model: String = "res.users.settings",
+        @JsonRpcArgument("model") model: String = "ir.ui.menu",
         @JsonRpcArgument("fields") fields: List<String> = listOf(
             "id", "name", "complete_name", "child_id", "parent_id", "groups_id"
         )

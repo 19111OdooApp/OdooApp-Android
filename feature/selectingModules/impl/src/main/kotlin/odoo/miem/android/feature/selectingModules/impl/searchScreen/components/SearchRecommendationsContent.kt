@@ -8,9 +8,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
 import odoo.miem.android.feature.selectingModules.impl.R
-import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 import odoo.miem.android.feature.selectingModules.impl.searchScreen.SearchModulesScreen
 
 /**

@@ -1,8 +1,14 @@
 package odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,9 +16,11 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -20,6 +28,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,15 +36,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -46,7 +59,9 @@ import com.mxalbert.sharedelements.FadeMode
 import com.mxalbert.sharedelements.MaterialContainerTransformSpec
 import com.mxalbert.sharedelements.SharedElement
 import com.mxalbert.sharedelements.SharedElementsRoot
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
 import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetScaffold
 import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetValue
@@ -59,6 +74,7 @@ import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
 import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
+import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
 import odoo.miem.android.core.utils.rx.collectAsState
 import odoo.miem.android.core.utils.state.SuccessResult
 import odoo.miem.android.core.utils.state.subscribeOnError
@@ -66,7 +82,6 @@ import odoo.miem.android.feature.navigation.api.data.Routes
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
 import odoo.miem.android.feature.selectingModules.impl.R
 import odoo.miem.android.feature.selectingModules.impl.SelectingModulesViewModel
-import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 import odoo.miem.android.feature.selectingModules.impl.searchScreen.SearchModulesScreen
 import odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components.SelectingModulesFavoriteList
 import odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components.SelectingModulesHeader
@@ -113,27 +128,103 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         // TODO Delete Test Data
         val modules = listOf(
             OdooModule(
+                id = -1,
+                parentId = null,
+                childModules = mutableListOf(),
                 name = "CRM",
                 numberOfNotifications = 1
             ),
             OdooModule(
+                id = -1,
+                parentId = null,
+                childModules = mutableListOf(),
                 name = "Recruitment",
                 numberOfNotifications = 5,
-                isLiked = true
+                isFavourite = true
             ),
             OdooModule(
+                id = -1,
+                parentId = null,
+                childModules = mutableListOf(),
                 name = "Pricing",
                 numberOfNotifications = 123
             ),
         )
 
-        // TODO Create base with loading handling
-        SelectingModulesScreenContent(
-            userName = userInfoState.data?.name,
-            allModules = modules,
-            favoriteModules = modules,
-            onModuleCardClick = onModuleCardClick
-        )
+        Crossfade(
+            targetState = modulesState
+        ) { state ->
+            if (state is SuccessResult) {
+                SelectingModulesScreenContent(
+                    userName = userInfoState.data?.name,
+                    allModules = state.data ?: emptyList(),
+                    favoriteModules = state.data?.filter { it.isFavourite } ?: emptyList(),
+                    onModuleCardClick = onModuleCardClick
+                )
+            } else {
+                SelectingModulesSplashScreen()
+            }
+        }
+    }
+
+    @Composable
+    private fun SelectingModulesSplashScreen() = Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .imePadding()
+    ) {
+        var isWelcomeTextVisible by rememberSaveable { mutableStateOf(false) }
+        var isLoaderVisible by rememberSaveable { mutableStateOf(false) }
+
+        LaunchedEffect(Unit) {
+            isWelcomeTextVisible = true
+            delay(1000)
+            isLoaderVisible = true
+        }
+
+        AnimatedVisibility(
+            visible = isWelcomeTextVisible,
+            enter = expandVertically(
+                animationSpec = tween(
+                    durationMillis = 1000
+                ),
+                expandFrom = Alignment.Top
+            ),
+            exit = shrinkVertically(
+                animationSpec = tween(
+                    durationMillis = 1000
+                ),
+                shrinkTowards = Alignment.Bottom
+            )
+        ) {
+            Column(
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Image(
+                    painter = painterResource(odoo.miem.android.common.uiKitComponents.R.drawable.logo_odoo),
+                    contentDescription = null,
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier.size(192.dp)
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(mainVerticalPadding * 10))
+
+        AnimatedVisibility(
+            visible = isWelcomeTextVisible,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            CircularProgressIndicator(
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(48.dp)
+            )
+        }
     }
 
     @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterialApi::class)
@@ -325,7 +416,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         modifier = Modifier.fillMaxSize()
     ) {
         items(allModules) {
-            var isLikedState by remember { mutableStateOf(it.isLiked) }
+            var isLikedState by remember { mutableStateOf(it.isFavourite) }
 
             SmallModuleCard(
                 moduleName = it.name,
@@ -339,22 +430,33 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     @Composable
     @Preview(showBackground = true, backgroundColor = 0xFFFFFF)
     private fun SelectingModulesScreenPreview() = OdooMiemAndroidTheme {
-        SelectingModulesScreenContent(
-            favoriteModules = listOf(
-                OdooModule(
-                    name = "CRM",
-                    numberOfNotifications = 1
-                ),
-                OdooModule(
-                    name = "Recruitment",
-                    numberOfNotifications = 5
-                ),
-                OdooModule(
-                    name = "Pricing",
-                    numberOfNotifications = 123
-                ),
-            )
-        )
+//        SelectingModulesScreenContent(
+//            favoriteModules = listOf(
+//                OdooModule(
+//                    id = -1,
+//                    parentId = null,
+//                    childModules = mutableListOf(),
+//                    name = "CRM",
+//                    numberOfNotifications = 1
+//                ),
+//                OdooModule(
+//                    id = -1,
+//                    parentId = null,
+//                    childModules = mutableListOf(),
+//                    name = "Recruitment",
+//                    numberOfNotifications = 5,
+//                    isFavourite = true
+//                ),
+//                OdooModule(
+//                    id = -1,
+//                    parentId = null,
+//                    childModules = mutableListOf(),
+//                    name = "Pricing",
+//                    numberOfNotifications = 123
+//                )
+//            )
+//        )
+        SelectingModulesSplashScreen()
     }
 
     companion object {

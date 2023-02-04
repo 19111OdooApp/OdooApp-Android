@@ -1,6 +1,7 @@
 package odoo.miem.android.core.networkApi.selectingModules.impl
 
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import odoo.miem.android.core.jsonRpcApiFabric.jsonRpcApi
 import odoo.miem.android.core.networkApi.selectingModules.api.ISelectingModulesRepository
 import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooGroupsResponse
@@ -24,15 +25,15 @@ class SelectingModulesRepository @Inject constructor(): ISelectingModulesReposit
 
         return Single.fromCallable {
             getBaseInfo.getUserInfo()
-        }
+        }.subscribeOn(Schedulers.io())
     }
 
     override fun getOdooGroups(): Single<OdooGroupsResponse> {
-        Timber.d("getOdooGroups")
+        Timber.d("getOdooGroups()")
 
         return Single.fromCallable {
             getBaseInfo.getOdooGroups()
-        }
+        }.subscribeOn(Schedulers.io())
     }
 
     override fun getOdooModules(): Single<OdooModulesResponse> {
@@ -40,6 +41,6 @@ class SelectingModulesRepository @Inject constructor(): ISelectingModulesReposit
 
         return Single.fromCallable {
             getBaseInfo.getOdooModules()
-        }
+        }.subscribeOn(Schedulers.io())
     }
 }

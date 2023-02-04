@@ -1,15 +1,14 @@
 package odoo.miem.android.feature.selectingModules.impl
 
+import io.reactivex.rxjava3.schedulers.Schedulers
 import odoo.miem.android.common.network.selectingModules.api.di.ISelectingModulesInteractorApi
 import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.network.selectingModules.api.entities.User
-import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.di.impl.apiBlocking
 import odoo.miem.android.core.platform.presentation.BaseViewModel
 import odoo.miem.android.core.utils.di.RxApi
 import odoo.miem.android.core.utils.rx.PresentationSchedulers
-import odoo.miem.android.core.utils.rx.collectAsState
 import odoo.miem.android.core.utils.rx.lazyEmptyResultPublishSubject
 import odoo.miem.android.core.utils.rx.onLoadingState
 import odoo.miem.android.core.utils.state.ResultSubject

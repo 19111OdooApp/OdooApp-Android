@@ -10,4 +10,6 @@ data class OdooModule(
     val name: String,
     val parentId: Int?,
     val childModules: MutableList<OdooModule>,
+    var numberOfNotifications: Int = 0,
+    var isFavourite: Boolean = false,
 )

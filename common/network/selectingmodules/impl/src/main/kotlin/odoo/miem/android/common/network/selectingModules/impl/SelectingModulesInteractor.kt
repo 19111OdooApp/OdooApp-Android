@@ -1,5 +1,6 @@
 package odoo.miem.android.common.network.selectingModules.impl
 
+import io.reactivex.rxjava3.schedulers.Schedulers
 import odoo.miem.android.common.network.selectingModules.api.ISelectingModulesInteractor
 import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.network.selectingModules.api.entities.User
@@ -40,7 +41,7 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
                     .subList(0, 2)
                     .joinToString(" ")
 
-                Timber.d("getUserInfo(): id = $uid")
+                Timber.d("getUserInfo(): id = $uid, name = $name")
                 dataStore.setUID(uid)
 
                 SuccessResult(
@@ -50,6 +51,7 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
                     )
                 )
             }
+            .observeOn(Schedulers.io())
             .onErrorReturn {
                 Timber.e("getUserInfo(): error message = ${it.message}")
                 ErrorResult(R.string.selecting_modules_error)
@@ -72,6 +74,7 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
             .map<Result<List<OdooModule>>> { modules ->
                 SuccessResult(modules)
             }
+            .observeOn(Schedulers.io())
             .onErrorReturn {
                 Timber.e("getOdooModules(): error message = ${it.message}")
                 ErrorResult(R.string.selecting_modules_error)
@@ -84,7 +87,7 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
         groups: OdooGroupsResponse
     ): List<OdooModule> {
         val groupsOfUser = getGroupsOfUser(userUid, groups).toSet()
-        val groupedModules = mutableListOf<OdooModule>()
+        val moduleHierarchy = mutableListOf<OdooModule>()
         val accessibleModules = mutableListOf<OdooModule>()
 
         // our backend is AWFUL, forgive me...
@@ -119,25 +122,25 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
 
         val queue: Queue<OdooModule> = LinkedList()
         queue.addAll(rootModules)
-        groupedModules.addAll(rootModules)
+        moduleHierarchy.addAll(rootModules)
 
         while (queue.isNotEmpty()) {
-            val someModule = queue.poll()
+            val currentModule = queue.poll()
             val childModules = mutableListOf<OdooModule>()
 
             for (module in accessibleModules) {
                 val parentId = module.parentId
 
-                if (parentId == someModule!!.id) {
+                if (parentId == currentModule!!.id) {
                     childModules.add(module)
                     queue.offer(module)
                     accessibleModules.remove(module)
                 }
             }
-            someModule!!.childModules.addAll(childModules)
+            currentModule!!.childModules.addAll(childModules)
         }
 
-        return groupedModules
+        return moduleHierarchy
     }
 
     private fun getGroupsOfUser(

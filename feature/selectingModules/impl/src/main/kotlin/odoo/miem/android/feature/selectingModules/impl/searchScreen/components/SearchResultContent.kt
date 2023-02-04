@@ -14,11 +14,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.uiKitComponents.cards.BigModuleCard
 import odoo.miem.android.core.uiKitTheme.commonPadding
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
-import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 import odoo.miem.android.feature.selectingModules.impl.searchScreen.SearchModulesScreen
 
 /**
@@ -40,7 +40,7 @@ fun SearchResultContent(
         .padding(top = commonPadding)
 ) {
     items(filteredModules) {
-        var isLikedState by remember { mutableStateOf(it.isLiked) }
+        var isLikedState by remember { mutableStateOf(it.isFavourite) }
 
         BigModuleCard(
             moduleName = it.name,

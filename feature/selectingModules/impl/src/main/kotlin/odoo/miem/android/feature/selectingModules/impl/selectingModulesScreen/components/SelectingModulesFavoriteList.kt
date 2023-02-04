@@ -23,11 +23,11 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
+import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.uiKitComponents.cards.BigModuleCard
 import odoo.miem.android.common.uiKitComponents.cards.BigModuleOutlinedCard
 import odoo.miem.android.core.uiKitTheme.gradientColors
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
-import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 import kotlin.math.absoluteValue
 
 /**
@@ -95,7 +95,7 @@ internal fun SelectingModulesFavoriteList(
         if (page != favoriteModules.size) {
             with(favoriteModules[page]) {
                 // TODO Should depend on input data?
-                var isLikedState by remember { mutableStateOf(isLiked) }
+                var isLikedState by remember { mutableStateOf(isFavourite) }
 
                 BigModuleCard(
                     moduleName = name,

@@ -6,6 +6,9 @@
     <string name="choose_module_text">Выберите модуль</string>
     <string name="all_modules">Все модули</string>
 
+    <!-- splash screen -->
+    <string name="splash_screen_header">Добро пожаловать в</string>
+
     <!-- search screen -->
     <string name="favourite_modules_header">Избранное</string>
     <string name="all_modules_header">Все модули</string>

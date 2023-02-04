@@ -6,6 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 
 /**
  * [TitleText] is text for title
@@ -19,9 +20,11 @@ import androidx.compose.ui.res.stringResource
 fun TitleText(
     @StringRes textRes: Int,
     modifier: Modifier = Modifier,
+    textAlign: TextAlign = TextAlign.Start,
     isLarge: Boolean = true
 ) = BaseTitleText(
     text = stringResource(textRes),
+    textAlign = textAlign,
     modifier = modifier,
     isLarge = isLarge
 )
@@ -38,6 +41,7 @@ fun TitleText(
 fun TitleText(
     text: String,
     modifier: Modifier = Modifier,
+    textAlign: TextAlign = TextAlign.Start,
     isLarge: Boolean = true
 ) = BaseTitleText(
     text = text,
@@ -57,9 +61,11 @@ fun TitleText(
 private fun BaseTitleText(
     text: String,
     modifier: Modifier = Modifier,
+    textAlign: TextAlign = TextAlign.Start,
     isLarge: Boolean
 ) = Text(
     text = text,
+    textAlign = textAlign,
     style = if (isLarge) MaterialTheme.typography.titleLarge else MaterialTheme.typography.titleMedium,
     modifier = modifier,
     color = MaterialTheme.colorScheme.onSecondaryContainer

@@ -16,11 +16,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.uiKitComponents.cards.SmallModuleCard
 import odoo.miem.android.common.uiKitComponents.text.LabelText
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
-import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 
 /**
  * [ModulesLazyRow] - row with modules for [SearchRecommendationsContent]
@@ -57,7 +57,7 @@ fun ModulesLazyRow(
         }
 
         items(modules) {
-            var isLikedState by remember { mutableStateOf(it.isLiked) }
+            var isLikedState by remember { mutableStateOf(it.isFavourite) }
 
             SmallModuleCard(
                 moduleName = it.name,

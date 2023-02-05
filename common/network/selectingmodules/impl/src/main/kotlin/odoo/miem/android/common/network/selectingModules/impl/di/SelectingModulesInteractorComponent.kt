@@ -17,7 +17,7 @@ import odoo.miem.android.common.network.selectingModules.api.di.ISelectingModule
         SelectingModulesInteractorModule::class
     ]
 )
-interface SelectingModulesInteractorComponent: ISelectingModulesInteractorApi {
+interface SelectingModulesInteractorComponent : ISelectingModulesInteractorApi {
     companion object {
         fun create(): ISelectingModulesInteractorApi =
             DaggerSelectingModulesInteractorComponent.builder().build()

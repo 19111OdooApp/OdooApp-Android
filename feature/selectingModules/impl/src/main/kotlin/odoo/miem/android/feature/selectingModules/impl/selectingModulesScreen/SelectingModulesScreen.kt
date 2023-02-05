@@ -131,9 +131,6 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             targetState = modulesState
         ) { state ->
             if (state is SuccessResult) {
-                val allModules = remember { mutableStateListOf<OdooModule>() }
-                state.data?.let { allModules.addAll(it) }
-
                 val favouriteModules = remember { mutableStateListOf<OdooModule>() }
 
                 state.data?.let {

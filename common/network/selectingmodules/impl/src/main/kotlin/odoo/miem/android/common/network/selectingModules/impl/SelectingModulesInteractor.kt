@@ -6,10 +6,10 @@ import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.network.selectingModules.api.entities.User
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
+import odoo.miem.android.core.networkApi.userInfo.api.di.IUserInfoRepositoryApi
 import odoo.miem.android.core.networkApi.userInfo.api.di.IUserModulesRepositoryApi
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooGroupsResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooModulesResponse
-import odoo.miem.android.core.networkApi.userInfo.api.di.IUserInfoRepositoryApi
 import odoo.miem.android.core.utils.state.ErrorResult
 import odoo.miem.android.core.utils.state.Result
 import odoo.miem.android.core.utils.state.ResultSingle

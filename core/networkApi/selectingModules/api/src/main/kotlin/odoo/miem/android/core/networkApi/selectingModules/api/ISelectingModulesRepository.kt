@@ -3,22 +3,14 @@ package odoo.miem.android.core.networkApi.selectingModules.api
 import io.reactivex.rxjava3.core.Single
 import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooGroupsResponse
 import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooModulesResponse
-import odoo.miem.android.core.networkApi.selectingModules.api.source.UserInfoResponse
 
 /**
- * [ISelectiongModulesRepository] - interface for wrapping data layer
+ * [ISelectingModulesRepository] - interface for wrapping data layer
  * logic, which is connected with selecting modules
  *
  * @author Egor Danilov
  */
 interface ISelectingModulesRepository {
-
-    /**
-     * [getUserInfo] - function for requesting info about current user
-
-     * @return Observable<[UserInfoResponse]> which provides modules accessible for user
-     */
-    fun getUserInfo(): Single<UserInfoResponse>
 
     /**
      * [getOdooGroups] - function for requesting all user groups of Odoo

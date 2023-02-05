@@ -43,6 +43,9 @@ dependencies {
     // Network API - authorization
     implementation(project(":core:networkApi:authorization:impl"))
 
+    // Network API - user info
+    implementation(project(":core:networkApi:userInfo:impl"))
+
     // Network API - selecting modules
     implementation(project(":core:networkApi:selectingModules:impl"))
 

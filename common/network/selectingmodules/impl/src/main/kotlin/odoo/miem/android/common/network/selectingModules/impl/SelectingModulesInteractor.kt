@@ -1,7 +1,6 @@
 package odoo.miem.android.common.network.selectingModules.impl
 
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
 import odoo.miem.android.common.network.selectingModules.api.ISelectingModulesInteractor
 import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.network.selectingModules.api.entities.User
@@ -10,6 +9,7 @@ import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.networkApi.selectingModules.api.di.ISelectingModulesRepositoryApi
 import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooGroupsResponse
 import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooModulesResponse
+import odoo.miem.android.core.networkApi.userInfo.api.di.IUserInfoRepositoryApi
 import odoo.miem.android.core.utils.state.ErrorResult
 import odoo.miem.android.core.utils.state.Result
 import odoo.miem.android.core.utils.state.ResultSingle
@@ -26,13 +26,14 @@ import javax.inject.Inject
  */
 class SelectingModulesInteractor @Inject constructor() : ISelectingModulesInteractor {
 
-    private val selectingModulesRepository by api(ISelectingModulesRepositoryApi::selectingModulesRepository)
+    private val userInfoRepository by api(IUserInfoRepositoryApi::userInfoRepository)
+    private val userModulesRepository by api(ISelectingModulesRepositoryApi::selectingModulesRepository)
     private val dataStore by api(IDataStoreApi::dataStore)
 
     override fun getUserInfo(): ResultSingle<User> {
         Timber.d("getUserInfo()")
 
-        return selectingModulesRepository.getUserInfo()
+        return userInfoRepository.getUserInfo()
             .map<Result<User>> { info ->
                 val userInfo = info.records[0].userInfo
 
@@ -63,8 +64,8 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
 
         return Single
             .zip(
-                selectingModulesRepository.getOdooModules(),
-                selectingModulesRepository.getOdooGroups()
+                userModulesRepository.getOdooModules(),
+                userModulesRepository.getOdooGroups()
             ) { modules: OdooModulesResponse, groups: OdooGroupsResponse ->
                 processAvailableModulesOfUser(
                     userUid = userUid,

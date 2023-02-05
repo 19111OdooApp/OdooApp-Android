@@ -6,14 +6,13 @@ import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcArgument
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcPath
 import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooGroupsResponse
 import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooModulesResponse
-import odoo.miem.android.core.networkApi.selectingModules.api.source.UserInfoResponse
 
 /**
- * [IGetBaseInfo] - interface for making Retrofit instance of getting modules
+ * [IUserModules] - interface for making Retrofit instance of getting modules
  *
  * @author Egor Danilov
  */
-interface IGetBaseInfo: JsonRpcApi {
+interface IUserModules: JsonRpcApi {
 
     @JsonRpc("call")
     fun getOdooGroups(
@@ -30,11 +29,4 @@ interface IGetBaseInfo: JsonRpcApi {
             "id", "name", "complete_name", "child_id", "parent_id", "groups_id"
         )
     ): OdooModulesResponse
-
-    @JsonRpc("call")
-    fun getUserInfo(
-        @JsonRpcPath path: String = "web/dataset/search_read",
-        @JsonRpcArgument("model") model: String = "res.users.settings",
-        @JsonRpcArgument("fields") fields: List<String> = listOf("id", "user_id")
-    ): UserInfoResponse
 }

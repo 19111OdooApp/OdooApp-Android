@@ -16,6 +16,9 @@ dependencies {
     // DataStore
     api(project(":core:dataStore:api"))
 
-    // Network API - Authorization
+    // Network API
+    // user info
+    api(project(":core:networkApi:userInfo:api"))
+    // user modules
     api(project(":core:networkApi:selectingModules:api"))
 }

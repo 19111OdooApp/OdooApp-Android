@@ -44,6 +44,9 @@ include(":core:di:impl")
 include(":core:networkApi:authorization:api")
 include(":core:networkApi:authorization:impl")
 
+include(":core:networkApi:userInfo:api")
+include(":core:networkApi:userInfo:impl")
+
 include(":core:networkApi:selectingModules:api")
 include(":core:networkApi:selectingModules:impl")
 

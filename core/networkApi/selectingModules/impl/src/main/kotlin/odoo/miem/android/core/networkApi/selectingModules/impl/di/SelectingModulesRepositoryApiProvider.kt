@@ -19,5 +19,7 @@ class SelectingModulesRepositoryApiProvider {
     @Provides
     @IntoMap
     @ApiKey(ISelectingModulesRepositoryApi::class)
-    fun provideAuthorizationRepositoryApiProvider() = ApiProvider { SelectingModulesRepositoryComponent.create() }
+    fun provideSelectingModulesRepositoryApiProvider() = ApiProvider {
+        SelectingModulesRepositoryComponent.create()
+    }
 }

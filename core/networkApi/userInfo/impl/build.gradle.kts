@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "odoo.miem.android.core.networkApi.selectingModules.impl"
+    namespace = "odoo.miem.android.core.networkApi.userInfo.impl"
 }
 
 dependencies {
@@ -13,12 +13,13 @@ dependencies {
     implementation(project(":core:jsonrpc:base"))
 
     // Core
-    // Network API - user modules
-    api(project(":core:networkApi:selectingModules:api"))
+    // Network API - user info
+    api(project(":core:networkApi:userInfo:api"))
 
     // Retrofit Api Fabric
     implementation(project(":core:jsonRpcApiFabric:impl"))
 
     // Utils
     implementation(project(":core:utils"))
+//    implementation(project(mapOf("path" to ":core:networkapi:userinfo:api")))
 }

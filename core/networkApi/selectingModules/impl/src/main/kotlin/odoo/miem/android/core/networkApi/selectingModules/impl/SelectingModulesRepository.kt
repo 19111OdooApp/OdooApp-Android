@@ -6,8 +6,7 @@ import odoo.miem.android.core.jsonRpcApiFabric.jsonRpcApi
 import odoo.miem.android.core.networkApi.selectingModules.api.ISelectingModulesRepository
 import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooGroupsResponse
 import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooModulesResponse
-import odoo.miem.android.core.networkApi.selectingModules.api.source.UserInfoResponse
-import odoo.miem.android.core.networkApi.selectingModules.impl.source.IGetBaseInfo
+import odoo.miem.android.core.networkApi.selectingModules.impl.source.IUserModules
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -18,21 +17,13 @@ import javax.inject.Inject
  */
 class SelectingModulesRepository @Inject constructor(): ISelectingModulesRepository {
 
-    private val getBaseInfo by jsonRpcApi<IGetBaseInfo>()
-
-    override fun getUserInfo(): Single<UserInfoResponse> {
-        Timber.d("getUserInfo()")
-
-        return Single.fromCallable {
-            getBaseInfo.getUserInfo()
-        }.subscribeOn(Schedulers.io())
-    }
+    private val userModules by jsonRpcApi<IUserModules>()
 
     override fun getOdooGroups(): Single<OdooGroupsResponse> {
         Timber.d("getOdooGroups()")
 
         return Single.fromCallable {
-            getBaseInfo.getOdooGroups()
+            userModules.getOdooGroups()
         }.subscribeOn(Schedulers.io())
     }
 
@@ -40,7 +31,7 @@ class SelectingModulesRepository @Inject constructor(): ISelectingModulesReposit
         Timber.d("getAllModules()")
 
         return Single.fromCallable {
-            getBaseInfo.getOdooModules()
+            userModules.getOdooModules()
         }.subscribeOn(Schedulers.io())
     }
 }

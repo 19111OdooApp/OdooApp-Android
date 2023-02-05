@@ -17,6 +17,7 @@ import odoo.miem.android.core.utils.di.RxApiProvider
 import odoo.miem.android.feature.authorization.base.impl.di.AuthorizationScreenApiProvider
 import odoo.miem.android.feature.moduleNotFound.impl.di.ModuleNotFoundScreenApiProvider
 import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreenApiProvider
+import odoo.miem.android.core.networkApi.userInfo.impl.di.UserInfoRepositoryApiProvider
 
 /**
  * [OdooAppComponent] - **Dagger** component, which is the parent component
@@ -44,6 +45,7 @@ import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreen
     modules = [
         // Repositories
         AuthorizationRepositoryApiProvider::class,
+        UserInfoRepositoryApiProvider::class,
         SelectingModulesRepositoryApiProvider::class,
         // Screens
         AuthorizationScreenApiProvider::class,

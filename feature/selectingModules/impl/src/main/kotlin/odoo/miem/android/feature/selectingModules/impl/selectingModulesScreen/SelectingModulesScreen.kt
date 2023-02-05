@@ -115,7 +115,9 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         modulesState.subscribeOnError(showMessage)
 
         if (userInfoState is SuccessResult) {
-            viewModel.getUserModules(userInfoState.data?.uid!!)
+            LaunchedEffect(Unit) {
+                viewModel.getUserModules(userInfoState.data?.uid!!)
+            }
         }
 
         LaunchedEffect(Unit) {
@@ -124,32 +126,6 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
         // TODO implementation based on some meta-information about implemented modules
         val onModuleCardClick = { navController.navigate(Routes.moduleNotFound) }
-
-        // TODO Delete Test Data
-        val modules = listOf(
-            OdooModule(
-                id = -1,
-                parentId = null,
-                childModules = mutableListOf(),
-                name = "CRM",
-                numberOfNotifications = 1
-            ),
-            OdooModule(
-                id = -1,
-                parentId = null,
-                childModules = mutableListOf(),
-                name = "Recruitment",
-                numberOfNotifications = 5,
-                isFavourite = true
-            ),
-            OdooModule(
-                id = -1,
-                parentId = null,
-                childModules = mutableListOf(),
-                name = "Pricing",
-                numberOfNotifications = 123
-            ),
-        )
 
         Crossfade(
             targetState = modulesState
@@ -191,13 +167,13 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     durationMillis = 1000
                 ),
                 expandFrom = Alignment.Top
-            ),
+            ) + fadeIn(),
             exit = shrinkVertically(
                 animationSpec = tween(
                     durationMillis = 1000
                 ),
                 shrinkTowards = Alignment.Bottom
-            )
+            ) + fadeOut()
         ) {
             Column(
                 verticalArrangement = Arrangement.Top,
@@ -430,33 +406,32 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     @Composable
     @Preview(showBackground = true, backgroundColor = 0xFFFFFF)
     private fun SelectingModulesScreenPreview() = OdooMiemAndroidTheme {
-//        SelectingModulesScreenContent(
-//            favoriteModules = listOf(
-//                OdooModule(
-//                    id = -1,
-//                    parentId = null,
-//                    childModules = mutableListOf(),
-//                    name = "CRM",
-//                    numberOfNotifications = 1
-//                ),
-//                OdooModule(
-//                    id = -1,
-//                    parentId = null,
-//                    childModules = mutableListOf(),
-//                    name = "Recruitment",
-//                    numberOfNotifications = 5,
-//                    isFavourite = true
-//                ),
-//                OdooModule(
-//                    id = -1,
-//                    parentId = null,
-//                    childModules = mutableListOf(),
-//                    name = "Pricing",
-//                    numberOfNotifications = 123
-//                )
-//            )
-//        )
-        SelectingModulesSplashScreen()
+        SelectingModulesScreenContent(
+            favoriteModules = listOf(
+                OdooModule(
+                    id = -1,
+                    parentId = null,
+                    childModules = mutableListOf(),
+                    name = "CRM",
+                    numberOfNotifications = 1
+                ),
+                OdooModule(
+                    id = -1,
+                    parentId = null,
+                    childModules = mutableListOf(),
+                    name = "Recruitment",
+                    numberOfNotifications = 5,
+                    isFavourite = true
+                ),
+                OdooModule(
+                    id = -1,
+                    parentId = null,
+                    childModules = mutableListOf(),
+                    name = "Pricing",
+                    numberOfNotifications = 123
+                )
+            )
+        )
     }
 
     companion object {

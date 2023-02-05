@@ -1,5 +1,6 @@
 package odoo.miem.android.common.network.selectingModules.impl
 
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import odoo.miem.android.common.network.selectingModules.api.ISelectingModulesInteractor
 import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
@@ -51,7 +52,6 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
                     )
                 )
             }
-            .observeOn(Schedulers.io())
             .onErrorReturn {
                 Timber.e("getUserInfo(): error message = ${it.message}")
                 ErrorResult(R.string.selecting_modules_error)
@@ -61,8 +61,9 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
     override fun getOdooModules(userUid: Int): ResultSingle<List<OdooModule>> {
         Timber.d("getOdooModules()")
 
-        return selectingModulesRepository.getOdooModules()
-            .zipWith(
+        return Single
+            .zip(
+                selectingModulesRepository.getOdooModules(),
                 selectingModulesRepository.getOdooGroups()
             ) { modules: OdooModulesResponse, groups: OdooGroupsResponse ->
                 processAvailableModulesOfUser(
@@ -74,7 +75,6 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
             .map<Result<List<OdooModule>>> { modules ->
                 SuccessResult(modules)
             }
-            .observeOn(Schedulers.io())
             .onErrorReturn {
                 Timber.e("getOdooModules(): error message = ${it.message}")
                 ErrorResult(R.string.selecting_modules_error)

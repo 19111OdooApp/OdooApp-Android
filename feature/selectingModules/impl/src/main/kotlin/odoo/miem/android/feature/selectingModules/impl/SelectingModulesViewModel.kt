@@ -1,6 +1,5 @@
 package odoo.miem.android.feature.selectingModules.impl
 
-import io.reactivex.rxjava3.schedulers.Schedulers
 import odoo.miem.android.common.network.selectingModules.api.di.ISelectingModulesInteractorApi
 import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.network.selectingModules.api.entities.User
@@ -35,7 +34,7 @@ class SelectingModulesViewModel(
         selectingModulesInteractor
             .getUserInfo()
             .schedule(
-                selectingModulesChannel,
+                userInfoChannel,
                 onSuccess = {
                     Timber.d("getUserInfo(): result = $it")
                     userInfoState.onNext(it)
@@ -45,13 +44,13 @@ class SelectingModulesViewModel(
     }
 
     fun getUserModules(userUid: Int) {
-        Timber.d("getUserModules()")
+        Timber.d("getUserModules(): userUid = $userUid")
 
         modulesState.onLoadingState()
         selectingModulesInteractor
             .getOdooModules(userUid)
             .schedule(
-                selectingModulesChannel,
+                userModulesChannel,
                 onSuccess = {
                     Timber.d("getUserModules(): result = $it")
                     modulesState.onNext(it)
@@ -62,6 +61,7 @@ class SelectingModulesViewModel(
 
     private companion object {
         // Do this if there are multiple Rx chains in a viewModel
-        val selectingModulesChannel = Channel()
+        val userInfoChannel = Channel()
+        val userModulesChannel = Channel()
     }
 }

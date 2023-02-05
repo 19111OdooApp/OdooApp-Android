@@ -131,9 +131,11 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             targetState = modulesState
         ) { state ->
             if (state is SuccessResult) {
+                val allModules = remember { mutableStateListOf<OdooModule>() }
                 val favouriteModules = remember { mutableStateListOf<OdooModule>() }
 
                 state.data?.let {
+                    allModules.addAll(it)
                     favouriteModules.addAll(it.filter { module -> module.isFavourite })
                 }
 
@@ -145,6 +147,9 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     } else {
                         favouriteModules.remove(module)
                     }
+
+                    val index = allModules.indexOf(module)
+                    allModules[index] = allModules[index].copy(isFavourite = module.isFavourite)
                 }
 
                 val performModulesSearch: (String) -> List<OdooModule> = { input ->
@@ -159,7 +164,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
                 SelectingModulesScreenContent(
                     userName = userInfoState.data?.name,
-                    allModules = state.data ?: emptyList(),
+                    allModules = allModules,
                     favoriteModules = favouriteModules,
                     onModuleCardClick = onModuleCardClick,
                     onLikeModuleClick = onLikeModuleClick,
@@ -431,6 +436,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier.fillMaxSize()
     ) {
+        println("HELLO WORLD")
+
         items(allModules) {
             var isLikedState by remember { mutableStateOf(it.isFavourite) }
 

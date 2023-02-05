@@ -25,6 +25,7 @@ fun SearchRecommendationsContent(
     allModules: List<OdooModule>,
     favouriteModules: List<OdooModule>,
     onModuleCardClick: () -> Unit,
+    onLikeModuleClick: (OdooModule) -> Unit = {},
 ) {
     Column(
         verticalArrangement = Arrangement.Top,
@@ -35,7 +36,8 @@ fun SearchRecommendationsContent(
             ModulesLazyRow(
                 headerRes = R.string.favourite_modules_header,
                 modules = favouriteModules,
-                onModuleCardClick = onModuleCardClick
+                onModuleCardClick = onModuleCardClick,
+                onLikeModuleClick = onLikeModuleClick
             )
         }
 
@@ -45,7 +47,8 @@ fun SearchRecommendationsContent(
             ModulesLazyRow(
                 headerRes = R.string.all_modules_header,
                 modules = allModules,
-                onModuleCardClick = onModuleCardClick
+                onModuleCardClick = onModuleCardClick,
+                onLikeModuleClick = onLikeModuleClick
             )
         }
     }

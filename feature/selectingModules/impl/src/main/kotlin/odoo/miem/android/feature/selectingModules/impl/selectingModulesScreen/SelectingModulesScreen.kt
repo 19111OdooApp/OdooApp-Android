@@ -131,20 +131,42 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             targetState = modulesState
         ) { state ->
             if (state is SuccessResult) {
+                val allModules = remember { mutableStateListOf<OdooModule>() }
+                state.data?.let { allModules.addAll(it) }
+
                 val favouriteModules = remember { mutableStateListOf<OdooModule>() }
 
                 state.data?.let {
                     favouriteModules.addAll(it.filter { module -> module.isFavourite })
                 }
 
-                val onLikeModuleClick: (OdooModule) -> Unit = { favouriteModules.add(0, it) }
+                val onLikeModuleClick: (OdooModule) -> Unit = { module ->
+                    module.isFavourite = !module.isFavourite
+
+                    if (module.isFavourite) {
+                        favouriteModules.add(0, module)
+                    } else {
+                        favouriteModules.remove(module)
+                    }
+                }
+
+                val performModulesSearch: (String) -> List<OdooModule> = { input ->
+                    val filteredModules = state.data?.let { modules ->
+                        modules.filter {
+                            it.name.lowercase().contains(input.trim().lowercase())
+                        }
+                    }
+
+                    filteredModules ?: emptyList()
+                }
 
                 SelectingModulesScreenContent(
                     userName = userInfoState.data?.name,
                     allModules = state.data ?: emptyList(),
                     favoriteModules = favouriteModules,
                     onModuleCardClick = onModuleCardClick,
-                    onLikeModuleClick = onLikeModuleClick
+                    onLikeModuleClick = onLikeModuleClick,
+                    onSearchValueChange = performModulesSearch
                 )
             } else {
                 SelectingModulesSplashScreen()
@@ -219,7 +241,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         allModules: List<OdooModule> = emptyList(),
         favoriteModules: List<OdooModule> = emptyList(),
         onModuleCardClick: () -> Unit = {},
-        onLikeModuleClick: (OdooModule) -> Unit = {}
+        onLikeModuleClick: (OdooModule) -> Unit = {},
+        onSearchValueChange: (String) -> List<OdooModule> = { emptyList() },
     ) {
         val topRadius = 35.dp
 
@@ -279,6 +302,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                             userName = userName,
                             favouriteModules = favoriteModules,
                             onModuleCardClick = onModuleCardClick,
+                            onLikeModuleClick = onLikeModuleClick,
                             onAddModuleCardClick = onAddModuleCardClick,
                             onSearchBarClick = { isSearchScreenVisible = true }
                         )
@@ -288,7 +312,9 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                         allModules = allModules,
                         favouriteModules = favoriteModules,
                         onModuleCardClick = onModuleCardClick,
-                        onBackPressed = { isSearchScreenVisible = false }
+                        onLikeModuleClick = onLikeModuleClick,
+                        onBackPressed = { isSearchScreenVisible = false },
+                        onSearchValueChange = onSearchValueChange
                     )
                 }
             }
@@ -302,6 +328,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         userName: String? = null,
         favouriteModules: List<OdooModule> = emptyList(),
         onModuleCardClick: () -> Unit = {},
+        onLikeModuleClick: (OdooModule) -> Unit = {},
         onAddModuleCardClick: () -> Unit = {},
         onSearchBarClick: () -> Unit = {}
     ) = Column(
@@ -363,6 +390,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         SelectingModulesFavoriteList(
             favoriteModules = favouriteModules,
             onModuleCardClick = onModuleCardClick,
+            onLikeModuleClick = onLikeModuleClick,
             onAddModuleCardClick = onAddModuleCardClick,
             indicatorModifier = Modifier
                 .align(Alignment.CenterHorizontally)
@@ -395,7 +423,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     private fun ColumnScope.SelectingModulesBottomSheetGrid(
         allModules: List<OdooModule> = emptyList(),
         onModuleCardClick: () -> Unit = {},
-        onLikeModuleClick: (OdooModule) -> Unit = {}
+        onLikeModuleClick: (OdooModule) -> Unit = {},
     ) = LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(mainHorizontalPadding / 2),

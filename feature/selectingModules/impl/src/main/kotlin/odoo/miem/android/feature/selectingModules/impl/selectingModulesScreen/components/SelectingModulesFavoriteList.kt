@@ -44,6 +44,7 @@ import kotlin.math.absoluteValue
 internal fun SelectingModulesFavoriteList(
     favoriteModules: List<OdooModule> = emptyList(),
     indicatorModifier: Modifier = Modifier,
+    onLikeModuleClick: (OdooModule) -> Unit = {},
     onModuleCardClick: () -> Unit = {},
     onAddModuleCardClick: () -> Unit = {}
 ) {
@@ -102,7 +103,10 @@ internal fun SelectingModulesFavoriteList(
                     numberOfNotification = numberOfNotifications,
                     isLiked = isLikedState,
                     onClick = onModuleCardClick,
-                    onLikeClick = { isLikedState = !isLikedState },
+                    onLikeClick = {
+                        isLikedState = !isLikedState
+                        onLikeModuleClick(this)
+                    },
                     modifier = bigCardModifier
                 )
             }

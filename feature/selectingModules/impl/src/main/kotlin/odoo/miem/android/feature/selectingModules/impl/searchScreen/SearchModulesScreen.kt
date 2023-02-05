@@ -47,7 +47,9 @@ import odoo.miem.android.feature.selectingModules.impl.searchScreen.components.S
 fun SearchModulesScreen(
     allModules: List<OdooModule>,
     favouriteModules: List<OdooModule>,
+    onSearchValueChange: (String) -> List<OdooModule>,
     onModuleCardClick: () -> Unit = {},
+    onLikeModuleClick: (OdooModule) -> Unit = {},
     onBackPressed: () -> Unit = {},
 ) = Column(
     horizontalAlignment = Alignment.CenterHorizontally,
@@ -58,7 +60,9 @@ fun SearchModulesScreen(
     var searchInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue())
     }
-    val filteredModules: List<OdooModule> = emptyList()
+    var filteredModules by rememberSaveable {
+        mutableStateOf<List<OdooModule>>(emptyList())
+    }
     val focusRequester = FocusRequester()
 
     BackHandler(enabled = true) {
@@ -87,7 +91,7 @@ fun SearchModulesScreen(
             value = searchInput,
             onValueChange = {
                 searchInput = it
-                // TODO search logic from viewModel
+                filteredModules = onSearchValueChange(it.text)
             },
             modifier = Modifier.focusRequester(focusRequester)
         )
@@ -103,7 +107,8 @@ fun SearchModulesScreen(
         SearchRecommendationsContent(
             allModules = allModules,
             favouriteModules = favouriteModules,
-            onModuleCardClick = onModuleCardClick
+            onModuleCardClick = onModuleCardClick,
+            onLikeModuleClick = onLikeModuleClick
         )
     }
 
@@ -153,6 +158,7 @@ private fun SearchModulesScreenPreview() = OdooMiemAndroidTheme {
 
     SearchModulesScreen(
         allModules = modules,
-        favouriteModules = modules
+        favouriteModules = modules,
+        onSearchValueChange = { emptyList() }
     )
 }

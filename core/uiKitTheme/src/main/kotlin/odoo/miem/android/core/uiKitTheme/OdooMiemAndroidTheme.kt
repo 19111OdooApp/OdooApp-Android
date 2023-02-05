@@ -22,7 +22,7 @@ private val DarkColorPalette = darkColorScheme(
     surfaceVariant = odooPrimary.copy(alpha = 0.1f),
     inverseSurface = Color.White,
     inverseOnSurface = Color.Black,
-    tertiary = Color.White,
+    tertiary = odooPrimaryGray,
     onTertiary = Color.White,
     background = odooDarkBackground,
     onBackground = Color.White,

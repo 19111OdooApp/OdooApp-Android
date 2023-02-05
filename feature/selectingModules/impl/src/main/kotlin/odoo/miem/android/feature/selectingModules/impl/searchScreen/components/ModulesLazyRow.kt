@@ -35,7 +35,8 @@ import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
 fun ModulesLazyRow(
     @StringRes headerRes: Int,
     modules: List<OdooModule>,
-    onModuleCardClick: () -> Unit = {}
+    onModuleCardClick: () -> Unit = {},
+    onLikeModuleClick: (OdooModule) -> Unit = {},
 ) {
     val itemSpacing = mainHorizontalPadding / 2
     val startRowPadding = mainHorizontalPadding / 2
@@ -63,7 +64,10 @@ fun ModulesLazyRow(
                 moduleName = it.name,
                 isLiked = isLikedState,
                 onClick = onModuleCardClick,
-                onLikeClick = { isLikedState = !isLikedState },
+                onLikeClick = {
+                    isLikedState = !isLikedState
+                    onLikeModuleClick(it)
+                },
                 modifier = Modifier.width(170.dp)
             )
         }

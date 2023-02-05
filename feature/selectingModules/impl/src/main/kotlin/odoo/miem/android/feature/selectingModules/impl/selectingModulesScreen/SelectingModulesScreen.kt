@@ -33,6 +33,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -48,7 +49,6 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -131,11 +131,20 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             targetState = modulesState
         ) { state ->
             if (state is SuccessResult) {
+                val favouriteModules = remember { mutableStateListOf<OdooModule>() }
+
+                state.data?.let {
+                    favouriteModules.addAll(it.filter { module -> module.isFavourite })
+                }
+
+                val onLikeModuleClick: (OdooModule) -> Unit = { favouriteModules.add(0, it) }
+
                 SelectingModulesScreenContent(
                     userName = userInfoState.data?.name,
                     allModules = state.data ?: emptyList(),
-                    favoriteModules = state.data?.filter { it.isFavourite } ?: emptyList(),
-                    onModuleCardClick = onModuleCardClick
+                    favoriteModules = favouriteModules,
+                    onModuleCardClick = onModuleCardClick,
+                    onLikeModuleClick = onLikeModuleClick
                 )
             } else {
                 SelectingModulesSplashScreen()
@@ -163,17 +172,17 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         AnimatedVisibility(
             visible = isWelcomeTextVisible,
             enter = expandVertically(
-                animationSpec = tween(
-                    durationMillis = 1000
-                ),
+                animationSpec = tween(durationMillis = 1000),
                 expandFrom = Alignment.Top
-            ) + fadeIn(),
+            ) + fadeIn(
+                animationSpec = tween(durationMillis = 1000)
+            ),
             exit = shrinkVertically(
-                animationSpec = tween(
-                    durationMillis = 1000
-                ),
+                animationSpec = tween(durationMillis = 1000),
                 shrinkTowards = Alignment.Bottom
-            ) + fadeOut()
+            ) + fadeOut(
+                animationSpec = tween(durationMillis = 1000)
+            )
         ) {
             Column(
                 verticalArrangement = Arrangement.Top,
@@ -209,7 +218,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         userName: String? = null,
         allModules: List<OdooModule> = emptyList(),
         favoriteModules: List<OdooModule> = emptyList(),
-        onModuleCardClick: () -> Unit = {}
+        onModuleCardClick: () -> Unit = {},
+        onLikeModuleClick: (OdooModule) -> Unit = {}
     ) {
         val topRadius = 35.dp
 
@@ -246,7 +256,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
                             SelectingModulesBottomSheetGrid(
                                 allModules = allModules,
-                                onModuleCardClick = onModuleCardClick
+                                onModuleCardClick = onModuleCardClick,
+                                onLikeModuleClick = onLikeModuleClick
                             )
                         },
                         sheetShape = RoundedCornerShape(
@@ -383,7 +394,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     @Composable
     private fun ColumnScope.SelectingModulesBottomSheetGrid(
         allModules: List<OdooModule> = emptyList(),
-        onModuleCardClick: () -> Unit = {}
+        onModuleCardClick: () -> Unit = {},
+        onLikeModuleClick: (OdooModule) -> Unit = {}
     ) = LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(mainHorizontalPadding / 2),
@@ -398,7 +410,10 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                 moduleName = it.name,
                 isLiked = isLikedState,
                 onClick = onModuleCardClick,
-                onLikeClick = { isLikedState = !isLikedState }
+                onLikeClick = {
+                    isLikedState = !isLikedState
+                    onLikeModuleClick(it)
+                }
             )
         }
     }

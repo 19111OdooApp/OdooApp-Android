@@ -29,12 +29,18 @@ import odoo.miem.android.core.networkApi.userInfo.impl.di.UserInfoRepositoryApiP
  *
  * Connected modules:
  *  - [AuthorizationRepositoryApiProvider] - to deliver the dependency of authorization repository
+ *  - [UserInfoRepositoryApiProvider] - to deliver the dependency of user info repository
+ *  - [UserModulesRepositoryApiProvider] - to deliver the dependency of user modules repository
+ *
  *  - [AuthorizationScreenApiProvider] - to deliver the dependency of authorization screen
- *  - [AuthorizationInteractorApiProvider] - to deliver the dependency of authorization interactor
- *  - [DataStoreApiProvider] - to deliver the dependency of data store
- *  - [PlatformApiProvider] - to deliver the dependency of platform objects
  *  - [SelectingModulesScreenApiProvider] - to deliver the dependency of selecting modules screen
  *  - [ModuleNotFoundScreenApiProvider] - to deliver the dependency of module not found screen
+ *
+ *  - [AuthorizationInteractorApiProvider] - to deliver the dependency of authorization interactor
+ *  - [SelectingModulesInteractorApiProvider] - to deliver the dependency of selection modules interactor
+ *
+ *  - [DataStoreApiProvider] - to deliver the dependency of data store
+ *  - [PlatformApiProvider] - to deliver the dependency of platform objects
  *
  * @author Vorozhtsov Mikhail
  */

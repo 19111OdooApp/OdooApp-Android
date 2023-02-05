@@ -14,7 +14,7 @@ import javax.inject.Inject
  *
  * @author Egor Danilov
  */
-class UserInfoRepository @Inject constructor(): IUserInfoRepository {
+class UserInfoRepository @Inject constructor() : IUserInfoRepository {
 
     private val userInfo by jsonRpcApi<IUserInfo>()
 

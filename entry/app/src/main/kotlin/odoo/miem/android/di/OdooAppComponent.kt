@@ -9,6 +9,7 @@ import odoo.miem.android.core.di.impl.ApiRegistry
 import odoo.miem.android.core.di.impl.ApiResolver
 import odoo.miem.android.core.jsonrpc.parser.impl.di.MoshiParserApiProvider
 import odoo.miem.android.core.networkApi.authorization.impl.di.AuthorizationRepositoryApiProvider
+import odoo.miem.android.core.networkApi.userInfo.impl.di.UserInfoRepositoryApiProvider
 import odoo.miem.android.core.networkApi.userModules.impl.di.UserModulesRepositoryApiProvider
 import odoo.miem.android.core.platform.dependecies.DefaultPlatformDependencies
 import odoo.miem.android.core.platform.dependecies.PlatformDependencies
@@ -17,7 +18,6 @@ import odoo.miem.android.core.utils.di.RxApiProvider
 import odoo.miem.android.feature.authorization.base.impl.di.AuthorizationScreenApiProvider
 import odoo.miem.android.feature.moduleNotFound.impl.di.ModuleNotFoundScreenApiProvider
 import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreenApiProvider
-import odoo.miem.android.core.networkApi.userInfo.impl.di.UserInfoRepositoryApiProvider
 
 /**
  * [OdooAppComponent] - **Dagger** component, which is the parent component

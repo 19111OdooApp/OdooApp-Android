@@ -2,7 +2,6 @@ package odoo.miem.android.core.networkApi.userModules.impl.di
 
 import dagger.Component
 import odoo.miem.android.core.networkApi.userInfo.api.di.IUserModulesRepositoryApi
-import odoo.miem.android.core.networkApi.userModules.impl.di.UserModulesRepositoryModule
 
 /**
  * [UserModulesRepositoryModule] - **Dagger** component, which implements interface [IUserModulesRepositoryApi]

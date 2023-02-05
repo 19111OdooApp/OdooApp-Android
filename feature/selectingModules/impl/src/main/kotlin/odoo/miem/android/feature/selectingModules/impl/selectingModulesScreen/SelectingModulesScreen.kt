@@ -174,6 +174,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         }
     }
 
+    @Suppress("MagicNumber")
     @Composable
     private fun SelectingModulesSplashScreen() = Column(
         verticalArrangement = Arrangement.Center,
@@ -185,6 +186,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         var isWelcomeTextVisible by rememberSaveable { mutableStateOf(false) }
         var isLoaderVisible by rememberSaveable { mutableStateOf(false) }
 
+        val animationDuration = 1000
+
         LaunchedEffect(Unit) {
             isWelcomeTextVisible = true
             delay(1000)
@@ -194,16 +197,16 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         AnimatedVisibility(
             visible = isWelcomeTextVisible,
             enter = expandVertically(
-                animationSpec = tween(durationMillis = 1000),
+                animationSpec = tween(durationMillis = animationDuration),
                 expandFrom = Alignment.Top
             ) + fadeIn(
-                animationSpec = tween(durationMillis = 1000)
+                animationSpec = tween(durationMillis = animationDuration)
             ),
             exit = shrinkVertically(
-                animationSpec = tween(durationMillis = 1000),
+                animationSpec = tween(durationMillis = animationDuration),
                 shrinkTowards = Alignment.Bottom
             ) + fadeOut(
-                animationSpec = tween(durationMillis = 1000)
+                animationSpec = tween(durationMillis = animationDuration)
             )
         ) {
             Column(

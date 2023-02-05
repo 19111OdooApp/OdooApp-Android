@@ -2,14 +2,11 @@ package odoo.miem.android
 
 import android.app.Application
 import android.os.StrictMode
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import io.reactivex.rxjava3.exceptions.UndeliverableException
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import odoo.miem.android.di.OdooAppComponent
 import odoo.miem.android.di.initApis
-import okio.IOException
 import timber.log.Timber
-import java.net.SocketException
 
 /**
  * [OdooAppApplication] - application for initialization of DI Graph, [Timber] and enabling

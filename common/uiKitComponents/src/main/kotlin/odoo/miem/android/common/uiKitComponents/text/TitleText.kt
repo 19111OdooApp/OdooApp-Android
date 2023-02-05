@@ -46,6 +46,7 @@ fun TitleText(
 ) = BaseTitleText(
     text = text,
     modifier = modifier,
+    textAlign = textAlign,
     isLarge = isLarge
 )
 

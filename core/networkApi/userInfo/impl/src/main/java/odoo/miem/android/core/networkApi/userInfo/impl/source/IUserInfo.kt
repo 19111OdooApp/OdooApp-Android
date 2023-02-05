@@ -11,7 +11,7 @@ import odoo.miem.android.core.networkApi.userInfo.api.source.UserInfoResponse
  *
  * @author Egor Danilov
  */
-interface IUserInfo: JsonRpcApi {
+interface IUserInfo : JsonRpcApi {
 
     @JsonRpc("call")
     fun getUserInfo(

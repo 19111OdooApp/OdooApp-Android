@@ -58,7 +58,7 @@ fun OdooMiemAndroidTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @C
     val view = LocalView.current
     if (!view.isInEditMode) {
         val currentWindow = (view.context as? Activity)?.window
-            ?: throw Exception("Not in an activity - unable to get Window reference")
+            ?: error("Not in an activity - unable to get Window reference")
 
         SideEffect {
             currentWindow.statusBarColor = colors.background.toArgb()

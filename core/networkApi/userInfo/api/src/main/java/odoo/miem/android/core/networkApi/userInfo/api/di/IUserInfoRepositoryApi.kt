@@ -11,7 +11,7 @@ import odoo.miem.android.core.networkApi.userInfo.api.IUserInfoRepository
  *
  * @author Egor Danilov
  */
-interface IUserInfoRepositoryApi: Api {
+interface IUserInfoRepositoryApi : Api {
 
     val userInfoRepository: IUserInfoRepository
 }

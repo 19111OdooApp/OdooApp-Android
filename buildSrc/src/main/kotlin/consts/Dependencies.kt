@@ -116,7 +116,8 @@ object Dependencies {
                 "com.google.accompanist:accompanist-pager-indicators:$VERSION"
 
             val ALL_ACCOMPANIST_DEPS = listOf(
-                ACCOMPANIST_PAGER, ACCOMPANIST_INDICATORS
+                ACCOMPANIST_PAGER,
+                ACCOMPANIST_INDICATORS
             )
         }
 

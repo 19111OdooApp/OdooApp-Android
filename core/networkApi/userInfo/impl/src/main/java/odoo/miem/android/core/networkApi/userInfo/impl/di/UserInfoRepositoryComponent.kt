@@ -17,7 +17,7 @@ import odoo.miem.android.core.networkApi.userInfo.api.di.IUserInfoRepositoryApi
         UserInfoRepositoryModule::class
     ]
 )
-interface UserInfoRepositoryComponent: IUserInfoRepositoryApi {
+interface UserInfoRepositoryComponent : IUserInfoRepositoryApi {
     companion object {
         fun create(): IUserInfoRepositoryApi = DaggerUserInfoRepositoryComponent.builder()
             .build()

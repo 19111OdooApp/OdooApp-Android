@@ -15,7 +15,7 @@ import javax.inject.Inject
  *
  * @author Egor Danilov
  */
-class UserModulesRepository @Inject constructor(): IUserModulesRepository {
+class UserModulesRepository @Inject constructor() : IUserModulesRepository {
 
     private val userModules by jsonRpcApi<IUserModules>()
 

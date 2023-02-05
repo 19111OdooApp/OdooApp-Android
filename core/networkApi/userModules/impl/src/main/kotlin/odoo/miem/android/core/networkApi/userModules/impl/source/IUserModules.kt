@@ -12,7 +12,7 @@ import odoo.miem.android.core.networkApi.userInfo.api.source.OdooModulesResponse
  *
  * @author Egor Danilov
  */
-interface IUserModules: JsonRpcApi {
+interface IUserModules : JsonRpcApi {
 
     @JsonRpc("call")
     fun getOdooGroups(
@@ -26,7 +26,12 @@ interface IUserModules: JsonRpcApi {
         @JsonRpcPath path: String = "web/dataset/search_read",
         @JsonRpcArgument("model") model: String = "ir.ui.menu",
         @JsonRpcArgument("fields") fields: List<String> = listOf(
-            "id", "name", "complete_name", "child_id", "parent_id", "groups_id"
+            "id",
+            "name",
+            "complete_name",
+            "child_id",
+            "parent_id",
+            "groups_id"
         )
     ): OdooModulesResponse
 }

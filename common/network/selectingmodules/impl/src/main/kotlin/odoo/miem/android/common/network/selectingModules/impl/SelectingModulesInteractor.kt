@@ -6,9 +6,9 @@ import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.network.selectingModules.api.entities.User
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
-import odoo.miem.android.core.networkApi.selectingModules.api.di.ISelectingModulesRepositoryApi
-import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooGroupsResponse
-import odoo.miem.android.core.networkApi.selectingModules.api.source.OdooModulesResponse
+import odoo.miem.android.core.networkApi.userInfo.api.di.IUserModulesRepositoryApi
+import odoo.miem.android.core.networkApi.userInfo.api.source.OdooGroupsResponse
+import odoo.miem.android.core.networkApi.userInfo.api.source.OdooModulesResponse
 import odoo.miem.android.core.networkApi.userInfo.api.di.IUserInfoRepositoryApi
 import odoo.miem.android.core.utils.state.ErrorResult
 import odoo.miem.android.core.utils.state.Result
@@ -27,7 +27,7 @@ import javax.inject.Inject
 class SelectingModulesInteractor @Inject constructor() : ISelectingModulesInteractor {
 
     private val userInfoRepository by api(IUserInfoRepositoryApi::userInfoRepository)
-    private val userModulesRepository by api(ISelectingModulesRepositoryApi::selectingModulesRepository)
+    private val userModulesRepository by api(IUserModulesRepositoryApi::selectingModulesRepository)
     private val dataStore by api(IDataStoreApi::dataStore)
 
     override fun getUserInfo(): ResultSingle<User> {

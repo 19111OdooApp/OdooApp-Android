@@ -20,5 +20,5 @@ dependencies {
     // user info
     api(project(":core:networkApi:userInfo:api"))
     // user modules
-    api(project(":core:networkApi:selectingModules:api"))
+    api(project(":core:networkApi:userModules:api"))
 }

@@ -47,7 +47,7 @@ dependencies {
     implementation(project(":core:networkApi:userInfo:impl"))
 
     // Network API - selecting modules
-    implementation(project(":core:networkApi:selectingModules:impl"))
+    implementation(project(":core:networkApi:userModules:impl"))
 
     // Json RPC - Engine
     implementation(project(":core:jsonrpc:engine"))

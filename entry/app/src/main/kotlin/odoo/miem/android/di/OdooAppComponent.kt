@@ -9,7 +9,7 @@ import odoo.miem.android.core.di.impl.ApiRegistry
 import odoo.miem.android.core.di.impl.ApiResolver
 import odoo.miem.android.core.jsonrpc.parser.impl.di.MoshiParserApiProvider
 import odoo.miem.android.core.networkApi.authorization.impl.di.AuthorizationRepositoryApiProvider
-import odoo.miem.android.core.networkApi.selectingModules.impl.di.SelectingModulesRepositoryApiProvider
+import odoo.miem.android.core.networkApi.userModules.impl.di.UserModulesRepositoryApiProvider
 import odoo.miem.android.core.platform.dependecies.DefaultPlatformDependencies
 import odoo.miem.android.core.platform.dependecies.PlatformDependencies
 import odoo.miem.android.core.platform.di.PlatformApiProvider
@@ -46,7 +46,7 @@ import odoo.miem.android.core.networkApi.userInfo.impl.di.UserInfoRepositoryApiP
         // Repositories
         AuthorizationRepositoryApiProvider::class,
         UserInfoRepositoryApiProvider::class,
-        SelectingModulesRepositoryApiProvider::class,
+        UserModulesRepositoryApiProvider::class,
         // Screens
         AuthorizationScreenApiProvider::class,
         SelectingModulesScreenApiProvider::class,

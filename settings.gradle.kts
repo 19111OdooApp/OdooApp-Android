@@ -47,8 +47,8 @@ include(":core:networkApi:authorization:impl")
 include(":core:networkApi:userInfo:api")
 include(":core:networkApi:userInfo:impl")
 
-include(":core:networkApi:selectingModules:api")
-include(":core:networkApi:selectingModules:impl")
+include(":core:networkApi:userModules:api")
+include(":core:networkApi:userModules:impl")
 
 include(":core:jsonrpc:base")
 include(":core:jsonrpc:core")

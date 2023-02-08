@@ -95,16 +95,12 @@ internal fun SelectingModulesFavoriteList(
 
         if (page != favoriteModules.size) {
             with(favoriteModules[page]) {
-                // TODO Should depend on input data?
-                var isLikedState by remember { mutableStateOf(isFavourite) }
-
                 BigModuleCard(
-                    moduleName = name,
-                    numberOfNotification = numberOfNotifications,
-                    isLiked = isLikedState,
+                    moduleName = this.name,
+                    numberOfNotification = this.numberOfNotifications,
+                    isLiked = this.isFavourite,
                     onClick = onModuleCardClick,
                     onLikeClick = {
-                        isLikedState = !isLikedState
                         onLikeModuleClick(this)
                     },
                     modifier = bigCardModifier

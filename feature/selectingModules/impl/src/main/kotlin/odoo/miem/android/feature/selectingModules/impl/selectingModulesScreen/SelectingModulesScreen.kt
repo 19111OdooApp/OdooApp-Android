@@ -33,7 +33,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -96,7 +95,7 @@ import javax.inject.Inject
  * - [SelectingModulesScreenContent] - directly layout of this screen
  * - [SelectingModulesScreenPreview] - preview of the layout that turned out in [SelectingModulesScreenContent]
  *
- * @author Vorozhtsov Mikhail
+ * @author Vorozhtsov Mikhail, Egor Danilov
  */
 class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
@@ -131,26 +130,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             targetState = modulesState
         ) { state ->
             if (state is SuccessResult) {
-                val allModules = remember { mutableStateListOf<OdooModule>() }
-                val favouriteModules = remember { mutableStateListOf<OdooModule>() }
-
-                state.data?.let {
-                    allModules.addAll(it)
-                    favouriteModules.addAll(it.filter { module -> module.isFavourite })
-                }
-
-                val onLikeModuleClick: (OdooModule) -> Unit = { module ->
-                    module.isFavourite = !module.isFavourite
-
-                    if (module.isFavourite) {
-                        favouriteModules.add(0, module)
-                    } else {
-                        favouriteModules.remove(module)
-                    }
-
-                    val index = allModules.indexOf(module)
-                    allModules[index] = allModules[index].copy(isFavourite = module.isFavourite)
-                }
+                val allModules = viewModel.allModules
+                val favouriteModules = allModules.filter { it.isFavourite }
 
                 val performModulesSearch: (String) -> List<OdooModule> = { input ->
                     val filteredModules = state.data?.let { modules ->
@@ -167,7 +148,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     allModules = allModules,
                     favoriteModules = favouriteModules,
                     onModuleCardClick = onModuleCardClick,
-                    onLikeModuleClick = onLikeModuleClick,
+                    onLikeModuleClick = viewModel::onModuleLikeClick,
                     onSearchValueChange = performModulesSearch
                 )
             } else {
@@ -436,20 +417,17 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier.fillMaxSize()
     ) {
-        println("HELLO WORLD")
-
-        items(allModules) {
-            var isLikedState by remember { mutableStateOf(it.isFavourite) }
-
-            SmallModuleCard(
-                moduleName = it.name,
-                isLiked = isLikedState,
-                onClick = onModuleCardClick,
-                onLikeClick = {
-                    isLikedState = !isLikedState
-                    onLikeModuleClick(it)
-                }
-            )
+        items(allModules) { module ->
+            with(module) {
+                SmallModuleCard(
+                    moduleName = this.name,
+                    isLiked = this.isFavourite,
+                    onClick = onModuleCardClick,
+                    onLikeClick = {
+                        onLikeModuleClick(this)
+                    }
+                )
+            }
         }
     }
 

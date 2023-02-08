@@ -1,5 +1,6 @@
 package odoo.miem.android.feature.selectingModules.impl
 
+import androidx.compose.runtime.mutableStateListOf
 import odoo.miem.android.common.network.selectingModules.api.di.ISelectingModulesInteractorApi
 import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.network.selectingModules.api.entities.User
@@ -16,7 +17,7 @@ import timber.log.Timber
 /**
  * [SelectingModulesViewModel] handle major logic for [SelectingModulesScreen]
  *
- * @author Vorozhtsov Mikhail
+ * @author Egor Danilov
  */
 class SelectingModulesViewModel(
     schedulers: PresentationSchedulers = apiBlocking(RxApi::presentationSchedulers)
@@ -26,6 +27,8 @@ class SelectingModulesViewModel(
 
     val userInfoState: ResultSubject<User> by lazyEmptyResultPublishSubject()
     val modulesState: ResultSubject<List<OdooModule>> by lazyEmptyResultPublishSubject()
+
+    val allModules = mutableStateListOf<OdooModule>()
 
     fun getUserInfo() {
         Timber.d("getUserInfo()")
@@ -51,12 +54,23 @@ class SelectingModulesViewModel(
             .getOdooModules(userUid)
             .schedule(
                 userModulesChannel,
-                onSuccess = {
-                    Timber.d("getUserModules(): result = $it")
-                    modulesState.onNext(it)
+                onSuccess = { result ->
+                    Timber.d("getUserModules(): result = $result")
+                    result.data?.let { list ->
+                        allModules.addAll(list)
+                    }
+
+                    modulesState.onNext(result)
                 },
                 onError = Timber::e
             )
+    }
+
+    fun onModuleLikeClick(module: OdooModule) {
+        val index = allModules.indexOf(module)
+        val previousState = allModules[index].isFavourite
+
+        allModules[index] =  allModules[index].copy(isFavourite = !previousState)
     }
 
     private companion object {

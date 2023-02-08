@@ -30,7 +30,8 @@ import odoo.miem.android.feature.selectingModules.impl.searchScreen.SearchModule
 @Composable
 fun SearchResultContent(
     filteredModules: List<OdooModule>,
-    onModuleCardClick: () -> Unit = {}
+    onModuleCardClick: () -> Unit = {},
+    onLikeModuleClick: (OdooModule) -> Unit = {}
 ) = LazyColumn(
     verticalArrangement = Arrangement.spacedBy(mainVerticalPadding),
     horizontalAlignment = Alignment.CenterHorizontally,
@@ -39,16 +40,18 @@ fun SearchResultContent(
         .padding(horizontal = mainHorizontalPadding)
         .padding(top = commonPadding)
 ) {
-    items(filteredModules) {
-        var isLikedState by remember { mutableStateOf(it.isFavourite) }
-
-        BigModuleCard(
-            moduleName = it.name,
-            numberOfNotification = it.numberOfNotifications,
-            isLiked = isLikedState,
-            onClick = onModuleCardClick,
-            onLikeClick = { isLikedState = !isLikedState },
-        )
+    items(filteredModules) { module ->
+        with(module) {
+            BigModuleCard(
+                moduleName = this.name,
+                numberOfNotification = this.numberOfNotifications,
+                isLiked = this.isFavourite,
+                onClick = onModuleCardClick,
+                onLikeClick = {
+                    onLikeModuleClick(this)
+                },
+            )
+        }
     }
 
     item {

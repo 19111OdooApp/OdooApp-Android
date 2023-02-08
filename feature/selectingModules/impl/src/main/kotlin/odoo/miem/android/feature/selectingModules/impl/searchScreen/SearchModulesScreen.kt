@@ -122,7 +122,8 @@ fun SearchModulesScreen(
         } else {
             SearchResultContent(
                 filteredModules = filteredModules,
-                onModuleCardClick = onModuleCardClick
+                onModuleCardClick = onModuleCardClick,
+                onLikeModuleClick = onLikeModuleClick
             )
         }
     }

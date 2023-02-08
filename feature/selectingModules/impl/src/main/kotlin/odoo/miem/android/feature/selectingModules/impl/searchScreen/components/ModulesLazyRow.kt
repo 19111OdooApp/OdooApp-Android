@@ -57,19 +57,18 @@ fun ModulesLazyRow(
             Spacer(modifier = Modifier.width(startRowPadding))
         }
 
-        items(modules) {
-            var isLikedState by remember { mutableStateOf(it.isFavourite) }
-
-            SmallModuleCard(
-                moduleName = it.name,
-                isLiked = isLikedState,
-                onClick = onModuleCardClick,
-                onLikeClick = {
-                    isLikedState = !isLikedState
-                    onLikeModuleClick(it)
-                },
-                modifier = Modifier.width(170.dp)
-            )
+        items(modules) { module ->
+            with(module) {
+                SmallModuleCard(
+                    moduleName = this.name,
+                    isLiked = this.isFavourite,
+                    onClick = onModuleCardClick,
+                    onLikeClick = {
+                        onLikeModuleClick(this)
+                    },
+                    modifier = Modifier.width(170.dp)
+                )
+            }
         }
 
         item {

@@ -9,4 +9,12 @@ android {
 dependencies {
 
     api(project(":feature:profile:api"))
+
+    // Core
+    // Theme
+    implementation(project(":core:uiKitTheme"))
+
+    // Common
+    // Components
+    implementation(project(":common:uiKitComponents"))
 }

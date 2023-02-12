@@ -11,11 +11,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import odoo.miem.android.common.uiKitComponents.bar.RatingBar
 import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.uiKitTheme.odooPrimary
 import odoo.miem.android.feature.profile.impl.data.User
 import odoo.miem.android.feature.profile.impl.R
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Composable
 fun JobPage(
@@ -24,11 +27,11 @@ fun JobPage(
     horizontalAlignment = Alignment.CenterHorizontally,
     modifier = Modifier
         .padding(horizontal = mainHorizontalPadding)
-        .fillMaxWidth()
+        .fillMaxSize()
 ) {
-
     val heightPadding = 16.dp
-    // TODO To resources
+    val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+
     TitleText(
         text = stringResource(R.string.title_job),
         isLarge = false,
@@ -37,25 +40,58 @@ fun JobPage(
 
     Spacer(modifier = Modifier.height(heightPadding))
 
-    textJobPageItem("Applied Job", "УЛ СВТ")
+    textJobPageItem(
+        key = stringResource(R.string.item_applied_job),
+        value = user.job.appliedJobName
+    )
 
-    textJobPageItem("Department", "")
+    textJobPageItem(
+        key = stringResource(R.string.item_department),
+        value = user.job.department
+    )
 
-    textJobPageItem("Recruter’s project", "")
+    textJobPageItem(
+        key = stringResource(R.string.item_recruites_project),
+        value = user.job.recruiterProject
+    )
 
-    textJobPageItem("Person’s group", "")
+    textJobPageItem(
+        key = stringResource(R.string.item_persons_group),
+        value = user.job.group
+    )
 
-    textJobPageItem("Tags", "")
+    textJobPageItem(
+        key = stringResource(R.string.item_tags),
+        value = user.job.tags
+    )
 
-    textJobPageItem("Recruiter", "Королев Денис Александрович")
+    textJobPageItem(
+        key = stringResource(R.string.item_recruiter),
+        value = user.job.recruiter
+    )
 
-    textJobPageItem("Hire Date", "10/06/2022  19:33:34")
+    textJobPageItem(
+        key = stringResource(R.string.item_hire_date),
+        value = dateFormat.format(user.job.hireDate)
+    )
 
-//    baseJobPageItem("Appreciation", "10/06/2022  19:33:34")  TODO
+    baseJobPageItem(stringResource(R.string.item_appreciation)) { modifier ->
+        RatingBar(
+            modifier = modifier,
+            rating = user.job.appreciation,
+            starsCount = 3
+        )
+    }
 
-    textJobPageItem("Source", "")
+    textJobPageItem(
+        key = stringResource(R.string.item_source),
+        value = user.job.source
+    )
 
-    textJobPageItem("Test task", "")
+    textJobPageItem(
+        key = stringResource(R.string.item_test_task),
+        value = user.job.testTask
+    )
 
     Spacer(modifier = Modifier.height(heightPadding * 2))
 
@@ -65,10 +101,17 @@ fun JobPage(
         color = odooPrimary
     )
 
-    Spacer(modifier = Modifier.height(heightPadding ))
+    Spacer(modifier = Modifier.height(heightPadding))
 
-    textJobPageItem("Expected Salary", "0.00") // TODO %f
-    textJobPageItem("Proposed Salary", "0.00")
+    textJobPageItem(
+        key = stringResource(R.string.item_expected_salary),
+        value = stringResource(R.string.item_salary).format(user.contract.expectedSalary)
+    )
+
+    textJobPageItem(
+        key = stringResource(R.string.item_proposed_salary),
+        value = stringResource(R.string.item_salary).format(user.contract.proposedSalary)
+    )
 }
 
 @Composable
@@ -79,7 +122,7 @@ private fun ColumnScope.textJobPageItem(
     baseJobPageItem(key) { modifier ->
         JobPageItemText(
             text = value,
-            modifier = modifier.padding(start = 24.dp)
+            modifier = modifier
         )
     }
 }
@@ -106,7 +149,11 @@ private fun ColumnScope.baseJobPageItem(
             .width(1.dp)
     )
 
-    valueContent(Modifier.weight(0.6F))
+    valueContent(
+        Modifier
+            .weight(0.6F)
+            .padding(start = 24.dp)
+    )
 }
 
 @Composable
@@ -116,6 +163,7 @@ private fun JobPageItemText(
 ) = Text(
     text = text,
     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 12.sp),
+    color = MaterialTheme.colorScheme.onPrimary,
     overflow = TextOverflow.Ellipsis,
     maxLines = 1,
     modifier = modifier

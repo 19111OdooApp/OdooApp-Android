@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Job Item-->
+    <string name="item_applied_job">Applied Job</string>
+    <string name="item_department">Department</string>
+    <string name="item_recruites_project">Recruiter’s project</string>
+    <string name="item_persons_group">Person’s group</string>
+    <string name="item_tags">Tags</string>
+    <string name="item_recruiter">Recruiter</string>
+    <string name="item_hire_date">Hire Date</string>
+    <string name="item_appreciation">Appreciation</string>
+    <string name="item_source">Source</string>
+    <string name="item_test_task">Test task</string>
+    <string name="item_expected_salary">Expected Salary</string>
+    <string name="item_proposed_salary">Proposed Salary</string>
+    <string name="item_salary" translatable="false">%.2f</string>
+
     <!--Titles-->
     <string name="title_job">Job</string>
     <string name="title_contract">Contract</string>

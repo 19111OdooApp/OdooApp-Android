@@ -16,6 +16,7 @@ val odooPrimaryDark = Color(0xFF017E84)
 
 val odooGray= Color(0xFF8F8F8F)
 val odooOnGray = Color(0xFF6B6D70)
+val odooYellow = Color(0xFFFFCE31)
 
 val odooErrorPrimaryDark = Color(0xFF840101)
 

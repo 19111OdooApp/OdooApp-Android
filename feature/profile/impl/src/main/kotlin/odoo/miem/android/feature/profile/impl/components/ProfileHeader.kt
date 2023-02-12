@@ -23,12 +23,6 @@ fun ProfileHeader(
 ) {
     val heightPadding = 8.dp
 
-    SimpleLogoAppBar(
-        onBackButtonClick = navigateBack
-    )
-
-    Spacer(modifier = Modifier.height(heightPadding * 4))
-
     Text(
         text = userName.takeIf { it.isNotEmpty() } ?: stringResource(R.string.default_user_name),
         style = MaterialTheme.typography.titleMedium,

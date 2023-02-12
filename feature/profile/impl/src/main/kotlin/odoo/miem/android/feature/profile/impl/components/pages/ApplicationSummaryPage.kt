@@ -15,13 +15,16 @@ import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.uiKitTheme.odooOnGray
 import odoo.miem.android.core.uiKitTheme.odooPrimary
 import odoo.miem.android.feature.profile.impl.R
+import odoo.miem.android.feature.profile.impl.data.User
 
 @Composable
-fun ApplicationSummaryPage() = Column(
+fun ApplicationSummaryPage(
+    user: User
+) = Column(
     horizontalAlignment = Alignment.CenterHorizontally,
     modifier = Modifier
         .padding(horizontal = mainHorizontalPadding)
-        .fillMaxWidth()
+        .fillMaxSize()
 ) {
     TitleText(
         text = stringResource(R.string.title_application_summary),
@@ -32,7 +35,7 @@ fun ApplicationSummaryPage() = Column(
     Spacer(modifier = Modifier.height(16.dp))
 
     Text(
-        text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris luctus consequat est. Praesent viverra nisl felis, eget pharetra mauris bibendum ac. Sed justo orci, blandit vehicula vestibulum quis, interdum in eros. Sed a eros luctus risus pharetra consequat. Vivamus mollis a lectus quis elementum. Integer vel nibh at nulla faucibus consequat. Morbi placerat tortor ut orci mattis, ut dapibus risus porta. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras luctus tempus est ut malesuada.",
+        text = user.applicationSummary,
         style = MaterialTheme.typography.bodyMedium.copy(fontSize = 12.sp),
         color = odooOnGray,
         lineHeight = 20.sp,

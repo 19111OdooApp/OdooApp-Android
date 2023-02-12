@@ -8,10 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
@@ -30,7 +26,7 @@ import odoo.miem.android.feature.selectingModules.impl.searchScreen.SearchModule
 @Composable
 fun SearchResultContent(
     filteredModules: List<OdooModule>,
-    onModuleCardClick: () -> Unit = {},
+    onModuleCardClick: (OdooModule) -> Unit = {},
     onLikeModuleClick: (OdooModule) -> Unit = {}
 ) = LazyColumn(
     verticalArrangement = Arrangement.spacedBy(mainVerticalPadding),
@@ -46,10 +42,8 @@ fun SearchResultContent(
                 moduleName = this.name,
                 numberOfNotification = this.numberOfNotifications,
                 isLiked = this.isFavourite,
-                onClick = onModuleCardClick,
-                onLikeClick = {
-                    onLikeModuleClick(this)
-                },
+                onClick = { onModuleCardClick(this) },
+                onLikeClick = { onLikeModuleClick(this) },
             )
         }
     }

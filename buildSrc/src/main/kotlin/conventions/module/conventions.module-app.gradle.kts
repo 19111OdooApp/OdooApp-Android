@@ -24,7 +24,7 @@ dependencies {
     Dependencies.Dagger.KAPT_DEPS.forEach { kapt(it) }
 
     // Firebase
-    Dependencies.Firebase.ALL_DEPS.forEach { implementation(it) }
+    Dependencies.Firebase.APPLICATION_DEPS.forEach { implementation(it) }
     implementation(platform(Dependencies.Firebase.FIREBASE_BOM))
 
     // Logger

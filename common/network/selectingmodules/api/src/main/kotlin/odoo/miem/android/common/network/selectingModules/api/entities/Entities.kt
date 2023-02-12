@@ -12,4 +12,5 @@ data class OdooModule(
     val childModules: MutableList<OdooModule>,
     var numberOfNotifications: Int = 0,
     var isFavourite: Boolean = false,
+    val isImplemented: Boolean = false,
 )

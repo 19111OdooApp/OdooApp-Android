@@ -45,7 +45,7 @@ internal fun SelectingModulesFavoriteList(
     favoriteModules: List<OdooModule> = emptyList(),
     indicatorModifier: Modifier = Modifier,
     onLikeModuleClick: (OdooModule) -> Unit = {},
-    onModuleCardClick: () -> Unit = {},
+    onModuleCardClick: (OdooModule) -> Unit = {},
     onAddModuleCardClick: () -> Unit = {}
 ) {
     val haptic = LocalHapticFeedback.current
@@ -99,7 +99,7 @@ internal fun SelectingModulesFavoriteList(
                     moduleName = this.name,
                     numberOfNotification = this.numberOfNotifications,
                     isLiked = this.isFavourite,
-                    onClick = onModuleCardClick,
+                    onClick = { onModuleCardClick(this) },
                     onLikeClick = {
                         onLikeModuleClick(this)
                     },

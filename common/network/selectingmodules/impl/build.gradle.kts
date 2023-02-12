@@ -8,6 +8,10 @@ android {
 
 dependencies {
 
+    // Firebase
+    Dependencies.Firebase.MODULE_DEPS.forEach { implementation(it) }
+    implementation(platform(Dependencies.Firebase.FIREBASE_BOM))
+
     // Common
     // SelectingModules API
     api(project(":common:network:selectingModules:api"))

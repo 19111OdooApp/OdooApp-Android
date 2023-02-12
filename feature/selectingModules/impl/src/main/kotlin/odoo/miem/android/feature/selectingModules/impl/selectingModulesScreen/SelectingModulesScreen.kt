@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
@@ -123,8 +122,13 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             viewModel.getUserInfo()
         }
 
-        // TODO implementation based on some meta-information about implemented modules
-        val onModuleCardClick = { navController.navigate(Routes.moduleNotFound) }
+        val onModuleCardClick: (OdooModule) -> Unit = {
+            if (it.isImplemented) {
+                // TODO when some module will be ready, add navigation
+            } else {
+                navController.navigate(Routes.moduleNotFound)
+            }
+        }
 
         Crossfade(
             targetState = modulesState
@@ -192,18 +196,12 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                 animationSpec = tween(durationMillis = animationDuration)
             )
         ) {
-            Column(
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Image(
-                    painter = painterResource(odoo.miem.android.common.uiKitComponents.R.drawable.logo_odoo),
-                    contentDescription = null,
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier.size(192.dp)
-                )
-            }
+            Image(
+                painter = painterResource(odoo.miem.android.common.uiKitComponents.R.drawable.logo_odoo),
+                contentDescription = null,
+                contentScale = ContentScale.Fit,
+                modifier = Modifier.size(192.dp)
+            )
         }
 
         Spacer(modifier = Modifier.height(mainVerticalPadding * 10))
@@ -226,7 +224,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         userName: String? = null,
         allModules: List<OdooModule> = emptyList(),
         favoriteModules: List<OdooModule> = emptyList(),
-        onModuleCardClick: () -> Unit = {},
+        onModuleCardClick: (OdooModule) -> Unit = {},
         onLikeModuleClick: (OdooModule) -> Unit = {},
         onSearchValueChange: (String) -> List<OdooModule> = { emptyList() },
     ) {
@@ -313,7 +311,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     private fun SelectingModulesMainContent(
         userName: String? = null,
         favouriteModules: List<OdooModule> = emptyList(),
-        onModuleCardClick: () -> Unit = {},
+        onModuleCardClick: (OdooModule) -> Unit = {},
         onLikeModuleClick: (OdooModule) -> Unit = {},
         onAddModuleCardClick: () -> Unit = {},
         onSearchBarClick: () -> Unit = {}
@@ -408,7 +406,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     @Composable
     private fun ColumnScope.SelectingModulesBottomSheetGrid(
         allModules: List<OdooModule> = emptyList(),
-        onModuleCardClick: () -> Unit = {},
+        onModuleCardClick: (OdooModule) -> Unit = {},
         onLikeModuleClick: (OdooModule) -> Unit = {},
     ) = LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -422,7 +420,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                 SmallModuleCard(
                     moduleName = this.name,
                     isLiked = this.isFavourite,
-                    onClick = onModuleCardClick,
+                    onClick = { onModuleCardClick(module) },
                     onLikeClick = {
                         onLikeModuleClick(this)
                     }

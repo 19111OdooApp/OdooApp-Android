@@ -1,5 +1,9 @@
 package odoo.miem.android.common.network.selectingModules.impl
 
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.ktx.get
+import com.google.firebase.remoteconfig.ktx.remoteConfig
 import io.reactivex.rxjava3.core.Single
 import odoo.miem.android.common.network.selectingModules.api.ISelectingModulesInteractor
 import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
@@ -10,6 +14,7 @@ import odoo.miem.android.core.networkApi.userInfo.api.di.IUserInfoRepositoryApi
 import odoo.miem.android.core.networkApi.userInfo.api.di.IUserModulesRepositoryApi
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooGroupsResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooModulesResponse
+import odoo.miem.android.core.utils.regex.getModulesIdFromFirebaseJson
 import odoo.miem.android.core.utils.state.ErrorResult
 import odoo.miem.android.core.utils.state.Result
 import odoo.miem.android.core.utils.state.ResultSingle
@@ -26,6 +31,7 @@ import javax.inject.Inject
  */
 class SelectingModulesInteractor @Inject constructor() : ISelectingModulesInteractor {
 
+    private val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
     private val userInfoRepository by api(IUserInfoRepositoryApi::userInfoRepository)
     private val userModulesRepository by api(IUserModulesRepositoryApi::selectingModulesRepository)
     private val dataStore by api(IDataStoreApi::dataStore)
@@ -74,7 +80,14 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
                 )
             }
             .map<Result<List<OdooModule>>> { modules ->
-                SuccessResult(modules)
+                val implementedModules = fetchImplementedModules()
+
+                val resultModules = modules.map {
+                    it.copy(
+                        isImplemented = it.id in implementedModules
+                    )
+                }
+                SuccessResult(resultModules)
             }
             .onErrorReturn {
                 Timber.e("getOdooModules(): error message = ${it.message}")
@@ -150,4 +163,19 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
     ): List<Int> = groups.records
         .filter { userUid in it.users }
         .map { it.id }
+
+
+    private fun fetchImplementedModules(): List<Int> {
+        val implementedModules = remoteConfig[IMPLEMENTED_MODULES_KEY]
+            .asString()
+            .getModulesIdFromFirebaseJson()
+
+        Timber.d("fetchImplementedModules(): result = $implementedModules")
+
+        return implementedModules
+    }
+
+    private companion object {
+        const val IMPLEMENTED_MODULES_KEY = "implementedModules"
+    }
 }

@@ -48,7 +48,7 @@ fun SearchModulesScreen(
     allModules: List<OdooModule>,
     favouriteModules: List<OdooModule>,
     onSearchValueChange: (String) -> List<OdooModule>,
-    onModuleCardClick: () -> Unit = {},
+    onModuleCardClick: (OdooModule) -> Unit = {},
     onLikeModuleClick: (OdooModule) -> Unit = {},
     onBackPressed: () -> Unit = {},
 ) = Column(

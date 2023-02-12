@@ -24,7 +24,7 @@ import odoo.miem.android.feature.selectingModules.impl.searchScreen.SearchModule
 fun SearchRecommendationsContent(
     allModules: List<OdooModule>,
     favouriteModules: List<OdooModule>,
-    onModuleCardClick: () -> Unit,
+    onModuleCardClick: (OdooModule) -> Unit,
     onLikeModuleClick: (OdooModule) -> Unit = {},
 ) {
     Column(

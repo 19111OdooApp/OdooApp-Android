@@ -218,11 +218,14 @@ object Dependencies {
         const val FIREBASE_BOM = "com.google.firebase:firebase-bom:$BOM_VERSION"
         const val FIREBASE_ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
         const val FIREBASE_CRASHLYTICS = "com.google.firebase:firebase-crashlytics-ktx"
+        const val FIREBASE_CONFIG = "com.google.firebase:firebase-config-ktx"
 
-        val ALL_GRADLE_PLUGINS =
+        val GRADLE_PLUGINS =
             listOf(GOOGLE_SERVICES_GRADLE_PLUGIN, FIREBASE_CRASHLYTICS_GRADLE_PLUGIN)
 
-        val ALL_DEPS = listOf(FIREBASE_ANALYTICS, FIREBASE_CRASHLYTICS)
+        val APPLICATION_DEPS = listOf(FIREBASE_ANALYTICS, FIREBASE_CRASHLYTICS)
+
+        val MODULE_DEPS = listOf(FIREBASE_ANALYTICS, FIREBASE_CONFIG)
     }
 
     object Plugins {

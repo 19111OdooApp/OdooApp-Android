@@ -12,7 +12,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import odoo.miem.android.common.uiKitComponents.R
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
-import odoo.miem.android.core.uiKitTheme.odooOnButtonDisabled
+import odoo.miem.android.core.uiKitTheme.odooOnGray
 
 @Composable
 fun ProfileHeader(
@@ -30,8 +30,8 @@ fun ProfileHeader(
     Spacer(modifier = Modifier.height(heightPadding * 4))
 
     Text(
-        text = userName.takeIf { it.isEmpty() } ?: stringResource(R.string.default_user_name),
-        style = MaterialTheme.typography.titleLarge,
+        text = userName.takeIf { it.isNotEmpty() } ?: stringResource(R.string.default_user_name),
+        style = MaterialTheme.typography.titleMedium,
         fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.onSecondaryContainer
     )
@@ -39,17 +39,17 @@ fun ProfileHeader(
     Spacer(modifier = Modifier.height(heightPadding))
 
     Text(
-        text = userEmail.takeIf { it.isEmpty() } ?: stringResource(R.string.default_user_email),
+        text = userEmail.takeIf { it.isNotEmpty() } ?: stringResource(R.string.default_user_email),
         style = MaterialTheme.typography.titleSmall,
         textDecoration = TextDecoration.Underline,
-        color = odooOnButtonDisabled
+        color = odooOnGray
     )
 
     Spacer(modifier = Modifier.height(heightPadding))
 
     Text(
-        text = userPhone.takeIf { it.isEmpty() } ?: stringResource(R.string.default_user_phone),
+        text = userPhone.takeIf { it.isNotEmpty() } ?: stringResource(R.string.default_user_phone),
         style = MaterialTheme.typography.titleSmall,
-        color = odooOnButtonDisabled
+        color = odooOnGray
     )
 }

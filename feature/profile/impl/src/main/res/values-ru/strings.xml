@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_job">О работе</string>
+    <string name="title_contract">Контракт</string>
+    <string name="title_application_summary">Краткое описание заявки</string>
+    <string name="title_log_note">Записи</string>
+    <string name="title_schedule_activity">Запланированные мероприятия</string>
+</resources>

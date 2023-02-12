@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Titles-->
+    <string name="title_job">Job</string>
+    <string name="title_contract">Contract</string>
+    <string name="title_application_summary">Application summary</string>
+    <string name="title_log_note">Log note</string>
+    <string name="title_schedule_activity">Schedule activity</string>
+</resources>

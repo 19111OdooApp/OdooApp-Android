@@ -80,6 +80,9 @@ include(":feature:authorization:base:impl")
 include(":feature:navigation:api")
 include(":feature:navigation:impl")
 
+include(":feature:profile:api")
+include(":feature:profile:impl")
+
 include(":feature:selectingModules:api")
 include(":feature:selectingModules:impl")
 

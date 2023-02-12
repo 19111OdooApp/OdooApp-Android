@@ -7,6 +7,7 @@ package odoo.miem.android.feature.navigation.api.data
  */
 object Routes {
     const val authorization = "authorization"
+    const val profile = "profile"
     const val selectingModules = "selectingModules"
     const val moduleNotFound = "moduleNotFound"
     const val recruitment = "recruitment"

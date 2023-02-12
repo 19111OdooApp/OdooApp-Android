@@ -18,6 +18,10 @@ dependencies {
     // Navigation
     implementation(project(":feature:navigation:impl"))
 
+    // Profile
+    implementation(project(":feature:profile:api"))
+    implementation(project(":feature:profile:impl"))
+
     // Selecting Modules
     implementation(project(":feature:selectingModules:api"))
     implementation(project(":feature:selectingModules:impl"))

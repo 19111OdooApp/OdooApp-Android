@@ -22,6 +22,8 @@ import odoo.miem.android.feature.authorization.base.api.di.IAuthorizationApi
 import odoo.miem.android.feature.moduleNotFound.api.IModuleNotFoundScreen
 import odoo.miem.android.feature.moduleNotFound.api.di.IModuleNotFoundApi
 import odoo.miem.android.feature.navigation.api.data.Routes
+import odoo.miem.android.feature.profile.api.IProfileScreen
+import odoo.miem.android.feature.profile.api.di.IProfileScreenApi
 import odoo.miem.android.feature.recruitment.api.IRecruitmentScreen
 import odoo.miem.android.feature.recruitment.api.di.IRecruitmentApi
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
@@ -53,11 +55,13 @@ fun Navigation(
 
     // Screens
     val authorizationScreen by api(IAuthorizationApi::authorizationScreen)
+    val profileScreen by api(IProfileScreenApi::profileScreen)
     val selectingModulesScreen by api(ISelectingModulesApi::selectingModulesScreen)
     val moduleNotFoundScreen by api(IModuleNotFoundApi::moduleNotFoundScreen)
     val recruitmentScreen by api(IRecruitmentApi::recruitmentScreen)
     NavigationContent(
         authorizationScreen = authorizationScreen,
+        profileScreen = profileScreen,
         selectingModulesScreen = selectingModulesScreen,
         moduleNotFoundScreen = moduleNotFoundScreen,
         recruitmentScreen = recruitmentScreen,
@@ -71,6 +75,7 @@ fun Navigation(
 @Composable
 fun NavigationContent(
     authorizationScreen: IAuthorizationScreen,
+    profileScreen: IProfileScreen,
     selectingModulesScreen: ISelectingModulesScreen,
     moduleNotFoundScreen: IModuleNotFoundScreen,
     recruitmentScreen: IRecruitmentScreen,
@@ -93,6 +98,13 @@ fun NavigationContent(
         ) {
             composable(Routes.authorization) {
                 authorizationScreen.AuthorizationScreen(
+                    navController = navController,
+                    showMessage = showMessage
+                )
+            }
+
+            composable(Routes.profile) {
+                profileScreen.ProfileScreen(
                     navController = navController,
                     showMessage = showMessage
                 )

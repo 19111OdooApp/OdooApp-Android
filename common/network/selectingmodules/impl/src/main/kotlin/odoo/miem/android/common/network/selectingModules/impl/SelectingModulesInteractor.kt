@@ -59,7 +59,7 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
                 val castedFavouriteModules = if (favouriteModules is String) {
                     favouriteModules
                         .substring(1, favouriteModules.lastIndex)
-                        .split(", ")
+                        .split(FAVOURITE_MODULES_DELIMITER)
                         .map { it.toInt() }
                 } else {
                     emptyList()
@@ -185,7 +185,6 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
             val childModules = mutableListOf<OdooModule>()
 
             for (module in accessibleModules) {
-
                 if (module.parentId == currentModule!!.id) {
                     childModules.add(module)
                     queue.offer(module)
@@ -220,8 +219,10 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
             .map { it.toInt() }
 
         when {
-            currentFavouriteModules == newModules -> {} // if current and new modules are equal, do nothing
-            currentFavouriteModules.isEmpty() && newModules.isNotEmpty() -> { // if current modules list is empty, get from api
+            // if current and new modules are equal, do nothing
+            currentFavouriteModules == newModules -> {}
+            // if current modules list is empty, get from api
+            currentFavouriteModules.isEmpty() && newModules.isNotEmpty() -> {
                 dataStore.setUserFavouriteModules(
                     newModules
                         .map { it.toString() }
@@ -240,5 +241,6 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
     private companion object {
         const val IMPLEMENTED_MODULES_KEY = "implementedModules"
         const val FAVOURITE_MODULES_KEY = "x_favourite_modules"
+        const val FAVOURITE_MODULES_DELIMITER = ", "
     }
 }

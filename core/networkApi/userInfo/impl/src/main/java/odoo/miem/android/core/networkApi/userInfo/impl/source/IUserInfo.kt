@@ -4,7 +4,6 @@ import odoo.miem.android.core.jsonRpcApiFabric.api.JsonRpcApi
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpc
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcArgument
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcPath
-import odoo.miem.android.core.networkApi.userInfo.api.source.UpdateFavouriteModulesRequest
 import odoo.miem.android.core.networkApi.userInfo.api.source.UserInfoResponse
 
 /**

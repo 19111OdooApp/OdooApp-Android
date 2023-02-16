@@ -1,6 +1,7 @@
 package odoo.miem.android.common.network.selectingModules.api.entities
 
 data class User(
+    val modelId: Int,
     val uid: Int,
     val name: String
 )

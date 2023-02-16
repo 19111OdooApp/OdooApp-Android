@@ -27,8 +27,14 @@ interface IDataStore {
     fun setSessionId(newSessionId: String)
 
     /**
-     * Name and last name of current user
+     * Model id of current user in Odoo database
      */
-    val username: String
-    fun setUsername(newName: String)
+    val userModelId: Int
+    fun setUserModelId(newId: Int)
+
+    /**
+     * Set of favourite modules of current user
+     */
+    val favouriteModules: Set<String>
+    fun setUserFavouriteModules(newFavouriteModules: Set<String>)
 }

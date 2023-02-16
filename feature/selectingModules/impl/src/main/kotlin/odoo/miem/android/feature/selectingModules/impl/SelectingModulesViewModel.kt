@@ -70,7 +70,7 @@ class SelectingModulesViewModel(
         val index = allModules.indexOf(module)
         val previousState = allModules[index].isFavourite
 
-        allModules[index] =  allModules[index].copy(isFavourite = !previousState)
+        allModules[index] = allModules[index].copy(isFavourite = !previousState)
     }
 
     private companion object {

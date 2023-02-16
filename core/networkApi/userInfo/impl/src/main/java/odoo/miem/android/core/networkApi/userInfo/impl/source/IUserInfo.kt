@@ -4,6 +4,7 @@ import odoo.miem.android.core.jsonRpcApiFabric.api.JsonRpcApi
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpc
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcArgument
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcPath
+import odoo.miem.android.core.networkApi.userInfo.api.source.UpdateFavouriteModulesRequest
 import odoo.miem.android.core.networkApi.userInfo.api.source.UserInfoResponse
 
 /**
@@ -17,6 +18,15 @@ interface IUserInfo : JsonRpcApi {
     fun getUserInfo(
         @JsonRpcPath path: String = "web/dataset/search_read",
         @JsonRpcArgument("model") model: String = "res.users.settings",
-        @JsonRpcArgument("fields") fields: List<String> = listOf("id", "user_id")
+        @JsonRpcArgument("fields") fields: List<String> = listOf("id", "user_id", "x_favourite_modules")
     ): UserInfoResponse
+
+    @JsonRpc("call")
+    fun updateFavouriteModules(
+        @JsonRpcPath path: String = "web/dataset/call_kw/write",
+        @JsonRpcArgument("method") method: String = "write",
+        @JsonRpcArgument("model") model: String = "res.users.settings",
+        @JsonRpcArgument("kwargs") kwargs: Map<Any, Any> = emptyMap(),
+        @JsonRpcArgument("args") args: UpdateFavouriteModulesRequest
+    ): Boolean
 }

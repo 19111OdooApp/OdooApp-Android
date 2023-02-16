@@ -4,6 +4,7 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import odoo.miem.android.core.jsonRpcApiFabric.jsonRpcApi
 import odoo.miem.android.core.networkApi.userInfo.api.IUserInfoRepository
+import odoo.miem.android.core.networkApi.userInfo.api.source.UpdateFavouriteModulesRequest
 import odoo.miem.android.core.networkApi.userInfo.api.source.UserInfoResponse
 import odoo.miem.android.core.networkApi.userInfo.impl.source.IUserInfo
 import timber.log.Timber
@@ -23,6 +24,16 @@ class UserInfoRepository @Inject constructor() : IUserInfoRepository {
 
         return Single.fromCallable {
             userInfo.getUserInfo()
+        }.subscribeOn(Schedulers.io())
+    }
+
+    override fun updateFavouriteModules(
+        request: UpdateFavouriteModulesRequest
+    ): Single<Boolean> {
+        Timber.d("updateFavouriteModules()")
+
+        return Single.fromCallable {
+            userInfo.updateFavouriteModules(args = request)
         }.subscribeOn(Schedulers.io())
     }
 }

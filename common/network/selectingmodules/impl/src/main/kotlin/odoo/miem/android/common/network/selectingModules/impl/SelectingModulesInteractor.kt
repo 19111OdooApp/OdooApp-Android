@@ -14,6 +14,7 @@ import odoo.miem.android.core.networkApi.userInfo.api.di.IUserInfoRepositoryApi
 import odoo.miem.android.core.networkApi.userInfo.api.di.IUserModulesRepositoryApi
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooGroupsResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooModulesResponse
+import odoo.miem.android.core.networkApi.userInfo.api.source.UpdateFavouriteModulesRequest
 import odoo.miem.android.core.utils.regex.getModulesIdFromFirebaseJson
 import odoo.miem.android.core.utils.state.ErrorResult
 import odoo.miem.android.core.utils.state.Result
@@ -41,7 +42,9 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
 
         return userInfoRepository.getUserInfo()
             .map<Result<User>> { info ->
+                val modelId = info.records[0].modelId
                 val userInfo = info.records[0].userInfo
+                val favouriteModules = info.records[0].favouriteModules
 
                 val uid = (userInfo[0] as Double).toInt()
                 val name = (userInfo[1] as String)
@@ -51,9 +54,21 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
 
                 Timber.d("getUserInfo(): id = $uid, name = $name")
                 dataStore.setUID(uid)
+                dataStore.setUserModelId(modelId)
+
+                val castedFavouriteModules = if (favouriteModules is List<*>) {
+                    favouriteModules.map { (it as Double).toInt() }
+                } else {
+                    emptyList()
+                }
+                processFavouriteModules(
+                    userModelId = modelId,
+                    newModules = castedFavouriteModules
+                )
 
                 SuccessResult(
                     User(
+                        modelId = modelId,
                         uid = uid,
                         name = name
                     )
@@ -80,17 +95,33 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
                 )
             }
             .map<Result<List<OdooModule>>> { modules ->
-                val implementedModules = fetchImplementedModules()
-
-                val resultModules = modules.map {
-                    it.copy(
-                        isImplemented = it.id in implementedModules
-                    )
-                }
-                SuccessResult(resultModules)
+                SuccessResult(modules)
             }
             .onErrorReturn {
                 Timber.e("getOdooModules(): error message = ${it.message}")
+                ErrorResult(R.string.selecting_modules_error)
+            }
+    }
+
+    override fun updateFavouriteModules(
+        userModelId: Int,
+        favouriteModules: List<Int>
+    ): ResultSingle<Boolean> {
+        Timber.d("updateFavouriteModules()")
+
+        val request = UpdateFavouriteModulesRequest(
+            body = listOf(
+                userModelId,
+                mapOf(FAVOURITE_MODULES_KEY to favouriteModules)
+            )
+        )
+
+        return userInfoRepository.updateFavouriteModules(request)
+            .map<Result<Boolean>> {
+                SuccessResult(it)
+            }
+            .onErrorReturn {
+                Timber.e("updateFavouriteModules(): error message = ${it.message}")
                 ErrorResult(R.string.selecting_modules_error)
             }
     }
@@ -101,6 +132,11 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
         groups: OdooGroupsResponse
     ): List<OdooModule> {
         val groupsOfUser = getGroupsOfUser(userUid, groups).toSet()
+        val implementedModules = fetchImplementedModules().toSortedSet()
+        val favouriteModules = dataStore.favouriteModules
+            .map { it.toInt() }
+            .toSortedSet()
+
         val moduleHierarchy = mutableListOf<OdooModule>()
         val accessibleModules = mutableListOf<OdooModule>()
 
@@ -126,6 +162,8 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
                         name = module.name,
                         parentId = parentId,
                         childModules = mutableListOf(),
+                        isFavourite = module.id in favouriteModules,
+                        isImplemented = module.id in implementedModules
                     )
                 )
             }
@@ -143,9 +181,8 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
             val childModules = mutableListOf<OdooModule>()
 
             for (module in accessibleModules) {
-                val parentId = module.parentId
 
-                if (parentId == currentModule!!.id) {
+                if (module.parentId == currentModule!!.id) {
                     childModules.add(module)
                     queue.offer(module)
                     accessibleModules.remove(module)
@@ -164,7 +201,6 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
         .filter { userUid in it.users }
         .map { it.id }
 
-
     private fun fetchImplementedModules(): List<Int> {
         val implementedModules = remoteConfig[IMPLEMENTED_MODULES_KEY]
             .asString()
@@ -175,7 +211,30 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
         return implementedModules
     }
 
+    private fun processFavouriteModules(userModelId: Int, newModules: List<Int>) {
+        val currentFavouriteModules = dataStore.favouriteModules
+            .map { it.toInt() }
+
+        when {
+            currentFavouriteModules == newModules -> {} // if current and new modules equal, do nothing
+            currentFavouriteModules.isEmpty() && newModules.isNotEmpty() -> { // if current modules are empty, get new ones
+                dataStore.setUserFavouriteModules(
+                    newModules
+                        .map { it.toString() }
+                        .toSet()
+                )
+            }
+            else -> { // user is single source of truth
+                updateFavouriteModules(
+                    userModelId = userModelId,
+                    favouriteModules = currentFavouriteModules
+                )
+            }
+        }
+    }
+
     private companion object {
         const val IMPLEMENTED_MODULES_KEY = "implementedModules"
+        const val FAVOURITE_MODULES_KEY = "x_favourite_modules"
     }
 }

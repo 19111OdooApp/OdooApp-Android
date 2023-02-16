@@ -34,10 +34,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Timber.d("onCreate()")
-        
+
         val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
         val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 3600
+            minimumFetchIntervalInSeconds = FIREBASE_FETCH_INTERVAL
         }
         remoteConfig.setConfigSettingsAsync(configSettings)
 
@@ -81,5 +81,9 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+    }
+
+    private companion object {
+        const val FIREBASE_FETCH_INTERVAL = 3600L
     }
 }

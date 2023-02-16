@@ -33,7 +33,7 @@ class UserInfoRepository @Inject constructor() : IUserInfoRepository {
         Timber.d("updateFavouriteModules()")
 
         return Single.fromCallable {
-            userInfo.updateFavouriteModules(args = request)
+            userInfo.updateFavouriteModules(args = request.args)
         }.subscribeOn(Schedulers.io())
     }
 }

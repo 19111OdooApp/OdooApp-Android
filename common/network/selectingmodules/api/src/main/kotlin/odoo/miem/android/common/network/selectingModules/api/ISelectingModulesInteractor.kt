@@ -15,4 +15,6 @@ interface ISelectingModulesInteractor {
     fun getUserInfo(): ResultSingle<User>
 
     fun getOdooModules(userUid: Int): ResultSingle<List<OdooModule>>
+
+    fun updateFavouriteModules(userModelId: Int, favouriteModules: List<Int>): ResultSingle<Boolean>
 }

@@ -56,8 +56,11 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
                 dataStore.setUID(uid)
                 dataStore.setUserModelId(modelId)
 
-                val castedFavouriteModules = if (favouriteModules is List<*>) {
-                    favouriteModules.map { (it as Double).toInt() }
+                val castedFavouriteModules = if (favouriteModules is String) {
+                    favouriteModules
+                        .substring(1, favouriteModules.lastIndex)
+                        .split(", ")
+                        .map { it.toInt() }
                 } else {
                     emptyList()
                 }
@@ -108,9 +111,10 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
         favouriteModules: List<Int>
     ): ResultSingle<Boolean> {
         Timber.d("updateFavouriteModules()")
+        dataStore.setUserFavouriteModules(favouriteModules.map { it.toString() }.toSet())
 
         val request = UpdateFavouriteModulesRequest(
-            body = listOf(
+            args = listOf(
                 userModelId,
                 mapOf(FAVOURITE_MODULES_KEY to favouriteModules)
             )
@@ -216,8 +220,8 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
             .map { it.toInt() }
 
         when {
-            currentFavouriteModules == newModules -> {} // if current and new modules equal, do nothing
-            currentFavouriteModules.isEmpty() && newModules.isNotEmpty() -> { // if current modules are empty, get new ones
+            currentFavouriteModules == newModules -> {} // if current and new modules are equal, do nothing
+            currentFavouriteModules.isEmpty() && newModules.isNotEmpty() -> { // if current modules list is empty, get from api
                 dataStore.setUserFavouriteModules(
                     newModules
                         .map { it.toString() }

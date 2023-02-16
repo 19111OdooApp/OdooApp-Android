@@ -27,6 +27,6 @@ interface IUserInfo : JsonRpcApi {
         @JsonRpcArgument("method") method: String = "write",
         @JsonRpcArgument("model") model: String = "res.users.settings",
         @JsonRpcArgument("kwargs") kwargs: Map<Any, Any> = emptyMap(),
-        @JsonRpcArgument("args") args: UpdateFavouriteModulesRequest
+        @JsonRpcArgument("args") args: List<Any>
     ): Boolean
 }

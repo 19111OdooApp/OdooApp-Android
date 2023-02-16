@@ -28,6 +28,7 @@ class SelectingModulesViewModel(
     val userInfoState: ResultSubject<User> by lazyEmptyResultPublishSubject()
     val modulesState: ResultSubject<List<OdooModule>> by lazyEmptyResultPublishSubject()
 
+    private var userModelId: Int = -1
     val allModules = mutableStateListOf<OdooModule>()
 
     fun getUserInfo() {
@@ -38,9 +39,11 @@ class SelectingModulesViewModel(
             .getUserInfo()
             .schedule(
                 userInfoChannel,
-                onSuccess = {
-                    Timber.d("getUserInfo(): result = $it")
-                    userInfoState.onNext(it)
+                onSuccess = { result ->
+                    Timber.d("getUserInfo(): result = $result")
+
+                    result.data?.modelId?.let { userModelId = it }
+                    userInfoState.onNext(result)
                 },
                 onError = Timber::e
             )
@@ -56,10 +59,10 @@ class SelectingModulesViewModel(
                 userModulesChannel,
                 onSuccess = { result ->
                     Timber.d("getUserModules(): result = $result")
+
                     result.data?.let { list ->
                         allModules.addAll(list)
                     }
-
                     modulesState.onNext(result)
                 },
                 onError = Timber::e
@@ -71,11 +74,32 @@ class SelectingModulesViewModel(
         val previousState = allModules[index].isFavourite
 
         allModules[index] = allModules[index].copy(isFavourite = !previousState)
+        updateUserFavouriteModules(
+            favouriteModules = allModules.filter { it.isFavourite }.map { it.id }
+        )
+    }
+
+    private fun updateUserFavouriteModules(favouriteModules: List<Int>) {
+        Timber.d("updateFavouriteModules(): favouriteModules = $favouriteModules")
+
+        selectingModulesInteractor
+            .updateFavouriteModules(
+                userModelId = userModelId,
+                favouriteModules = favouriteModules
+            )
+            .schedule(
+                userFavouriteModulesChannel,
+                onSuccess = {
+                    Timber.d("updateFavouriteModules: result = $it")
+                },
+                onError = Timber::e
+            )
     }
 
     private companion object {
         // Do this if there are multiple Rx chains in a viewModel
         val userInfoChannel = Channel()
         val userModulesChannel = Channel()
+        val userFavouriteModulesChannel = Channel()
     }
 }

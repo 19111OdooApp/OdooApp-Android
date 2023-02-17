@@ -1,7 +1,9 @@
 package odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,12 +11,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
@@ -42,6 +47,8 @@ internal fun SelectingModulesHeader(
         ),
     horizontalArrangement = Arrangement.SpaceBetween
 ) {
+    val iconSize = 40.dp
+
     Column {
         HeadlineText(
             textRes = R.string.hello_text,
@@ -54,22 +61,40 @@ internal fun SelectingModulesHeader(
     IconButton(
         onClick = { /*TODO Implement profile click*/ }
     ) {
-        Image(
-            painter = rememberAsyncImagePainter(
-                ImageRequest
-                    .Builder(LocalContext.current)
-                    .data(avatarUrl ?: R.drawable.default_user_avatar)
-                    .apply {
-                        error(R.drawable.default_user_avatar)
-                        crossfade(true)
-                    }
-                    .build()
-            ),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-        )
+        if (avatarUrl != null) {
+            Image(
+                painter = rememberAsyncImagePainter(
+                    ImageRequest
+                        .Builder(LocalContext.current)
+                        .data(avatarUrl)
+                        .apply {
+                            error(R.drawable.default_user_avatar)
+                            crossfade(true)
+                        }
+                        .build()
+                ),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(iconSize)
+                    .clip(CircleShape)
+            )
+        } else {
+            DefaultProfileIcon(userName, iconSize)
+        }
     }
+}
+
+@Composable
+private fun DefaultProfileIcon(
+    userName: String,
+    iconSize: Dp
+) = Box(
+    modifier = Modifier
+        .size(iconSize)
+        .clip(CircleShape)
+        .background(MaterialTheme.colorScheme.primary),
+    contentAlignment = Alignment.Center,
+) {
+    HeadlineText(text = userName.first().toString())
 }

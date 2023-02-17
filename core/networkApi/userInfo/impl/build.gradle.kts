@@ -21,5 +21,4 @@ dependencies {
 
     // Utils
     implementation(project(":core:utils"))
-//    implementation(project(mapOf("path" to ":core:networkapi:userinfo:api")))
 }

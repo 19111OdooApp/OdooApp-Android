@@ -4,10 +4,13 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.get
 import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.reactivex.rxjava3.core.Single
 import odoo.miem.android.common.network.selectingModules.api.ISelectingModulesInteractor
 import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.network.selectingModules.api.entities.User
+import odoo.miem.android.common.network.selectingModules.impl.entities.ImplementedModules
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.networkApi.userInfo.api.di.IUserInfoRepositoryApi
@@ -15,14 +18,12 @@ import odoo.miem.android.core.networkApi.userInfo.api.di.IUserModulesRepositoryA
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooGroupsResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooModulesResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.UpdateFavouriteModulesRequest
-import odoo.miem.android.core.utils.regex.getModulesIdFromFirebaseJson
 import odoo.miem.android.core.utils.state.ErrorResult
 import odoo.miem.android.core.utils.state.Result
 import odoo.miem.android.core.utils.state.ResultSingle
 import odoo.miem.android.core.utils.state.SuccessResult
 import timber.log.Timber
-import java.util.LinkedList
-import java.util.Queue
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -36,6 +37,14 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
     private val userInfoRepository by api(IUserInfoRepositoryApi::userInfoRepository)
     private val userModulesRepository by api(IUserModulesRepositoryApi::selectingModulesRepository)
     private val dataStore by api(IDataStoreApi::dataStore)
+
+    private val moshi = Moshi.Builder()
+        .addLast(KotlinJsonAdapterFactory())
+        .build()
+
+    init {
+        remoteConfig.fetchAndActivate()
+    }
 
     override fun getUserInfo(): ResultSingle<User> {
         Timber.d("getUserInfo()")
@@ -57,13 +66,13 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
                 dataStore.setUserModelId(modelId)
 
                 val castedFavouriteModules = if (favouriteModules is String) {
-                    favouriteModules
-                        .substring(1, favouriteModules.lastIndex)
-                        .split(FAVOURITE_MODULES_DELIMITER)
-                        .map { it.toInt() }
+                    deserialize(List::class.java, favouriteModules)
+                        ?.map { it.toString().toDouble().toInt() }
+                        ?: emptyList()
                 } else {
                     emptyList()
                 }
+
                 processFavouriteModules(
                     userModelId = modelId,
                     newModules = castedFavouriteModules
@@ -205,13 +214,13 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
         .map { it.id }
 
     private fun fetchImplementedModules(): List<Int> {
-        val implementedModules = remoteConfig[IMPLEMENTED_MODULES_KEY]
-            .asString()
-            .getModulesIdFromFirebaseJson()
+        val json = remoteConfig[IMPLEMENTED_MODULES_KEY].asString()
+        val implementedModules = deserialize(ImplementedModules::class.java, json)?.modules
+            ?.map { it.id }
 
         Timber.d("fetchImplementedModules(): result = $implementedModules")
 
-        return implementedModules
+        return implementedModules ?: emptyList()
     }
 
     private fun processFavouriteModules(userModelId: Int, newModules: List<Int>) {
@@ -239,9 +248,12 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
         }
     }
 
+    private fun <T : Any> deserialize(dataClass: Class<out T>, json: String): T? {
+        return moshi.adapter(dataClass).fromJson(json)
+    }
+
     private companion object {
         const val IMPLEMENTED_MODULES_KEY = "implementedModules"
         const val FAVOURITE_MODULES_KEY = "x_favourite_modules"
-        const val FAVOURITE_MODULES_DELIMITER = ", "
     }
 }

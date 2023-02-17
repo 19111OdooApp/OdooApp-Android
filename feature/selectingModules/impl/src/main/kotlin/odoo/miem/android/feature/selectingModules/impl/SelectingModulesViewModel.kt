@@ -52,7 +52,8 @@ class SelectingModulesViewModel(
     fun getUserModules(userUid: Int) {
         Timber.d("getUserModules(): userUid = $userUid")
 
-        modulesState.onLoadingState()
+//        it causes recomposition and therefore interrupts splash screen animation
+//        modulesState.onLoadingState()
         selectingModulesInteractor
             .getOdooModules(userUid)
             .schedule(

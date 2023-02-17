@@ -1,14 +1,8 @@
 package odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -27,7 +20,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,16 +27,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -57,7 +46,6 @@ import com.mxalbert.sharedelements.FadeMode
 import com.mxalbert.sharedelements.MaterialContainerTransformSpec
 import com.mxalbert.sharedelements.SharedElement
 import com.mxalbert.sharedelements.SharedElementsRoot
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
@@ -66,13 +54,13 @@ import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetVal
 import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetScaffoldState
 import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetState
 import odoo.miem.android.common.uiKitComponents.cards.SmallModuleCard
+import odoo.miem.android.common.uiKitComponents.splash.OdooSplashScreen
 import odoo.miem.android.common.uiKitComponents.text.SubtitleText
 import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
 import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
-import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
 import odoo.miem.android.core.utils.rx.collectAsState
 import odoo.miem.android.core.utils.state.SuccessResult
 import odoo.miem.android.core.utils.state.subscribeOnError
@@ -156,65 +144,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     onSearchValueChange = performModulesSearch
                 )
             } else {
-                SelectingModulesSplashScreen()
+                OdooSplashScreen()
             }
-        }
-    }
-
-    @Suppress("MagicNumber")
-    @Composable
-    private fun SelectingModulesSplashScreen() = Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .imePadding()
-    ) {
-        var isWelcomeTextVisible by rememberSaveable { mutableStateOf(false) }
-        var isLoaderVisible by rememberSaveable { mutableStateOf(false) }
-
-        val animationDuration = 1000
-
-        LaunchedEffect(Unit) {
-            isWelcomeTextVisible = true
-            delay(1000)
-            isLoaderVisible = true
-        }
-
-        AnimatedVisibility(
-            visible = isWelcomeTextVisible,
-            enter = expandVertically(
-                animationSpec = tween(durationMillis = animationDuration),
-                expandFrom = Alignment.Top
-            ) + fadeIn(
-                animationSpec = tween(durationMillis = animationDuration)
-            ),
-            exit = shrinkVertically(
-                animationSpec = tween(durationMillis = animationDuration),
-                shrinkTowards = Alignment.Bottom
-            ) + fadeOut(
-                animationSpec = tween(durationMillis = animationDuration)
-            )
-        ) {
-            Image(
-                painter = painterResource(odoo.miem.android.common.uiKitComponents.R.drawable.logo_odoo),
-                contentDescription = null,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier.size(192.dp)
-            )
-        }
-
-        Spacer(modifier = Modifier.height(mainVerticalPadding * 10))
-
-        AnimatedVisibility(
-            visible = isWelcomeTextVisible,
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
-            CircularProgressIndicator(
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(48.dp)
-            )
         }
     }
 

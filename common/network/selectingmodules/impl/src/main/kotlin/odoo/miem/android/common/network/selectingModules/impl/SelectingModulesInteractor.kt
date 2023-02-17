@@ -229,7 +229,8 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
                         .toSet()
                 )
             }
-            else -> { // user is single source of truth
+            // user is single source of truth
+            else -> {
                 updateFavouriteModules(
                     userModelId = userModelId,
                     favouriteModules = currentFavouriteModules

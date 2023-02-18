@@ -4,9 +4,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.get
 import com.google.firebase.remoteconfig.ktx.remoteConfig
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import odoo.miem.android.core.jsonRpcApiFabric.jsonRpcApi

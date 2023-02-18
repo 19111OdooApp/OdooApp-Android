@@ -60,11 +60,9 @@ class AuthorizationViewModel : BaseViewModel() {
     }
 
     fun hseWebViewExitCondition(rawUrl: String, currentUrl: String?, cookie: String?): Boolean {
-        val convertedUrl = urlProcessing(rawUrl)
-
         return when {
             currentUrl == null -> false
-            currentUrl.startsWith(convertedUrl) -> {
+            currentUrl.startsWith(urlProcessing(rawUrl)) -> {
                 if (cookie == null) {
                     Timber.d("hseWebViewExitCondition(): cookie is empty, error")
                     authorizationState.onNext(ErrorResult())

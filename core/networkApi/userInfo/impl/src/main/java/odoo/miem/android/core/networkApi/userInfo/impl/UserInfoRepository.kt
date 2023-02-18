@@ -1,11 +1,20 @@
 package odoo.miem.android.core.networkApi.userInfo.impl
 
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.ktx.get
+import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import odoo.miem.android.core.jsonRpcApiFabric.jsonRpcApi
 import odoo.miem.android.core.networkApi.userInfo.api.IUserInfoRepository
+import odoo.miem.android.core.networkApi.userInfo.api.source.ImplementedModules
 import odoo.miem.android.core.networkApi.userInfo.api.source.UpdateFavouriteModulesRequest
 import odoo.miem.android.core.networkApi.userInfo.api.source.UserInfoResponse
+import odoo.miem.android.core.networkApi.userInfo.impl.helpers.UserInfoSerializer
 import odoo.miem.android.core.networkApi.userInfo.impl.source.IUserInfo
 import timber.log.Timber
 import javax.inject.Inject
@@ -18,6 +27,13 @@ import javax.inject.Inject
 class UserInfoRepository @Inject constructor() : IUserInfoRepository {
 
     private val userInfo by jsonRpcApi<IUserInfo>()
+    private val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
+
+    private val serializer = UserInfoSerializer()
+
+    init {
+        remoteConfig.fetchAndActivate()
+    }
 
     override fun getUserInfo(): Single<UserInfoResponse> {
         Timber.d("getUserInfo()")
@@ -28,12 +44,40 @@ class UserInfoRepository @Inject constructor() : IUserInfoRepository {
     }
 
     override fun updateFavouriteModules(
-        request: UpdateFavouriteModulesRequest
+        userModelId: Int,
+        favouriteModules: List<Int>
     ): Single<Boolean> {
         Timber.d("updateFavouriteModules()")
+
+        val request = UpdateFavouriteModulesRequest(
+            args = listOf(
+                userModelId,
+                mapOf(FAVOURITE_MODULES_KEY to favouriteModules)
+            )
+        )
 
         return Single.fromCallable {
             userInfo.updateFavouriteModules(args = request.args)
         }.subscribeOn(Schedulers.io())
+    }
+
+    override fun fetchImplementedModules(): List<Int> {
+        val json = remoteConfig[IMPLEMENTED_MODULES_KEY].asString()
+        val implementedModules = serializer.deserialize(ImplementedModules::class.java, json)?.modules
+            ?.map { it.id }
+            ?: emptyList()
+
+        Timber.d("fetchImplementedModules(): result = $implementedModules")
+
+        return implementedModules
+    }
+
+    override fun deserializeFavouriteModules(jsonString: String): List<Int> {
+        return serializer.deserializeList(jsonString) ?: emptyList()
+    }
+
+    private companion object {
+        const val FAVOURITE_MODULES_KEY = "x_favourite_modules"
+        const val IMPLEMENTED_MODULES_KEY = "implementedModules"
     }
 }

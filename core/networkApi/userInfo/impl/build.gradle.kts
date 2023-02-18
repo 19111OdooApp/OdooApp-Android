@@ -10,6 +10,13 @@ dependencies {
 
     Dependencies.RxJava.ALL_DEPS.forEach { implementation(it) }
 
+    // Moshi
+    implementation(Dependencies.Network.MOSHI_KOTLIN)
+
+    // Firebase
+    Dependencies.Firebase.MODULE_DEPS.forEach { implementation(it) }
+    implementation(platform(Dependencies.Firebase.FIREBASE_BOM))
+
     implementation(project(":core:jsonrpc:base"))
 
     // Core

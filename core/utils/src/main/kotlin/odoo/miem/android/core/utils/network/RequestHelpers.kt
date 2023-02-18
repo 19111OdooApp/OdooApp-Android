@@ -19,9 +19,6 @@ object RequestHelpers {
     val databaseName: String
         get() = if (isHseUrl) Hse.HSE_DATABASE else dataStore.url.getDatabaseFromUrl()
 
-    val allModulesModel = "ir.ui.menu"
-    val allModulesFields = listOf("id", "name", "users")
-
     // Crutch, but you know, this is backend of hse...
     private object Hse {
         const val HSE_DOMAIN = "miem.tv"

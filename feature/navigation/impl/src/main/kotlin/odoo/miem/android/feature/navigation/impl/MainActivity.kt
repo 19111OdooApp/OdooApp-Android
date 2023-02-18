@@ -1,8 +1,10 @@
 package odoo.miem.android.feature.navigation.impl
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -10,8 +12,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.ktx.Firebase
@@ -57,6 +62,21 @@ class MainActivity : AppCompatActivity() {
 
             // TODO Picker of theme
             OdooMiemAndroidTheme {
+                val view = LocalView.current
+                if (!view.isInEditMode) {
+                    val currentWindow = (view.context as? Activity)?.window
+                        ?: error("Not in an activity - unable to get Window reference")
+
+                    val color = MaterialTheme.colorScheme.background.toArgb()
+                    val isLightStatusBar = !isSystemInDarkTheme()
+
+                    SideEffect {
+                        currentWindow.statusBarColor = color
+                        WindowCompat.getInsetsController(currentWindow, view)
+                            .isAppearanceLightStatusBars = isLightStatusBar
+                    }
+                }
+
                 Scaffold(
                     snackbarHost = {
                         SnackbarHost(

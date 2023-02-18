@@ -1,7 +1,7 @@
 package odoo.miem.android.core.networkApi.userInfo.api
 
+import com.squareup.moshi.Types
 import io.reactivex.rxjava3.core.Single
-import odoo.miem.android.core.networkApi.userInfo.api.source.UpdateFavouriteModulesRequest
 import odoo.miem.android.core.networkApi.userInfo.api.source.UserInfoResponse
 
 /**
@@ -22,10 +22,11 @@ interface IUserInfoRepository {
     /**
      * [updateFavouriteModules] - function for sending favourite modules to Odoo API
      *
-     * @param request: [UpdateFavouriteModulesRequest] contains id of user model at Odoo API
-     * and list of favourite modules ids
-     *
      * @return Observable<Boolean> - true or false whether updating Odoo database was successful
      */
-    fun updateFavouriteModules(request: UpdateFavouriteModulesRequest): Single<Boolean>
+    fun updateFavouriteModules(userModelId: Int, favouriteModules: List<Int>): Single<Boolean>
+
+    fun fetchImplementedModules(): List<Int>
+
+    fun deserializeFavouriteModules(jsonString: String): List<Int>
 }

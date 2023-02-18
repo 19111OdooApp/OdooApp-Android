@@ -52,7 +52,6 @@ class SelectingModulesViewModel(
     fun getUserModules(userUid: Int) {
         Timber.d("getUserModules(): userUid = $userUid")
 
-//        it causes recomposition and therefore interrupts splash screen animation
 //        modulesState.onLoadingState()
         selectingModulesInteractor
             .getOdooModules(userUid)
@@ -83,18 +82,20 @@ class SelectingModulesViewModel(
     private fun updateUserFavouriteModules(favouriteModules: List<Int>) {
         Timber.d("updateFavouriteModules(): favouriteModules = $favouriteModules")
 
-        selectingModulesInteractor
-            .updateFavouriteModules(
-                userModelId = userModelId,
-                favouriteModules = favouriteModules
-            )
-            .schedule(
-                userFavouriteModulesChannel,
-                onSuccess = {
-                    Timber.d("updateFavouriteModules: result = $it")
-                },
-                onError = Timber::e
-            )
+        if (userModelId != -1) {
+            selectingModulesInteractor
+                .updateFavouriteModules(
+                    userModelId = userModelId,
+                    favouriteModules = favouriteModules
+                )
+                .schedule(
+                    userFavouriteModulesChannel,
+                    onSuccess = {
+                        Timber.d("updateFavouriteModules: result = $it")
+                    },
+                    onError = Timber::e
+                )
+        }
     }
 
     private companion object {

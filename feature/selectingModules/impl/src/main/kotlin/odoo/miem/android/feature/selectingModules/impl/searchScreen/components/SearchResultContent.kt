@@ -37,15 +37,13 @@ fun SearchResultContent(
         .padding(top = commonPadding)
 ) {
     items(filteredModules) { module ->
-        with(module) {
-            BigModuleCard(
-                moduleName = this.name,
-                numberOfNotification = this.numberOfNotifications,
-                isLiked = this.isFavourite,
-                onClick = { onModuleCardClick(this) },
-                onLikeClick = { onLikeModuleClick(this) },
-            )
-        }
+        BigModuleCard(
+            moduleName = module.name,
+            numberOfNotification = module.numberOfNotifications,
+            isLiked = module.isFavourite,
+            onClick = { onModuleCardClick(module) },
+            onLikeClick = { onLikeModuleClick(module) },
+        )
     }
 
     item {

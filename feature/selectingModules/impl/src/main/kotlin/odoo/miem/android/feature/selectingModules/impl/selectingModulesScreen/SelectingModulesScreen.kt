@@ -69,7 +69,7 @@ import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
 import odoo.miem.android.feature.selectingModules.impl.R
 import odoo.miem.android.feature.selectingModules.impl.SelectingModulesViewModel
 import odoo.miem.android.feature.selectingModules.impl.searchScreen.SearchModulesScreen
-import odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components.SelectingModulesFavoriteList
+import odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components.SelectingModulesFavouriteList
 import odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components.SelectingModulesHeader
 import javax.inject.Inject
 
@@ -128,7 +128,10 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                 val performModulesSearch: (String) -> List<OdooModule> = { input ->
                     val filteredModules = state.data?.let { modules ->
                         modules.filter {
-                            it.name.lowercase().contains(input.trim().lowercase())
+                            it.name.lowercase().startsWith(
+                                prefix = input.trim().lowercase(),
+                                ignoreCase = true
+                            )
                         }
                     }
 
@@ -302,7 +305,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
         Spacer(modifier = Modifier.height(selectingFavoriteModulesTopPadding))
 
-        SelectingModulesFavoriteList(
+        SelectingModulesFavouriteList(
             favoriteModules = favouriteModules,
             onModuleCardClick = onModuleCardClick,
             onLikeModuleClick = onLikeModuleClick,

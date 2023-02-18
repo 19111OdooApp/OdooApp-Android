@@ -14,3 +14,12 @@ data class UserInfoResponse(
         @Json(name = "x_favourite_modules") val favouriteModules: Any
     )
 }
+
+data class ImplementedModules(
+    @Json(name = "modules") val modules: List<Module>
+) {
+    data class Module(
+        @Json(name = "id") val id: Int,
+        @Json(name = "name") val name: String
+    )
+}

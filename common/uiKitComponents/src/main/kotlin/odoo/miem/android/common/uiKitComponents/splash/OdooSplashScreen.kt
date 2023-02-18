@@ -48,6 +48,10 @@ fun OdooSplashScreen() = Column(
     var isLogoVisible by rememberSaveable { mutableStateOf(false) }
     var isLoaderVisible by rememberSaveable { mutableStateOf(false) }
 
+    val logoSize = 192.dp
+    val loaderSize = 48.dp
+    val logoBottomPadding = mainVerticalPadding * 10
+
     val animationDuration = 1000
     val floatAnimationSpec = tween<Float>(animationDuration)
     val intAnimationSpec = tween<IntSize>(animationDuration)
@@ -73,11 +77,11 @@ fun OdooSplashScreen() = Column(
             painter = painterResource(R.drawable.logo_odoo),
             contentDescription = null,
             contentScale = ContentScale.Fit,
-            modifier = Modifier.size(192.dp)
+            modifier = Modifier.size(logoSize)
         )
     }
 
-    Spacer(modifier = Modifier.height(mainVerticalPadding * 10))
+    Spacer(modifier = Modifier.height(logoBottomPadding))
 
     AnimatedVisibility(
         visible = isLogoVisible,
@@ -86,7 +90,7 @@ fun OdooSplashScreen() = Column(
     ) {
         CircularProgressIndicator(
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.size(48.dp)
+            modifier = Modifier.size(loaderSize)
         )
     }
 }

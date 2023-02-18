@@ -1,5 +1,5 @@
 /**
- * Convention for expansion [conventions.base-impl] for to generalize
+ * Convention for expansion [conventions.base-impl] to generalize
  * common dependencies in `common/network/-/api` modules
  *
  * @author Vorozhtsov Mikhail

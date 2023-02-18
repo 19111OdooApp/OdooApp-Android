@@ -8,13 +8,6 @@ android {
 
 dependencies {
 
-    // Firebase
-    Dependencies.Firebase.MODULE_DEPS.forEach { implementation(it) }
-    implementation(platform(Dependencies.Firebase.FIREBASE_BOM))
-
-    // Moshi
-    implementation(Dependencies.Network.MOSHI_KOTLIN)
-
     // Common
     // SelectingModules API
     api(project(":common:network:selectingModules:api"))

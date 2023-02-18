@@ -9,6 +9,12 @@ import odoo.miem.android.core.networkApi.userInfo.api.source.UserInfoResponse
 import java.util.LinkedList
 import java.util.Queue
 
+/**
+ * [SelectingModulesHelper] - helper for converting raw data from [UserInfoRepository] and
+ * [UserModulesRepository] to appropriate data classes for [SelectingModulesInteractor]
+ *
+ * @author Egor Danilov
+ */
 internal class SelectingModulesHelper {
 
     fun convertUserInfoResponse(

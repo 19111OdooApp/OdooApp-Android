@@ -55,6 +55,7 @@ import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottom
 import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetState
 import odoo.miem.android.common.uiKitComponents.cards.SmallModuleCard
 import odoo.miem.android.common.uiKitComponents.splash.OdooSplashScreen
+import odoo.miem.android.common.uiKitComponents.stateholder.StateHolder
 import odoo.miem.android.common.uiKitComponents.text.SubtitleText
 import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
@@ -118,17 +119,17 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             }
         }
 
-        Crossfade(
-            targetState = modulesState
-        ) { state ->
-            if (state is SuccessResult) {
+        StateHolder(
+            state = modulesState,
+            loadingContent = { OdooSplashScreen() },
+            successContent = {
                 val allModules = viewModel.allModules
                 val favouriteModules = allModules.filter { it.isFavourite }
 
                 val performModulesSearch: (String) -> List<OdooModule> = { input ->
-                    val filteredModules = state.data?.let { modules ->
+                    val filteredModules = modulesState.data?.let { modules ->
                         modules.filter {
-                            it.name.lowercase().startsWith(
+                            it.name.trim().lowercase().startsWith(
                                 prefix = input.trim().lowercase(),
                                 ignoreCase = true
                             )
@@ -146,10 +147,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     onLikeModuleClick = viewModel::onModuleLikeClick,
                     onSearchValueChange = performModulesSearch
                 )
-            } else {
-                OdooSplashScreen()
             }
-        }
+        )
     }
 
     @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterialApi::class)

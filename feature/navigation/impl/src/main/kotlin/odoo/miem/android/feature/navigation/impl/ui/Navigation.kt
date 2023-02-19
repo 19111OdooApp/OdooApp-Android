@@ -61,7 +61,7 @@ fun Navigation(
         moduleNotFoundScreen = moduleNotFoundScreen,
         paddingValues = paddingValues,
         navController = navController,
-        isAuthorized = dataStore.isAuthorized,
+//        isAuthorized = dataStore.isAuthorized,
         showMessage = showMessage,
     )
 }
@@ -73,7 +73,7 @@ fun NavigationContent(
     moduleNotFoundScreen: IModuleNotFoundScreen,
     paddingValues: PaddingValues,
     navController: NavHostController,
-    isAuthorized: Boolean,
+//    isAuthorized: Boolean,
     showMessage: (Int) -> Unit,
 ) {
     Surface(
@@ -85,7 +85,7 @@ fun NavigationContent(
         NavHost(
             navController = navController,
             startDestination = remember {
-                if (isAuthorized) Routes.selectingModules else Routes.authorization
+                Routes.authorization
             }
         ) {
             composable(Routes.authorization) {

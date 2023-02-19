@@ -1,12 +1,10 @@
 package odoo.miem.android.core.networkApi.userInfo.impl
 
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.ktx.get
-import com.google.firebase.remoteconfig.ktx.remoteConfig
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
+import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.jsonRpcApiFabric.jsonRpcApi
+import odoo.miem.android.core.networkApi.remoteConfig.api.di.IRemoteConfigApi
 import odoo.miem.android.core.networkApi.userInfo.api.IUserInfoRepository
 import odoo.miem.android.core.networkApi.userInfo.api.source.ImplementedModules
 import odoo.miem.android.core.networkApi.userInfo.api.source.UpdateFavouriteModulesRequest
@@ -24,13 +22,9 @@ import javax.inject.Inject
 class UserInfoRepository @Inject constructor() : IUserInfoRepository {
 
     private val userInfo by jsonRpcApi<IUserInfo>()
-    private val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
+    private val remoteConfig by api(IRemoteConfigApi::remoteConfig)
 
     private val serializer = UserInfoSerializer()
-
-    init {
-        remoteConfig.fetchAndActivate()
-    }
 
     override fun getUserInfo(): Single<UserInfoResponse> {
         Timber.d("getUserInfo()")
@@ -59,7 +53,7 @@ class UserInfoRepository @Inject constructor() : IUserInfoRepository {
     }
 
     override fun fetchImplementedModules(): List<Int> {
-        val json = remoteConfig[IMPLEMENTED_MODULES_KEY].asString()
+        val json = remoteConfig.fetchImplementedModules()
         val implementedModules = serializer.deserialize(ImplementedModules::class.java, json)?.modules
             ?.map { it.id }
             ?: emptyList()
@@ -75,6 +69,5 @@ class UserInfoRepository @Inject constructor() : IUserInfoRepository {
 
     private companion object {
         const val FAVOURITE_MODULES_KEY = "x_favourite_modules"
-        const val IMPLEMENTED_MODULES_KEY = "implementedModules"
     }
 }

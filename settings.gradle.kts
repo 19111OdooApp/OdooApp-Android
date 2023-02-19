@@ -50,6 +50,9 @@ include(":core:networkApi:userInfo:impl")
 include(":core:networkApi:userModules:api")
 include(":core:networkApi:userModules:impl")
 
+include(":core:networkApi:remoteConfig:impl")
+include(":core:networkApi:remoteConfig:api")
+
 include(":core:jsonrpc:base")
 include(":core:jsonrpc:core")
 include(":core:jsonrpc:engine")

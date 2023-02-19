@@ -9,6 +9,7 @@ import odoo.miem.android.core.di.impl.ApiRegistry
 import odoo.miem.android.core.di.impl.ApiResolver
 import odoo.miem.android.core.jsonrpc.parser.impl.di.MoshiParserApiProvider
 import odoo.miem.android.core.networkApi.authorization.impl.di.AuthorizationRepositoryApiProvider
+import odoo.miem.android.core.networkApi.remoteConfig.impl.di.RemoteConfigApiProvider
 import odoo.miem.android.core.networkApi.userInfo.impl.di.UserInfoRepositoryApiProvider
 import odoo.miem.android.core.networkApi.userModules.impl.di.UserModulesRepositoryApiProvider
 import odoo.miem.android.core.platform.dependecies.DefaultPlatformDependencies
@@ -31,6 +32,7 @@ import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreen
  *  - [AuthorizationRepositoryApiProvider] - to deliver the dependency of authorization repository
  *  - [UserInfoRepositoryApiProvider] - to deliver the dependency of user info repository
  *  - [UserModulesRepositoryApiProvider] - to deliver the dependency of user modules repository
+ *  - [RemoteConfigApiProvider] - to deliver the dependency of Firebase Remote Config
  *
  *  - [AuthorizationScreenApiProvider] - to deliver the dependency of authorization screen
  *  - [SelectingModulesScreenApiProvider] - to deliver the dependency of selecting modules screen
@@ -53,6 +55,7 @@ import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreen
         AuthorizationRepositoryApiProvider::class,
         UserInfoRepositoryApiProvider::class,
         UserModulesRepositoryApiProvider::class,
+        RemoteConfigApiProvider::class,
         // Screens
         AuthorizationScreenApiProvider::class,
         SelectingModulesScreenApiProvider::class,

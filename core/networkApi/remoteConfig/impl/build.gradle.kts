@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "odoo.miem.android.core.networkApi.userInfo.impl"
+    namespace = "odoo.miem.android.core.networkApi.remoteConfig.impl"
 }
 
 dependencies {
@@ -13,13 +13,14 @@ dependencies {
     // Moshi
     implementation(Dependencies.Network.MOSHI_KOTLIN)
 
+    // Firebase
+    Dependencies.Firebase.MODULE_DEPS.forEach { implementation(it) }
+    implementation(platform(Dependencies.Firebase.FIREBASE_BOM))
+
     implementation(project(":core:jsonrpc:base"))
 
     // Core
     // Network API - user info
-    api(project(":core:networkApi:userInfo:api"))
-
-    // Network API - remote config
     api(project(":core:networkApi:remoteConfig:api"))
 
     // Retrofit Api Fabric

@@ -8,17 +8,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.uiKitComponents.cards.BigModuleCard
 import odoo.miem.android.core.uiKitTheme.commonPadding
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
-import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 import odoo.miem.android.feature.selectingModules.impl.searchScreen.SearchModulesScreen
 
 /**
@@ -30,7 +26,8 @@ import odoo.miem.android.feature.selectingModules.impl.searchScreen.SearchModule
 @Composable
 fun SearchResultContent(
     filteredModules: List<OdooModule>,
-    onModuleCardClick: () -> Unit = {}
+    onModuleCardClick: (OdooModule) -> Unit = {},
+    onLikeModuleClick: (OdooModule) -> Unit = {}
 ) = LazyColumn(
     verticalArrangement = Arrangement.spacedBy(mainVerticalPadding),
     horizontalAlignment = Alignment.CenterHorizontally,
@@ -39,15 +36,13 @@ fun SearchResultContent(
         .padding(horizontal = mainHorizontalPadding)
         .padding(top = commonPadding)
 ) {
-    items(filteredModules) {
-        var isLikedState by remember { mutableStateOf(it.isLiked) }
-
+    items(filteredModules) { module ->
         BigModuleCard(
-            moduleName = it.name,
-            numberOfNotification = it.numberOfNotifications,
-            isLiked = isLikedState,
-            onClick = onModuleCardClick,
-            onLikeClick = { isLikedState = !isLikedState },
+            moduleName = module.name,
+            numberOfNotification = module.numberOfNotifications,
+            isLiked = module.isFavourite,
+            onClick = { onModuleCardClick(module) },
+            onLikeClick = { onLikeModuleClick(module) },
         )
     }
 

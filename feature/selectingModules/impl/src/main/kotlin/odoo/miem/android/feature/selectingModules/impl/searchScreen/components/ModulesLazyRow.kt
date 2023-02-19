@@ -11,16 +11,14 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.uiKitComponents.cards.SmallModuleCard
 import odoo.miem.android.common.uiKitComponents.text.LabelText
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
-import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 
 /**
  * [ModulesLazyRow] - row with modules for [SearchRecommendationsContent]
@@ -35,7 +33,8 @@ import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 fun ModulesLazyRow(
     @StringRes headerRes: Int,
     modules: List<OdooModule>,
-    onModuleCardClick: () -> Unit = {}
+    onModuleCardClick: (OdooModule) -> Unit = {},
+    onLikeModuleClick: (OdooModule) -> Unit = {},
 ) {
     val itemSpacing = mainHorizontalPadding / 2
     val startRowPadding = mainHorizontalPadding / 2
@@ -56,16 +55,18 @@ fun ModulesLazyRow(
             Spacer(modifier = Modifier.width(startRowPadding))
         }
 
-        items(modules) {
-            var isLikedState by remember { mutableStateOf(it.isLiked) }
-
-            SmallModuleCard(
-                moduleName = it.name,
-                isLiked = isLikedState,
-                onClick = onModuleCardClick,
-                onLikeClick = { isLikedState = !isLikedState },
-                modifier = Modifier.width(170.dp)
-            )
+        items(modules) { module ->
+            with(module) {
+                SmallModuleCard(
+                    moduleName = this.name,
+                    isLiked = this.isFavourite,
+                    onClick = { onModuleCardClick(this) },
+                    onLikeClick = {
+                        onLikeModuleClick(this)
+                    },
+                    modifier = Modifier.width(170.dp)
+                )
+            }
         }
 
         item {

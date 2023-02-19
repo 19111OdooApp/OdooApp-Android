@@ -8,9 +8,7 @@ plugins {
 
 buildscript {
     dependencies {
-        Dependencies.Firebase.ALL_GRADLE_PLUGINS.forEach {
-            classpath(it)
-        }
+        Dependencies.Firebase.GRADLE_PLUGINS.forEach { classpath(it) }
     }
 }
 

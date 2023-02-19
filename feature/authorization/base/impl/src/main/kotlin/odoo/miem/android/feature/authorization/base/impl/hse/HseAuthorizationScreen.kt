@@ -57,6 +57,7 @@ fun HseAuthorizationScreen(
                         cookieManager.getCookie(url).also { cookie ->
                             Timber.d("onPageFinished(): current url - $url, cookie - $cookie")
                             if (exitCondition(url, cookie)) {
+                                setInvisible()
                                 removeAllViews()
                                 destroy()
                             }
@@ -66,8 +67,8 @@ fun HseAuthorizationScreen(
 
                 settings.apply {
                     setJavaScriptEnabled(true)
-                    setDomStorageEnabled(true)
-                    setDatabaseEnabled(true)
+                    domStorageEnabled = true
+                    databaseEnabled = true
                 }
 
                 loadUrl(baseUrl)

@@ -1,7 +1,7 @@
 /**
- * Конвеция для расширения [conventions.module-impl] в android-compose состовляющую
+ * Convention for extending [conventions.module-impl] to android-compose component
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  * @since 06.10.2022
  */
 plugins {

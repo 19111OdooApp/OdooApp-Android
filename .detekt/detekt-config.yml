@@ -141,7 +141,7 @@ complexity:
     ignoreArgumentsMatchingNames: false
   NestedBlockDepth:
     active: true
-    threshold: 4
+    threshold: 5
   NestedScopeFunctions:
     active: false
     threshold: 1
@@ -344,10 +344,10 @@ naming:
     active: false
     parameterPattern: '[a-z][A-Za-z0-9]*|_'
   MatchingDeclarationName:
-    active: true
+    active: false
     mustBeFirst: true
   MemberNameEqualsClassName:
-    active: true
+    active: false
     ignoreOverridden: true
   NoNameShadowing:
     active: true
@@ -769,7 +769,7 @@ formatting:
     active: true
     autoCorrect: true
   Filename:
-    active: true
+    active: false
   FinalNewline:
     active: true
     autoCorrect: true

@@ -1,6 +1,5 @@
 /**
- * [Dependencies] предназначен для хранения всех зависимостей, которые нужны
- * в данном проекте
+ * [Dependencies] is designed to store all the dependencies that are needed in this project
  *
  *
  * @author Ворожцов Михаил
@@ -112,11 +111,14 @@ object Dependencies {
         object Accompanist {
             private const val VERSION = "0.28.0"
 
-            const val ACCOMPANIST_CORE = "com.google.accompanist:accompanist-pager:$VERSION"
+            const val ACCOMPANIST_PAGER = "com.google.accompanist:accompanist-pager:$VERSION"
             const val ACCOMPANIST_INDICATORS =
                 "com.google.accompanist:accompanist-pager-indicators:$VERSION"
 
-            val ALL_ACCOMPANIST_DEPS = listOf(ACCOMPANIST_CORE, ACCOMPANIST_INDICATORS)
+            val ALL_ACCOMPANIST_DEPS = listOf(
+                ACCOMPANIST_PAGER,
+                ACCOMPANIST_INDICATORS
+            )
         }
 
         object SharedElements {
@@ -216,11 +218,14 @@ object Dependencies {
         const val FIREBASE_BOM = "com.google.firebase:firebase-bom:$BOM_VERSION"
         const val FIREBASE_ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
         const val FIREBASE_CRASHLYTICS = "com.google.firebase:firebase-crashlytics-ktx"
+        const val FIREBASE_CONFIG = "com.google.firebase:firebase-config-ktx"
 
-        val ALL_GRADLE_PLUGINS =
+        val GRADLE_PLUGINS =
             listOf(GOOGLE_SERVICES_GRADLE_PLUGIN, FIREBASE_CRASHLYTICS_GRADLE_PLUGIN)
 
-        val ALL_DEPS = listOf(FIREBASE_ANALYTICS, FIREBASE_CRASHLYTICS)
+        val APPLICATION_DEPS = listOf(FIREBASE_ANALYTICS, FIREBASE_CRASHLYTICS)
+
+        val MODULE_DEPS = listOf(FIREBASE_ANALYTICS, FIREBASE_CONFIG)
     }
 
     object Plugins {

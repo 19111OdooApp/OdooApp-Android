@@ -30,6 +30,9 @@ dependencies {
     // Network - authorization
     implementation(project(":common:network:authorization:impl"))
 
+    // Network - selecting modules
+    implementation(project(":common:network:selectingModules:impl"))
+
     // Core
     // Datastore
     implementation(project(":core:dataStore:impl"))
@@ -39,6 +42,15 @@ dependencies {
 
     // Network API - authorization
     implementation(project(":core:networkApi:authorization:impl"))
+
+    // Network API - user info
+    implementation(project(":core:networkApi:userInfo:impl"))
+
+    // Network API - user modules
+    implementation(project(":core:networkApi:userModules:impl"))
+
+    // Network API - remote config
+    implementation(project(":core:networkApi:remoteConfig:impl"))
 
     // Json RPC - Engine
     implementation(project(":core:jsonrpc:engine"))

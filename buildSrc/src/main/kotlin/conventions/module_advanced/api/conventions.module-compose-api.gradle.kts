@@ -1,5 +1,5 @@
 /**
- * Конвеция для расширения [conventions.base-impl] для провайда compose функций
+ * Convension for extending [conventions.base-impl] to provide Compose's function
  *
  * @author Ворожцов Михаил
  * @since 06.10.2022

@@ -1,5 +1,6 @@
 package odoo.miem.android.common.network.selectingModules.api.di
 
+import odoo.miem.android.common.network.selectingModules.api.ISelectingModulesInteractor
 import odoo.miem.android.core.di.api.Api
 
 /**
@@ -10,4 +11,7 @@ import odoo.miem.android.core.di.api.Api
  *
  * @author Egor Danilov
  */
-interface ISelectingModulesInteractorApi : Api
+interface ISelectingModulesInteractorApi : Api {
+
+    val selectingModulesInteractor: ISelectingModulesInteractor
+}

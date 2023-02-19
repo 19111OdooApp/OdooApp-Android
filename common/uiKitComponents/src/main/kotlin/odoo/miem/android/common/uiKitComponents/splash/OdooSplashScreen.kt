@@ -35,8 +35,8 @@ import kotlinx.coroutines.delay
 import odoo.miem.android.common.uiKitComponents.R
 import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
 
-@OptIn(ExperimentalAnimationApi::class)
 @Suppress("MagicNumber")
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun OdooSplashScreen() = Column(
     verticalArrangement = Arrangement.Center,
@@ -52,13 +52,14 @@ fun OdooSplashScreen() = Column(
     val loaderSize = 48.dp
     val logoBottomPadding = mainVerticalPadding * 10
 
+    val delay = 1000L
     val animationDuration = 1000
     val floatAnimationSpec = tween<Float>(animationDuration)
     val intAnimationSpec = tween<IntSize>(animationDuration)
 
     LaunchedEffect(Unit) {
         isLogoVisible = true
-        delay(1000)
+        delay(delay)
         isLoaderVisible = true
     }
 

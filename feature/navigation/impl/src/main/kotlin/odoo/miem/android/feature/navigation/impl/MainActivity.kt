@@ -12,6 +12,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -24,10 +25,10 @@ import odoo.miem.android.feature.navigation.impl.ui.Navigation
 import timber.log.Timber
 
 /**
- * [MainActivity] - входная activity, с которой начинается
- * навигация по приложению
+ * [MainActivity] - entry activity which starts navigation
+ * across app
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 class MainActivity : AppCompatActivity() {
 
@@ -43,20 +44,7 @@ class MainActivity : AppCompatActivity() {
 
             // TODO Picker of theme
             OdooMiemAndroidTheme {
-                val view = LocalView.current
-                if (!view.isInEditMode) {
-                    val currentWindow = (view.context as? Activity)?.window
-                        ?: error("Not in an activity - unable to get Window reference")
-
-                    val color = MaterialTheme.colorScheme.background.toArgb()
-                    val isLightStatusBar = !isSystemInDarkTheme()
-
-                    SideEffect {
-                        currentWindow.statusBarColor = color
-                        WindowCompat.getInsetsController(currentWindow, view)
-                            .isAppearanceLightStatusBars = isLightStatusBar
-                    }
-                }
+                SetupStatusBarColor()
 
                 Scaffold(
                     snackbarHost = {
@@ -81,6 +69,24 @@ class MainActivity : AppCompatActivity() {
                     }
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun SetupStatusBarColor() {
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        val currentWindow = (view.context as? Activity)?.window
+            ?: error("Not in an activity - unable to get Window reference")
+
+        val color = MaterialTheme.colorScheme.background.toArgb()
+        val isLightStatusBar = !isSystemInDarkTheme()
+
+        SideEffect {
+            currentWindow.statusBarColor = color
+            WindowCompat.getInsetsController(currentWindow, view)
+                .isAppearanceLightStatusBars = isLightStatusBar
         }
     }
 }

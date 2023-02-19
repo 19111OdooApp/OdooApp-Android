@@ -56,7 +56,7 @@ internal class SelectingModulesHelper {
         val implementedModulesSet = implementedModules.toSortedSet()
         val favouriteModulesSet = favouriteModules.toSortedSet()
 
-        val accessibleModules = mutableListOf<OdooModule>()
+        val rootModules = mutableListOf<OdooModule>()
 
         // our backend is AWFUL, forgive me...
         // as Odoo API returns all modules in one list, we should build hierarch of modules..
@@ -76,7 +76,7 @@ internal class SelectingModulesHelper {
                     (castedParentInfo[0] as Double).toInt()
                 }
 
-                accessibleModules.add(
+                rootModules.add(
                     OdooModule(
                         id = module.id,
                         name = module.name,
@@ -89,7 +89,7 @@ internal class SelectingModulesHelper {
             }
         }
 
-        return buildModuleHierarchy(accessibleModules)
+        return buildModuleHierarchy(rootModules)
     }
 
     private fun buildModuleHierarchy(modules: MutableList<OdooModule>): List<OdooModule> {
@@ -106,14 +106,16 @@ internal class SelectingModulesHelper {
             val currentModule = queue.poll()
             val childModules = mutableListOf<OdooModule>()
 
-            for (module in modules) {
-                if (module.parentId == currentModule!!.id) {
-                    childModules.add(module)
-                    queue.offer(module)
-                    modules.remove(module)
+            currentModule?.let {
+                for (module in modules) {
+                    if (it.id == module.parentId) {
+                        childModules.add(module)
+                        queue.offer(module)
+                        modules.remove(module)
+                    }
                 }
+                it.childModules.addAll(childModules)
             }
-            currentModule!!.childModules.addAll(childModules)
         }
 
         return moduleHierarchy

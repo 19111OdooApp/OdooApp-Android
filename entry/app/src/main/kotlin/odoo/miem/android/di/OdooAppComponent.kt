@@ -3,11 +3,15 @@ package odoo.miem.android.di
 import android.content.Context
 import dagger.Component
 import odoo.miem.android.common.network.authorization.impl.di.AuthorizationInteractorApiProvider
-import odoo.miem.android.common.network.authorization.impl.di.AuthorizationRepositoryApiProvider
+import odoo.miem.android.common.network.selectingModules.impl.di.SelectingModulesInteractorApiProvider
 import odoo.miem.android.core.dataStore.impl.di.DataStoreApiProvider
 import odoo.miem.android.core.di.impl.ApiRegistry
 import odoo.miem.android.core.di.impl.ApiResolver
 import odoo.miem.android.core.jsonrpc.parser.impl.di.MoshiParserApiProvider
+import odoo.miem.android.core.networkApi.authorization.impl.di.AuthorizationRepositoryApiProvider
+import odoo.miem.android.core.networkApi.remoteConfig.impl.di.RemoteConfigApiProvider
+import odoo.miem.android.core.networkApi.userInfo.impl.di.UserInfoRepositoryApiProvider
+import odoo.miem.android.core.networkApi.userModules.impl.di.UserModulesRepositoryApiProvider
 import odoo.miem.android.core.platform.dependecies.DefaultPlatformDependencies
 import odoo.miem.android.core.platform.dependecies.PlatformDependencies
 import odoo.miem.android.core.platform.di.PlatformApiProvider
@@ -26,12 +30,19 @@ import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreen
  *
  * Connected modules:
  *  - [AuthorizationRepositoryApiProvider] - to deliver the dependency of authorization repository
+ *  - [UserInfoRepositoryApiProvider] - to deliver the dependency of user info repository
+ *  - [UserModulesRepositoryApiProvider] - to deliver the dependency of user modules repository
+ *  - [RemoteConfigApiProvider] - to deliver the dependency of Firebase Remote Config
+ *
  *  - [AuthorizationScreenApiProvider] - to deliver the dependency of authorization screen
- *  - [AuthorizationInteractorApiProvider] - to deliver the dependency of authorization interactor
- *  - [DataStoreApiProvider] - to deliver the dependency of data store
- *  - [PlatformApiProvider] - to deliver the dependency of platform objects
  *  - [SelectingModulesScreenApiProvider] - to deliver the dependency of selecting modules screen
  *  - [ModuleNotFoundScreenApiProvider] - to deliver the dependency of module not found screen
+ *
+ *  - [AuthorizationInteractorApiProvider] - to deliver the dependency of authorization interactor
+ *  - [SelectingModulesInteractorApiProvider] - to deliver the dependency of selection modules interactor
+ *
+ *  - [DataStoreApiProvider] - to deliver the dependency of data store
+ *  - [PlatformApiProvider] - to deliver the dependency of platform objects
  *
  * @author Vorozhtsov Mikhail
  */
@@ -40,15 +51,23 @@ import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreen
         PlatformDependencies::class,
     ],
     modules = [
+        // Repositories
         AuthorizationRepositoryApiProvider::class,
+        UserInfoRepositoryApiProvider::class,
+        UserModulesRepositoryApiProvider::class,
+        RemoteConfigApiProvider::class,
+        // Screens
         AuthorizationScreenApiProvider::class,
+        SelectingModulesScreenApiProvider::class,
+        ModuleNotFoundScreenApiProvider::class,
+        // Interactors
         AuthorizationInteractorApiProvider::class,
+        SelectingModulesInteractorApiProvider::class,
+        // Utils
         DataStoreApiProvider::class,
         MoshiParserApiProvider::class,
         PlatformApiProvider::class,
-        RxApiProvider::class,
-        SelectingModulesScreenApiProvider::class,
-        ModuleNotFoundScreenApiProvider::class,
+        RxApiProvider::class
     ]
 )
 interface OdooAppComponent {

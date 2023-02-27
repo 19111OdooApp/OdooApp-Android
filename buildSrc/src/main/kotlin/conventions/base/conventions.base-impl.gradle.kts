@@ -3,10 +3,10 @@ import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
- * Базовая конвенция для api модулей, которая не содержит
- * подключаемые завивисимости
+ * Basic conventions for api modules which doesn't contains
+ * pluggable dependencies
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  * @since 15.09.2022
  */
 plugins {

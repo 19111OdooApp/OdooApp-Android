@@ -28,8 +28,8 @@ rootProject.name = "Odoo App"
 include(":common:network:authorization:api")
 include(":common:network:authorization:impl")
 
-include(":common:network:selectingmodules:api")
-include(":common:network:selectingmodules:impl")
+include(":common:network:selectingModules:api")
+include(":common:network:selectingModules:impl")
 
 include(":common:uiKitComponents")
 
@@ -43,6 +43,15 @@ include(":core:di:impl")
 
 include(":core:networkApi:authorization:api")
 include(":core:networkApi:authorization:impl")
+
+include(":core:networkApi:userInfo:api")
+include(":core:networkApi:userInfo:impl")
+
+include(":core:networkApi:userModules:api")
+include(":core:networkApi:userModules:impl")
+
+include(":core:networkApi:remoteConfig:impl")
+include(":core:networkApi:remoteConfig:api")
 
 include(":core:jsonrpc:base")
 include(":core:jsonrpc:core")

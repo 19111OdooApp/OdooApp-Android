@@ -5,7 +5,7 @@ import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcResponse
 
 /**
  * [JsonRpcInterceptor] is a special interface, with
- * a help of witch we can make a [Chain] of a processing
+ * a help of which we can make a [Chain] of a processing
  * request and response. It can work (depend on implementation)
  * recursively, for example:
  * ```

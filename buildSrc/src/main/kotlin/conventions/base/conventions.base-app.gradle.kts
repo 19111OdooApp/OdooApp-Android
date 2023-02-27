@@ -1,9 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
- * Базовая конвенция для app модулей
+ * Basic convention for app modules
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  * @since 09.10.2022
  */
 plugins {

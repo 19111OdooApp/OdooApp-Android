@@ -27,13 +27,13 @@ import com.mxalbert.sharedelements.FadeMode
 import com.mxalbert.sharedelements.MaterialArcMotionFactory
 import com.mxalbert.sharedelements.SharedElement
 import com.mxalbert.sharedelements.SharedElementsTransitionSpec
+import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
 import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
 import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
 import odoo.miem.android.feature.selectingModules.impl.R
-import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
 import odoo.miem.android.feature.selectingModules.impl.searchScreen.components.SearchRecommendationsContent
 import odoo.miem.android.feature.selectingModules.impl.searchScreen.components.SearchResultContent
 import odoo.miem.android.feature.selectingModules.impl.searchScreen.components.SearchResultEmpty
@@ -47,7 +47,9 @@ import odoo.miem.android.feature.selectingModules.impl.searchScreen.components.S
 fun SearchModulesScreen(
     allModules: List<OdooModule>,
     favouriteModules: List<OdooModule>,
-    onModuleCardClick: () -> Unit = {},
+    onSearchValueChange: (String) -> List<OdooModule>,
+    onModuleCardClick: (OdooModule) -> Unit = {},
+    onLikeModuleClick: (OdooModule) -> Unit = {},
     onBackPressed: () -> Unit = {},
 ) = Column(
     horizontalAlignment = Alignment.CenterHorizontally,
@@ -58,7 +60,9 @@ fun SearchModulesScreen(
     var searchInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue())
     }
-    val filteredModules: List<OdooModule> = emptyList()
+    var filteredModules by rememberSaveable {
+        mutableStateOf<List<OdooModule>>(emptyList())
+    }
     val focusRequester = FocusRequester()
 
     BackHandler(enabled = true) {
@@ -87,7 +91,7 @@ fun SearchModulesScreen(
             value = searchInput,
             onValueChange = {
                 searchInput = it
-                // TODO search logic from viewModel
+                filteredModules = onSearchValueChange(it.text)
             },
             modifier = Modifier.focusRequester(focusRequester)
         )
@@ -103,7 +107,8 @@ fun SearchModulesScreen(
         SearchRecommendationsContent(
             allModules = allModules,
             favouriteModules = favouriteModules,
-            onModuleCardClick = onModuleCardClick
+            onModuleCardClick = onModuleCardClick,
+            onLikeModuleClick = onLikeModuleClick
         )
     }
 
@@ -117,7 +122,8 @@ fun SearchModulesScreen(
         } else {
             SearchResultContent(
                 filteredModules = filteredModules,
-                onModuleCardClick = onModuleCardClick
+                onModuleCardClick = onModuleCardClick,
+                onLikeModuleClick = onLikeModuleClick
             )
         }
     }
@@ -128,14 +134,24 @@ fun SearchModulesScreen(
 private fun SearchModulesScreenPreview() = OdooMiemAndroidTheme {
     val modules = listOf(
         OdooModule(
+            id = -1,
+            parentId = null,
+            childModules = mutableListOf(),
             name = "CRM",
             numberOfNotifications = 1
         ),
         OdooModule(
+            id = -1,
+            parentId = null,
+            childModules = mutableListOf(),
             name = "Recruitment",
-            numberOfNotifications = 5
+            numberOfNotifications = 5,
+            isFavourite = true
         ),
         OdooModule(
+            id = -1,
+            parentId = null,
+            childModules = mutableListOf(),
             name = "Pricing",
             numberOfNotifications = 123
         ),
@@ -143,6 +159,7 @@ private fun SearchModulesScreenPreview() = OdooMiemAndroidTheme {
 
     SearchModulesScreen(
         allModules = modules,
-        favouriteModules = modules
+        favouriteModules = modules,
+        onSearchValueChange = { emptyList() }
     )
 }

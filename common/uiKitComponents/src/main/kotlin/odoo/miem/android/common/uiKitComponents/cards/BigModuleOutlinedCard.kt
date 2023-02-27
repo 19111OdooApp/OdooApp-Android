@@ -70,7 +70,8 @@ fun BigModuleOutlinedCard(
             text = stringResource(R.string.outlined_module_card_header),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            maxLines = 1
         )
 
         Icon(

@@ -38,6 +38,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
@@ -46,24 +47,30 @@ import com.mxalbert.sharedelements.MaterialContainerTransformSpec
 import com.mxalbert.sharedelements.SharedElement
 import com.mxalbert.sharedelements.SharedElementsRoot
 import kotlinx.coroutines.launch
+import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
 import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetScaffold
 import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetValue
 import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetScaffoldState
 import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetState
 import odoo.miem.android.common.uiKitComponents.cards.SmallModuleCard
+import odoo.miem.android.common.uiKitComponents.splash.OdooSplashScreen
+import odoo.miem.android.common.uiKitComponents.stateholder.StateHolder
 import odoo.miem.android.common.uiKitComponents.text.SubtitleText
 import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
 import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
+import odoo.miem.android.core.utils.rx.collectAsState
+import odoo.miem.android.core.utils.state.SuccessResult
+import odoo.miem.android.core.utils.state.subscribeOnError
 import odoo.miem.android.feature.navigation.api.data.Routes
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
 import odoo.miem.android.feature.selectingModules.impl.R
-import odoo.miem.android.feature.selectingModules.impl.data.OdooModule
+import odoo.miem.android.feature.selectingModules.impl.SelectingModulesViewModel
 import odoo.miem.android.feature.selectingModules.impl.searchScreen.SearchModulesScreen
-import odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components.SelectingModulesFavoriteList
+import odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components.SelectingModulesFavouriteList
 import odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components.SelectingModulesHeader
 import javax.inject.Inject
 
@@ -76,7 +83,7 @@ import javax.inject.Inject
  * - [SelectingModulesScreenContent] - directly layout of this screen
  * - [SelectingModulesScreenPreview] - preview of the layout that turned out in [SelectingModulesScreenContent]
  *
- * @author Vorozhtsov Mikhail
+ * @author Vorozhtsov Mikhail, Egor Danilov
  */
 class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
@@ -86,40 +93,73 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         navController: NavHostController,
         showMessage: (Int) -> Unit
     ) {
-        // TODO implementation based on some meta-information about implemented modules
-        val onModuleCardClick = { navController.navigate(Routes.moduleNotFound) }
+        val viewModel: SelectingModulesViewModel = viewModel()
 
-        // TODO Delete Test Data
-        val modules = listOf(
-            OdooModule(
-                name = "CRM",
-                numberOfNotifications = 1
-            ),
-            OdooModule(
-                name = "Recruitment",
-                numberOfNotifications = 5,
-                isLiked = true
-            ),
-            OdooModule(
-                name = "Pricing",
-                numberOfNotifications = 123
-            ),
-        )
+        val userInfoState by viewModel.userInfoState.collectAsState()
+        userInfoState.subscribeOnError(showMessage)
 
-        // TODO Create base with loading handling
-        SelectingModulesScreenContent(
-            allModules = modules,
-            favoriteModules = modules,
-            onModuleCardClick = onModuleCardClick
+        val modulesState by viewModel.modulesState.collectAsState()
+        modulesState.subscribeOnError(showMessage)
+
+        if (userInfoState is SuccessResult) {
+            LaunchedEffect(Unit) {
+                viewModel.getUserModules(userInfoState.data?.uid!!)
+            }
+        }
+
+        LaunchedEffect(Unit) {
+            viewModel.getUserInfo()
+        }
+
+        val onModuleCardClick: (OdooModule) -> Unit = {
+            if (it.isImplemented) {
+                // TODO when some module will be ready, add navigation
+            } else {
+                navController.navigate(Routes.moduleNotFound)
+            }
+        }
+
+        StateHolder(
+            state = modulesState,
+            loadingContent = { OdooSplashScreen() },
+            successContent = {
+                val allModules = viewModel.allModules
+                val favouriteModules = allModules.filter { it.isFavourite }
+
+                val performModulesSearch: (String) -> List<OdooModule> = { input ->
+                    val filteredModules = modulesState.data?.let { modules ->
+                        modules.filter {
+                            it.name.trim().lowercase().startsWith(
+                                prefix = input.trim().lowercase(),
+                                ignoreCase = true
+                            )
+                        }
+                    }
+
+                    filteredModules ?: emptyList()
+                }
+
+                SelectingModulesScreenContent(
+                    userName = userInfoState.data?.name,
+                    allModules = allModules,
+                    favoriteModules = favouriteModules,
+                    onModuleCardClick = onModuleCardClick,
+                    onLikeModuleClick = viewModel::onModuleLikeClick,
+                    onSearchValueChange = performModulesSearch
+                )
+            }
         )
     }
 
     @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterialApi::class)
     @Composable
     private fun SelectingModulesScreenContent(
+        userName: String? = null,
         allModules: List<OdooModule> = emptyList(),
         favoriteModules: List<OdooModule> = emptyList(),
-        onModuleCardClick: () -> Unit = {}
+        onModuleCardClick: (OdooModule) -> Unit = {},
+        onLikeModuleClick: (OdooModule) -> Unit = {},
+        onSearchValueChange: (String) -> List<OdooModule> = { emptyList() },
     ) {
         val topRadius = 35.dp
 
@@ -156,7 +196,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
                             SelectingModulesBottomSheetGrid(
                                 allModules = allModules,
-                                onModuleCardClick = onModuleCardClick
+                                onModuleCardClick = onModuleCardClick,
+                                onLikeModuleClick = onLikeModuleClick
                             )
                         },
                         sheetShape = RoundedCornerShape(
@@ -175,8 +216,10 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                             .imePadding()
                     ) {
                         SelectingModulesMainContent(
+                            userName = userName,
                             favouriteModules = favoriteModules,
                             onModuleCardClick = onModuleCardClick,
+                            onLikeModuleClick = onLikeModuleClick,
                             onAddModuleCardClick = onAddModuleCardClick,
                             onSearchBarClick = { isSearchScreenVisible = true }
                         )
@@ -186,7 +229,9 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                         allModules = allModules,
                         favouriteModules = favoriteModules,
                         onModuleCardClick = onModuleCardClick,
-                        onBackPressed = { isSearchScreenVisible = false }
+                        onLikeModuleClick = onLikeModuleClick,
+                        onBackPressed = { isSearchScreenVisible = false },
+                        onSearchValueChange = onSearchValueChange
                     )
                 }
             }
@@ -197,13 +242,16 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     @OptIn(ExperimentalPagerApi::class)
     @Composable
     private fun SelectingModulesMainContent(
+        userName: String? = null,
         favouriteModules: List<OdooModule> = emptyList(),
-        onModuleCardClick: () -> Unit = {},
+        onModuleCardClick: (OdooModule) -> Unit = {},
+        onLikeModuleClick: (OdooModule) -> Unit = {},
         onAddModuleCardClick: () -> Unit = {},
         onSearchBarClick: () -> Unit = {}
     ) = Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // TODO DELETE
         val pagerState = rememberPagerState()
         val haptic = LocalHapticFeedback.current
         var startTransaction by remember { mutableStateOf(false) }
@@ -224,7 +272,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         SimpleLogoAppBar()
 
         SelectingModulesHeader(
-            // TODO Add data
+            userName = userName ?: stringResource(R.string.default_user_name)
         )
 
         Spacer(modifier = Modifier.height(baseTopPadding))
@@ -256,9 +304,10 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
         Spacer(modifier = Modifier.height(selectingFavoriteModulesTopPadding))
 
-        SelectingModulesFavoriteList(
+        SelectingModulesFavouriteList(
             favoriteModules = favouriteModules,
             onModuleCardClick = onModuleCardClick,
+            onLikeModuleClick = onLikeModuleClick,
             onAddModuleCardClick = onAddModuleCardClick,
             indicatorModifier = Modifier
                 .align(Alignment.CenterHorizontally)
@@ -290,7 +339,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
     @Composable
     private fun ColumnScope.SelectingModulesBottomSheetGrid(
         allModules: List<OdooModule> = emptyList(),
-        onModuleCardClick: () -> Unit = {}
+        onModuleCardClick: (OdooModule) -> Unit = {},
+        onLikeModuleClick: (OdooModule) -> Unit = {},
     ) = LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(mainHorizontalPadding / 2),
@@ -298,15 +348,17 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier.fillMaxSize()
     ) {
-        items(allModules) {
-            var isLikedState by remember { mutableStateOf(it.isLiked) }
-
-            SmallModuleCard(
-                moduleName = it.name,
-                isLiked = isLikedState,
-                onClick = onModuleCardClick,
-                onLikeClick = { isLikedState = !isLikedState }
-            )
+        items(allModules) { module ->
+            with(module) {
+                SmallModuleCard(
+                    moduleName = this.name,
+                    isLiked = this.isFavourite,
+                    onClick = { onModuleCardClick(module) },
+                    onLikeClick = {
+                        onLikeModuleClick(this)
+                    }
+                )
+            }
         }
     }
 
@@ -316,17 +368,27 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         SelectingModulesScreenContent(
             favoriteModules = listOf(
                 OdooModule(
+                    id = -1,
+                    parentId = null,
+                    childModules = mutableListOf(),
                     name = "CRM",
                     numberOfNotifications = 1
                 ),
                 OdooModule(
+                    id = -1,
+                    parentId = null,
+                    childModules = mutableListOf(),
                     name = "Recruitment",
-                    numberOfNotifications = 5
+                    numberOfNotifications = 5,
+                    isFavourite = true
                 ),
                 OdooModule(
+                    id = -1,
+                    parentId = null,
+                    childModules = mutableListOf(),
                     name = "Pricing",
                     numberOfNotifications = 123
-                ),
+                )
             )
         )
     }

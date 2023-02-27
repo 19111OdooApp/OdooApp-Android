@@ -2,10 +2,10 @@ import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.kotlin
 
 /**
- * Конвеция для app модулей, которая содержит [conventions.base-app] и
- * добавляет необходимые зависимости
+ * Convention for app modules, which containts [conventions.base-app] and
+ * pluggs in necessary dependencies
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  * @since 09.10.2022
  */
 plugins {
@@ -24,7 +24,7 @@ dependencies {
     Dependencies.Dagger.KAPT_DEPS.forEach { kapt(it) }
 
     // Firebase
-    Dependencies.Firebase.ALL_DEPS.forEach { implementation(it) }
+    Dependencies.Firebase.APPLICATION_DEPS.forEach { implementation(it) }
     implementation(platform(Dependencies.Firebase.FIREBASE_BOM))
 
     // Logger

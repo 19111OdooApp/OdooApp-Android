@@ -12,6 +12,9 @@
     <string name="search_result_empty">No results</string>
     <string name="search_result_empty_desc">There were no results for "%s".\nTry a new search.</string>
 
+    <!-- splash screen -->
+    <string name="splash_screen_header">Welcome to</string>
+
     <!-- for shared elements -->
     <string name="search_bar_key" translatable="false">searchBar</string>
     <string name="select_modules_screen_key" translatable="false">selectModulesScreen</string>

@@ -65,6 +65,26 @@ class DataStore @Inject constructor() : IDataStore {
         }
     }
 
+    override val userModelId by sharedPreferences.delegates.int()
+    override fun setUserModelId(newId: Int) {
+        if (newId != userModelId) {
+            sharedPreferences.edit {
+                putInt(::userModelId.name, newId)
+            }
+            Timber.d("setUserModelId(): model id of user = $newId")
+        }
+    }
+
+    override val favouriteModules by sharedPreferences.delegates.stringSet()
+    override fun setUserFavouriteModules(newFavouriteModules: Set<String>) {
+        if (newFavouriteModules != favouriteModules) {
+            sharedPreferences.edit {
+                putStringSet(::favouriteModules.name, newFavouriteModules)
+            }
+            Timber.d("setUserFavoriteModules(): favourite modules = $newFavouriteModules")
+        }
+    }
+
     private companion object {
         const val PREFERENCES_NAME = "dataStore"
     }

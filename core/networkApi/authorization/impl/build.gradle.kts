@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "odoo.miem.android.common.networkapi.authorization.impl"
+    namespace = "odoo.miem.android.core.networkApi.authorization.impl"
 }
 
 dependencies {

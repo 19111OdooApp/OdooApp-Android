@@ -2,10 +2,10 @@ import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.project
 
 /**
- * Конвеция для api модулей, которая содержит [conventions.base-api] и
- * добавляет необходимые зависимости
+ * Convention for api modules, which contains [conventions.base-api] and
+ * pluggs in necessary dependencies
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  * @since 09.10.2022
  */
 plugins {

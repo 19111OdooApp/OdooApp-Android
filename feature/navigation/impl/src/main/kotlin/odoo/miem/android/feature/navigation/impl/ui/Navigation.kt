@@ -16,6 +16,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import kotlinx.coroutines.launch
+import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
 import odoo.miem.android.feature.authorization.base.api.di.IAuthorizationApi
@@ -26,11 +27,10 @@ import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
 import odoo.miem.android.feature.selectingModules.api.di.ISelectingModulesApi
 
 /**
- * [Navigation] composable функция, которая предназначена для
- * инициализации навигации между экранами
+ * [Navigation] composable function, which is needed to initialize navigation across screens
  *
- * Для добавления нового экрана пропишите соответсвующий путь до него
- * в [Routes] и добавьте новую [composable] в [NavHost]
+ * For adding new screen one should write corresponding path to [Routes]
+ * and add new [composable] в [NavHost]
  *
  * @author Ворожцов Михаил
  */
@@ -48,6 +48,7 @@ fun Navigation(
             snackbarHostState.showSnackbar(strMessage)
         }
     }
+    val dataStore by api(IDataStoreApi::dataStore)
 
     // Screens
     val authorizationScreen by api(IAuthorizationApi::authorizationScreen)
@@ -60,6 +61,7 @@ fun Navigation(
         moduleNotFoundScreen = moduleNotFoundScreen,
         paddingValues = paddingValues,
         navController = navController,
+//        isAuthorized = dataStore.isAuthorized,
         showMessage = showMessage,
     )
 }
@@ -71,6 +73,7 @@ fun NavigationContent(
     moduleNotFoundScreen: IModuleNotFoundScreen,
     paddingValues: PaddingValues,
     navController: NavHostController,
+//    isAuthorized: Boolean,
     showMessage: (Int) -> Unit,
 ) {
     Surface(
@@ -82,7 +85,7 @@ fun NavigationContent(
         NavHost(
             navController = navController,
             startDestination = remember {
-                Routes.authorization // TODO Depends on is login in or not (database.isAuthorized)
+                Routes.authorization
             }
         ) {
             composable(Routes.authorization) {

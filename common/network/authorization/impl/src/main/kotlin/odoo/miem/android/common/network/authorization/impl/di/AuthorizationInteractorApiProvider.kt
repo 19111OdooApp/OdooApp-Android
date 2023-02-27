@@ -11,7 +11,7 @@ import odoo.miem.android.core.di.impl.ApiProvider
  * [AuthorizationInteractorApiProvider] - **Dagger** module for providing
  * [AuthorizationInteractorComponent] in general map
  *
- * @author Vorozhtso Mikhail
+ * @author Vorozhtsov Mikhail
  */
 @Module
 class AuthorizationInteractorApiProvider {

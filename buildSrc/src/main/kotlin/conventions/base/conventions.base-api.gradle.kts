@@ -2,9 +2,9 @@ import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
- * Базовая конвенция для api модулей
+ * Basic convention for api modules
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  * @since 09.10.2022
  */
 plugins {

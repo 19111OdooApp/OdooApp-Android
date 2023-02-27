@@ -43,7 +43,6 @@ class AuthorizationViewModel : BaseViewModel() {
                 authChannel,
                 onSuccess = {
                     Timber.d("generalAuthorization(): result = $it")
-
                     authorizationState.onNext(it)
                 },
                 onError = Timber::e
@@ -52,10 +51,13 @@ class AuthorizationViewModel : BaseViewModel() {
 
     fun generateHseAuthorizationUrl(
         rawDomain: String
-    ): String = HseUriAuthorizationBuilder.Builder()
-        .setBaseDomain(rawDomain)
-        .build()
-        .generateHseAuthorizationUrl()
+    ): String {
+        dataStore.setUrl(urlProcessing(rawDomain))
+        return HseUriAuthorizationBuilder.Builder()
+            .setBaseDomain(rawDomain)
+            .build()
+            .generateHseAuthorizationUrl()
+    }
 
     fun hseWebViewExitCondition(rawUrl: String, currentUrl: String?, cookie: String?): Boolean {
         return when {
@@ -65,7 +67,7 @@ class AuthorizationViewModel : BaseViewModel() {
                     Timber.d("hseWebViewExitCondition(): cookie is empty, error")
                     authorizationState.onNext(ErrorResult())
                 } else {
-                    Timber.d("hseWebViewExitCondition(): cookie not empty, authorization complete")
+                    Timber.d("hseWebViewExitCondition(): cookie is not empty, authorization complete")
                     dataStore.setAuthorized(true)
                     dataStore.setSessionId(cookie.getSessionIdFromCookie())
                     authorizationState.onNext(SuccessResult())

@@ -71,22 +71,22 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-}
 
-@Composable
-private fun SetupStatusBarColor() {
-    val view = LocalView.current
-    if (!view.isInEditMode) {
-        val currentWindow = (view.context as? Activity)?.window
-            ?: error("Not in an activity - unable to get Window reference")
+    @Composable
+    private fun SetupStatusBarColor() {
+        val view = LocalView.current
+        if (!view.isInEditMode) {
+            val currentWindow = (view.context as? Activity)?.window
+                ?: error("Not in an activity - unable to get Window reference")
 
-        val color = MaterialTheme.colorScheme.background.toArgb()
-        val isLightStatusBar = !isSystemInDarkTheme()
+            val color = MaterialTheme.colorScheme.background.toArgb()
+            val isLightStatusBar = !isSystemInDarkTheme()
 
-        SideEffect {
-            currentWindow.statusBarColor = color
-            WindowCompat.getInsetsController(currentWindow, view)
-                .isAppearanceLightStatusBars = isLightStatusBar
+            SideEffect {
+                currentWindow.statusBarColor = color
+                WindowCompat.getInsetsController(currentWindow, view)
+                    .isAppearanceLightStatusBars = isLightStatusBar
+            }
         }
     }
 }

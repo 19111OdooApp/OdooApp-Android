@@ -6,6 +6,7 @@ import odoo.miem.android.common.network.selectingModules.impl.entities.UserWithF
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooGroupsResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooModulesResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.UserInfoResponse
+import timber.log.Timber
 import java.util.LinkedList
 import java.util.Queue
 
@@ -107,13 +108,17 @@ internal class SelectingModulesHelper {
             val childModules = mutableListOf<OdooModule>()
 
             currentModule?.let {
+                val modulesToRemove = mutableListOf<OdooModule>()
+
                 for (module in modules) {
                     if (it.id == module.parentId) {
                         childModules.add(module)
                         queue.offer(module)
-                        modules.remove(module)
+                        modulesToRemove.add(module)
                     }
                 }
+                modules.removeAll(modulesToRemove)
+                modulesToRemove.clear()
                 it.childModules.addAll(childModules)
             }
         }

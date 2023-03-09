@@ -12,6 +12,7 @@ import odoo.miem.android.core.utils.rx.PresentationSchedulers
 import odoo.miem.android.core.utils.rx.lazyEmptyResultPublishSubject
 import odoo.miem.android.core.utils.rx.onLoadingState
 import odoo.miem.android.core.utils.state.ResultSubject
+import odoo.miem.android.core.utils.state.SuccessResult
 import timber.log.Timber
 
 /**
@@ -52,6 +53,10 @@ class SelectingModulesViewModel(
     fun getUserModules(userUid: Int) {
         Timber.d("getUserModules(): userUid = $userUid")
 
+        if (allModules.isNotEmpty()) {
+            modulesState.onNext(SuccessResult(allModules))
+        }
+
 //        modulesState.onLoadingState()
         selectingModulesInteractor
             .getOdooModules(userUid)
@@ -60,10 +65,14 @@ class SelectingModulesViewModel(
                 onSuccess = { result ->
                     Timber.d("getUserModules(): result = $result")
 
-                    result.data?.let { list ->
-                        allModules.addAll(list)
+                    if (allModules.isEmpty()) {
+                        modulesState.onNext(result)
                     }
-                    modulesState.onNext(result)
+
+                    result.data?.let { list ->
+                        val newModules = list.subtract(allModules)
+                        allModules.addAll(newModules)
+                    }
                 },
                 onError = Timber::e
             )

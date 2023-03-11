@@ -32,6 +32,8 @@ class SelectingModulesViewModel(
     private var userModelId: Int = -1
     val allModules = mutableStateListOf<OdooModule>()
 
+    private var isReloaded: Boolean = false
+
     fun getUserInfo() {
         Timber.d("getUserInfo()")
 
@@ -53,29 +55,26 @@ class SelectingModulesViewModel(
     fun getUserModules(userUid: Int) {
         Timber.d("getUserModules(): userUid = $userUid")
 
-        if (allModules.isNotEmpty()) {
+        if (isReloaded) {
             modulesState.onNext(SuccessResult(allModules))
-        }
+        } else {
+            selectingModulesInteractor
+                .getOdooModules(userUid)
+                .schedule(
+                    userModulesChannel,
+                    onSuccess = { result ->
+                        Timber.d("getUserModules(): result = $result")
 
-//        modulesState.onLoadingState()
-        selectingModulesInteractor
-            .getOdooModules(userUid)
-            .schedule(
-                userModulesChannel,
-                onSuccess = { result ->
-                    Timber.d("getUserModules(): result = $result")
+                        result.data?.let { list ->
+                            allModules.addAll(list)
+                            isReloaded = true
+                        }
 
-                    if (allModules.isEmpty()) {
                         modulesState.onNext(result)
-                    }
-
-                    result.data?.let { list ->
-                        val newModules = list.subtract(allModules)
-                        allModules.addAll(newModules)
-                    }
-                },
-                onError = Timber::e
-            )
+                    },
+                    onError = Timber::e
+                )
+        }
     }
 
     fun onModuleLikeClick(module: OdooModule) {

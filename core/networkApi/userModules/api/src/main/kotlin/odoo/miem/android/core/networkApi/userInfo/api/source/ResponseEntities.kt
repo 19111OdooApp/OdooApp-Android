@@ -23,7 +23,6 @@ data class OdooModulesResponse(
     data class ResponseRecord(
         @Json(name = "id") val id: Int,
         @Json(name = "name") val name: String,
-        @Json(name = "complete_name") val fullName: String,
         @Json(name = "parent_id") val parentId: Any,
         @Json(name = "child_id") val childIds: List<Int>,
         @Json(name = "groups_id") val groupIds: List<Int>

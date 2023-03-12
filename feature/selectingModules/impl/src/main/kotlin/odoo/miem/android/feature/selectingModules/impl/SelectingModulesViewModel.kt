@@ -12,6 +12,7 @@ import odoo.miem.android.core.utils.rx.PresentationSchedulers
 import odoo.miem.android.core.utils.rx.lazyEmptyResultPublishSubject
 import odoo.miem.android.core.utils.rx.onLoadingState
 import odoo.miem.android.core.utils.state.ResultSubject
+import odoo.miem.android.core.utils.state.SuccessResult
 import timber.log.Timber
 
 /**
@@ -30,6 +31,8 @@ class SelectingModulesViewModel(
 
     private var userModelId: Int = -1
     val allModules = mutableStateListOf<OdooModule>()
+
+    private var isReloaded: Boolean = false
 
     fun getUserInfo() {
         Timber.d("getUserInfo()")
@@ -52,21 +55,26 @@ class SelectingModulesViewModel(
     fun getUserModules(userUid: Int) {
         Timber.d("getUserModules(): userUid = $userUid")
 
-//        modulesState.onLoadingState()
-        selectingModulesInteractor
-            .getOdooModules(userUid)
-            .schedule(
-                userModulesChannel,
-                onSuccess = { result ->
-                    Timber.d("getUserModules(): result = $result")
+        if (isReloaded) {
+            modulesState.onNext(SuccessResult(allModules))
+        } else {
+            selectingModulesInteractor
+                .getOdooModules(userUid)
+                .schedule(
+                    userModulesChannel,
+                    onSuccess = { result ->
+                        Timber.d("getUserModules(): result = $result")
 
-                    result.data?.let { list ->
-                        allModules.addAll(list)
-                    }
-                    modulesState.onNext(result)
-                },
-                onError = Timber::e
-            )
+                        result.data?.let { list ->
+                            allModules.addAll(list)
+                            isReloaded = true
+                        }
+
+                        modulesState.onNext(result)
+                    },
+                    onError = Timber::e
+                )
+        }
     }
 
     fun onModuleLikeClick(module: OdooModule) {

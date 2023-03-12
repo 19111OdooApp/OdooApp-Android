@@ -28,7 +28,6 @@ interface IUserModules : JsonRpcApi {
         @JsonRpcArgument("fields") fields: List<String> = listOf(
             "id",
             "name",
-            "complete_name",
             "child_id",
             "parent_id",
             "groups_id"

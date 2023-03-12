@@ -102,6 +102,8 @@ internal class SelectingModulesHelper {
         queue.addAll(rootModules)
         moduleHierarchy.addAll(rootModules)
 
+        val modulesToRemove = mutableListOf<OdooModule>()
+
         while (queue.isNotEmpty()) {
             val currentModule = queue.poll()
             val childModules = mutableListOf<OdooModule>()
@@ -111,9 +113,11 @@ internal class SelectingModulesHelper {
                     if (it.id == module.parentId) {
                         childModules.add(module)
                         queue.offer(module)
-                        modules.remove(module)
+                        modulesToRemove.add(module)
                     }
                 }
+                modules.removeAll(modulesToRemove)
+                modulesToRemove.clear()
                 it.childModules.addAll(childModules)
             }
         }

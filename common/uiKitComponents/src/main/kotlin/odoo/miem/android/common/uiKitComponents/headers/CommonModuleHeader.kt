@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import odoo.miem.android.common.uiKitComponents.icon.ProfileIcon
 import odoo.miem.android.common.uiKitComponents.R
 import odoo.miem.android.common.uiKitComponents.text.HeadlineText
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
@@ -61,40 +62,9 @@ fun CommonModuleHeader(
     IconButton(
         onClick = { /*TODO Implement profile click*/ }
     ) {
-        if (avatarUrl != null) {
-            Image(
-                painter = rememberAsyncImagePainter(
-                    ImageRequest
-                        .Builder(LocalContext.current)
-                        .data(avatarUrl)
-                        .apply {
-                            error(R.drawable.default_user_avatar)
-                            crossfade(true)
-                        }
-                        .build()
-                ),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(iconSize)
-                    .clip(CircleShape)
-            )
-        } else {
-            DefaultProfileIcon(userName, iconSize)
-        }
+        ProfileIcon(
+            avatarUrl = avatarUrl,
+            userName = userName
+        )
     }
-}
-
-@Composable
-private fun DefaultProfileIcon(
-    userName: String,
-    iconSize: Dp
-) = Box(
-    modifier = Modifier
-        .size(iconSize)
-        .clip(CircleShape)
-        .background(MaterialTheme.colorScheme.primary),
-    contentAlignment = Alignment.Center,
-) {
-    HeadlineText(text = userName.first().toString())
 }

@@ -93,56 +93,52 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        LazyColumn(
+        Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            item {
-                ProfileHeader(
-                    userName = user.name,
-                    userEmail = user.email,
-                    userPhone = user.phone,
-                    navigateBack = navigateBack
-                )
+            ProfileHeader(
+                userName = user.name,
+                userEmail = user.email,
+                userPhone = user.phone,
+                navigateBack = navigateBack
+            )
 
-                Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-                val haptic = LocalHapticFeedback.current
-                var startTransaction by remember { mutableStateOf(false) }
+            val haptic = LocalHapticFeedback.current
+            var startTransaction by remember { mutableStateOf(false) }
 
-                LaunchedEffect(pagerState) {
-                    snapshotFlow { pagerState.currentPage }.collect {
-                        if (startTransaction) {
-                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                        } else {
-                            startTransaction = true
-                        }
-                    }
-                }
-
-                HorizontalPager(
-                    count = pages.size,
-                    state = pagerState,
-                    modifier = Modifier.fillMaxWidth()
-                ) { index ->
-                    when (pages[index]) {
-                        Pages.JOB -> JobPage(user = user)
-                        Pages.APPLICATION_SUMMARY -> ApplicationSummaryPage(user = user)
-                        Pages.LOG_NOTE -> LogNotePage()
-                        Pages.SCHEDULE_ACTIVITY -> ScheduleActivityPage()
+            LaunchedEffect(pagerState) {
+                snapshotFlow { pagerState.currentPage }.collect {
+                    if (startTransaction) {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    } else {
+                        startTransaction = true
                     }
                 }
             }
 
-            item {
-                HorizontalPagerIndicator(
-                    pagerState = pagerState,
-                    activeColor = MaterialTheme.colorScheme.onTertiary,
-                    inactiveColor = MaterialTheme.colorScheme.tertiary
-                )
+            HorizontalPagerIndicator(
+                pagerState = pagerState,
+                activeColor = MaterialTheme.colorScheme.onTertiary,
+                inactiveColor = MaterialTheme.colorScheme.tertiary
+            )
 
-                Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(28.dp))
+
+            HorizontalPager(
+                count = pages.size,
+                state = pagerState,
+                modifier = Modifier.fillMaxWidth()
+            ) { index ->
+                when (pages[index]) {
+                    Pages.JOB -> JobPage(user = user)
+                    Pages.APPLICATION_SUMMARY -> ApplicationSummaryPage(user = user)
+                    Pages.LOG_NOTE -> LogNotePage()
+                    Pages.SCHEDULE_ACTIVITY -> ScheduleActivityPage()
+                }
             }
         }
     }

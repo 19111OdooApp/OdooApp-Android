@@ -17,4 +17,6 @@ dependencies {
     // Common
     // Components
     implementation(project(":common:uiKitComponents"))
+
+    implementation("me.saket.swipe:swipe:1.1.1")
 }

@@ -54,6 +54,7 @@ import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetVal
 import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetScaffoldState
 import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetState
 import odoo.miem.android.common.uiKitComponents.cards.SmallModuleCard
+import odoo.miem.android.common.uiKitComponents.headers.CommonModuleHeader
 import odoo.miem.android.common.uiKitComponents.splash.OdooSplashScreen
 import odoo.miem.android.common.uiKitComponents.stateholder.StateHolder
 import odoo.miem.android.common.uiKitComponents.text.SubtitleText
@@ -71,7 +72,6 @@ import odoo.miem.android.feature.selectingModules.impl.R
 import odoo.miem.android.feature.selectingModules.impl.SelectingModulesViewModel
 import odoo.miem.android.feature.selectingModules.impl.searchScreen.SearchModulesScreen
 import odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components.SelectingModulesFavouriteList
-import odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components.SelectingModulesHeader
 import javax.inject.Inject
 
 /**
@@ -271,7 +271,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
         SimpleLogoAppBar()
 
-        SelectingModulesHeader(
+        CommonModuleHeader(
             userName = userName ?: stringResource(R.string.default_user_name)
         )
 

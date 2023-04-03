@@ -24,4 +24,7 @@ dependencies {
 
     // Module Not Found API
     implementation(project(":feature:moduleNotFound:api"))
+
+    // Module Recruitment
+    implementation(project(":feature:recruitment:api"))
 }

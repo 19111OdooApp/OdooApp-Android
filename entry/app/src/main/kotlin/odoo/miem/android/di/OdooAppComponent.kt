@@ -18,6 +18,7 @@ import odoo.miem.android.core.platform.di.PlatformApiProvider
 import odoo.miem.android.core.utils.di.RxApiProvider
 import odoo.miem.android.feature.authorization.base.impl.di.AuthorizationScreenApiProvider
 import odoo.miem.android.feature.moduleNotFound.impl.di.ModuleNotFoundScreenApiProvider
+import odoo.miem.android.feature.recruitment.impl.di.RecruitmentScreenApiProvider
 import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreenApiProvider
 
 /**
@@ -43,6 +44,10 @@ import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreen
  *
  *  - [DataStoreApiProvider] - to deliver the dependency of data store
  *  - [PlatformApiProvider] - to deliver the dependency of platform objects
+ *  - [SelectingModulesScreenApiProvider] - to deliver the dependency of selecting modules screen
+ *  - [ModuleNotFoundScreenApiProvider] - to deliver the dependency of module not found screen
+ *  - [RecruitmentScreenApiProvider] - to deliver the dependency of recruitment module screen
+ *  - [RxApiProvider] - to deliver the dependency of  RX chains utils
  *
  * @author Vorozhtsov Mikhail
  */
@@ -60,6 +65,7 @@ import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreen
         AuthorizationScreenApiProvider::class,
         SelectingModulesScreenApiProvider::class,
         ModuleNotFoundScreenApiProvider::class,
+        RecruitmentScreenApiProvider::class,
         // Interactors
         AuthorizationInteractorApiProvider::class,
         SelectingModulesInteractorApiProvider::class,
@@ -67,6 +73,9 @@ import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreen
         DataStoreApiProvider::class,
         MoshiParserApiProvider::class,
         PlatformApiProvider::class,
+        RxApiProvider::class,
+        SelectingModulesScreenApiProvider::class,
+        ModuleNotFoundScreenApiProvider::class,
         RxApiProvider::class
     ]
 )

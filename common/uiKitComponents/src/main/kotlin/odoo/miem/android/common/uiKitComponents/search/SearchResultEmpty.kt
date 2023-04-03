@@ -1,4 +1,4 @@
-package odoo.miem.android.feature.selectingModules.impl.searchScreen.components
+package odoo.miem.android.common.uiKitComponents.search
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,16 +14,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import odoo.miem.android.common.uiKitComponents.R
 import odoo.miem.android.common.uiKitComponents.text.LabelText
 import odoo.miem.android.common.uiKitComponents.text.SubtitleText
 import odoo.miem.android.core.uiKitTheme.commonPadding
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
-import odoo.miem.android.feature.selectingModules.impl.R
-import odoo.miem.android.feature.selectingModules.impl.searchScreen.SearchModulesScreen
 
 /**
- * [SearchResultEmpty] - empty search results for [SearchModulesScreen]
+ * [SearchResultEmpty] - empty search results
  * shows icon and apologies
  *
  * @author Egor Danilov

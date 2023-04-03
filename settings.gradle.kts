@@ -85,3 +85,6 @@ include(":feature:selectingModules:impl")
 
 include(":feature:moduleNotFound:api")
 include(":feature:moduleNotFound:impl")
+
+include(":feature:recruitment:api")
+include(":feature:recruitment:impl")

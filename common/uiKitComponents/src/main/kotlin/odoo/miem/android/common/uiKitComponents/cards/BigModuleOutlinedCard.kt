@@ -24,7 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import odoo.miem.android.common.uiKitComponents.R
-import odoo.miem.android.common.uiKitComponents.utils.animatedGradientBorder
+import odoo.miem.android.common.uiKitComponents.utils.animatedLinearGradientBorder
 
 /**
  * [BigModuleOutlinedCard] is implementation of big add module's card
@@ -48,7 +48,7 @@ fun BigModuleOutlinedCard(
     ),
     border = BorderStroke(
         width = 4.dp,
-        brush = animatedGradientBorder(
+        brush = animatedLinearGradientBorder(
             colors = gradientColors,
             startX = 0f,
             startY = 0f,

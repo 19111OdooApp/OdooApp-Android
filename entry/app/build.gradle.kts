@@ -22,6 +22,10 @@ dependencies {
     implementation(project(":feature:selectingModules:api"))
     implementation(project(":feature:selectingModules:impl"))
 
+    // Recruitment
+    implementation(project(":feature:recruitment:api"))
+    implementation(project(":feature:recruitment:impl"))
+
     // Module Not Found
     implementation(project(":feature:moduleNotFound:api"))
     implementation(project(":feature:moduleNotFound:impl"))

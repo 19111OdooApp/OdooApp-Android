@@ -9,4 +9,5 @@ object Routes {
     const val authorization = "authorization"
     const val selectingModules = "selectingModules"
     const val moduleNotFound = "moduleNotFound"
+    const val recruitment = "recruitment"
 }

@@ -1,4 +1,3 @@
-
 package odoo.miem.android.feature.navigation.impl.ui
 
 import androidx.compose.foundation.layout.PaddingValues
@@ -23,6 +22,8 @@ import odoo.miem.android.feature.authorization.base.api.di.IAuthorizationApi
 import odoo.miem.android.feature.moduleNotFound.api.IModuleNotFoundScreen
 import odoo.miem.android.feature.moduleNotFound.api.di.IModuleNotFoundApi
 import odoo.miem.android.feature.navigation.api.data.Routes
+import odoo.miem.android.feature.recruitment.api.IRecruitmentScreen
+import odoo.miem.android.feature.recruitment.api.di.IRecruitmentApi
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
 import odoo.miem.android.feature.selectingModules.api.di.ISelectingModulesApi
 
@@ -54,11 +55,12 @@ fun Navigation(
     val authorizationScreen by api(IAuthorizationApi::authorizationScreen)
     val selectingModulesScreen by api(ISelectingModulesApi::selectingModulesScreen)
     val moduleNotFoundScreen by api(IModuleNotFoundApi::moduleNotFoundScreen)
-
+    val recruitmentScreen by api(IRecruitmentApi::recruitmentScreen)
     NavigationContent(
         authorizationScreen = authorizationScreen,
         selectingModulesScreen = selectingModulesScreen,
         moduleNotFoundScreen = moduleNotFoundScreen,
+        recruitmentScreen = recruitmentScreen,
         paddingValues = paddingValues,
         navController = navController,
 //        isAuthorized = dataStore.isAuthorized,
@@ -71,6 +73,7 @@ fun NavigationContent(
     authorizationScreen: IAuthorizationScreen,
     selectingModulesScreen: ISelectingModulesScreen,
     moduleNotFoundScreen: IModuleNotFoundScreen,
+    recruitmentScreen: IRecruitmentScreen,
     paddingValues: PaddingValues,
     navController: NavHostController,
 //    isAuthorized: Boolean,
@@ -105,6 +108,13 @@ fun NavigationContent(
             composable(Routes.moduleNotFound) {
                 moduleNotFoundScreen.ModuleNotFoundScreen(
                     navController = navController
+                )
+            }
+
+            composable(Routes.recruitment) {
+                recruitmentScreen.RecruitmentScreen(
+                    navController = navController,
+                    showMessage = showMessage
                 )
             }
         }

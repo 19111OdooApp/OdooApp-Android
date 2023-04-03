@@ -21,4 +21,26 @@
     <string name="add_favourite_module_button_icon" translatable="false">addFavouriteModule</string>
     <string name="test_text_field_desc" translatable="false">testTextField</string>
     <string name="test_input" translatable="false">Test input</string>
+    <!-- header -->
+    <string name="hello_text">Hello,</string>
+    <string name="default_user_name">Cool user</string>
+    <string name="choose_module_text">Choose module</string>
+    <string name="all_modules">All modules</string>
+
+    <!-- Empty Search -->
+    <string name="search_result_empty">No results</string>
+    <string name="search_result_empty_desc">There were no results for "%s".\nTry a new search.</string>
+
+    <!-- RecruitmentLike -->
+    <string name="recruitment_search_bar_key" translatable="false">searchBar</string>
+    <string name="recruitment_screen_key" translatable="false">recruitmentScreen</string>
+    <string name="recruitment_search_screen_key" translatable="false">searchScreen</string>
+    <string name="recruitment_search_hint">Enter employee name</string>
+
+    <string name="recruitment_change_status">Change status</string>
+    <string name="recruitment_add_new_status">Add a new status</string>
+    <string name="finish_new_status_creation">Done</string>
+    <string name="cancel_new_status_creation">Cancel</string>
+    <string name="create_new_status_headline">New status</string>
+    <string name="create_status_hint">Status name</string>
 </resources>

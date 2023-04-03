@@ -1,4 +1,4 @@
-package odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components
+package odoo.miem.android.common.uiKitComponents.headers
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,12 +23,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import odoo.miem.android.common.uiKitComponents.R
 import odoo.miem.android.common.uiKitComponents.text.HeadlineText
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
-import odoo.miem.android.feature.selectingModules.impl.R
 
 /**
- * [SelectingModulesHeader] is header of [SelectingModulesScreen]
+ * [CommonModuleHeader] is header of any module
  *
  * @param userName is name of user :)
  * @param avatarUrl also link of user's avatar. By default used [R.drawable.default_user_avatar]
@@ -36,7 +36,7 @@ import odoo.miem.android.feature.selectingModules.impl.R
  * @author Vorozhtsov Mikhail
  */
 @Composable
-internal fun SelectingModulesHeader(
+fun CommonModuleHeader(
     userName: String = stringResource(R.string.default_user_name),
     avatarUrl: String? = null
 ) = Row(

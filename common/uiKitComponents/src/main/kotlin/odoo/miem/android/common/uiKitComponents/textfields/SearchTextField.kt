@@ -1,5 +1,6 @@
 package odoo.miem.android.common.uiKitComponents.textfields
 
+import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.scaleIn
@@ -29,10 +30,11 @@ fun SearchTextField(
     modifier: Modifier = Modifier,
     onValueChange: (TextFieldValue) -> Unit = {},
     enabled: Boolean = true,
+    @StringRes stringRes: Int = R.string.search_text_field_label
 ) = BaseTextField(
     value = value,
     onValueChange = onValueChange,
-    labelResource = R.string.search_text_field_label,
+    labelResource = stringRes,
     enabled = enabled,
     leadingIcon = {
         Icon(

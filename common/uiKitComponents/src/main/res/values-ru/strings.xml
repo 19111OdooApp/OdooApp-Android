@@ -12,4 +12,23 @@
     <!--  Search Text field  -->
     <string name="search_text_field_label">Введите название модуля</string>
     <string name="outlined_module_card_header">Добавить любимый модуль</string>
+
+    <!-- Empty Search -->
+    <string name="search_result_empty">Ничего не найдено</string>
+    <string name="search_result_empty_desc">По запросу "%s" ничего не найдено.\nПопробуйте еще раз.</string>
+
+    <!-- header -->
+    <string name="hello_text">Привет,</string>
+    <string name="default_user_name">Крутой пользователь</string>
+    <string name="choose_module_text">Выберите модуль</string>
+    <string name="all_modules">Все модули</string>
+
+    <!-- RecruitmentLike -->
+    <string name="recruitment_search_hint">Введите имя сотрудника</string>
+    <string name="recruitment_change_status">Изменить статус</string>
+    <string name="recruitment_add_new_status">Добавить новый статус</string>
+    <string name="create_status_hint">Название статуса</string>
+    <string name="finish_new_status_creation">Готово</string>
+    <string name="cancel_new_status_creation">Отмена</string>
+    <string name="create_new_status_headline">Новый статус</string>
 </resources>

@@ -16,34 +16,42 @@ import odoo.miem.android.core.uiKitTheme.odooOnGray
 
 @Composable
 fun ProfileHeader(
-    userName: String,
-    userEmail: String,
-    userPhone: String,
-    navigateBack: () -> Unit = {}
+    title: String?,
+    majorSubtitle: String?,
+    minorSubtitle: String?
 ) {
     val heightPadding = 8.dp
 
-    Text(
-        text = userName.takeIf { it.isNotEmpty() } ?: stringResource(R.string.default_user_name),
-        style = MaterialTheme.typography.titleMedium,
-        fontWeight = FontWeight.Bold,
-        color = MaterialTheme.colorScheme.onSecondaryContainer
-    )
+    title?.takeIf { it.isNotEmpty() }?.let {
+        Text(
+            text = it,
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSecondaryContainer
+        )
 
-    Spacer(modifier = Modifier.height(heightPadding))
+        Spacer(modifier = Modifier.height(heightPadding))
+    }
 
-    Text(
-        text = userEmail.takeIf { it.isNotEmpty() } ?: stringResource(R.string.default_user_email),
-        style = MaterialTheme.typography.titleSmall,
-        textDecoration = TextDecoration.Underline,
-        color = odooOnGray
-    )
+    majorSubtitle?.takeIf { it.isNotEmpty() }?.let {
+        Text(
+            text = it,
+            style = MaterialTheme.typography.titleSmall,
+            textDecoration = TextDecoration.Underline,
+            color = odooOnGray
+        )
 
-    Spacer(modifier = Modifier.height(heightPadding))
+        Spacer(modifier = Modifier.height(heightPadding))
+    }
 
-    Text(
-        text = userPhone.takeIf { it.isNotEmpty() } ?: stringResource(R.string.default_user_phone),
-        style = MaterialTheme.typography.titleSmall,
-        color = odooOnGray
-    )
+
+    minorSubtitle?.takeIf { it.isNotEmpty() }?.let {
+        Text(
+            text = it,
+            style = MaterialTheme.typography.titleSmall,
+            color = odooOnGray
+        )
+
+        Spacer(modifier = Modifier.height(heightPadding))
+    }
 }

@@ -8,7 +8,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import odoo.miem.android.common.uiKitComponents.text.*
@@ -16,11 +15,12 @@ import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.uiKitTheme.odooOnGray
 import odoo.miem.android.core.uiKitTheme.odooPrimary
 import odoo.miem.android.feature.profile.impl.R
+import odoo.miem.android.feature.profile.impl.components.TextType
 import odoo.miem.android.feature.profile.impl.data.User
 
 @Composable
-fun ApplicationSummaryPage(
-    user: User
+fun TextPage(
+    textType: TextType
 ) = Column(
     horizontalAlignment = Alignment.CenterHorizontally,
     modifier = Modifier
@@ -36,11 +36,11 @@ fun ApplicationSummaryPage(
     )
 
 
-    if (user.applicationSummary.isNotEmpty()) {
+    if (textType.text.isNotEmpty()) {
         Spacer(modifier = Modifier.height(paddingVertical / 8))
 
         Text(
-            text = user.applicationSummary,
+            text = textType.text,
             style = MaterialTheme.typography.bodyMedium.copy(fontSize = 12.sp),
             color = odooOnGray,
             lineHeight = 20.sp,

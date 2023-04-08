@@ -1,10 +1,10 @@
 package odoo.miem.android.common.uiKitComponents.icon
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,7 +15,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.*
 import coil.request.ImageRequest
 import odoo.miem.android.common.uiKitComponents.text.HeadlineText
 
@@ -25,35 +25,37 @@ fun ProfileIcon(
     avatarUrl: String? = null,
     userName: String,
     iconSize: Dp = 40.dp,
+    modifier: Modifier = Modifier
 ) {
-    if (avatarUrl != null) {
-        Image(
-            painter = rememberAsyncImagePainter(
-                ImageRequest
-                    .Builder(LocalContext.current)
-                    .data(avatarUrl)
-                    .apply {
-                        DefaultProfileIcon(userName, iconSize)
-                    }
-                    .build()
-            ),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(iconSize)
-                .clip(CircleShape)
-        )
-    } else {
-        DefaultProfileIcon(userName, iconSize)
+    SubcomposeAsyncImage(
+        model = avatarUrl,
+        contentDescription = null,
+        contentScale = ContentScale.Crop,
+        modifier = modifier
+            .size(iconSize)
+            .clip(CircleShape)
+    ) {
+        when (painter.state) {
+            is AsyncImagePainter.State.Loading -> {
+                CircularProgressIndicator()
+            }
+            is AsyncImagePainter.State.Success -> {
+                SubcomposeAsyncImageContent()
+            }
+            else -> {
+                DefaultProfileIcon(userName, iconSize, modifier)
+            }
+        }
     }
 }
 
 @Composable
 private fun DefaultProfileIcon(
     userName: String,
-    iconSize: Dp
+    iconSize: Dp,
+    modifier: Modifier
 ) = Box(
-    modifier = Modifier
+    modifier = modifier
         .size(iconSize)
         .clip(CircleShape)
         .background(MaterialTheme.colorScheme.primary),

@@ -39,7 +39,7 @@ import java.util.*
 @Composable
 internal fun DatePickerComponent(
     placeholderText: String,
-    onDone: () -> String = { "kek" } // TODO?
+    onDone: (result: String) -> Unit = {}
 ) {
     var input by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue())
@@ -53,6 +53,7 @@ internal fun DatePickerComponent(
         LocalContext.current,
         { _: DatePicker, year: Int, month: Int, day: Int ->
             input = TextFieldValue(String.format("%02d/%02d/%4d", day, month, year))
+            onDone(input.text)
         },
         year,
         month,

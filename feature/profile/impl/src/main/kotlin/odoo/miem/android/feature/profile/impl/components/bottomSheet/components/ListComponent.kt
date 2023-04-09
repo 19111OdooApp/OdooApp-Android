@@ -20,7 +20,7 @@ import timber.log.Timber
 internal fun ListComponent(
     placeholderText: String,
     elements: List<String>,
-    onDone: () -> String = { "kek" } // TODO
+    onDone: (result: String) -> Unit = {}
 ) {
     var isExpanded by remember {
         mutableStateOf(false)
@@ -62,6 +62,7 @@ internal fun ListComponent(
                 DropdownMenuItem(
                     onClick = {
                         currentValue = TextFieldValue(it)
+                        onDone(it)
                         isExpanded = false
                     }
                 ) {

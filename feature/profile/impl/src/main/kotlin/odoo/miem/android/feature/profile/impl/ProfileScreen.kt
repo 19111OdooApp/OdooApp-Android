@@ -21,12 +21,13 @@ import odoo.miem.android.common.uiKitComponents.stateholder.StateHolder
 import odoo.miem.android.common.uiKitComponents.text.*
 import odoo.miem.android.feature.profile.api.IProfileScreen
 import odoo.miem.android.feature.profile.impl.components.*
-import odoo.miem.android.feature.profile.impl.components.bottomSheet.DetailedBottomSheetComponentType
+import odoo.miem.android.feature.profile.impl.components.bottomSheet.types.DetailedBottomSheetComponentType
 import odoo.miem.android.feature.profile.impl.components.bottomSheet.DetailsBottomSheetBuilder
 import odoo.miem.android.feature.profile.impl.components.header.ProfileHeader
 import odoo.miem.android.feature.profile.impl.components.pages.*
 import odoo.miem.android.feature.profile.impl.data.DetailsHeader
 import odoo.miem.android.feature.profile.impl.data.DividedListItem
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -129,12 +130,10 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
                         )
                         override val sheetElements: List<DetailedBottomSheetComponentType> = listOf(
                             DetailedBottomSheetComponentType.BigTextComponentType(
-                                placeholderText = "Enter log note...",
-                                onDone = { "kek" }
+                                placeholderText = "Enter log note..."
                             ),
                             DetailedBottomSheetComponentType.SmallTextComponentType(
-                                placeholderText = "Summary",
-                                onDone = { "kek" }
+                                placeholderText = "Summary"
                             ),
                             DetailedBottomSheetComponentType.ListComponentType(
                                 placeholderText = "Assigned to",
@@ -143,12 +142,10 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
                                     "Arina Shoshina2",
                                     "Arina Shoshina3",
                                     "Arina Shoshina4",
-                                ),
-                                onDone = { "kek" }
+                                )
                             ),
                             DetailedBottomSheetComponentType.DatePickerComponentType(
-                                placeholderText = "Due Date",
-                                onDone = { Date() }
+                                placeholderText = "Due Date"
                             ),
                         )
 
@@ -174,7 +171,7 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
         var currentBottomSheet: DividedListType? by remember {
             mutableStateOf(null)
         }
-        val onSheetExpand: (onOpen: Boolean, type: DividedListType) -> Unit = { onOpen, type ->
+        val onSheetExpand: (onOpen: Boolean, type: DividedListType?) -> Unit = { onOpen, type ->
             currentBottomSheet = type
             coroutineScope.launch {
                 if (onOpen)
@@ -185,7 +182,7 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
         }
 
         BackHandler(bottomSheetState.isExpanded) {
-            coroutineScope.launch { bottomSheetState.collapse() }
+            onSheetExpand(false, null)
         }
 
         BottomSheetScaffold(
@@ -194,7 +191,12 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
                 currentBottomSheet?.let { type ->
                     DetailsBottomSheetBuilder(
                         topic = type.topic,
-                        elements = type.sheetElements
+                        elements = type.sheetElements,
+                        onCancel = { onSheetExpand(false, null) },
+                        onDone = { elements ->
+                            onSheetExpand(true, null)
+                            Timber.d("New data - ${elements.map { it.result }}") // TODO Delete mocks
+                        }
                     )
                 }
             },

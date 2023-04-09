@@ -3,22 +3,24 @@ package odoo.miem.android.feature.profile.impl.components.bottomSheet
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import odoo.miem.android.common.uiKitComponents.text.SubtitleText
 import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.uiKitTheme.odooPrimary
 import odoo.miem.android.feature.profile.impl.components.bottomSheet.components.DatePickerComponent
 import odoo.miem.android.feature.profile.impl.components.bottomSheet.components.ListComponent
 import odoo.miem.android.feature.profile.impl.components.bottomSheet.components.TextComponent
+import odoo.miem.android.feature.profile.impl.components.bottomSheet.types.DetailedBottomSheetComponentType
 
 @Composable
 internal fun DetailsBottomSheetBuilder(
     topic: String,
     onCancel: () -> Unit = {},
-//    onDone: (results: List<>) -> Unit, // TODO?
+    onDone: (results: List<DetailedBottomSheetComponentType>) -> Unit,
     elements: List<DetailedBottomSheetComponentType>
 ) = LazyColumn(
     modifier = Modifier
@@ -32,18 +34,20 @@ internal fun DetailsBottomSheetBuilder(
                 .padding(top = 16.dp)
                 .fillMaxWidth()
         ) {
-            SubtitleText(
+            Text(
                 text = "Cancel",
+                style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier.clickable {
-                    // TODO
+                    onCancel()
                 },
                 color = odooPrimary,
             )
 
-            SubtitleText(
+            Text(
                 text = "Done",
+                style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier.clickable {
-                    // TODO
+                    onDone(elements)
                 },
                 color = odooPrimary,
             )
@@ -64,18 +68,22 @@ internal fun DetailsBottomSheetBuilder(
 
             when (element) {
                 is DetailedBottomSheetComponentType.BigTextComponentType -> TextComponent(
-                    placeholderText = element.placeholderText
+                    placeholderText = element.placeholderText,
+                    onDone = { element.result = it }
                 )
                 is DetailedBottomSheetComponentType.SmallTextComponentType -> TextComponent(
                     placeholderText = element.placeholderText,
-                    isLarge = false
+                    isLarge = false,
+                    onDone = { element.result = it}
                 )
                 is DetailedBottomSheetComponentType.ListComponentType -> ListComponent(
                     placeholderText = element.placeholderText,
-                    elements = element.values
+                    elements = element.values,
+                    onDone = { element.result = it}
                 )
                 is DetailedBottomSheetComponentType.DatePickerComponentType -> DatePickerComponent(
-                    placeholderText = element.placeholderText
+                    placeholderText = element.placeholderText,
+                    onDone = { element.result = it}
                 )
             }
         }

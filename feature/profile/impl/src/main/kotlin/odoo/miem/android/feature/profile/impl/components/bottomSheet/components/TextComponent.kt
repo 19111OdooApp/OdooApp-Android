@@ -16,7 +16,7 @@ import odoo.miem.android.common.uiKitComponents.textfields.BaseTextField
 internal fun TextComponent(
     placeholderText: String,
     isLarge: Boolean = true,
-    onDone: () -> String = { "kek" } // TODO?
+    onDone: (result: String) -> Unit = {}
 ) {
     var input by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue())
@@ -26,6 +26,7 @@ internal fun TextComponent(
         value = input,
         onValueChange = {
             input = it
+            onDone(input.text)
         },
         placeholder = {
             SubtitleText(

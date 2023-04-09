@@ -4,10 +4,7 @@ import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetLayout
-import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -129,7 +126,9 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
                             DividedListItem(),
                         )
 
-                        override val sheetContent: ColumnScope.() -> Unit = {}
+                        override val sheetContent: @Composable ColumnScope.() -> Unit = {
+                            Text("Log note", modifier = Modifier.fillMaxSize())
+                        }
 
                         override val bottomSheetButtonText: String = "Add new log note"
                     },
@@ -143,7 +142,9 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
                             DividedListItem(),
                         )
 
-                        override val sheetContent: ColumnScope.() -> Unit = {}
+                        override val sheetContent: @Composable ColumnScope.() -> Unit = {
+                            Text("Schedule activity", modifier = Modifier.fillMaxSize())
+                        }
 
                         override val bottomSheetButtonText: String = "Add new schedule activity"
                     }
@@ -162,28 +163,32 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
     ) {
         val pagerState = rememberPagerState()
         val coroutineScope = rememberCoroutineScope()
-        val sheetState = rememberModalBottomSheetState(
-            initialValue = ModalBottomSheetValue.Hidden,
-            skipHalfExpanded = true
+        val bottomSheetState = rememberBottomSheetState(
+            initialValue = BottomSheetValue.Collapsed
         )
-        val onSheetExpand: (onOpen: Boolean) -> Unit = { onOpen ->
+        var currentBottomSheet: DividedListType? by remember {
+            mutableStateOf(null)
+        }
+        val onSheetExpand: (onOpen: Boolean, type: DividedListType) -> Unit = { onOpen, type ->
+            currentBottomSheet = type
             coroutineScope.launch {
                 if (onOpen)
-                    sheetState.show()
+                    bottomSheetState.expand()
                 else
-                    sheetState.hide()
+                    bottomSheetState.collapse()
             }
         }
 
-        BackHandler(sheetState.isVisible) {
-            onSheetExpand(false)
+        BackHandler(bottomSheetState.isExpanded) {
+            coroutineScope.launch { bottomSheetState.collapse() }
         }
 
-        ModalBottomSheetLayout(
-            sheetState = sheetState,
+        BottomSheetScaffold(
+            scaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = bottomSheetState),
             sheetContent = {
-                Text("sdnklnzxffsdk", modifier = Modifier.fillMaxSize()) // TODO Depends on screen
+                currentBottomSheet?.sheetContent?.let { it() }
             },
+            sheetPeekHeight = 0.dp,
             sheetShape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
             modifier = Modifier.fillMaxSize()
         ) {
@@ -204,7 +209,7 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
         header: DetailsHeader,
         pages: List<PagesType>,
         pagerState: PagerState,
-        onSheetExpand: (onOpen: Boolean) -> Unit = {},
+        onSheetExpand: (onOpen: Boolean, type: DividedListType) -> Unit = { _, _ -> },
         navigateBack: () -> Unit = {}
     ) = Column(
         modifier = Modifier.fillMaxSize()
@@ -260,9 +265,10 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
                     is TextType -> TextPage(textType = type)
                     is DividedListType -> DividedListPage(
                         dividedListType = type,
-                        onSheetExpand = onSheetExpand
+                        onSheetExpand = { onSheetExpand(it, type) }
                     )
-                    else -> {/* Ignore */ }
+                    else -> {/* Ignore */
+                    }
                 }
             }
         }

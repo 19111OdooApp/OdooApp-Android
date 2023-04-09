@@ -20,7 +20,7 @@ dependencies {
     implementation(project(":feature:navigation:api"))
 
     // Profile API
-    implementation(project(":feature:profile:api"))
+    implementation(project(":feature:details:api"))
 
     // Selecting Modules API
     implementation(project(":feature:selectingModules:api"))

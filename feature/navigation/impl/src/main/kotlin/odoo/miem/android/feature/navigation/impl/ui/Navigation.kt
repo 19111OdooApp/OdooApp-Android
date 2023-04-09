@@ -19,6 +19,8 @@ import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
 import odoo.miem.android.feature.authorization.base.api.di.IAuthorizationApi
+import odoo.miem.android.feature.details.api.IDetailsScreen
+import odoo.miem.android.feature.details.api.di.IDetailsScreenApi
 import odoo.miem.android.feature.moduleNotFound.api.IModuleNotFoundScreen
 import odoo.miem.android.feature.moduleNotFound.api.di.IModuleNotFoundApi
 import odoo.miem.android.feature.navigation.api.data.Routes
@@ -55,13 +57,13 @@ fun Navigation(
 
     // Screens
     val authorizationScreen by api(IAuthorizationApi::authorizationScreen)
-    val profileScreen by api(IProfileScreenApi::profileScreen)
+    val detailsScreen by api(IDetailsScreenApi::detailsScreen)
     val selectingModulesScreen by api(ISelectingModulesApi::selectingModulesScreen)
     val moduleNotFoundScreen by api(IModuleNotFoundApi::moduleNotFoundScreen)
     val recruitmentScreen by api(IRecruitmentApi::recruitmentScreen)
     NavigationContent(
         authorizationScreen = authorizationScreen,
-        profileScreen = profileScreen,
+        detailsScreen = detailsScreen,
         selectingModulesScreen = selectingModulesScreen,
         moduleNotFoundScreen = moduleNotFoundScreen,
         recruitmentScreen = recruitmentScreen,
@@ -75,7 +77,7 @@ fun Navigation(
 @Composable
 fun NavigationContent(
     authorizationScreen: IAuthorizationScreen,
-    profileScreen: IProfileScreen,
+    detailsScreen: IDetailsScreen,
     selectingModulesScreen: ISelectingModulesScreen,
     moduleNotFoundScreen: IModuleNotFoundScreen,
     recruitmentScreen: IRecruitmentScreen,
@@ -104,7 +106,7 @@ fun NavigationContent(
             }
 
             composable(Routes.profile) {
-                profileScreen.ProfileScreen(
+                detailsScreen.DetailsScreen(
                     navController = navController,
                     showMessage = showMessage
                 )

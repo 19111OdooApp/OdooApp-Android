@@ -91,7 +91,7 @@ fun NavigationContent(
         NavHost(
             navController = navController,
             startDestination = remember {
-                Routes.details
+                Routes.authorization
             }
         ) {
             composable(Routes.authorization) {

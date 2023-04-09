@@ -4,6 +4,7 @@ import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcCaller
 import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcInterceptor
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpc
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcArgument
+import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcAuthentication
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcPath
 import odoo.miem.android.core.jsonrpc.base.engine.exception.JsonRpcException
 import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcRequest
@@ -58,9 +59,9 @@ fun <T> createInvocationHandler(
     caller: JsonRpcCaller,
     resultParser: ResultParser,
     interceptors: List<JsonRpcInterceptor> = listOf(),
-    headers: Map<String, String> = emptyMap(),
+    headersResolver: (isAuthRequest: Boolean) -> Map<String, String> = { emptyMap() },
     logger: (String) -> Unit = { _ -> },
-    onResponseProceed: ((id: Long, Response) -> JsonRpcResponse)? = null
+    onResponseProceedResolver: (isAuthRequest: Boolean) -> ((id: Long, Response) -> JsonRpcResponse)? = { null },
 ): InvocationHandler {
     return object : InvocationHandler {
 
@@ -68,6 +69,10 @@ fun <T> createInvocationHandler(
             val methodAnnotation =
                 method.getAnnotation(JsonRpc::class.java)
                     ?: error("Method should be annotated with JsonRpc annotation")
+
+            val methodAuthentication = method.getAnnotation(JsonRpcAuthentication::class.java)
+            val headers = headersResolver(methodAuthentication != null)
+            val onResponseProceed = onResponseProceedResolver(methodAuthentication != null)
 
             val id = requestId.incrementAndGet()
             val methodName = methodAnnotation.value

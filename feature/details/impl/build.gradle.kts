@@ -8,6 +8,8 @@ android {
 
 dependencies {
 
+    implementation(Dependencies.Compose.SwipableCard.SWIPABLE_CARD)
+
     api(project(":feature:details:api"))
 
     // Core
@@ -17,7 +19,4 @@ dependencies {
     // Common
     // Components
     implementation(project(":common:uiKitComponents"))
-
-    // TODO Move
-    implementation("me.saket.swipe:swipe:1.1.1")
 }

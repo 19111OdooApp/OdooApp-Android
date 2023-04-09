@@ -38,6 +38,6 @@ internal fun TextComponent(
         textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Start),
         modifier = Modifier
             .fillMaxWidth()
-            .defaultMinSize(minHeight = if (isLarge) 100.dp else 50.dp)
+            .defaultMinSize(minHeight = if (isLarge) 100.dp else 60.dp)
     )
 }

@@ -12,5 +12,5 @@ object CompileVersions {
     const val KOTLIN_LANGUAGE_VERSION = "1.7"
 
     const val CURRENT_COMPILE_VERSION = 33
-    const val MINIMUM_COMPILE_VERSION = 21
+    const val MINIMUM_COMPILE_VERSION = 24
 }

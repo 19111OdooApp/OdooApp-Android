@@ -145,7 +145,11 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
                                     "Arina Shoshina4",
                                 ),
                                 onDone = { "kek" }
-                            )
+                            ),
+                            DetailedBottomSheetComponentType.DatePickerComponentType(
+                                placeholderText = "Due Date",
+                                onDone = { Date() }
+                            ),
                         )
 
                         override val bottomSheetButtonText: String = "Add new log note"
@@ -272,8 +276,7 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
                         dividedListType = type,
                         onSheetExpand = { onSheetExpand(it, type) }
                     )
-                    else -> {/* Ignore */
-                    }
+                    else -> {/* Ignore */ }
                 }
             }
         }

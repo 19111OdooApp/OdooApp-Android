@@ -10,6 +10,7 @@ import odoo.miem.android.common.uiKitComponents.text.SubtitleText
 import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.uiKitTheme.odooPrimary
+import odoo.miem.android.feature.profile.impl.components.bottomSheet.components.DatePickerComponent
 import odoo.miem.android.feature.profile.impl.components.bottomSheet.components.ListComponent
 import odoo.miem.android.feature.profile.impl.components.bottomSheet.components.TextComponent
 
@@ -73,8 +74,9 @@ internal fun DetailsBottomSheetBuilder(
                     placeholderText = element.placeholderText,
                     elements = element.values
                 )
-                else -> { /* TODO */
-                }
+                is DetailedBottomSheetComponentType.DatePickerComponentType -> DatePickerComponent(
+                    placeholderText = element.placeholderText
+                )
             }
         }
     }

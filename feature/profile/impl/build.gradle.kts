@@ -18,5 +18,8 @@ dependencies {
     // Components
     implementation(project(":common:uiKitComponents"))
 
+    // TODO Move
     implementation("me.saket.swipe:swipe:1.1.1")
+    implementation("com.maxkeppeler.sheets-compose-dialogs:core:1.1.1")
+    implementation("com.maxkeppeler.sheets-compose-dialogs:calendar:1.1.1")
 }

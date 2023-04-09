@@ -19,7 +19,7 @@ import odoo.miem.android.feature.profile.impl.components.TextType
 import odoo.miem.android.feature.profile.impl.data.User
 
 @Composable
-fun TextPage(
+internal fun TextPage(
     textType: TextType
 ) = Column(
     horizontalAlignment = Alignment.CenterHorizontally,

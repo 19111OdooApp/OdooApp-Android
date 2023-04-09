@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +21,9 @@ import odoo.miem.android.common.uiKitComponents.stateholder.StateHolder
 import odoo.miem.android.common.uiKitComponents.text.*
 import odoo.miem.android.feature.profile.api.IProfileScreen
 import odoo.miem.android.feature.profile.impl.components.*
+import odoo.miem.android.feature.profile.impl.components.bottomSheet.DetailedBottomSheetComponentType
+import odoo.miem.android.feature.profile.impl.components.bottomSheet.DetailsBottomSheetBuilder
+import odoo.miem.android.feature.profile.impl.components.header.ProfileHeader
 import odoo.miem.android.feature.profile.impl.components.pages.*
 import odoo.miem.android.feature.profile.impl.data.DetailsHeader
 import odoo.miem.android.feature.profile.impl.data.DividedListItem
@@ -125,28 +127,28 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
                             DividedListItem(),
                             DividedListItem(),
                         )
-
-                        override val sheetContent: @Composable ColumnScope.() -> Unit = {
-                            Text("Log note", modifier = Modifier.fillMaxSize())
-                        }
-
-                        override val bottomSheetButtonText: String = "Add new log note"
-                    },
-                    object : DividedListType {
-                        override val topic: String = "Schedule activity"
-
-                        override val items: List<DividedListItem> = listOf(
-                            DividedListItem(),
-                            DividedListItem(),
-                            DividedListItem(),
-                            DividedListItem(),
+                        override val sheetElements: List<DetailedBottomSheetComponentType> = listOf(
+                            DetailedBottomSheetComponentType.BigTextComponentType(
+                                placeholderText = "Enter log note...",
+                                onDone = { "kek" }
+                            ),
+                            DetailedBottomSheetComponentType.SmallTextComponentType(
+                                placeholderText = "Summary",
+                                onDone = { "kek" }
+                            ),
+                            DetailedBottomSheetComponentType.ListComponentType(
+                                placeholderText = "Assigned to",
+                                values = listOf(
+                                    "Arina Shoshina1",
+                                    "Arina Shoshina2",
+                                    "Arina Shoshina3",
+                                    "Arina Shoshina4",
+                                ),
+                                onDone = { "kek" }
+                            )
                         )
 
-                        override val sheetContent: @Composable ColumnScope.() -> Unit = {
-                            Text("Schedule activity", modifier = Modifier.fillMaxSize())
-                        }
-
-                        override val bottomSheetButtonText: String = "Add new schedule activity"
+                        override val bottomSheetButtonText: String = "Add new log note"
                     }
                 ),
                 navigateBack = navController::popBackStack
@@ -154,14 +156,13 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
         }
     }
 
-    @OptIn(ExperimentalMaterialApi::class, ExperimentalPagerApi::class)
+    @OptIn(ExperimentalMaterialApi::class)
     @Composable
     private fun ProfileScreenContent(
         header: DetailsHeader,
         pages: List<PagesType> = emptyList(),
         navigateBack: () -> Unit = {}
     ) {
-        val pagerState = rememberPagerState()
         val coroutineScope = rememberCoroutineScope()
         val bottomSheetState = rememberBottomSheetState(
             initialValue = BottomSheetValue.Collapsed
@@ -186,7 +187,12 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
         BottomSheetScaffold(
             scaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = bottomSheetState),
             sheetContent = {
-                currentBottomSheet?.sheetContent?.let { it() }
+                currentBottomSheet?.let { type ->
+                    DetailsBottomSheetBuilder(
+                        topic = type.topic,
+                        elements = type.sheetElements
+                    )
+                }
             },
             sheetPeekHeight = 0.dp,
             sheetShape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
@@ -195,7 +201,6 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
             PagerContent(
                 header = header,
                 pages = pages,
-                pagerState = pagerState,
                 onSheetExpand = onSheetExpand,
                 navigateBack = navigateBack
             )
@@ -208,12 +213,12 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
     private fun PagerContent(
         header: DetailsHeader,
         pages: List<PagesType>,
-        pagerState: PagerState,
         onSheetExpand: (onOpen: Boolean, type: DividedListType) -> Unit = { _, _ -> },
         navigateBack: () -> Unit = {}
     ) = Column(
         modifier = Modifier.fillMaxSize()
     ) {
+        val pagerState = rememberPagerState()
 
         SimpleLogoAppBar(
             onBackButtonClick = navigateBack
@@ -317,22 +322,7 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
                 TextType(
                     topic = "Application Summary",
                     text = "Some cool application summary"
-                ),
-                // Log note
-                object : DividedListType {
-                    override val topic: String = "Log note"
-
-                    override val items: List<DividedListItem> = listOf(
-                        DividedListItem(),
-                        DividedListItem(),
-                        DividedListItem(),
-                        DividedListItem(),
-                    )
-
-                    override val sheetContent: ColumnScope.() -> Unit = {}
-
-                    override val bottomSheetButtonText: String = "Add new log note"
-                }
+                )
             )
         )
     }

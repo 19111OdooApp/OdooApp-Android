@@ -23,7 +23,7 @@ import odoo.miem.android.feature.profile.impl.components.DetailedInfoType
 import java.text.SimpleDateFormat
 
 @Composable
-fun DetailedInfoPage(
+internal fun DetailedInfoPage(
     detailedInfoType: DetailedInfoType
 ) = LazyColumn(
     horizontalAlignment = Alignment.CenterHorizontally,
@@ -75,6 +75,10 @@ fun DetailedInfoPage(
                     }
                 }
             }
+        }
+
+        item {
+            Spacer(modifier = Modifier.height(heightPadding))
         }
     }
 }

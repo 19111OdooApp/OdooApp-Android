@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -27,20 +28,99 @@ import odoo.miem.android.core.uiKitTheme.odooPrimaryGray
  *
  * @author Vorozhtsov Mikhail
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BaseTextField(
     imeAction: ImeAction = ImeAction.Done,
     isError: Boolean = false,
     keyboardType: KeyboardType = KeyboardType.Text,
-    @StringRes labelResource: Int,
+    @StringRes labelResource: Int? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
     modifier: Modifier = Modifier,
+    readOnly: Boolean = false,
     enabled: Boolean = true,
     onValueChange: (TextFieldValue) -> Unit = {},
     shape: CornerBasedShape = MaterialTheme.shapes.small,
     trailingIcon: @Composable (() -> Unit)? = null,
+    value: TextFieldValue,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+) {
+    _BaseTextField(
+        imeAction = imeAction,
+        isError = isError,
+        keyboardType = keyboardType,
+        label = labelResource?.let { stringResource(it) },
+        leadingIcon = leadingIcon,
+        placeholder = placeholder,
+        modifier = modifier,
+        readOnly = readOnly,
+        enabled = enabled,
+        onValueChange = onValueChange,
+        shape = shape,
+        trailingIcon = trailingIcon,
+        value = value,
+        visualTransformation = visualTransformation
+    )
+}
+
+
+@Composable
+fun BaseTextField(
+    imeAction: ImeAction = ImeAction.Done,
+    isError: Boolean = false,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    label: String? = null,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    placeholder: @Composable (() -> Unit)? = null,
+    modifier: Modifier = Modifier,
+    readOnly: Boolean = false,
+    enabled: Boolean = true,
+    singleLine: Boolean = true,
+    onValueChange: (TextFieldValue) -> Unit = {},
+    shape: CornerBasedShape = MaterialTheme.shapes.small,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    textStyle: TextStyle? = null,
+    value: TextFieldValue,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+) {
+    _BaseTextField(
+        imeAction = imeAction,
+        isError = isError,
+        keyboardType = keyboardType,
+        label = label,
+        leadingIcon = leadingIcon,
+        placeholder = placeholder,
+        modifier = modifier,
+        readOnly = readOnly,
+        enabled = enabled,
+        singleLine = singleLine,
+        onValueChange = onValueChange,
+        shape = shape,
+        trailingIcon = trailingIcon,
+        textStyle = textStyle,
+        value = value,
+        visualTransformation = visualTransformation
+    )
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun _BaseTextField(
+    imeAction: ImeAction = ImeAction.Done,
+    isError: Boolean = false,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    label: String?,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    placeholder: @Composable (() -> Unit)? = null,
+    modifier: Modifier = Modifier,
+    readOnly: Boolean = false,
+    enabled: Boolean = true,
+    singleLine: Boolean = true,
+    onValueChange: (TextFieldValue) -> Unit = {},
+    shape: CornerBasedShape = MaterialTheme.shapes.small,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    textStyle: TextStyle? = null,
     value: TextFieldValue,
     visualTransformation: VisualTransformation = VisualTransformation.None,
 ) {
@@ -49,10 +129,18 @@ fun BaseTextField(
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        textStyle = MaterialTheme.typography.bodyMedium,
+        textStyle = textStyle ?: MaterialTheme.typography.bodyMedium,
         enabled = enabled,
-        singleLine = true,
-        label = { Text(text = stringResource(labelResource), style = MaterialTheme.typography.bodyMedium) },
+        singleLine = singleLine,
+        label = label?.let {
+            {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+        },
+        readOnly = readOnly,
         placeholder = placeholder,
         visualTransformation = visualTransformation,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
@@ -76,8 +164,6 @@ fun BaseTextField(
         ),
         trailingIcon = trailingIcon,
         leadingIcon = leadingIcon,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = mainHorizontalPadding)
+        modifier = modifier.fillMaxWidth()
     )
 }

@@ -1,4 +1,4 @@
-package odoo.miem.android.feature.profile.impl.components
+package odoo.miem.android.feature.profile.impl.components.header
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -6,16 +6,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import odoo.miem.android.common.uiKitComponents.R
-import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
 import odoo.miem.android.core.uiKitTheme.odooOnGray
 
 @Composable
-fun ProfileHeader(
+internal fun ProfileHeader(
     title: String?,
     majorSubtitle: String?,
     minorSubtitle: String?

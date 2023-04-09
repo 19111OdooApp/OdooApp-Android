@@ -5,6 +5,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
@@ -25,6 +26,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import odoo.miem.android.common.uiKitComponents.R
+import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.uiKitTheme.odooPrimaryGray
 
 /**
@@ -86,6 +88,6 @@ fun LoginTextField(
         imeAction = imeAction,
         isError = isError,
         placeholder = placeholder,
-        modifier = modifier
+        modifier = modifier.padding(horizontal = mainHorizontalPadding)
     )
 }

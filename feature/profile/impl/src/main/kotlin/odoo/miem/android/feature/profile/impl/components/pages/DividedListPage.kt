@@ -27,7 +27,7 @@ import odoo.miem.android.feature.profile.impl.components.utils.toSwipeAction
 import odoo.miem.android.feature.profile.impl.data.DividedListItem
 
 @Composable
-fun DividedListPage(
+internal fun DividedListPage(
     dividedListType: DividedListType,
     onSheetExpand: (onOpen: Boolean) -> Unit = {},
 ) = Column(

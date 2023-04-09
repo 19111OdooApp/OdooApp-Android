@@ -2,6 +2,7 @@ package odoo.miem.android.feature.profile.impl.components
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
+import odoo.miem.android.feature.profile.impl.components.bottomSheet.DetailedBottomSheetComponentType
 import odoo.miem.android.feature.profile.impl.data.DividedListItem
 import java.util.*
 
@@ -50,7 +51,7 @@ interface DividedListType : TopicableType {
 
     val items: List<DividedListItem>
 
-    val sheetContent: @Composable ColumnScope.() -> Unit
+    val sheetElements: List<DetailedBottomSheetComponentType>
 
     val bottomSheetButtonText: String
 }

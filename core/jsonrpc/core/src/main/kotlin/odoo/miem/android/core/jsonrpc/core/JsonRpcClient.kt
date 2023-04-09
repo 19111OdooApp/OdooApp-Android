@@ -67,17 +67,17 @@ class JsonRpcClient internal constructor(
             caller = caller,
             resultParser = builder.resultParser,
             interceptors = builder.interceptors,
-            headers = resolveRequestHeaders(),
+            headersResolver = ::resolveRequestHeaders,
             logger = Timber::d,
-            onResponseProceed = resolveOnResponseProceed(!dataStore.isAuthorized)
+            onResponseProceedResolver = ::resolveOnResponseProceed
         )
 
         @Suppress("UNCHECKED_CAST")
         return Proxy.newProxyInstance(classLoader, interfaces, invocationHandler) as T
     }
 
-    private fun resolveRequestHeaders(): Map<String, String> =
-        if (!dataStore.isAuthorized) {
+    private fun resolveRequestHeaders(isAuthRequest: Boolean): Map<String, String> =
+        if (isAuthRequest) {
             DEFAULT_REQUEST_HEADERS
         } else {
             DEFAULT_REQUEST_HEADERS + mapOf(FIELD_SESSION_ID to dataStore.sessionId)

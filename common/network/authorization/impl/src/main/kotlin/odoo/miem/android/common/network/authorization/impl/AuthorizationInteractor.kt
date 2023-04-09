@@ -30,7 +30,7 @@ class AuthorizationInteractor @Inject constructor() : IAuthorizationInteractor {
     ): ResultSingle<Unit> {
         Timber.d("generalAuthorization(): baseUrl = $baseUrl, login = $login, password = $password")
 
-        dataStore.setUrl(proceedUrl(baseUrl))
+        dataStore.setUrl(urlProcessing(baseUrl))
 
         return authorizationRepository.generalAuthorization(
             login = login,
@@ -52,8 +52,6 @@ class AuthorizationInteractor @Inject constructor() : IAuthorizationInteractor {
                 ErrorResult(R.string.general_authorization_error)
             }
     }
-
-    private fun proceedUrl(inputUrl: String): String = "${urlProcessing(inputUrl)}web/"
 
     private companion object {
         const val COOKIE_SPLIT_SIGN = ";"

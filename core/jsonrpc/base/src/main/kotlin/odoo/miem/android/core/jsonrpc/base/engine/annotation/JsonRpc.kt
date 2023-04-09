@@ -75,3 +75,13 @@ annotation class JsonRpcArgument(val value: String)
  * @author Vorozhtsov Mikhail
  */
 annotation class JsonRpcPath
+
+/**
+ * [JsonRpcAuthentication] is annotation, which
+ * highlight, that this request is auth specific.
+ *
+ * Depends on it we put additional fields and headers
+ *
+ * @author Vorozhtsov Mikhail
+ */
+annotation class JsonRpcAuthentication

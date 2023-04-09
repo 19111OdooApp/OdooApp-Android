@@ -41,8 +41,8 @@ import odoo.miem.android.core.uiKitTheme.commonPadding
 import odoo.miem.android.core.uiKitTheme.dividerVerticalPadding
 import odoo.miem.android.core.uiKitTheme.hseSecondary
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
-import odoo.miem.android.core.uiKitTheme.odooButtonDisabled
-import odoo.miem.android.core.uiKitTheme.odooOnButtonDisabled
+import odoo.miem.android.core.uiKitTheme.odooGray
+import odoo.miem.android.core.uiKitTheme.odooOnGray
 import odoo.miem.android.core.utils.rx.collectAsState
 import odoo.miem.android.core.utils.state.LoadingResult
 import odoo.miem.android.core.utils.state.SuccessResult
@@ -244,8 +244,8 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = Color.White,
-                    disabledContainerColor = odooButtonDisabled,
-                    disabledContentColor = odooOnButtonDisabled
+                    disabledContainerColor = odooGray,
+                    disabledContentColor = odooOnGray
                 ),
                 modifier = Modifier
                     .fillMaxWidth()

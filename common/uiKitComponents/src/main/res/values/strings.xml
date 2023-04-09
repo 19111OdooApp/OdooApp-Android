@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Default-->
+    <string name="default_user_email" translatable="false">cool@user.com</string>
+    <string name="default_user_phone" translatable="false">+79999999999</string>
+    <string name="default_module_name">Cool module</string>
+
     <!--  Modules Card  -->
     <plurals name="module_number_of_notifications">
         <item quantity="one">%d New Notifications</item>
@@ -7,7 +12,6 @@
         <item quantity="many">%d New Notifications</item>
         <item quantity="other">%d New Notifications</item>
     </plurals>
-    <string name="module_default_name">Cool module</string>
     <string name="outlined_module_card_header">Add favourite module</string>
 
     <!--  Search Text field  -->

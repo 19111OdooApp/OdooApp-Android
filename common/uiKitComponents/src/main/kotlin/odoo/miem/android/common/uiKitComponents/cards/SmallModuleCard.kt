@@ -42,7 +42,7 @@ import odoo.miem.android.common.uiKitComponents.utils.glowEffect
  */
 @Composable
 fun SmallModuleCard(
-    moduleName: String = stringResource(id = R.string.module_default_name),
+    moduleName: String = stringResource(id = R.string.default_module_name),
     isLiked: Boolean = false,
     modifier: Modifier = Modifier,
     onLikeClick: () -> Unit = {},

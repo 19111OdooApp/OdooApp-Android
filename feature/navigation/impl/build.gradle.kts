@@ -19,6 +19,9 @@ dependencies {
     // Navigation API
     implementation(project(":feature:navigation:api"))
 
+    // Profile API
+    implementation(project(":feature:details:api"))
+
     // Selecting Modules API
     implementation(project(":feature:selectingModules:api"))
 

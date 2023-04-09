@@ -2,11 +2,27 @@ package odoo.miem.android.feature.profile.impl
 
 import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.BottomSheetScaffold
+import androidx.compose.material.BottomSheetValue
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.rememberBottomSheetScaffoldState
+import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -14,17 +30,24 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.google.accompanist.pager.*
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
 import odoo.miem.android.common.uiKitComponents.stateholder.StateHolder
-import odoo.miem.android.common.uiKitComponents.text.*
 import odoo.miem.android.feature.profile.api.IProfileScreen
-import odoo.miem.android.feature.profile.impl.components.*
-import odoo.miem.android.feature.profile.impl.components.bottomSheet.types.DetailedBottomSheetComponentType
+import odoo.miem.android.feature.profile.impl.components.DetailedInfoType
+import odoo.miem.android.feature.profile.impl.components.DividedListType
+import odoo.miem.android.feature.profile.impl.components.PagesType
+import odoo.miem.android.feature.profile.impl.components.TextType
 import odoo.miem.android.feature.profile.impl.components.bottomSheet.DetailsBottomSheetBuilder
+import odoo.miem.android.feature.profile.impl.components.bottomSheet.types.DetailedBottomSheetComponentType
 import odoo.miem.android.feature.profile.impl.components.header.ProfileHeader
-import odoo.miem.android.feature.profile.impl.components.pages.*
+import odoo.miem.android.feature.profile.impl.components.pages.DetailedInfoPage
+import odoo.miem.android.feature.profile.impl.components.pages.DividedListPage
+import odoo.miem.android.feature.profile.impl.components.pages.TextPage
 import odoo.miem.android.feature.profile.impl.data.DetailsHeader
 import odoo.miem.android.feature.profile.impl.data.DividedListItem
 import timber.log.Timber
@@ -44,7 +67,6 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
         navController: NavHostController,
         showMessage: (Int) -> Unit
     ) {
-
         StateHolder(
             isLoading = false,
             isSuccess = true
@@ -116,7 +138,14 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
                     ),
                     TextType(
                         topic = "Application Summary",
-                        text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris luctus consequat est. Praesent viverra nisl felis, eget pharetra mauris bibendum ac. Sed justo orci, blandit vehicula vestibulum quis, interdum in eros. Sed a eros luctus risus pharetra consequat. Vivamus mollis a lectus quis elementum. Integer vel nibh at nulla faucibus consequat. Morbi placerat tortor ut orci mattis, ut dapibus risus porta. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras luctus tempus est ut malesuada."
+                        text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+                            "Mauris luctus consequat est. " +
+                            "Praesent viverra nisl felis, eget pharetra mauris bibendum ac." +
+                            " Sed justo orci, blandit vehicula vestibulum quis, interdum in eros." +
+                            " Sed a eros luctus risus pharetra consequat. Vivamus mollis a lectus quis elementum." +
+                            " Integer vel nibh at nulla faucibus consequat. Morbi placerat tortor ut orci mattis," +
+                            " ut dapibus risus porta. Pellentesque habitant morbi tristique senectus et netus" +
+                            " et malesuada fames ac turpis egestas. Cras luctus tempus est ut malesuada."
                     ),
                     // Log note
                     object : DividedListType {
@@ -174,10 +203,11 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
         val onSheetExpand: (onOpen: Boolean, type: DividedListType?) -> Unit = { onOpen, type ->
             currentBottomSheet = type
             coroutineScope.launch {
-                if (onOpen)
+                if (onOpen) {
                     bottomSheetState.expand()
-                else
+                } else {
                     bottomSheetState.collapse()
+                }
             }
         }
 
@@ -212,7 +242,6 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
             )
         }
     }
-
 
     @OptIn(ExperimentalPagerApi::class)
     @Composable
@@ -278,7 +307,7 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
                         dividedListType = type,
                         onSheetExpand = { onSheetExpand(it, type) }
                     )
-                    else -> {/* Ignore */ }
+                    else -> { /* Ignore */ }
                 }
             }
         }
@@ -287,7 +316,6 @@ class ProfileScreen @Inject constructor() : IProfileScreen {
     @Composable
     @Preview(showBackground = true, backgroundColor = 0xFFF9F9F9)
     private fun ProfileScreenPreview() {
-
         ProfileScreenContent(
             header = DetailsHeader(
                 title = "Arina Shoshina",

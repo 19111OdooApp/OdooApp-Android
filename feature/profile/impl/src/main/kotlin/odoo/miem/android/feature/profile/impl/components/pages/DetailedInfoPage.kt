@@ -1,6 +1,12 @@
 package odoo.miem.android.feature.profile.impl.components.pages
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.material3.Divider
@@ -17,7 +23,6 @@ import odoo.miem.android.common.uiKitComponents.bar.RatingBar
 import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.uiKitTheme.odooPrimary
-import odoo.miem.android.feature.profile.impl.data.User
 import odoo.miem.android.feature.profile.impl.R
 import odoo.miem.android.feature.profile.impl.components.DetailedInfoType
 import java.text.SimpleDateFormat
@@ -96,7 +101,7 @@ private fun LazyItemScope.textJobPageItem(
     }
 }
 
-
+@Suppress("MagicNumber")
 @Composable
 private fun LazyItemScope.baseJobPageItem(
     key: String,
@@ -105,7 +110,6 @@ private fun LazyItemScope.baseJobPageItem(
     modifier = Modifier.height(32.dp),
     verticalAlignment = Alignment.CenterVertically,
 ) {
-
     JobPageItemText(
         text = key,
         modifier = Modifier.weight(0.4F)

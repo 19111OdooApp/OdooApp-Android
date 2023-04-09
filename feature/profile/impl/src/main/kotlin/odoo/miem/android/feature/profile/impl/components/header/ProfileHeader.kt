@@ -41,7 +41,6 @@ internal fun ProfileHeader(
         Spacer(modifier = Modifier.height(heightPadding))
     }
 
-
     minorSubtitle?.takeIf { it.isNotEmpty() }?.let {
         Text(
             text = it,

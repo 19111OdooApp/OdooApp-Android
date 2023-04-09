@@ -4,11 +4,7 @@ import android.app.DatePickerDialog
 import android.icu.util.Calendar
 import android.widget.DatePicker
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,23 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.google.android.material.datepicker.MaterialDatePicker
-import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
-import com.maxkeppeler.sheets.calendar.CalendarDialog
-import com.maxkeppeler.sheets.calendar.models.CalendarConfig
-import com.maxkeppeler.sheets.calendar.models.CalendarSelection
 import odoo.miem.android.common.uiKitComponents.text.SubtitleText
 import odoo.miem.android.common.uiKitComponents.textfields.BaseTextField
-import timber.log.Timber
-import java.text.SimpleDateFormat
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import java.util.*
 
+@Suppress("ImplicitDefaultLocale")
 @Composable
 internal fun DatePickerComponent(
     placeholderText: String,
@@ -59,7 +45,6 @@ internal fun DatePickerComponent(
         month,
         day
     )
-
 
     BaseTextField(
         value = input,

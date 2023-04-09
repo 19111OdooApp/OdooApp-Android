@@ -1,7 +1,14 @@
 package odoo.miem.android.feature.profile.impl.components.pages
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Divider
@@ -12,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -21,11 +27,11 @@ import odoo.miem.android.common.uiKitComponents.icon.ProfileIcon
 import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.core.uiKitTheme.odooPrimary
 import odoo.miem.android.core.uiKitTheme.odooPrimaryDark
-import odoo.miem.android.feature.profile.impl.R
 import odoo.miem.android.feature.profile.impl.components.DividedListType
 import odoo.miem.android.feature.profile.impl.components.utils.toSwipeAction
 import odoo.miem.android.feature.profile.impl.data.DividedListItem
 
+@Suppress("MagicNumber")
 @Composable
 internal fun DividedListPage(
     dividedListType: DividedListType,
@@ -34,7 +40,6 @@ internal fun DividedListPage(
     horizontalAlignment = Alignment.CenterHorizontally,
     modifier = Modifier.fillMaxSize()
 ) {
-
     val dividerColor = Color(0x21272B33)
     val newDivider: @Composable () -> Unit = { Divider(thickness = 1.dp, color = dividerColor) }
     val swipeThreshold = 10.dp
@@ -52,7 +57,6 @@ internal fun DividedListPage(
             .weight(8f)
             .fillMaxWidth()
     ) {
-
         item { newDivider() }
 
         itemsIndexed(dividedListType.items) { index, item ->

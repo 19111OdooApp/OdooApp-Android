@@ -2,7 +2,6 @@ package odoo.miem.android.common.uiKitComponents.textfields
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -20,7 +19,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
-import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.uiKitTheme.odooPrimaryGray
 
 /**
@@ -63,7 +61,6 @@ fun BaseTextField(
     )
 }
 
-
 @Composable
 fun BaseTextField(
     imeAction: ImeAction = ImeAction.Done,
@@ -102,7 +99,6 @@ fun BaseTextField(
         visualTransformation = visualTransformation
     )
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

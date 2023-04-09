@@ -37,6 +37,7 @@ import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
 import odoo.miem.android.common.uiKitComponents.stateholder.StateHolder
+import odoo.miem.android.core.utils.state.SuccessResult
 import odoo.miem.android.feature.details.api.IDetailsScreen
 import odoo.miem.android.feature.details.impl.components.DetailedInfoType
 import odoo.miem.android.feature.details.impl.components.DividedListType
@@ -68,8 +69,7 @@ class DetailsScreen @Inject constructor() : IDetailsScreen {
         showMessage: (Int) -> Unit
     ) {
         StateHolder(
-            isLoading = false,
-            isSuccess = true
+            state = SuccessResult<Unit>()
         ) {
             // TODO Delete test data
             DetailsScreenContent(
@@ -307,7 +307,8 @@ class DetailsScreen @Inject constructor() : IDetailsScreen {
                         dividedListType = type,
                         onSheetExpand = { onSheetExpand(it, type) }
                     )
-                    else -> { /* Ignore */ }
+                    else -> { /* Ignore */
+                    }
                 }
             }
         }

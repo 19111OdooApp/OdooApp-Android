@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Default-->
-    <string name="default_user_name">Крутой пользователь</string>
     <string name="default_module_name">Крутой модуль</string>
 
     <!--  Modules Card  -->

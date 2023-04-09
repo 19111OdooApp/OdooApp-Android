@@ -20,7 +20,6 @@ import odoo.miem.android.feature.authorization.base.impl.di.AuthorizationScreenA
 import odoo.miem.android.feature.details.impl.di.DetailsScreenApiProvider
 import odoo.miem.android.feature.moduleNotFound.impl.di.ModuleNotFoundScreenApiProvider
 import odoo.miem.android.feature.recruitment.impl.di.RecruitmentScreenApiProvider
-import odoo.miem.android.feature.profile.impl.di.ProfileScreenApiProvider
 import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreenApiProvider
 
 /**
@@ -68,7 +67,6 @@ import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreen
         SelectingModulesScreenApiProvider::class,
         ModuleNotFoundScreenApiProvider::class,
         RecruitmentScreenApiProvider::class,
-        ProfileScreenApiProvider::class,
         DetailsScreenApiProvider::class,
         // Interactors
         AuthorizationInteractorApiProvider::class,

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Default-->
-    <string name="default_user_name">Cool user</string>
     <string name="default_user_email" translatable="false">cool@user.com</string>
     <string name="default_user_phone" translatable="false">+79999999999</string>
     <string name="default_module_name">Cool module</string>

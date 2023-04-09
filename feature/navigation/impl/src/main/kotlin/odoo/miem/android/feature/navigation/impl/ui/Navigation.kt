@@ -15,7 +15,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import kotlinx.coroutines.launch
-import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
 import odoo.miem.android.feature.authorization.base.api.di.IAuthorizationApi
@@ -24,8 +23,6 @@ import odoo.miem.android.feature.details.api.di.IDetailsScreenApi
 import odoo.miem.android.feature.moduleNotFound.api.IModuleNotFoundScreen
 import odoo.miem.android.feature.moduleNotFound.api.di.IModuleNotFoundApi
 import odoo.miem.android.feature.navigation.api.data.Routes
-import odoo.miem.android.feature.profile.api.IProfileScreen
-import odoo.miem.android.feature.profile.api.di.IProfileScreenApi
 import odoo.miem.android.feature.recruitment.api.IRecruitmentScreen
 import odoo.miem.android.feature.recruitment.api.di.IRecruitmentApi
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
@@ -53,7 +50,6 @@ fun Navigation(
             snackbarHostState.showSnackbar(strMessage)
         }
     }
-    val dataStore by api(IDataStoreApi::dataStore)
 
     // Screens
     val authorizationScreen by api(IAuthorizationApi::authorizationScreen)
@@ -95,7 +91,7 @@ fun NavigationContent(
         NavHost(
             navController = navController,
             startDestination = remember {
-                Routes.authorization
+                Routes.details
             }
         ) {
             composable(Routes.authorization) {
@@ -105,7 +101,7 @@ fun NavigationContent(
                 )
             }
 
-            composable(Routes.profile) {
+            composable(Routes.details) {
                 detailsScreen.DetailsScreen(
                     navController = navController,
                     showMessage = showMessage

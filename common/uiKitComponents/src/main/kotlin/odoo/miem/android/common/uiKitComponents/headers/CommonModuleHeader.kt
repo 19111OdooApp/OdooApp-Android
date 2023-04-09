@@ -9,12 +9,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import odoo.miem.android.common.uiKitComponents.icon.ProfileIcon
 import odoo.miem.android.common.uiKitComponents.R
+import odoo.miem.android.common.uiKitComponents.icon.ProfileIcon
 import odoo.miem.android.common.uiKitComponents.text.HeadlineText
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
-import odoo.miem.android.feature.selectingModules.impl.R
-import odoo.miem.android.common.uiKitComponents.R as uiKitR
 
 /**
  * [CommonModuleHeader] is header of any module

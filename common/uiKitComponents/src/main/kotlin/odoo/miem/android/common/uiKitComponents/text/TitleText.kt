@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 
 /**
  * [TitleText] is text for title
@@ -50,9 +51,8 @@ fun TitleText(
     text = text,
     modifier = modifier,
     isLarge = isLarge,
-    color = color
-    textAlign = textAlign,
-    isLarge = isLarge
+    color = color,
+    textAlign = textAlign
 )
 
 /**

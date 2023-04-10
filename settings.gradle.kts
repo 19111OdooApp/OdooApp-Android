@@ -91,3 +91,6 @@ include(":feature:moduleNotFound:impl")
 
 include(":feature:recruitment:api")
 include(":feature:recruitment:impl")
+
+include(":feature:crm:api")
+include(":feature:crm:impl")

@@ -1,5 +1,6 @@
 package odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.components.main
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -28,7 +29,8 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
     statusList: List<S>,
     onEmployeeActionClick: (E) -> Unit,
     onSearchBarClicked: () -> Unit,
-    onCreateStatusClick: () -> Unit
+    onCreateStatusClick: () -> Unit,
+    @StringRes searchHintRes: Int,
 ) = Column(
     horizontalAlignment = Alignment.CenterHorizontally,
     verticalArrangement = Arrangement.SpaceBetween,
@@ -43,7 +45,10 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
 
     RecruitmentLikeScreenHeader(title = headerTitle)
 
-    RecruitmentLikeScreenSearch(onSearchBarClicked = onSearchBarClicked)
+    RecruitmentLikeScreenSearch(
+        onSearchBarClicked = onSearchBarClicked,
+        searchHintRes = searchHintRes,
+    )
 
     Spacer(modifier = Modifier.padding(top = 16.dp))
 

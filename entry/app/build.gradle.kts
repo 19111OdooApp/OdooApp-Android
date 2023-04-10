@@ -30,6 +30,10 @@ dependencies {
     implementation(project(":feature:recruitment:api"))
     implementation(project(":feature:recruitment:impl"))
 
+    // CRM
+    implementation(project(":feature:crm:api"))
+    implementation(project(":feature:crm:impl"))
+
     // Module Not Found
     implementation(project(":feature:moduleNotFound:api"))
     implementation(project(":feature:moduleNotFound:impl"))

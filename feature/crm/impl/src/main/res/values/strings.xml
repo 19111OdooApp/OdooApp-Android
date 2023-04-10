@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="crm_search_bar_key" translatable="false">searchBar</string>
+    <string name="crm_screen_key" translatable="false">crmScreen</string>
+    <string name="crm_search_screen_key" translatable="false">searchScreen</string>
+    <string name="crm_search_hint">Enter task name</string>
+
+    <string name="crm_change_status">Change status</string>
+    <string name="crm_add_new_status">Add a new status</string>
+</resources>

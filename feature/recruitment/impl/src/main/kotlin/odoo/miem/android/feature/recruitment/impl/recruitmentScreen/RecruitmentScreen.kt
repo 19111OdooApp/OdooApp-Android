@@ -15,6 +15,7 @@ import odoo.miem.android.core.utils.state.SuccessResult
 import odoo.miem.android.core.utils.state.subscribeOnError
 import odoo.miem.android.feature.navigation.api.data.Routes
 import odoo.miem.android.feature.recruitment.api.IRecruitmentScreen
+import odoo.miem.android.feature.recruitment.impl.R
 import odoo.miem.android.feature.recruitment.impl.RecruitmentViewModel
 import odoo.miem.android.feature.recruitment.impl.data.Employee
 import odoo.miem.android.feature.recruitment.impl.data.Status
@@ -61,6 +62,7 @@ class RecruitmentScreen @Inject constructor() : IRecruitmentScreen {
                     onStatusClick = onStatusClick,
                     onNewStatusCreated = onNewStatusCreated,
                     createStatusPictures = createStatusPictures,
+                    searchHintRes = R.string.recruitment_search_hint,
                 )
             }
         } else {
@@ -155,7 +157,8 @@ class RecruitmentScreen @Inject constructor() : IRecruitmentScreen {
                 onNavigateToModulesPressed = {},
                 onStatusClick = { e, s -> },
                 onNewStatusCreated = { s: String, s2: String -> },
-                createStatusPictures = listOf()
+                createStatusPictures = listOf(),
+                searchHintRes = R.string.recruitment_search_hint,
             )
         }
     }

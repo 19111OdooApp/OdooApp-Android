@@ -6,4 +6,6 @@ sealed class RecruitmentBottomSheetState {
         RecruitmentBottomSheetState()
 
     object CreateStatus : RecruitmentBottomSheetState()
+
+    object Empty : RecruitmentBottomSheetState()
 }

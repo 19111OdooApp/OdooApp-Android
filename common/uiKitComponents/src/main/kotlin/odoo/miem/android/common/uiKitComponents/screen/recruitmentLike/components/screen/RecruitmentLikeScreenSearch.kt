@@ -1,5 +1,6 @@
 package odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.components.screen
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
@@ -19,7 +20,10 @@ import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
 import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
 
 @Composable
-public fun RecruitmentLikeScreenSearch(onSearchBarClicked: () -> Unit) = Column {
+fun RecruitmentLikeScreenSearch(
+    onSearchBarClicked: () -> Unit,
+    @StringRes searchHintRes: Int,
+) = Column {
     var searchInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue())
     }
@@ -41,7 +45,8 @@ public fun RecruitmentLikeScreenSearch(onSearchBarClicked: () -> Unit) = Column 
                 // TODO search logic from viewModel
             },
             enabled = false,
-            modifier = Modifier.clickable { onSearchBarClicked() }
+            modifier = Modifier.clickable { onSearchBarClicked() },
+            stringRes = searchHintRes,
         )
     }
 }

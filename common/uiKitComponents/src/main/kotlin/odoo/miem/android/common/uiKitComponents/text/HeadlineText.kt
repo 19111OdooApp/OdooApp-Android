@@ -29,14 +29,14 @@ fun HeadlineText(
     modifier = modifier,
     color = color,
     textAlign = textAlign,
-    isLarge = isLarge
+    isMedium = isLarge
 )
 
 /**
  * [HeadlineText] is best-suited for short, high-emphasis text
  *
  * @param text - text, which will be displayed
- * @param isLarge - true or false, depends on size of headline
+ * @param isMedium - true or false, depends on size of headline
  *
  * @author Egor Danilov
  */
@@ -46,20 +46,34 @@ fun HeadlineText(
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onPrimaryContainer,
     textAlign: TextAlign = TextAlign.Start,
-    isLarge: Boolean = true
+    isMedium: Boolean = true
 ) = BaseHeadlineText(
     text = text,
     modifier = modifier,
     color = color,
     textAlign = textAlign,
-    isLarge = isLarge
+    isMedium = isMedium
+)
+
+@Composable
+fun LargeHeadlineText(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.onPrimaryContainer,
+    textAlign: TextAlign = TextAlign.Start,
+) = BaseHeadlineText(
+    text = text,
+    modifier = modifier,
+    color = color,
+    textAlign = textAlign,
+    isLarge = true,
 )
 
 /**
  * [HeadlineText] base realization of [HeadlineText]
  *
  * @param text - string with text, which will be displayed
- * @param isLarge - true or false, depends on size of headline
+ * @param isMedium - true or false, depends on size of headline
  *
  * @author Egor Danilov
  */
@@ -69,10 +83,13 @@ private fun BaseHeadlineText(
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onPrimaryContainer,
     textAlign: TextAlign = TextAlign.Start,
-    isLarge: Boolean = true
+    isMedium: Boolean = true,
+    isLarge: Boolean = false,
 ) = Text(
     text = text,
     style = if (isLarge) {
+        MaterialTheme.typography.headlineLarge
+    } else if (isMedium) {
         MaterialTheme.typography.headlineMedium
     } else {
         MaterialTheme.typography.headlineSmall

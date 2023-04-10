@@ -17,19 +17,21 @@ import androidx.compose.runtime.saveable.rememberSaveable
 fun rememberCustomBottomSheetState(
     initialValue: CustomBottomSheetValue,
     animationSpec: AnimationSpec<Float> = SwipeableDefaults.AnimationSpec,
-    confirmStateChange: (CustomBottomSheetValue) -> Boolean = { true }
+    confirmStateChange: (CustomBottomSheetValue) -> Boolean = { true },
+    possibleValues: List<CustomBottomSheetValue>,
 ): CustomBottomSheetState {
     return rememberSaveable(
         animationSpec,
         saver = CustomBottomSheetState.saver(
             animationSpec = animationSpec,
-            confirmStateChange = confirmStateChange
+            confirmStateChange = confirmStateChange,
         )
     ) {
         CustomBottomSheetState(
             initialValue = initialValue,
             animationSpec = animationSpec,
-            confirmStateChange = confirmStateChange
+            confirmStateChange = confirmStateChange,
+            possibleValues = possibleValues,
         )
     }
 }
@@ -42,7 +44,11 @@ fun rememberCustomBottomSheetState(
 @Composable
 @ExperimentalMaterialApi
 fun rememberCustomBottomSheetScaffoldState(
-    customBottomSheetState: CustomBottomSheetState = rememberCustomBottomSheetState(CustomBottomSheetValue.Collapsed),
+    possibleValues: List<CustomBottomSheetValue>,
+    customBottomSheetState: CustomBottomSheetState = rememberCustomBottomSheetState(
+        CustomBottomSheetValue.Hidden,
+        possibleValues = possibleValues,
+    ),
 ): CustomBottomSheetScaffoldState {
     return remember(customBottomSheetState) {
         CustomBottomSheetScaffoldState(

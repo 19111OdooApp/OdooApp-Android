@@ -69,7 +69,8 @@ RecruitmentLikeChangeStatusBottomSheetContent(
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(COLUMN_COUNT),
-            horizontalArrangement = Arrangement.spacedBy(employeeCardSpacing)
+            horizontalArrangement = Arrangement.spacedBy(employeeCardSpacing),
+            modifier = Modifier.padding(bottom = halfMainVerticalPadding)
         ) {
             items(statusList) { status ->
                 RecruitmentLikeBottomSheetElement(

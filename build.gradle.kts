@@ -4,6 +4,7 @@ plugins {
     id("org.jetbrains.kotlin.android") apply false
     id("org.jetbrains.kotlin.jvm") apply false
     id("io.gitlab.arturbosch.detekt") version Dependencies.Plugins.DETEKT_VERSION
+    `kotlin-parcelize` apply false
 }
 
 buildscript {

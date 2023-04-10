@@ -7,19 +7,46 @@ package odoo.miem.android.common.uiKitComponents.bottomsheet
  *
  * @author Vorozhtsov Mikhail
  */
-enum class CustomBottomSheetValue {
+sealed class CustomBottomSheetValue {
+
+    abstract fun calculate(
+        fullHeight: Float,
+        bottomSheetHeight: Float,
+    ): Float
+
     /**
      * The bottom sheet is visible, but only showing its peek height.
      */
-    Collapsed,
+    class Collapsed(private val peekHeightPx: Float) : CustomBottomSheetValue() {
+        override fun calculate(fullHeight: Float, bottomSheetHeight: Float): Float {
+            return (fullHeight - peekHeightPx)
+        }
+    }
 
     /**
      * The bottom sheet is visible at **halfCoefficient** size of maximum height
      */
-    Half,
+    class Half(private val halfCoefficient: Float) : CustomBottomSheetValue() {
+        override fun calculate(fullHeight: Float, bottomSheetHeight: Float): Float {
+            return (fullHeight - bottomSheetHeight * halfCoefficient)
+        }
+    }
 
     /**
      * The bottom sheet is visible at its maximum height.
      */
-    Expanded
+    object Expanded : CustomBottomSheetValue() {
+        override fun calculate(fullHeight: Float, bottomSheetHeight: Float): Float {
+            return (fullHeight - bottomSheetHeight)
+        }
+    }
+
+    /**
+     * The bottom sheet is not visible
+     */
+    object Hidden : CustomBottomSheetValue() {
+        override fun calculate(fullHeight: Float, bottomSheetHeight: Float): Float {
+            return fullHeight
+        }
+    }
 }

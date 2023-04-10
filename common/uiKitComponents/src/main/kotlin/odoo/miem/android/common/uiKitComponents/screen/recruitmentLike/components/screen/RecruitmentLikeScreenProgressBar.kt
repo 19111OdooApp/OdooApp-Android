@@ -15,7 +15,7 @@ private const val PROGRESS_BAR_TEXT_COEFFICIENT = 0.12f
 private const val PROGRESS_BAR_COEFFICIENT = 0.88f
 
 @Composable
-public fun RecruitmentLikeScreenProgressBar(
+fun RecruitmentLikeScreenProgressBar(
     progress: Float,
     count: Int
 ) = Row(

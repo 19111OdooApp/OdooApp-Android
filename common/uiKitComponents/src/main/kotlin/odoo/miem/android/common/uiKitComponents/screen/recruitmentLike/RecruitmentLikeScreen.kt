@@ -1,14 +1,16 @@
 package odoo.miem.android.common.uiKitComponents.screen.recruitmentLike
 
+import androidx.annotation.StringRes
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
-import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.unit.dp
 import com.mxalbert.sharedelements.SharedElementsRoot
+import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetValue
+import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetScaffoldState
+import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetState
 import odoo.miem.android.common.uiKitComponents.buttons.SelectModulesFloatingActionButton
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.components.bottomsheet.RecruitmentLikeBottomSheetLayout
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.RecruitmentLikeEmployeeModel
@@ -21,7 +23,8 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
     onNavigateToModulesPressed: () -> Unit,
     onStatusClick: (E, S) -> Unit,
     onNewStatusCreated: (String, String) -> Unit,
-    createStatusPictures: List<String>
+    createStatusPictures: List<String>,
+    @StringRes searchHintRes: Int,
 ) =
     Scaffold(
         floatingActionButton = {
@@ -32,11 +35,19 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
         SharedElementsRoot {
             val scope = rememberCoroutineScope()
 
-            val scaffoldState =
-                rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
-
             val topRadius = 35.dp
-
+            val possibleStates = listOf(
+                CustomBottomSheetValue.Hidden,
+                CustomBottomSheetValue.Expanded,
+            )
+            val sheetState = rememberCustomBottomSheetState(
+                initialValue = CustomBottomSheetValue.Hidden,
+                possibleValues = possibleStates
+            )
+            val scaffoldState = rememberCustomBottomSheetScaffoldState(
+                customBottomSheetState = sheetState,
+                possibleValues = sheetState.possibleValues,
+            )
             RecruitmentLikeBottomSheetLayout(
                 scaffoldState = scaffoldState,
                 statusList = statusList,
@@ -45,7 +56,8 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
                 contentPaddingValues = it,
                 onStatusClicked = onStatusClick,
                 onNewStatusCreated = onNewStatusCreated,
-                createStatusPictures = createStatusPictures
+                createStatusPictures = createStatusPictures,
+                searchHintRes = searchHintRes,
             )
         }
     }

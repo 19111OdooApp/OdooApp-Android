@@ -22,6 +22,7 @@ import kotlinx.coroutines.CancellationException
 @OptIn(ExperimentalMaterialApi::class)
 class CustomBottomSheetState(
     initialValue: CustomBottomSheetValue,
+    val possibleValues: List<CustomBottomSheetValue>,
     animationSpec: AnimationSpec<Float> = SwipeableDefaults.AnimationSpec,
     confirmStateChange: (CustomBottomSheetValue) -> Boolean = { true }
 ) : SwipeableState<CustomBottomSheetValue>(
@@ -33,16 +34,19 @@ class CustomBottomSheetState(
      * Whether the bottom sheet is expanded.
      */
     val isExpanded: Boolean
-        get() = currentValue == CustomBottomSheetValue.Expanded
+        get() = currentValue is CustomBottomSheetValue.Expanded
 
     val isHalf: Boolean
-        get() = currentValue == CustomBottomSheetValue.Half
+        get() = currentValue is CustomBottomSheetValue.Half
 
     /**
      * Whether the bottom sheet is collapsed.
      */
     val isCollapsed: Boolean
-        get() = currentValue == CustomBottomSheetValue.Collapsed
+        get() = currentValue is CustomBottomSheetValue.Collapsed
+
+    val isHidden: Boolean
+        get() = currentValue is CustomBottomSheetValue.Hidden
 
     /**
      * Expand the bottom sheet with animation and suspend until it if fully expanded or animation
@@ -51,9 +55,11 @@ class CustomBottomSheetState(
      *
      * @return the reason the expand animation ended
      */
-    suspend fun expand() = animateTo(CustomBottomSheetValue.Expanded)
+    suspend fun expand() = animateTo(possibleValues.first { it is CustomBottomSheetValue.Expanded })
 
-    suspend fun upToHalf() = animateTo(CustomBottomSheetValue.Half)
+    suspend fun upToHalf() = animateTo(possibleValues.first { it is CustomBottomSheetValue.Half })
+
+    suspend fun hide() = animateTo(possibleValues.first { it is CustomBottomSheetValue.Hidden })
 
     /**
      * Collapse the bottom sheet with animation and suspend until it if fully collapsed or animation
@@ -62,7 +68,8 @@ class CustomBottomSheetState(
      *
      * @return the reason the collapse animation ended
      */
-    suspend fun collapse() = animateTo(CustomBottomSheetValue.Collapsed)
+    suspend fun collapse() =
+        animateTo(possibleValues.first { it is CustomBottomSheetValue.Collapsed })
 
     companion object {
         /**
@@ -70,14 +77,15 @@ class CustomBottomSheetState(
          */
         fun saver(
             animationSpec: AnimationSpec<Float>,
-            confirmStateChange: (CustomBottomSheetValue) -> Boolean
+            confirmStateChange: (CustomBottomSheetValue) -> Boolean,
         ): Saver<CustomBottomSheetState, *> = Saver(
-            save = { it.currentValue },
+            save = { it.currentValue to it.possibleValues },
             restore = {
                 CustomBottomSheetState(
-                    initialValue = it,
+                    initialValue = it.first,
                     animationSpec = animationSpec,
-                    confirmStateChange = confirmStateChange
+                    confirmStateChange = confirmStateChange,
+                    possibleValues = it.second,
                 )
             }
         )

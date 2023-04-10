@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetLayout
-import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,6 +20,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetScaffold
+import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetScaffoldState
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.components.bottomsheet.change.RecruitmentLikeChangeStatusBottomSheetContent
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.components.bottomsheet.create.RecruitmentLikeCreateStatusBottomSheetContent
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.components.main.RecruitmentLikeScreenMainContent
@@ -35,49 +35,47 @@ import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> RecruitmentLikeBottomSheetLayout(
-    scaffoldState: ModalBottomSheetState,
+    scaffoldState: CustomBottomSheetScaffoldState,
     statusList: List<S>,
     topRadius: Dp,
     scope: CoroutineScope,
     contentPaddingValues: PaddingValues,
     onStatusClicked: (E, S) -> Unit,
     onNewStatusCreated: (String, String) -> Unit,
-    createStatusPictures: List<String>
+    createStatusPictures: List<String>,
+    searchHintRes: Int,
 ) {
     var isSearchScreenVisible by remember { mutableStateOf(false) }
     var screenState by remember {
-        mutableStateOf<RecruitmentBottomSheetState>(RecruitmentBottomSheetState.CreateStatus)
+        mutableStateOf<RecruitmentBottomSheetState>(RecruitmentBottomSheetState.Empty)
+    }
+    if (scaffoldState.customBottomSheetState.isHidden) {
+        screenState = RecruitmentBottomSheetState.Empty
     }
 
     val onCreateStatusClick: () -> Unit = {
         screenState = RecruitmentBottomSheetState.CreateStatus
         scope.launch {
-            scaffoldState.show()
+            scaffoldState.customBottomSheetState.expand()
         }
     }
     val onChangeStatusClick: (E) -> Unit = { employee ->
         screenState = RecruitmentBottomSheetState.ChangeStatus(employee)
         scope.launch {
-            scaffoldState.show()
+            scaffoldState.customBottomSheetState.expand()
         }
     }
 
     val onNewStatusCreated: (String, String) -> Unit = { statusName, imageLink ->
         onNewStatusCreated(statusName, imageLink)
         scope.launch {
-            scaffoldState.hide()
+            scaffoldState.customBottomSheetState.hide()
         }
     }
 
-    ModalBottomSheetLayout(
-        sheetState = scaffoldState,
+    CustomBottomSheetScaffold(
+        scaffoldState = scaffoldState,
         sheetContent = {
-            /**
-             * https://github.com/google/accompanist/issues/910, fixed in alpha for 0.29.0
-             * TODO: Update the lib when it's stable
-             **/
-            Spacer(Modifier.height(1.dp))
-
             when (screenState) {
                 is RecruitmentBottomSheetState.ChangeStatus<*> -> {
                     (screenState as? RecruitmentBottomSheetState.ChangeStatus<E>)?.employee?.let { employee ->
@@ -92,12 +90,16 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
                 is RecruitmentBottomSheetState.CreateStatus -> RecruitmentLikeCreateStatusBottomSheetContent(
                     onCancelClick = {
                         scope.launch {
-                            scaffoldState.hide()
+                            scaffoldState.customBottomSheetState.hide()
                         }
                     },
                     onDoneClick = onNewStatusCreated,
                     pictures = createStatusPictures,
                 )
+                is RecruitmentBottomSheetState.Empty -> {
+                    // Dirty hack so that animations would work normally
+                    Spacer(Modifier.height(1.dp))
+                }
             }
         },
         sheetShape = RoundedCornerShape(
@@ -108,6 +110,7 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
         modifier = Modifier
             .fillMaxSize()
             .imePadding(),
+        possibleValues = scaffoldState.customBottomSheetState.possibleValues,
     ) {
         Crossfade(
             targetState = isSearchScreenVisible,
@@ -120,7 +123,7 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
                         .sortedBy { it.name },
                     onEmployeeActionClick = {
                         scope.launch {
-                            scaffoldState.show()
+                            scaffoldState.customBottomSheetState.expand()
                         }
                     },
                     onBackPressed = { isSearchScreenVisible = false },
@@ -135,7 +138,8 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
                     onSearchBarClicked = {
                         isSearchScreenVisible = true
                     },
-                    onCreateStatusClick = onCreateStatusClick
+                    onCreateStatusClick = onCreateStatusClick,
+                    searchHintRes = searchHintRes,
                 )
             }
         }

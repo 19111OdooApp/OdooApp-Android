@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
@@ -145,7 +146,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     favoriteModules = favouriteModules,
                     onModuleCardClick = onModuleCardClick,
                     onLikeModuleClick = viewModel::onModuleLikeClick,
-                    onSearchValueChange = performModulesSearch
+                    onSearchValueChange = performModulesSearch,
                 )
             }
         )
@@ -161,13 +162,27 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         onLikeModuleClick: (OdooModule) -> Unit = {},
         onSearchValueChange: (String) -> List<OdooModule> = { emptyList() },
     ) {
+        val sheetPeekHeight = (
+            LocalConfiguration.current.screenHeightDp * SHEET_PEEK_HEIGHT_COEFFICIENT
+            ).dp
+        val sheetPeekHeightPx = with(LocalDensity.current) { sheetPeekHeight.toPx() }
+
+        val bottomSheetValues = listOf(
+            CustomBottomSheetValue.Expanded,
+            CustomBottomSheetValue.Collapsed(sheetPeekHeightPx),
+            CustomBottomSheetValue.Half(
+                HALF_COEFFICIENT
+            )
+        )
         val topRadius = 35.dp
 
         val sheetState = rememberCustomBottomSheetState(
-            initialValue = CustomBottomSheetValue.Collapsed
+            initialValue = bottomSheetValues.first { it is CustomBottomSheetValue.Collapsed },
+            possibleValues = bottomSheetValues,
         )
         val scaffoldState = rememberCustomBottomSheetScaffoldState(
-            customBottomSheetState = sheetState
+            customBottomSheetState = sheetState,
+            possibleValues = bottomSheetValues,
         )
 
         val scope = rememberCoroutineScope()
@@ -204,16 +219,14 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                             topStart = topRadius,
                             topEnd = topRadius
                         ),
-                        sheetPeekHeight = (
-                            LocalConfiguration.current.screenHeightDp * SHEET_PEEK_HEIGHT_COEFFICIENT
-                            ).dp,
+                        sheetPeekHeight = sheetPeekHeight,
                         sheetElevation = 8.dp,
                         backgroundColor = MaterialTheme.colorScheme.background,
                         sheetBackgroundColor = MaterialTheme.colorScheme.background,
-                        halfCoefficient = HALF_COEFFICIENT,
                         modifier = Modifier
                             .fillMaxSize()
-                            .imePadding()
+                            .imePadding(),
+                        possibleValues = scaffoldState.customBottomSheetState.possibleValues,
                     ) {
                         SelectingModulesMainContent(
                             userName = userName,

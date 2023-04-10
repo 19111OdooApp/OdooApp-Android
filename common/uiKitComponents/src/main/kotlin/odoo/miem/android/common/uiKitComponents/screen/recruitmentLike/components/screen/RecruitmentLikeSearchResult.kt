@@ -41,7 +41,7 @@ import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
  * @author Alexander Lyutikov
  */
 @Composable
-public fun <E : RecruitmentLikeEmployeeModel> RecruitmentLikeSearchResult(
+fun <E : RecruitmentLikeEmployeeModel> RecruitmentLikeSearchResult(
     employees: List<E>,
     onEmployeeClick: (E) -> Unit = {},
     onEmployeeActionClick: (E) -> Unit = {},
@@ -54,6 +54,9 @@ public fun <E : RecruitmentLikeEmployeeModel> RecruitmentLikeSearchResult(
 ) {
     var searchInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue())
+    }
+    val items = employees.filter {
+        it.name.lowercase().contains(searchInput.text.lowercase())
     }
     val focusRequester = FocusRequester()
 
@@ -108,11 +111,11 @@ public fun <E : RecruitmentLikeEmployeeModel> RecruitmentLikeSearchResult(
         enter = fadeIn(),
         exit = fadeOut()
     ) {
-        if (employees.isEmpty()) {
+        if (items.isEmpty()) {
             SearchResultEmpty(searchInput = searchInput.text)
         } else {
             RecruitmentLikeList(
-                employees = employees,
+                employees = items,
                 onEmployeeActionClick = onEmployeeActionClick,
                 onEmployeeCardClick = onEmployeeClick,
                 modifier = Modifier

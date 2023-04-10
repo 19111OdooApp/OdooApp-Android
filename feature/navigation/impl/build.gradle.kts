@@ -30,4 +30,7 @@ dependencies {
 
     // Module Recruitment
     implementation(project(":feature:recruitment:api"))
+
+    // Module CRM
+    implementation(project(":feature:crm:api"))
 }

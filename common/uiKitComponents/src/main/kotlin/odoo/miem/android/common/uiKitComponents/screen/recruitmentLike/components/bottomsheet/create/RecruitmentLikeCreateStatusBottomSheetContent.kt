@@ -29,6 +29,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
@@ -36,12 +37,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import odoo.miem.android.common.uiKitComponents.R
-import odoo.miem.android.common.uiKitComponents.text.HeadlineText
+import odoo.miem.android.common.uiKitComponents.text.LargeHeadlineText
 import odoo.miem.android.common.uiKitComponents.textfields.BaseTextField
 import odoo.miem.android.core.uiKitTheme.commonPadding
 import odoo.miem.android.core.uiKitTheme.halfMainVerticalPadding
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
+import odoo.miem.android.core.uiKitTheme.odooOnButtonDisabled
 
 const val GRID_CELLS = 4
 
@@ -60,6 +62,8 @@ fun RecruitmentLikeCreateStatusBottomSheetContent(
     }
     var imageLink by remember { mutableStateOf<String?>(null) }
 
+    val focusManager = LocalFocusManager.current
+
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxWidth()
@@ -67,28 +71,42 @@ fun RecruitmentLikeCreateStatusBottomSheetContent(
         TextButton(onClick = {
             statusName = TextFieldValue()
             imageLink = null
+            focusManager.clearFocus()
             onCancelClick()
         }) {
-            Text(text = stringResource(R.string.cancel_new_status_creation))
+            Text(
+                text = stringResource(R.string.cancel_new_status_creation),
+                color = MaterialTheme.colorScheme.primary,
+            )
         }
+
+        val isDoneEnabled = statusName.text.isNotBlank() && !imageLink.isNullOrEmpty()
 
         TextButton(
             onClick = {
                 imageLink?.let { onDoneClick(statusName.text, it) }
                 statusName = TextFieldValue()
                 imageLink = null
+                focusManager.clearFocus()
             },
-            enabled = statusName.text.isNotBlank() && !imageLink.isNullOrEmpty()
+            enabled = isDoneEnabled
         ) {
-            Text(text = stringResource(R.string.finish_new_status_creation))
+            Text(
+                text = stringResource(R.string.finish_new_status_creation),
+                color = if (isDoneEnabled) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    odooOnButtonDisabled
+                },
+            )
         }
     }
 
-    HeadlineText(
+    LargeHeadlineText(
         text = stringResource(R.string.create_new_status_headline),
         modifier = Modifier
             .padding(vertical = halfMainVerticalPadding)
-            .align(Alignment.CenterHorizontally)
+            .align(Alignment.Start),
     )
 
     Column(
@@ -142,6 +160,7 @@ fun RecruitmentLikeCreateStatusBottomSheetContent(
         LazyVerticalGrid(
             columns = GridCells.Fixed(GRID_CELLS),
             contentPadding = PaddingValues(commonPadding),
+            modifier = Modifier.padding(all = mainHorizontalPadding)
         ) {
             items(pictures) {
                 Box(modifier = Modifier.size(50.dp)) {
@@ -165,6 +184,8 @@ fun asd() {
         onCancelClick = { /*TODO*/ },
         onDoneClick = { _, _ -> },
         pictures = listOf(
+            "https://yt3.googleusercontent.com/ytc/AL5GRJWDJvCQYGY8n6BT_f7DzaJCcGRJ69N" +
+                "Y9IPU4G-K4Q=s900-c-k-c0x00ffffff-no-rj",
             "https://yt3.googleusercontent.com/ytc/AL5GRJWDJvCQYGY8n6BT_f7DzaJCcGRJ69N" +
                 "Y9IPU4G-K4Q=s900-c-k-c0x00ffffff-no-rj"
         )

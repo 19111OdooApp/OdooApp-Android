@@ -33,4 +33,7 @@ dependencies {
 
     // Module CRM
     implementation(project(":feature:crm:api"))
+
+    // Module User Profile
+    implementation(project(":feature:userProfile:api"))
 }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_user_name" translatable="false">Cool user</string>
+    <string name="default_user_email" translatable="false">cooluser@miem.hse.ru</string>
+    <string name="default_user_phone_number" translatable="false">+79500000000</string>
+
+    <string name="log_out_button">Log out</string>
+    <string name="about_app">About app</string>
+</resources>

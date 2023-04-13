@@ -34,6 +34,10 @@ dependencies {
     implementation(project(":feature:crm:api"))
     implementation(project(":feature:crm:impl"))
 
+    // User Profile
+    implementation(project(":feature:userProfile:api"))
+    implementation(project(":feature:userProfile:impl"))
+
     // Module Not Found
     implementation(project(":feature:moduleNotFound:api"))
     implementation(project(":feature:moduleNotFound:impl"))

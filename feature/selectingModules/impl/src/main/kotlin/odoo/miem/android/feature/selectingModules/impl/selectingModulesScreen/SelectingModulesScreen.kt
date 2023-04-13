@@ -120,6 +120,10 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             }
         }
 
+        val navigateToUserProfile: () -> Unit = {
+            navController.navigate(Routes.userProfile)
+        }
+
         StateHolder(
             state = modulesState,
             loadingContent = { OdooSplashScreen() },
@@ -147,6 +151,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     onModuleCardClick = onModuleCardClick,
                     onLikeModuleClick = viewModel::onModuleLikeClick,
                     onSearchValueChange = performModulesSearch,
+                    navigateToUserProfile = navigateToUserProfile,
                 )
             }
         )
@@ -161,6 +166,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         onModuleCardClick: (OdooModule) -> Unit = {},
         onLikeModuleClick: (OdooModule) -> Unit = {},
         onSearchValueChange: (String) -> List<OdooModule> = { emptyList() },
+        navigateToUserProfile: () -> Unit = {},
     ) {
         val sheetPeekHeight = (
             LocalConfiguration.current.screenHeightDp * SHEET_PEEK_HEIGHT_COEFFICIENT
@@ -234,7 +240,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                             onModuleCardClick = onModuleCardClick,
                             onLikeModuleClick = onLikeModuleClick,
                             onAddModuleCardClick = onAddModuleCardClick,
-                            onSearchBarClick = { isSearchScreenVisible = true }
+                            onSearchBarClick = { isSearchScreenVisible = true },
+                            navigateToUserProfile = navigateToUserProfile
                         )
                     }
                 } else {
@@ -260,7 +267,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         onModuleCardClick: (OdooModule) -> Unit = {},
         onLikeModuleClick: (OdooModule) -> Unit = {},
         onAddModuleCardClick: () -> Unit = {},
-        onSearchBarClick: () -> Unit = {}
+        onSearchBarClick: () -> Unit = {},
+        navigateToUserProfile: () -> Unit = {}
     ) = Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -285,7 +293,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         SimpleLogoAppBar()
 
         CommonModuleHeader(
-            userName = userName ?: stringResource(R.string.default_user_name)
+            userName = userName ?: stringResource(R.string.default_user_name),
+            onUserIconClick = navigateToUserProfile
         )
 
         Spacer(modifier = Modifier.height(baseTopPadding))

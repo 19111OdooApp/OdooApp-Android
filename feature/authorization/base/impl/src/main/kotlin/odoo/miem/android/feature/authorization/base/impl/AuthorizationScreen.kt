@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
-import odoo.miem.android.common.uiKitComponents.buttons.TextButton
+import odoo.miem.android.common.uiKitComponents.buttons.FilledTextButton
 import odoo.miem.android.common.uiKitComponents.dividers.Divider
 import odoo.miem.android.common.uiKitComponents.text.SubtitleText
 import odoo.miem.android.common.uiKitComponents.text.TitleText
@@ -238,7 +238,7 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
                     .padding(top = 100.dp)
             )
         } else {
-            TextButton(
+            FilledTextButton(
                 onClick = { onLoginButtonClick() },
                 isEnabled = isLoginButtonEnabled,
                 colors = ButtonDefaults.buttonColors(
@@ -261,7 +261,7 @@ class AuthorizationScreen @Inject constructor() : IAuthorizationScreen {
                 textResource = R.string.login_divider_text
             )
 
-            TextButton(
+            FilledTextButton(
                 onClick = {
                     if (serverInput.text.isEmpty()) {
                         showMessage(R.string.hse_empty_url_error)

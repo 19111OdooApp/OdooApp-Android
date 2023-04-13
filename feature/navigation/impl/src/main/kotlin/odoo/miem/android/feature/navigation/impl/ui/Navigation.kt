@@ -29,6 +29,8 @@ import odoo.miem.android.feature.recruitment.api.IRecruitmentScreen
 import odoo.miem.android.feature.recruitment.api.di.IRecruitmentApi
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
 import odoo.miem.android.feature.selectingModules.api.di.ISelectingModulesApi
+import odoo.miem.android.feature.userProfile.api.IUserProfileScreen
+import odoo.miem.android.feature.userProfile.api.di.IUserProfileScreenApi
 
 /**
  * [Navigation] composable function, which is needed to initialize navigation across screens
@@ -60,6 +62,8 @@ fun Navigation(
     val moduleNotFoundScreen by api(IModuleNotFoundApi::moduleNotFoundScreen)
     val recruitmentScreen by api(IRecruitmentApi::recruitmentScreen)
     val crmScreen by api(ICrmApi::crmScreen)
+    val userProfileScreen by api(IUserProfileScreenApi::userProfileScreen)
+
     NavigationContent(
         authorizationScreen = authorizationScreen,
         detailsScreen = detailsScreen,
@@ -67,6 +71,7 @@ fun Navigation(
         moduleNotFoundScreen = moduleNotFoundScreen,
         recruitmentScreen = recruitmentScreen,
         crmScreen = crmScreen,
+        userProfileScreen = userProfileScreen,
         paddingValues = paddingValues,
         navController = navController,
 //        isAuthorized = dataStore.isAuthorized,
@@ -82,6 +87,7 @@ fun NavigationContent(
     moduleNotFoundScreen: IModuleNotFoundScreen,
     recruitmentScreen: IRecruitmentScreen,
     crmScreen: ICrmScreen,
+    userProfileScreen: IUserProfileScreen,
     paddingValues: PaddingValues,
     navController: NavHostController,
 //    isAuthorized: Boolean,
@@ -135,6 +141,13 @@ fun NavigationContent(
 
             composable(Routes.crm) {
                 crmScreen.CrmScreen(
+                    navController = navController,
+                    showMessage = showMessage
+                )
+            }
+
+            composable(Routes.userProfile) {
+                userProfileScreen.UserProfileScreen(
                     navController = navController,
                     showMessage = showMessage
                 )

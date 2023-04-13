@@ -25,6 +25,7 @@ import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 @Composable
 fun CommonModuleHeader(
     userName: String = stringResource(R.string.default_user_name),
+    onUserIconClick: () -> Unit = {},
     avatarUrl: String? = null
 ) = Row(
     modifier = Modifier
@@ -44,7 +45,7 @@ fun CommonModuleHeader(
     }
 
     IconButton(
-        onClick = { /*TODO Implement profile click*/ }
+        onClick = onUserIconClick
     ) {
         ProfileIcon(
             avatarUrl = avatarUrl,

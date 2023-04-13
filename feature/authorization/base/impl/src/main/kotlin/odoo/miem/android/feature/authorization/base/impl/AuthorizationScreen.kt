@@ -56,7 +56,7 @@ import javax.inject.Inject
  * [AuthorizationScreen] - implementation of [IAuthorizationScreen] interface
  *
  * Methods by its purpose:
- * - [AuthorizationScreen] - enty point to this screen, which is need for initializations.
+ * - [AuthorizationScreen] - entry point to this screen, which is need for initializations.
  * E.g., for viewModel initialization
  * - [AuthorizationScreenContent] - layout of this screen
  * - [AuthorizationScreenPreview] - preview of the layout, which was done in [AuthorizationScreenContent]

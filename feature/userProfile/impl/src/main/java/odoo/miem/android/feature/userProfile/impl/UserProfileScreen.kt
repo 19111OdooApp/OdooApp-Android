@@ -40,6 +40,19 @@ import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
 import odoo.miem.android.feature.userProfile.api.IUserProfileScreen
 import javax.inject.Inject
 
+/**
+ * [UserProfileScreen] - implementation of [IUserProfileScreen] interface
+ *
+ * Methods by its purpose:
+ * - [UserProfileScreen] - entry point to this screen, which is need for initializations.
+ * E.g., for viewModel initialization
+ * - [UserProfileScreenContent] - high-level layout of this screen for declaring states, scaffold, etc
+ * - [UserProfileScreenMainContent] - main content of the screen
+ * - [UserProfileScreenBottomSheetContent] - content of this screen bottom sheet
+ * - [UserProfileScreenPreview] - preview of the layout, which was done in [UserProfileScreenMainContent]
+ *
+ * @author Danilov Egor
+ */
 class UserProfileScreen @Inject constructor() : IUserProfileScreen {
 
     @SuppressLint("NotConstructor")
@@ -48,14 +61,14 @@ class UserProfileScreen @Inject constructor() : IUserProfileScreen {
         navController: NavHostController,
         showMessage: (Int) -> Unit
     ) {
-        ProfileScreenContent(
+        UserProfileScreenContent(
             navigateBack = navController::popBackStack
         )
     }
 
     @OptIn(ExperimentalMaterialApi::class)
     @Composable
-    private fun ProfileScreenContent(
+    private fun UserProfileScreenContent(
         navigateBack: () -> Unit = {}
     ) {
         val bottomSheetTopRadius = 35.dp
@@ -85,7 +98,7 @@ class UserProfileScreen @Inject constructor() : IUserProfileScreen {
         CustomBottomSheetScaffold(
             scaffoldState = scaffoldState,
             sheetContent = {
-                ProfileScreenBottomSheetContent()
+                UserProfileScreenBottomSheetContent()
             },
             sheetShape = RoundedCornerShape(
                 topStart = bottomSheetTopRadius,
@@ -100,7 +113,7 @@ class UserProfileScreen @Inject constructor() : IUserProfileScreen {
                 .imePadding(),
             possibleValues = scaffoldState.customBottomSheetState.possibleValues,
         ) {
-            ProfileScreenMainContent(
+            UserProfileScreenMainContent(
                 navigateBack = navigateBack,
                 showBottomSheet = expandBottomSheet
             )
@@ -108,7 +121,7 @@ class UserProfileScreen @Inject constructor() : IUserProfileScreen {
     }
 
     @Composable
-    private fun ProfileScreenMainContent(
+    private fun UserProfileScreenMainContent(
         userName: String? = null,
         userEmail: String? = null,
         userPhoneNumber: String? = null,
@@ -191,7 +204,7 @@ class UserProfileScreen @Inject constructor() : IUserProfileScreen {
     }
 
     @Composable
-    private fun ColumnScope.ProfileScreenBottomSheetContent() = Column(
+    private fun ColumnScope.UserProfileScreenBottomSheetContent() = Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxWidth()
@@ -217,7 +230,7 @@ class UserProfileScreen @Inject constructor() : IUserProfileScreen {
 
     @Composable
     @Preview(showBackground = true, backgroundColor = 0xFFFFFF)
-    private fun ProfileScreenPreview() = OdooMiemAndroidTheme {
-        ProfileScreenMainContent()
+    private fun UserProfileScreenPreview() = OdooMiemAndroidTheme {
+        UserProfileScreenMainContent()
     }
 }

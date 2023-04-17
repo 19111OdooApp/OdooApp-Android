@@ -27,6 +27,7 @@ import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 @Composable
 fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> RecruitmentLikeScreenMainContent(
     statusList: List<S>,
+    onUserIconClick: () -> Unit = {},
     onEmployeeActionClick: (E) -> Unit,
     onSearchBarClicked: () -> Unit,
     onCreateStatusClick: () -> Unit,
@@ -43,7 +44,10 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
         statusList[pagerState.currentPage].statusName
     }
 
-    RecruitmentLikeScreenHeader(title = headerTitle)
+    RecruitmentLikeScreenHeader(
+        title = headerTitle,
+        onUserIconClick = onUserIconClick
+    )
 
     RecruitmentLikeScreenSearch(
         onSearchBarClicked = onSearchBarClicked,

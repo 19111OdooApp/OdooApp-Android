@@ -12,10 +12,15 @@ import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 
 @Composable
-fun RecruitmentLikeScreenHeader(title: String) = Column {
+fun RecruitmentLikeScreenHeader(
+    title: String,
+    onUserIconClick: () -> Unit = {}
+) = Column {
     SimpleLogoAppBar(modifier = Modifier.background(Color.Black))
 
-    CommonModuleHeader()
+    CommonModuleHeader(
+        onUserIconClick = onUserIconClick
+    )
 
     TitleText(
         text = title,

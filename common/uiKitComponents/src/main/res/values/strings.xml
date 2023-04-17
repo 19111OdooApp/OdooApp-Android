@@ -25,6 +25,7 @@
     <string name="add_favourite_module_button_icon" translatable="false">addFavouriteModule</string>
     <string name="test_text_field_desc" translatable="false">testTextField</string>
     <string name="test_input" translatable="false">Test input</string>
+
     <!-- header -->
     <string name="hello_text">Hello,</string>
     <string name="default_user_name">Cool user</string>

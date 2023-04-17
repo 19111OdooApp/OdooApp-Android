@@ -94,3 +94,6 @@ include(":feature:recruitment:impl")
 
 include(":feature:crm:api")
 include(":feature:crm:impl")
+
+include(":feature:userProfile:api")
+include(":feature:userProfile:impl")

@@ -1,5 +1,6 @@
 package odoo.miem.android.feature.recruitment.impl.recruitmentScreen
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,21 +24,31 @@ import javax.inject.Inject
 
 class RecruitmentScreen @Inject constructor() : IRecruitmentScreen {
 
+    @SuppressLint("NotConstructor")
     @Composable
     override fun RecruitmentScreen(
         navController: NavHostController,
         showMessage: (Int) -> Unit
     ) {
         val viewModel: RecruitmentViewModel = viewModel()
+
         val statusList by viewModel.statusState.collectAsState()
         val createStatusPictures by viewModel.picturesState.collectAsState()
+
         statusList.subscribeOnError(showMessage)
+
         val onNavigateToModulesPressed = {
             navController.navigate(Routes.selectingModules)
         }
+
+        val onUserIconClick = {
+            navController.navigate(Routes.userProfile)
+        }
+
         RecruitmentDecideOnLoading(
             statusList = statusList,
             fetchLambda = viewModel::fetchStatusList,
+            onUserIconClick = onUserIconClick,
             onNavigateToModulesPressed = onNavigateToModulesPressed,
             onStatusClick = viewModel::changeEmployeeStatus,
             onNewStatusCreated = viewModel::createNewStatus,
@@ -49,6 +60,7 @@ class RecruitmentScreen @Inject constructor() : IRecruitmentScreen {
     private fun RecruitmentDecideOnLoading(
         statusList: Result<List<Status>>,
         fetchLambda: () -> Unit,
+        onUserIconClick: () -> Unit = {},
         onNavigateToModulesPressed: () -> Unit,
         onStatusClick: (Employee, Status) -> Unit,
         onNewStatusCreated: (String, String) -> Unit,
@@ -59,6 +71,7 @@ class RecruitmentScreen @Inject constructor() : IRecruitmentScreen {
                 RecruitmentLikeScreen(
                     statusList = it,
                     onNavigateToModulesPressed = onNavigateToModulesPressed,
+                    onUserIconClick = onUserIconClick,
                     onStatusClick = onStatusClick,
                     onNewStatusCreated = onNewStatusCreated,
                     createStatusPictures = createStatusPictures,

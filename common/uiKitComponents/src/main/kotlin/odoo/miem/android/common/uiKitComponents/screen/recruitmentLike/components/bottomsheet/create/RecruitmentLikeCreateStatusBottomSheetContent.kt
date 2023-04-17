@@ -43,7 +43,7 @@ import odoo.miem.android.core.uiKitTheme.commonPadding
 import odoo.miem.android.core.uiKitTheme.halfMainVerticalPadding
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
-import odoo.miem.android.core.uiKitTheme.odooOnButtonDisabled
+import odoo.miem.android.core.uiKitTheme.odooPrimaryGray
 
 const val GRID_CELLS = 4
 
@@ -96,7 +96,7 @@ fun RecruitmentLikeCreateStatusBottomSheetContent(
                 color = if (isDoneEnabled) {
                     MaterialTheme.colorScheme.primary
                 } else {
-                    odooOnButtonDisabled
+                    odooPrimaryGray
                 },
             )
         }

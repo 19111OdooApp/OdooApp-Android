@@ -60,5 +60,8 @@ private fun DefaultProfileIcon(
         .background(MaterialTheme.colorScheme.primary),
     contentAlignment = Alignment.Center,
 ) {
-    HeadlineText(text = userName.first().toString(), color = Color.White)
+    HeadlineText(
+        text = userName.first().toString(),
+        color = Color.White
+    )
 }

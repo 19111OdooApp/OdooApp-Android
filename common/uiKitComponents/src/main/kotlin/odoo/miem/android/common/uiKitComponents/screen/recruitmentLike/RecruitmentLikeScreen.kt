@@ -20,6 +20,7 @@ import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.Rec
 @Composable
 fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> RecruitmentLikeScreen(
     statusList: List<S>,
+    onUserIconClick: () -> Unit = {},
     onNavigateToModulesPressed: () -> Unit,
     onStatusClick: (E, S) -> Unit,
     onNewStatusCreated: (String, String) -> Unit,
@@ -54,6 +55,7 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
                 topRadius = topRadius,
                 scope = scope,
                 contentPaddingValues = it,
+                onUserIconClick = onUserIconClick,
                 onStatusClicked = onStatusClick,
                 onNewStatusCreated = onNewStatusCreated,
                 createStatusPictures = createStatusPictures,

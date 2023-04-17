@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
             // TODO Picker of theme
             OdooMiemAndroidTheme {
-                SetupStatusBarColor()
+                SetupSystemBarsColors()
 
                 Scaffold(
                     snackbarHost = {
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     @Composable
-    private fun SetupStatusBarColor() {
+    private fun SetupSystemBarsColors() {
         val view = LocalView.current
         if (!view.isInEditMode) {
             val currentWindow = (view.context as? Activity)?.window
@@ -84,6 +84,8 @@ class MainActivity : AppCompatActivity() {
 
             SideEffect {
                 currentWindow.statusBarColor = color
+                currentWindow.navigationBarColor = color
+
                 WindowCompat.getInsetsController(currentWindow, view)
                     .isAppearanceLightStatusBars = isLightStatusBar
             }

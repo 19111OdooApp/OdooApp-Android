@@ -10,29 +10,30 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import odoo.miem.android.core.uiKitTheme.buttonIconSize
 import odoo.miem.android.core.uiKitTheme.commonPadding
 
 /**
- * [TextButton] - basic Material You filled button
+ * [FilledTextButton] - basic Material You filled button
  * Contains Text and optional Icon
  *
  * @author Egor Danilov
  */
 @Composable
-fun TextButton(
+fun FilledTextButton(
     onClick: () -> Unit = {},
     colors: ButtonColors,
     modifier: Modifier,
     @StringRes textResource: Int,
     @DrawableRes iconResource: Int? = null,
-    isEnabled: Boolean = true
+    textStyle: TextStyle = MaterialTheme.typography.bodyMedium,
+    isEnabled: Boolean = true,
 ) {
     Button(
         onClick = onClick,
@@ -53,7 +54,7 @@ fun TextButton(
 
         Text(
             text = stringResource(textResource),
-            style = MaterialTheme.typography.bodyMedium,
+            style = textStyle,
             modifier = Modifier.iconPadding(iconResource)
         )
     }

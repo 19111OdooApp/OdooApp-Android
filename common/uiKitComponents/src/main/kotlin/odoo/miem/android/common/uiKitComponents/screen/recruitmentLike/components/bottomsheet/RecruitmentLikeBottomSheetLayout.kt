@@ -40,6 +40,7 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
     topRadius: Dp,
     scope: CoroutineScope,
     contentPaddingValues: PaddingValues,
+    onUserIconClick: () -> Unit = {},
     onStatusClicked: (E, S) -> Unit,
     onNewStatusCreated: (String, String) -> Unit,
     createStatusPictures: List<String>,
@@ -140,6 +141,7 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
                     },
                     onCreateStatusClick = onCreateStatusClick,
                     searchHintRes = searchHintRes,
+                    onUserIconClick = onUserIconClick
                 )
             }
         }

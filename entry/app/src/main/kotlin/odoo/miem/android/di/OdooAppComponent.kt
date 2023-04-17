@@ -22,6 +22,7 @@ import odoo.miem.android.feature.details.impl.di.DetailsScreenApiProvider
 import odoo.miem.android.feature.moduleNotFound.impl.di.ModuleNotFoundScreenApiProvider
 import odoo.miem.android.feature.recruitment.impl.di.RecruitmentScreenApiProvider
 import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreenApiProvider
+import odoo.miem.android.feature.userProfile.impl.di.UserProfileScreenApiProvider
 
 /**
  * [OdooAppComponent] - **Dagger** component, which is the parent component
@@ -40,6 +41,10 @@ import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreen
  *  - [AuthorizationScreenApiProvider] - to deliver the dependency of authorization screen
  *  - [SelectingModulesScreenApiProvider] - to deliver the dependency of selecting modules screen
  *  - [ModuleNotFoundScreenApiProvider] - to deliver the dependency of module not found screen
+ *  - [RecruitmentScreenApiProvider] - to deliver the dependency of recruitment module
+ *  - [DetailsScreenApiProvider] - to deliver the dependency of screen with details for recruitment like module
+ *  - [CrmScreenApiProvider] - to deliver the dependency of crm module
+ *  - [UserProfileScreenApiProvider] - to deliver the dependency of user profile module
  *
  *  - [AuthorizationInteractorApiProvider] - to deliver the dependency of authorization interactor
  *  - [SelectingModulesInteractorApiProvider] - to deliver the dependency of selection modules interactor
@@ -63,6 +68,7 @@ import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreen
         UserInfoRepositoryApiProvider::class,
         UserModulesRepositoryApiProvider::class,
         RemoteConfigApiProvider::class,
+
         // Screens
         AuthorizationScreenApiProvider::class,
         SelectingModulesScreenApiProvider::class,
@@ -70,9 +76,12 @@ import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreen
         RecruitmentScreenApiProvider::class,
         DetailsScreenApiProvider::class,
         CrmScreenApiProvider::class,
+        UserProfileScreenApiProvider::class,
+
         // Interactors
         AuthorizationInteractorApiProvider::class,
         SelectingModulesInteractorApiProvider::class,
+
         // Utils
         DataStoreApiProvider::class,
         MoshiParserApiProvider::class,

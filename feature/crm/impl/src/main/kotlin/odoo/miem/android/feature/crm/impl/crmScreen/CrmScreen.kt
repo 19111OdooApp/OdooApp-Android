@@ -1,5 +1,6 @@
 package odoo.miem.android.feature.crm.impl.crmScreen
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,21 +24,31 @@ import javax.inject.Inject
 
 class CrmScreen @Inject constructor() : ICrmScreen {
 
+    @SuppressLint("NotConstructor")
     @Composable
     override fun CrmScreen(
         navController: NavHostController,
         showMessage: (Int) -> Unit
     ) {
         val viewModel: CrmViewModel = viewModel()
+
         val statusList by viewModel.statusState.collectAsState()
         val createStatusPictures by viewModel.picturesState.collectAsState()
+
         statusList.subscribeOnError(showMessage)
+
         val onNavigateToModulesPressed = {
             navController.navigate(Routes.selectingModules)
         }
+
+        val onUserIconClick = {
+            navController.navigate(Routes.userProfile)
+        }
+
         CrmDecideOnLoading(
             statusList = statusList,
             fetchLambda = viewModel::fetchStatusList,
+            onUserIconClick = onUserIconClick,
             onNavigateToModulesPressed = onNavigateToModulesPressed,
             onStatusClick = viewModel::changeEmployeeStatus,
             onNewStatusCreated = viewModel::createNewStatus,
@@ -49,6 +60,7 @@ class CrmScreen @Inject constructor() : ICrmScreen {
     private fun CrmDecideOnLoading(
         statusList: Result<List<Status>>,
         fetchLambda: () -> Unit,
+        onUserIconClick: () -> Unit = {},
         onNavigateToModulesPressed: () -> Unit,
         onStatusClick: (Employee, Status) -> Unit,
         onNewStatusCreated: (String, String) -> Unit,
@@ -58,6 +70,7 @@ class CrmScreen @Inject constructor() : ICrmScreen {
             statusList.data?.let {
                 RecruitmentLikeScreen(
                     statusList = it,
+                    onUserIconClick = onUserIconClick,
                     onNavigateToModulesPressed = onNavigateToModulesPressed,
                     onStatusClick = onStatusClick,
                     onNewStatusCreated = onNewStatusCreated,

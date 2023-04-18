@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -37,6 +38,7 @@ import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.halfMainVerticalPadding
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
+import odoo.miem.android.core.uiKitTheme.odooPrimaryDark
 import odoo.miem.android.feature.userProfile.api.IUserProfileScreen
 import javax.inject.Inject
 
@@ -143,26 +145,30 @@ class UserProfileScreen @Inject constructor() : IUserProfileScreen {
         ) {
             ProfileIcon(
                 userName = userName ?: stringResource(R.string.default_user_name),
-                iconSize = 98.dp
+                iconSize = 98.dp,
             )
 
             Spacer(modifier = Modifier.height(mainVerticalPadding))
 
             SubtitleText(
                 text = userName ?: stringResource(R.string.default_user_name),
-                isLarge = true
+                isLarge = true,
+                color = MaterialTheme.colorScheme.primary
             )
 
             Spacer(modifier = Modifier.height(halfMainVerticalPadding))
 
             SubtitleText(
-                text = userEmail ?: stringResource(R.string.default_user_email)
+                text = userEmail ?: stringResource(R.string.default_user_email),
+                textDecoration = TextDecoration.Underline,
+                color = MaterialTheme.colorScheme.onTertiary
             )
 
             Spacer(modifier = Modifier.height(halfMainVerticalPadding))
 
             SubtitleText(
-                text = userPhoneNumber ?: stringResource(R.string.default_user_phone_number)
+                text = userPhoneNumber ?: stringResource(R.string.default_user_phone_number),
+                color = MaterialTheme.colorScheme.onTertiary
             )
         }
 
@@ -176,7 +182,7 @@ class UserProfileScreen @Inject constructor() : IUserProfileScreen {
             FilledTextButton(
                 onClick = onLogOutButtonClick,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    containerColor = odooPrimaryDark,
                     contentColor = Color.White
                 ),
                 textResource = R.string.log_out_button,
@@ -197,7 +203,8 @@ class UserProfileScreen @Inject constructor() : IUserProfileScreen {
             ) {
                 SubtitleText(
                     textRes = R.string.about_app,
-                    color = MaterialTheme.colorScheme.onPrimary
+                    color = MaterialTheme.colorScheme.onTertiary,
+                    textDecoration = TextDecoration.Underline
                 )
             }
         }
@@ -224,7 +231,7 @@ class UserProfileScreen @Inject constructor() : IUserProfileScreen {
             Spacer(modifier = Modifier.height(mainVerticalPadding))
 
             // TODO add description
-            SubtitleText(text = "Поставьте аппрув плз",)
+            SubtitleText(text = "Поставьте аппрув плз")
         }
     }
 

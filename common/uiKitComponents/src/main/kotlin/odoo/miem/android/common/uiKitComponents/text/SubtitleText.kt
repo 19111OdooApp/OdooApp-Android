@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 
 /**
@@ -24,12 +25,14 @@ fun SubtitleText(
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onPrimaryContainer,
     textAlign: TextAlign = TextAlign.Start,
+    textDecoration: TextDecoration? = null,
     isLarge: Boolean = false
 ) = BaseSubtitleText(
     text = stringResource(textRes),
     modifier = modifier,
     color = color,
     textAlign = textAlign,
+    textDecoration = textDecoration,
     isLarge = isLarge
 )
 
@@ -47,13 +50,15 @@ fun SubtitleText(
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onPrimaryContainer,
     textAlign: TextAlign = TextAlign.Start,
+    textDecoration: TextDecoration? = null,
     isLarge: Boolean = false
 ) = BaseSubtitleText(
     text = text,
     modifier = modifier,
     color = color,
     textAlign = textAlign,
-    isLarge = isLarge
+    textDecoration = textDecoration,
+    isLarge = isLarge,
 )
 
 /**
@@ -70,13 +75,19 @@ private fun BaseSubtitleText(
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onPrimaryContainer,
     textAlign: TextAlign = TextAlign.Start,
+    textDecoration: TextDecoration? = null,
     isLarge: Boolean = false
 ) = Text(
     text = text,
     style = if (isLarge) {
-        MaterialTheme.typography.titleMedium.copy(fontSize = 20.sp)
+        MaterialTheme.typography.titleMedium.copy(
+            fontSize = 20.sp,
+            textDecoration = textDecoration
+        )
     } else {
-        MaterialTheme.typography.titleSmall
+        MaterialTheme.typography.titleSmall.copy(
+            textDecoration = textDecoration
+        )
     },
     modifier = modifier,
     color = color,

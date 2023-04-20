@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
@@ -21,11 +22,13 @@ import odoo.miem.android.common.uiKitComponents.text.HeadlineText
 
 @Composable
 fun ProfileIcon(
+    modifier: Modifier = Modifier,
     avatarUrl: String? = null,
     userName: String,
     iconSize: Dp = 40.dp,
-    modifier: Modifier = Modifier
 ) {
+    val defaultIconSize = 40.dp
+
     SubcomposeAsyncImage(
         model = avatarUrl,
         contentDescription = null,
@@ -42,7 +45,12 @@ fun ProfileIcon(
                 SubcomposeAsyncImageContent()
             }
             else -> {
-                DefaultProfileIcon(userName, iconSize, modifier)
+                DefaultProfileIcon(
+                    userName = userName,
+                    iconSize = iconSize,
+                    defaultIconSize = defaultIconSize,
+                    modifier = modifier
+                )
             }
         }
     }
@@ -52,7 +60,8 @@ fun ProfileIcon(
 private fun DefaultProfileIcon(
     userName: String,
     iconSize: Dp,
-    modifier: Modifier
+    defaultIconSize: Dp,
+    modifier: Modifier = Modifier,
 ) = Box(
     modifier = modifier
         .size(iconSize)
@@ -62,6 +71,7 @@ private fun DefaultProfileIcon(
 ) {
     HeadlineText(
         text = userName.first().toString(),
-        color = Color.White
+        color = Color.White,
+        modifier = Modifier.scale(iconSize / defaultIconSize)
     )
 }

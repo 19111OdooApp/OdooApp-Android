@@ -52,10 +52,10 @@ class UserInfoRepository @Inject constructor() : IUserInfoRepository {
         }.subscribeOn(Schedulers.io())
     }
 
-    override fun fetchImplementedModules(): List<Int> {
+    override fun fetchImplementedModules(): List<String> {
         val json = remoteConfig.fetchImplementedModules()
-        val implementedModules = serializer.deserialize(ImplementedModules::class.java, json)?.modules
-            ?.map { it.id }
+        val implementedModules = serializer.deserialize(ImplementedModules::class.java, json)
+            ?.modules
             ?: emptyList()
 
         Timber.d("fetchImplementedModules(): result = $implementedModules")

@@ -16,10 +16,5 @@ data class UserInfoResponse(
 }
 
 data class ImplementedModules(
-    @Json(name = "modules") val modules: List<Module>
-) {
-    data class Module(
-        @Json(name = "id") val id: Int,
-        @Json(name = "name") val name: String
-    )
-}
+    @Json(name = "modules") val modules: List<String>
+)

@@ -53,6 +53,9 @@ include(":core:networkApi:userModules:impl")
 include(":core:networkApi:remoteConfig:impl")
 include(":core:networkApi:remoteConfig:api")
 
+include(":core:networkApi:firebaseDatabase:api")
+include(":core:networkApi:firebaseDatabase:impl")
+
 include(":core:jsonrpc:base")
 include(":core:jsonrpc:core")
 include(":core:jsonrpc:engine")

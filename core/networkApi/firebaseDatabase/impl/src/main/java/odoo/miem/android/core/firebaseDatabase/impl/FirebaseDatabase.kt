@@ -13,6 +13,11 @@ import odoo.miem.android.core.networkApi.firebaseDatabase.api.source.StatusIconR
 import timber.log.Timber
 import javax.inject.Inject
 
+/**
+ * [FirebaseDatabase] - wrapper of Firebase Firestore and Storage for fetching icons
+ *
+ * @author Egor Danilov
+ */
 class FirebaseDatabase @Inject constructor() : IFirebaseDatabase {
 
     private val fireStore = Firebase.firestore

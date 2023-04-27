@@ -68,6 +68,9 @@ dependencies {
     // Network API - remote config
     implementation(project(":core:networkApi:remoteConfig:impl"))
 
+    // Network API - firebase datastore and storage
+    implementation(project(":core:networkApi:firebaseDatabase:impl"))
+
     // Json RPC - Engine
     implementation(project(":core:jsonrpc:engine"))
 

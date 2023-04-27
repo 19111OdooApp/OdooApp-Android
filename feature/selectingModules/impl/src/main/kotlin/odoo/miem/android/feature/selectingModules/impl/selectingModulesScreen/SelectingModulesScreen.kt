@@ -374,6 +374,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             with(module) {
                 SmallModuleCard(
                     moduleName = this.name,
+                    iconDownloadUrl = this.iconDownloadUrl,
                     isLiked = this.isFavourite,
                     onClick = { onModuleCardClick(module) },
                     onLikeClick = {
@@ -394,6 +395,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     parentId = null,
                     childModules = mutableListOf(),
                     name = "CRM",
+                    iconDownloadUrl = "",
                     numberOfNotifications = 1
                 ),
                 OdooModule(
@@ -401,6 +403,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     parentId = null,
                     childModules = mutableListOf(),
                     name = "Recruitment",
+                    iconDownloadUrl = "",
                     numberOfNotifications = 5,
                     isFavourite = true
                 ),
@@ -409,6 +412,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     parentId = null,
                     childModules = mutableListOf(),
                     name = "Pricing",
+                    iconDownloadUrl = "",
                     numberOfNotifications = 123
                 )
             )

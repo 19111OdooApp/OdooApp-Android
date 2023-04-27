@@ -9,5 +9,5 @@ import odoo.miem.android.core.uiKitTheme.cardColors
  * @author Vorozhtsov Mikhail
  */
 internal fun String.getBackgroundColorCard(): Color =
-    cardColors[((this.hashCode())  % cardColors.size + cardColors.size) % cardColors.size]
+    cardColors[(this.hashCode() % cardColors.size + cardColors.size) % cardColors.size]
         .copy(alpha = 0.8F)

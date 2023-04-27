@@ -7,6 +7,8 @@ import odoo.miem.android.common.network.selectingModules.api.entities.User
 import odoo.miem.android.common.network.selectingModules.impl.helpers.SelectingModulesHelper
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
+import odoo.miem.android.core.networkApi.firebaseDatabase.api.di.IFirebaseDatabaseApi
+import odoo.miem.android.core.networkApi.firebaseDatabase.api.source.ModuleIconResponse
 import odoo.miem.android.core.networkApi.userInfo.api.di.IUserInfoRepositoryApi
 import odoo.miem.android.core.networkApi.userInfo.api.di.IUserModulesRepositoryApi
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooGroupsResponse
@@ -27,7 +29,10 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
 
     private val userInfoRepository by api(IUserInfoRepositoryApi::userInfoRepository)
     private val userModulesRepository by api(IUserModulesRepositoryApi::selectingModulesRepository)
+
     private val dataStore by api(IDataStoreApi::dataStore)
+
+    private val firebase by api(IFirebaseDatabaseApi::firebaseDatabase)
 
     private val helper = SelectingModulesHelper()
 
@@ -66,11 +71,13 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
         return Single
             .zip(
                 userModulesRepository.getOdooModules(),
-                userModulesRepository.getOdooGroups()
-            ) { modules: OdooModulesResponse, groups: OdooGroupsResponse ->
+                userModulesRepository.getOdooGroups(),
+                firebase.fetchModuleIcons()
+            ) { modules: OdooModulesResponse, groups: OdooGroupsResponse, icons: List<ModuleIconResponse> ->
                 helper.getAvailableModulesOfUser(
                     userUid = userUid,
                     modules = modules,
+                    moduleIcons = icons,
                     implementedModules = userInfoRepository.fetchImplementedModules(),
                     favouriteModules = dataStore.favouriteModules.map { it.toInt() },
                     groups = groups

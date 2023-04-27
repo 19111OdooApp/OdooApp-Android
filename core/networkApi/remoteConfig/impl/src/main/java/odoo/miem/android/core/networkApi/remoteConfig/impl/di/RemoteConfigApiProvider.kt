@@ -19,7 +19,7 @@ class RemoteConfigApiProvider {
     @Provides
     @IntoMap
     @ApiKey(IRemoteConfigApi::class)
-    fun provideUserInfoRepositoryApiProvider() = ApiProvider {
+    fun provideRemoteConfigApiProvider() = ApiProvider {
         RemoteConfigComponent.create()
     }
 }

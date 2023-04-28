@@ -3,8 +3,10 @@ package odoo.miem.android.core.firebaseDatabase.impl
 import android.net.Uri
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import io.reactivex.rxjava3.core.Single
 import odoo.miem.android.core.networkApi.firebaseDatabase.api.IFirebaseDatabase
@@ -20,8 +22,8 @@ import javax.inject.Inject
  */
 class FirebaseDatabase @Inject constructor() : IFirebaseDatabase {
 
-    private val fireStore = Firebase.firestore
-    private val storage = Firebase.storage
+    private val fireStore: FirebaseFirestore = Firebase.firestore
+    private val storage: FirebaseStorage = Firebase.storage
 
     override fun fetchModuleIcons(): Single<List<ModuleIconResponse>> {
         return Single.create { emitter ->
@@ -31,8 +33,8 @@ class FirebaseDatabase @Inject constructor() : IFirebaseDatabase {
                     val iconTasks = mutableListOf<Task<ModuleIconResponse>>()
 
                     query.result.map { module ->
-                        val moduleName = module.data[moduleCollectionFields[0]] as? String
-                        val iconUrl = module.data[moduleCollectionFields[1]] as? String
+                        val moduleName = module.data[MODULE_NAME_FIELD] as? String
+                        val iconUrl = module.data[MODULE_ICON_URL_FIELD] as? String
 
                         iconUrl?.let {
                             val task = fetchFileFromStorage(it)
@@ -71,8 +73,8 @@ class FirebaseDatabase @Inject constructor() : IFirebaseDatabase {
                     val iconTasks = mutableListOf<Task<StatusIconResponse>>()
 
                     query.result.map { module ->
-                        val moduleName = module.data[statusCollectionFields[0]] as? String
-                        val iconUrl = module.data[statusCollectionFields[1]] as? String
+                        val moduleName = module.data[STATUS_NAME_FIELD] as? String
+                        val iconUrl = module.data[STATUS_ICON_URL_FIELD] as? String
 
                         iconUrl?.let {
                             val task = fetchFileFromStorage(it)
@@ -110,10 +112,12 @@ class FirebaseDatabase @Inject constructor() : IFirebaseDatabase {
     private companion object {
         const val FIRESTORE_MODULE_COLLECTION = "module_icons"
 
-        val moduleCollectionFields = listOf("module_name", "icon_url")
+        const val MODULE_NAME_FIELD = "module_name"
+        const val MODULE_ICON_URL_FIELD = "icon_url"
 
         const val FIRESTORE_STATUS_COLLECTION = "status_icons"
 
-        val statusCollectionFields = listOf("status_name", "icon_url")
+        const val STATUS_NAME_FIELD = "status_name"
+        const val STATUS_ICON_URL_FIELD = "icon_url"
     }
 }

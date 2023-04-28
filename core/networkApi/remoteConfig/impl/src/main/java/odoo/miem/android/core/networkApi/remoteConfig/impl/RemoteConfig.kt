@@ -16,7 +16,9 @@ import javax.inject.Inject
  */
 class RemoteConfig @Inject constructor() : IRemoteConfig {
 
-    private val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
+    private val remoteConfig: FirebaseRemoteConfig by lazy {
+        Firebase.remoteConfig
+    }
 
     init {
         initRemoteConfig()

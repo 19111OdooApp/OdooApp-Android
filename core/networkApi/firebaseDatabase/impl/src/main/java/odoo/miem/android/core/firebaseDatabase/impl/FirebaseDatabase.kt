@@ -22,8 +22,12 @@ import javax.inject.Inject
  */
 class FirebaseDatabase @Inject constructor() : IFirebaseDatabase {
 
-    private val fireStore: FirebaseFirestore = Firebase.firestore
-    private val storage: FirebaseStorage = Firebase.storage
+    private val fireStore: FirebaseFirestore by lazy {
+        Firebase.firestore
+    }
+    private val storage: FirebaseStorage by lazy {
+        Firebase.storage
+    }
 
     override fun fetchModuleIcons(): Single<List<ModuleIconResponse>> {
         return Single.create { emitter ->

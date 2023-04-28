@@ -25,7 +25,11 @@ class RemoteConfig @Inject constructor() : IRemoteConfig {
     }
 
     override fun fetchImplementedModules(): String {
-        return remoteConfig[IMPLEMENTED_MODULES_KEY].asString()
+        val implementedModules = remoteConfig[IMPLEMENTED_MODULES_KEY].asString()
+
+        Timber.d("fetchImplementedModules(): $implementedModules")
+
+        return implementedModules
     }
 
     private fun initRemoteConfig() {

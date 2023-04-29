@@ -23,7 +23,6 @@ dependencyResolutionManagement {
 rootProject.name = "Odoo App"
 
 
-
 // Common layer
 include(":common:network:authorization:api")
 include(":common:network:authorization:impl")
@@ -43,6 +42,12 @@ include(":core:di:impl")
 
 include(":core:networkApi:authorization:api")
 include(":core:networkApi:authorization:impl")
+
+include(":core:networkApi:firebaseDatabase:api")
+include(":core:networkApi:firebaseDatabase:impl")
+
+include(":core:networkApi:recruitment:api")
+include(":core:networkApi:recruitment:impl")
 
 include(":core:networkApi:userInfo:api")
 include(":core:networkApi:userInfo:impl")

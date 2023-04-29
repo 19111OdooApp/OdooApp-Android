@@ -99,7 +99,9 @@ fun SmallModuleCard(
                     modifier = Modifier.fillMaxSize()
                 )
             } else {
-                DefaultCircleSpinner()
+                DefaultCircleSpinner(
+                    modifier = Modifier.size(36.dp)
+                )
             }
         } else {
             Icon(

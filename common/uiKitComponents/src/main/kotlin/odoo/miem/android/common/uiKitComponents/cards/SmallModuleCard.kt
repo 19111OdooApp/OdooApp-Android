@@ -26,10 +26,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
 import odoo.miem.android.common.uiKitComponents.R
+import odoo.miem.android.common.uiKitComponents.spinner.DefaultCircleSpinner
 import odoo.miem.android.common.uiKitComponents.utils.getBackgroundColorCard
 import odoo.miem.android.common.uiKitComponents.utils.glowEffect
 
@@ -87,18 +89,25 @@ fun SmallModuleCard(
                 .size(Size.ORIGINAL)
                 .build()
 
-            Icon(
-                painter = rememberAsyncImagePainter(model = model),
-                contentDescription = null,
-                tint = Color.White,
-                modifier = Modifier.fillMaxSize()
-            )
+            val painter = rememberAsyncImagePainter(model = model)
+
+            if (painter.state is AsyncImagePainter.State.Success) {
+                Icon(
+                    painter = painter,
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else {
+                DefaultCircleSpinner()
+            }
+
         } else {
             Icon(
                 imageVector = Icons.Rounded.QuestionMark,
                 contentDescription = null,
                 tint = Color.White,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.size(48.dp)
             )
         }
     }

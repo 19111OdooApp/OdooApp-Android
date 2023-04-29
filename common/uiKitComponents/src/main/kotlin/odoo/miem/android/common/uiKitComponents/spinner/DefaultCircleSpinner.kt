@@ -8,7 +8,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun DefaultCircleSpinner() = CircularProgressIndicator(
+fun DefaultCircleSpinner(
+    modifier: Modifier = Modifier
+) = CircularProgressIndicator(
     color = MaterialTheme.colorScheme.primary,
-    modifier = Modifier.size(48.dp)
+    modifier = modifier.size(48.dp)
 )

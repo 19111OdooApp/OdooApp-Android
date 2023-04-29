@@ -84,7 +84,6 @@ class MainActivity : AppCompatActivity() {
 
             SideEffect {
                 currentWindow.statusBarColor = color
-                currentWindow.navigationBarColor = color
 
                 WindowCompat.getInsetsController(currentWindow, view)
                     .isAppearanceLightStatusBars = isLightStatusBar

@@ -15,6 +15,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import kotlinx.coroutines.launch
+import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
 import odoo.miem.android.feature.authorization.base.api.di.IAuthorizationApi
@@ -63,6 +64,7 @@ fun Navigation(
     val recruitmentScreen by api(IRecruitmentApi::recruitmentScreen)
     val crmScreen by api(ICrmApi::crmScreen)
     val userProfileScreen by api(IUserProfileScreenApi::userProfileScreen)
+    val dataStore by api(IDataStoreApi::dataStore)
 
     NavigationContent(
         authorizationScreen = authorizationScreen,
@@ -74,7 +76,7 @@ fun Navigation(
         userProfileScreen = userProfileScreen,
         paddingValues = paddingValues,
         navController = navController,
-//        isAuthorized = dataStore.isAuthorized,
+        isAuthorized = dataStore.isAuthorized,
         showMessage = showMessage,
     )
 }
@@ -90,7 +92,7 @@ fun NavigationContent(
     userProfileScreen: IUserProfileScreen,
     paddingValues: PaddingValues,
     navController: NavHostController,
-//    isAuthorized: Boolean,
+    isAuthorized: Boolean,
     showMessage: (Int) -> Unit,
 ) {
     Surface(
@@ -102,7 +104,10 @@ fun NavigationContent(
         NavHost(
             navController = navController,
             startDestination = remember {
-                Routes.authorization
+                if (isAuthorized)
+                    Routes.selectingModules
+                else
+                    Routes.authorization
             }
         ) {
             composable(Routes.authorization) {

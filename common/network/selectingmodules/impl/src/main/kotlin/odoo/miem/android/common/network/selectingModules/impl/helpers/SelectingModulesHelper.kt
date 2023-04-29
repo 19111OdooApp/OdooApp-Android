@@ -121,8 +121,8 @@ internal class SelectingModulesHelper(
         }
 
         Timber.d(
-            "getAvailableModulesOfUser(): implementedModules = $implementedModulesSet, " +
-                "favouriteModules = $favouriteModulesSet"
+            "getAvailableModulesOfUser(): rootModules = $rootModules, " +
+                "implementedModules = $implementedModulesSet, favouriteModules = $favouriteModulesSet"
         )
         return buildModuleHierarchy(rootModules)
     }

@@ -21,14 +21,12 @@ internal class SelectingModulesHelper {
 
     private val serializer = SelectingModulesSerializer()
 
-    private fun deserializeFavouriteModules(jsonString: String): List<Int> {
-        return serializer.deserializeList(jsonString) ?: emptyList()
+    private fun deserializeFavouriteModules(jsonString: String): List<Int>? {
+        return serializer.deserializeList(jsonString)
     }
 
-    private fun deserializeImplementedModules(jsonString: String): List<String> {
-        return serializer.deserialize(ImplementedModules::class.java, jsonString)
-            ?.modules
-            ?: emptyList()
+    private fun deserializeImplementedModules(jsonString: String): List<String>? {
+        return serializer.deserialize(ImplementedModules::class.java, jsonString)?.modules
     }
 
     fun convertUserInfoResponse(response: UserInfoResponse): UserWithFavouriteModules {
@@ -45,7 +43,7 @@ internal class SelectingModulesHelper {
             .joinToString(" ")
 
         val castedFavouriteModules = if (favouriteModules is String) {
-            deserializeFavouriteModules(favouriteModules)
+            deserializeFavouriteModules(favouriteModules) ?: emptyList()
         } else {
             emptyList()
         }
@@ -68,7 +66,10 @@ internal class SelectingModulesHelper {
         val moduleIconsMap = moduleIcons.associate { it.moduleName to it.downloadUrl }
 
         val implementedModulesSet = deserializeImplementedModules(implementedModulesJson)
-        val favouriteModulesSet = favouriteModules.toSortedSet()
+            ?.toHashSet()
+            ?: emptyList()
+
+        val favouriteModulesSet = favouriteModules.toHashSet()
 
         val rootModules = mutableListOf<OdooModule>()
 

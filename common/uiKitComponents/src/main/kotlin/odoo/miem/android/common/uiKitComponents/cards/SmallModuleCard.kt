@@ -39,10 +39,10 @@ import odoo.miem.android.common.uiKitComponents.utils.glowEffect
  * [SmallModuleCard] is implementation of small module's card
  *
  * @param moduleName - name of module
+ * @param iconDownloadUrl - url for downloading icon of module
  * @param isLiked - is module liked. If true, icon will be filled
  * @param onLikeClick - action, when user click on icon like
  * @param onClick - action, when user click on card
- * // TODO @param iconUrl
  *
  * @author Vorozhtsov Mikhail
  */

@@ -28,9 +28,9 @@ interface IUserInfoRepository {
     /**
      * [fetchImplementedModules] - function for getting implemented modules from Firebase
      *
-     * @return List<Int> with ids of implemented modules
+     * @return List<String> with names of implemented modules
      */
-    fun fetchImplementedModules(): List<Int>
+    fun fetchImplementedModules(): List<String>
 
     /**
      * [deserializeFavouriteModules] - function for deserializing json with favourite modules which

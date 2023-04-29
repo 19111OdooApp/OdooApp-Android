@@ -46,6 +46,7 @@ val cardColors = listOf(
     Color(0xFF74B49B),
     Color(0xFFA55540),
     Color(0xFFBAAF92),
+    Color(0xFF498EB9),
 )
 
 val gradientColors = listOf(

@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.rounded.QuestionMark
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -21,10 +22,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import coil.size.Size
 import odoo.miem.android.common.uiKitComponents.R
 import odoo.miem.android.common.uiKitComponents.utils.getBackgroundColorCard
 import odoo.miem.android.common.uiKitComponents.utils.glowEffect
@@ -42,9 +46,10 @@ import odoo.miem.android.common.uiKitComponents.utils.glowEffect
  */
 @Composable
 fun SmallModuleCard(
-    moduleName: String = stringResource(id = R.string.default_module_name),
-    isLiked: Boolean = false,
     modifier: Modifier = Modifier,
+    moduleName: String = stringResource(id = R.string.default_module_name),
+    iconDownloadUrl: String,
+    isLiked: Boolean = false,
     onLikeClick: () -> Unit = {},
     onClick: () -> Unit = {}
 ) = Box(
@@ -76,12 +81,26 @@ fun SmallModuleCard(
             .align(Alignment.Center),
         contentAlignment = Alignment.Center
     ) {
-        Icon(
-            painter = painterResource(R.drawable.ic_small_module_card), // TODO Depence on module
-            contentDescription = null,
-            tint = Color.White,
-            modifier = Modifier.fillMaxSize()
-        )
+        if (iconDownloadUrl.isNotBlank()) {
+            val model = ImageRequest.Builder(LocalContext.current)
+                .data(iconDownloadUrl)
+                .size(Size.ORIGINAL)
+                .build()
+
+            Icon(
+                painter = rememberAsyncImagePainter(model = model),
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier.fillMaxSize()
+            )
+        } else {
+            Icon(
+                imageVector = Icons.Rounded.QuestionMark,
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
     }
 
     Text(

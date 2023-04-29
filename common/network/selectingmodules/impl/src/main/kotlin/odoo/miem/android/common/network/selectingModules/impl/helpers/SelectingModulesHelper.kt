@@ -3,6 +3,7 @@ package odoo.miem.android.common.network.selectingModules.impl.helpers
 import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.network.selectingModules.api.entities.User
 import odoo.miem.android.common.network.selectingModules.impl.entities.UserWithFavouriteModules
+import odoo.miem.android.core.networkApi.firebaseDatabase.api.source.ModuleIconResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooGroupsResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooModulesResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.UserInfoResponse
@@ -48,11 +49,14 @@ internal class SelectingModulesHelper {
     fun getAvailableModulesOfUser(
         userUid: Int,
         modules: OdooModulesResponse,
-        implementedModules: List<Int>,
+        moduleIcons: List<ModuleIconResponse>,
+        implementedModules: List<String>,
         favouriteModules: List<Int>,
         groups: OdooGroupsResponse
     ): List<OdooModule> {
         val groupsOfUser = getGroupsOfUser(userUid, groups)
+        val moduleIconsMap = moduleIcons.associate { it.moduleName to it.downloadUrl }
+
         val implementedModulesSet = implementedModules.toSortedSet()
         val favouriteModulesSet = favouriteModules.toSortedSet()
 
@@ -80,10 +84,11 @@ internal class SelectingModulesHelper {
                     OdooModule(
                         id = module.id,
                         name = module.name,
+                        iconDownloadUrl = moduleIconsMap[module.name] ?: "",
                         parentId = parentId,
                         childModules = mutableListOf(),
                         isFavourite = module.id in favouriteModulesSet,
-                        isImplemented = module.id in implementedModulesSet
+                        isImplemented = module.name in implementedModulesSet
                     )
                 )
             }

@@ -59,6 +59,7 @@ fun ModulesLazyRow(
             with(module) {
                 SmallModuleCard(
                     moduleName = this.name,
+                    iconDownloadUrl = this.iconDownloadUrl,
                     isLiked = this.isFavourite,
                     onClick = { onModuleCardClick(this) },
                     onLikeClick = {

@@ -9,6 +9,7 @@ data class User(
 data class OdooModule(
     val id: Int,
     val name: String,
+    val iconDownloadUrl: String,
     val parentId: Int?,
     val childModules: MutableList<OdooModule>,
     var numberOfNotifications: Int = 0,

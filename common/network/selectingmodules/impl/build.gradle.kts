@@ -21,4 +21,6 @@ dependencies {
     api(project(":core:networkApi:userInfo:api"))
     // user modules
     api(project(":core:networkApi:userModules:api"))
+    // firebase database
+    api(project(":core:networkApi:firebaseDatabase:api"))
 }

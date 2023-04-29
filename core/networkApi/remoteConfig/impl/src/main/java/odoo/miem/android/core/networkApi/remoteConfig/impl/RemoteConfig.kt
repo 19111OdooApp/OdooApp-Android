@@ -16,14 +16,20 @@ import javax.inject.Inject
  */
 class RemoteConfig @Inject constructor() : IRemoteConfig {
 
-    private val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
+    private val remoteConfig: FirebaseRemoteConfig by lazy {
+        Firebase.remoteConfig
+    }
 
     init {
         initRemoteConfig()
     }
 
     override fun fetchImplementedModules(): String {
-        return remoteConfig[IMPLEMENTED_MODULES_KEY].asString()
+        val implementedModules = remoteConfig[IMPLEMENTED_MODULES_KEY].asString()
+
+        Timber.d("fetchImplementedModules(): $implementedModules")
+
+        return implementedModules
     }
 
     private fun initRemoteConfig() {

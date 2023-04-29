@@ -1,14 +1,14 @@
 package odoo.miem.android.core.jsonrpc.parser.impl.di
 
 import dagger.Component
-import odoo.miem.android.core.jsonrpc.parser.api.di.IParserApi
+import odoo.miem.android.core.jsonrpc.parser.api.di.ISerializerApi
 import odoo.miem.android.core.jsonrpc.parser.impl.moshi.MoshiRequestConverter
 import odoo.miem.android.core.jsonrpc.parser.impl.moshi.MoshiResponseParser
 import odoo.miem.android.core.jsonrpc.parser.impl.moshi.MoshiResultParser
 
 /**
- * [MoshiParserComponent] - **Dagger** component, which implements interface [IParserApi]
- * Providing in general **DI graph** with a help of [MoshiParserApiProvider].
+ * [MoshiSerializerComponent] - **Dagger** component, which implements interface [ISerializerApi]
+ * Providing in general **DI graph** with a help of [MoshiSerializerApiProvider].
  *
  * Included modules:
  *  - [MoshiParserModule] - provide [MoshiRequestConverter], [MoshiResponseParser]
@@ -22,8 +22,8 @@ import odoo.miem.android.core.jsonrpc.parser.impl.moshi.MoshiResultParser
         MoshiParserModule::class
     ]
 )
-interface MoshiParserComponent : IParserApi {
+interface MoshiSerializerComponent : ISerializerApi {
     companion object {
-        fun create(): IParserApi = DaggerMoshiParserComponent.builder().build()
+        fun create(): ISerializerApi = DaggerMoshiSerializerComponent.builder().build()
     }
 }

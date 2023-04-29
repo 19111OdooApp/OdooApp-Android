@@ -8,7 +8,7 @@ android {
 
 dependencies {
 
-    // Moshi for serializer
+    // Moshi for serializing
     implementation(Dependencies.Network.MOSHI_KOTLIN)
 
     // Common
@@ -16,19 +16,21 @@ dependencies {
     api(project(":common:network:selectingModules:api"))
 
     // Core
+    // Serializer
+    api(project(":core:serializer:api"))
+
     // DataStore
     api(project(":core:dataStore:api"))
 
-    // Network API
-    // user info
+    // Network API - user info
     api(project(":core:networkApi:userInfo:api"))
 
-    // user modules
+    // Network API - user modules
     api(project(":core:networkApi:userModules:api"))
 
-    // remote config
+    // Network API - remote config
     api(project(":core:networkApi:firebaseRemoteConfig:api"))
 
-    // firebase database
+    // Network API - firebase database
     api(project(":core:networkApi:firebaseDatabase:api"))
 }

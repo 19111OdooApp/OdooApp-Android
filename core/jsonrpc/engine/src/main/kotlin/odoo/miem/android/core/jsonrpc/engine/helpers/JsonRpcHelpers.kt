@@ -103,7 +103,7 @@ fun <T> createInvocationHandler(
             val result = response.result
 
             if (result != null) {
-                return resultParser.parse(returnType, result)
+                return resultParser.deserialize(returnType, result)
             } else {
                 val error = response.error
                 checkNotNull(error)

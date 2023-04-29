@@ -10,7 +10,7 @@ import odoo.miem.android.core.jsonrpc.base.parser.ResponseParser
 import odoo.miem.android.core.jsonrpc.base.parser.ResultParser
 import odoo.miem.android.core.jsonrpc.engine.caller.BaseJsonRpcCaller
 import odoo.miem.android.core.jsonrpc.engine.helpers.createInvocationHandler
-import odoo.miem.android.core.jsonrpc.parser.api.di.IParserApi
+import odoo.miem.android.core.jsonrpc.parser.api.di.ISerializerApi
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import timber.log.Timber
@@ -134,14 +134,14 @@ class JsonRpcClient internal constructor(
 
     private companion object {
         val DEFAULT_OKHTTP_CLIENT by lazy { OkHttpClient.Builder().build() }
-        val DEFAULT_REQUEST_CONVERTER by api(IParserApi::requestConverter)
+        val DEFAULT_REQUEST_CONVERTER by api(ISerializerApi::requestConverter)
         val DEFAULT_REQUEST_HEADERS by lazy {
             mapOf(
                 "Content-Type" to "application/json"
             )
         }
-        val DEFAULT_RESPONSE_PARSER by api(IParserApi::responseParser)
-        val DEFAULT_RESULT_PARSER by api(IParserApi::resultParser)
+        val DEFAULT_RESPONSE_PARSER by api(ISerializerApi::responseParser)
+        val DEFAULT_RESULT_PARSER by api(ISerializerApi::resultParser)
         const val DEFAULT_URL = ""
         const val FIELD_SESSION_ID = "X-Openerp-Session-Id"
     }

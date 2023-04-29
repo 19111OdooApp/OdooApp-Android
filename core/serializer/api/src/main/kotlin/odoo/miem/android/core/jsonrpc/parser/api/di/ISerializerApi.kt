@@ -6,14 +6,14 @@ import odoo.miem.android.core.jsonrpc.base.parser.ResponseParser
 import odoo.miem.android.core.jsonrpc.base.parser.ResultParser
 
 /**
- * [IParserApi] needed for wrapping over [RequestConverter], [ResponseParser], [ResultParser] and
+ * [ISerializerApi] needed for wrapping over [RequestConverter], [ResponseParser], [ResultParser] and
  * providing in common **DI graph**
  *
  * @see Api
  *
  * @author Vorozhtsov Mikhail
  */
-interface IParserApi : Api {
+interface ISerializerApi : Api {
 
     val requestConverter: RequestConverter
 

@@ -4,11 +4,12 @@ import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.network.selectingModules.api.entities.User
 import odoo.miem.android.common.network.selectingModules.impl.entities.ImplementedModules
 import odoo.miem.android.common.network.selectingModules.impl.entities.UserWithFavouriteModules
+import odoo.miem.android.core.jsonrpc.base.parser.ResultParser
 import odoo.miem.android.core.networkApi.firebaseDatabase.api.source.ModuleIconResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooGroupsResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooModulesResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.UserInfoResponse
-import odoo.miem.android.core.utils.network.Serializer
+import timber.log.Timber
 import java.util.LinkedList
 import java.util.Queue
 
@@ -18,19 +19,27 @@ import java.util.Queue
  *
  * @author Egor Danilov
  */
-internal class SelectingModulesHelper {
-
-    private val serializer by lazy { Serializer() }
+internal class SelectingModulesHelper(
+    private val serializer: ResultParser
+) {
 
     private fun deserializeFavouriteModules(jsonString: String): List<Int>? {
-        return serializer.deserializeList(jsonString)
+        return serializer.deserializeList(
+            listType = Integer::class.java,
+            data = jsonString
+        )
     }
 
     private fun deserializeImplementedModules(jsonString: String): List<String>? {
-        return serializer.deserialize(ImplementedModules::class.java, jsonString)?.modules
+        return serializer.deserialize(
+            type = ImplementedModules::class.java,
+            data = jsonString
+        )?.modules
     }
 
     fun convertUserInfoResponse(response: UserInfoResponse): UserWithFavouriteModules {
+        Timber.d("convertUserInfoResponse()")
+
         val record = response.records[0]
 
         val modelId = record.modelId
@@ -49,10 +58,13 @@ internal class SelectingModulesHelper {
             emptyList()
         }
 
-        return UserWithFavouriteModules(
+        val user = UserWithFavouriteModules(
             user = User(modelId = modelId, uid = uid, name = name),
             favouriteModules = castedFavouriteModules
         )
+
+        Timber.d("convertUserInfoResponse(): result = $user")
+        return user
     }
 
     fun getAvailableModulesOfUser(
@@ -63,12 +75,14 @@ internal class SelectingModulesHelper {
         favouriteModules: List<Int>,
         groups: OdooGroupsResponse
     ): List<OdooModule> {
+        Timber.d("getAvailableModulesOfUser()")
+
         val groupsOfUser = getGroupsOfUser(userUid, groups)
         val moduleIconsMap = moduleIcons.associate { it.moduleName to it.downloadUrl }
 
         val implementedModulesSet = deserializeImplementedModules(implementedModulesJson)
             ?.toHashSet()
-            ?: emptyList()
+            ?: hashSetOf()
 
         val favouriteModulesSet = favouriteModules.toHashSet()
 
@@ -106,6 +120,10 @@ internal class SelectingModulesHelper {
             }
         }
 
+        Timber.d(
+            "getAvailableModulesOfUser(): implementedModules = $implementedModulesSet, " +
+                "favouriteModules = $favouriteModulesSet"
+        )
         return buildModuleHierarchy(rootModules)
     }
 

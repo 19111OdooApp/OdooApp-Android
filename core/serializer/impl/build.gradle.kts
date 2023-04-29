@@ -15,5 +15,5 @@ dependencies {
     api(project(":core:jsonrpc:base"))
 
     // Json RPC - Parser API
-    api(project(":core:jsonrpc:parser:api"))
+    api(project(":core:serializer:api"))
 }

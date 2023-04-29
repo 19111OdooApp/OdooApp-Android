@@ -75,7 +75,7 @@ dependencies {
     implementation(project(":core:jsonrpc:engine"))
 
     // Json RPC - Parser
-    implementation(project(":core:jsonrpc:parser:impl"))
+    implementation(project(":core:serializer:impl"))
 
     // Platform
     implementation(project(":core:platform"))

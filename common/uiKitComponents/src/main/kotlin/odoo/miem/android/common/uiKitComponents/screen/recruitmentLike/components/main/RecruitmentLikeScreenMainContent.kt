@@ -29,6 +29,7 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
     statusList: List<S>,
     onUserIconClick: () -> Unit = {},
     onEmployeeActionClick: (E) -> Unit,
+    onEmployeeCardClick: (E) -> Unit,
     onSearchBarClicked: () -> Unit,
     onCreateStatusClick: () -> Unit,
     @StringRes searchHintRes: Int,
@@ -77,6 +78,7 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
         statusList = statusList,
         pagerState = pagerState,
         onEmployeeActionClick = onEmployeeActionClick,
+        onEmployeeCardClick = onEmployeeCardClick,
         onCreateStatusClick = onCreateStatusClick,
     )
 }

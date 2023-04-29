@@ -24,6 +24,7 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
     onNavigateToModulesPressed: () -> Unit,
     onStatusClick: (E, S) -> Unit,
     onNewStatusCreated: (String, String) -> Unit,
+    onEmployeeCardClick: (E) -> Unit = {},
     createStatusPictures: List<String>,
     @StringRes searchHintRes: Int,
 ) =
@@ -58,6 +59,7 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
                 onUserIconClick = onUserIconClick,
                 onStatusClicked = onStatusClick,
                 onNewStatusCreated = onNewStatusCreated,
+                onEmployeeCardClick = onEmployeeCardClick,
                 createStatusPictures = createStatusPictures,
                 searchHintRes = searchHintRes,
             )

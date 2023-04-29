@@ -24,6 +24,7 @@ fun <E : RecruitmentLikeEmployeeModel, S : RecruitmentLikeStatusModel<E>> Recrui
     statusList: List<S>,
     pagerState: PagerState,
     onEmployeeActionClick: (E) -> Unit,
+    onEmployeeCardClick: (E) -> Unit,
     onCreateStatusClick: () -> Unit,
 ) = HorizontalPager(
     count = statusList.size + 1,
@@ -35,7 +36,7 @@ fun <E : RecruitmentLikeEmployeeModel, S : RecruitmentLikeStatusModel<E>> Recrui
     if (page < statusList.size) {
         RecruitmentLikeList(
             employees = statusList[page].employees,
-            onEmployeeCardClick = {},
+            onEmployeeCardClick = onEmployeeCardClick,
             onEmployeeActionClick = onEmployeeActionClick,
             modifier = Modifier
         )

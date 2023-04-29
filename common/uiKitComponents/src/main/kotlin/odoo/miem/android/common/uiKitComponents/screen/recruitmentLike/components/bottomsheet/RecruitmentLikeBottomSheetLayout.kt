@@ -42,6 +42,7 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
     contentPaddingValues: PaddingValues,
     onUserIconClick: () -> Unit = {},
     onStatusClicked: (E, S) -> Unit,
+    onEmployeeCardClick: (E) -> Unit,
     onNewStatusCreated: (String, String) -> Unit,
     createStatusPictures: List<String>,
     searchHintRes: Int,
@@ -139,6 +140,7 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
                     onSearchBarClicked = {
                         isSearchScreenVisible = true
                     },
+                    onEmployeeCardClick = onEmployeeCardClick,
                     onCreateStatusClick = onCreateStatusClick,
                     searchHintRes = searchHintRes,
                     onUserIconClick = onUserIconClick

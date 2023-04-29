@@ -22,8 +22,13 @@ dependencies {
     // Network API
     // user info
     api(project(":core:networkApi:userInfo:api"))
+
     // user modules
     api(project(":core:networkApi:userModules:api"))
+
+    // remote config
+    api(project(":core:networkApi:remoteConfig:api"))
+
     // firebase database
     api(project(":core:networkApi:firebaseDatabase:api"))
 }

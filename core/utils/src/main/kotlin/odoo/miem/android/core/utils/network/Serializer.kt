@@ -1,12 +1,13 @@
-package odoo.miem.android.common.network.selectingModules.impl.helpers
+package odoo.miem.android.core.utils.network
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
-internal class SelectingModulesSerializer {
+class Serializer {
 
-    private val moshi = Moshi.Builder()
+    @PublishedApi
+    internal val moshi = Moshi.Builder()
         .addLast(KotlinJsonAdapterFactory())
         .build()
 

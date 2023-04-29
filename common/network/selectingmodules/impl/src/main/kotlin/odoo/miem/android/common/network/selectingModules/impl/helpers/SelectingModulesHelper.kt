@@ -8,6 +8,7 @@ import odoo.miem.android.core.networkApi.firebaseDatabase.api.source.ModuleIconR
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooGroupsResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooModulesResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.UserInfoResponse
+import odoo.miem.android.core.utils.network.Serializer
 import java.util.LinkedList
 import java.util.Queue
 
@@ -19,7 +20,7 @@ import java.util.Queue
  */
 internal class SelectingModulesHelper {
 
-    private val serializer = SelectingModulesSerializer()
+    private val serializer by lazy { Serializer() }
 
     private fun deserializeFavouriteModules(jsonString: String): List<Int>? {
         return serializer.deserializeList(jsonString)

@@ -106,7 +106,7 @@ fun SmallModuleCard(
                 imageVector = Icons.Rounded.QuestionMark,
                 contentDescription = null,
                 tint = Color.White,
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier.size(36.dp)
             )
         }
     }

@@ -5,6 +5,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.get
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import io.reactivex.rxjava3.core.Single
 import odoo.miem.android.core.networkApi.remoteConfig.api.IRemoteConfig
 import timber.log.Timber
 import javax.inject.Inject
@@ -24,31 +25,31 @@ class RemoteConfig @Inject constructor() : IRemoteConfig {
         initRemoteConfig()
     }
 
-    override fun fetchImplementedModules(): String {
-        val implementedModules = remoteConfig[IMPLEMENTED_MODULES_KEY].asString()
+    override fun fetchImplementedModules(): Single<String> {
+        return Single.create { emitter ->
+            remoteConfig.fetchAndActivate()
+                .addOnSuccessListener {
+                    val implementedModules = remoteConfig[IMPLEMENTED_MODULES_KEY].asString()
 
-        Timber.d("fetchImplementedModules(): $implementedModules")
-
-        return implementedModules
+                    Timber.d("fetchImplementedModules: result = $implementedModules")
+                    emitter.onSuccess(implementedModules)
+                }
+                .addOnFailureListener { e ->
+                    Timber.e("fetchImplementedModules: error = ${e.message}")
+                    emitter.onError(e)
+                }
+        }
     }
 
     private fun initRemoteConfig() {
         val configSettings = remoteConfigSettings {
             minimumFetchIntervalInSeconds = FIREBASE_FETCH_INTERVAL
         }
+
         remoteConfig.setConfigSettingsAsync(configSettings)
         remoteConfig.setDefaultsAsync(
             mapOf(IMPLEMENTED_MODULES_KEY to IMPLEMENTED_MODULES_DEFAULT)
         )
-
-        remoteConfig.fetchAndActivate()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Timber.i("Fetching RemoteConfig successful")
-                } else {
-                    Timber.e("Error happened during fetching RemoteConfig: ${task.exception}")
-                }
-            }
     }
 
     private companion object {

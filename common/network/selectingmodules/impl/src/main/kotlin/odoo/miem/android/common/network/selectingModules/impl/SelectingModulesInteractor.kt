@@ -41,10 +41,7 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
 
         return userInfoRepository.getUserInfo()
             .map<Result<User>> { response ->
-                val userInfo = helper.convertUserInfoResponse(
-                    response = response,
-                    deserializeFavouriteModules = userInfoRepository::deserializeFavouriteModules
-                )
+                val userInfo = helper.convertUserInfoResponse(response = response)
 
                 Timber.d(
                     "getUserInfo(): id = ${userInfo.user.uid}, name = ${userInfo.user.name}"
@@ -72,13 +69,18 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
             .zip(
                 userModulesRepository.getOdooModules(),
                 userModulesRepository.getOdooGroups(),
-                firebase.fetchModuleIcons()
-            ) { modules: OdooModulesResponse, groups: OdooGroupsResponse, icons: List<ModuleIconResponse> ->
+                userModulesRepository.fetchImplementedModules(),
+                firebase.fetchModuleIcons(),
+            ) { modules: OdooModulesResponse,
+                groups: OdooGroupsResponse,
+                implementedModulesJson: String,
+                icons: List<ModuleIconResponse> ->
+
                 helper.getAvailableModulesOfUser(
                     userUid = userUid,
                     modules = modules,
                     moduleIcons = icons,
-                    implementedModules = userInfoRepository.fetchImplementedModules(),
+                    implementedModulesJson = implementedModulesJson,
                     favouriteModules = dataStore.favouriteModules.map { it.toInt() },
                     groups = groups
                 )

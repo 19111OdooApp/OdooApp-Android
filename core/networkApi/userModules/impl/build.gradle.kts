@@ -16,6 +16,9 @@ dependencies {
     // Network API - user modules
     api(project(":core:networkApi:userModules:api"))
 
+    // Network API - remote config
+    api(project(":core:networkApi:remoteConfig:api"))
+
     // Retrofit Api Fabric
     implementation(project(":core:jsonRpcApiFabric:impl"))
 

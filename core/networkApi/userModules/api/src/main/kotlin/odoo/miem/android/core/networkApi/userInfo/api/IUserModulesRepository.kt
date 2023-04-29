@@ -25,4 +25,11 @@ interface IUserModulesRepository {
      * @return Observable<[OdooModulesResponse]> which provides modules accessible for user
      */
     fun getOdooModules(): Single<OdooModulesResponse>
+
+    /**
+     * [fetchImplementedModules] - function for getting implemented modules from Firebase
+     *
+     * @return List<String> with names of implemented modules
+     */
+    fun fetchImplementedModules(): Single<String>
 }

@@ -8,6 +8,9 @@ android {
 
 dependencies {
 
+    // Moshi for serializer
+    implementation(Dependencies.Network.MOSHI_KOTLIN)
+
     // Common
     // SelectingModules API
     api(project(":common:network:selectingModules:api"))

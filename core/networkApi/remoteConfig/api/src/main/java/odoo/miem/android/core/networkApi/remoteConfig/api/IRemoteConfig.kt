@@ -1,5 +1,7 @@
 package odoo.miem.android.core.networkApi.remoteConfig.api
 
+import io.reactivex.rxjava3.core.Single
+
 /**
  * [IRemoteConfig] - interface for wrapping data layer
  * logic, which is connected with Firebase Remote Config
@@ -14,5 +16,5 @@ interface IRemoteConfig {
      *
      * @return String (JSON)
      */
-    fun fetchImplementedModules(): String
+    fun fetchImplementedModules(): Single<String>
 }

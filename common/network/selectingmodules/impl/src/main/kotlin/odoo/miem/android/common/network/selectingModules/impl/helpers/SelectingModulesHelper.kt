@@ -2,6 +2,7 @@ package odoo.miem.android.common.network.selectingModules.impl.helpers
 
 import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.network.selectingModules.api.entities.User
+import odoo.miem.android.common.network.selectingModules.impl.entities.ImplementedModules
 import odoo.miem.android.common.network.selectingModules.impl.entities.UserWithFavouriteModules
 import odoo.miem.android.core.networkApi.firebaseDatabase.api.source.ModuleIconResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooGroupsResponse
@@ -18,10 +19,19 @@ import java.util.Queue
  */
 internal class SelectingModulesHelper {
 
-    fun convertUserInfoResponse(
-        response: UserInfoResponse,
-        deserializeFavouriteModules: (String) -> List<Int>? = { emptyList() }
-    ): UserWithFavouriteModules {
+    private val serializer = SelectingModulesSerializer()
+
+    private fun deserializeFavouriteModules(jsonString: String): List<Int> {
+        return serializer.deserializeList(jsonString) ?: emptyList()
+    }
+
+    private fun deserializeImplementedModules(jsonString: String): List<String> {
+        return serializer.deserialize(ImplementedModules::class.java, jsonString)
+            ?.modules
+            ?: emptyList()
+    }
+
+    fun convertUserInfoResponse(response: UserInfoResponse): UserWithFavouriteModules {
         val record = response.records[0]
 
         val modelId = record.modelId
@@ -35,7 +45,7 @@ internal class SelectingModulesHelper {
             .joinToString(" ")
 
         val castedFavouriteModules = if (favouriteModules is String) {
-            deserializeFavouriteModules(favouriteModules) ?: emptyList()
+            deserializeFavouriteModules(favouriteModules)
         } else {
             emptyList()
         }
@@ -50,14 +60,14 @@ internal class SelectingModulesHelper {
         userUid: Int,
         modules: OdooModulesResponse,
         moduleIcons: List<ModuleIconResponse>,
-        implementedModules: List<String>,
+        implementedModulesJson: String,
         favouriteModules: List<Int>,
         groups: OdooGroupsResponse
     ): List<OdooModule> {
         val groupsOfUser = getGroupsOfUser(userUid, groups)
         val moduleIconsMap = moduleIcons.associate { it.moduleName to it.downloadUrl }
 
-        val implementedModulesSet = implementedModules.toSortedSet()
+        val implementedModulesSet = deserializeImplementedModules(implementedModulesJson)
         val favouriteModulesSet = favouriteModules.toSortedSet()
 
         val rootModules = mutableListOf<OdooModule>()

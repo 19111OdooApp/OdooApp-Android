@@ -24,19 +24,4 @@ interface IUserInfoRepository {
      * @return Observable<Boolean> - true or false whether updating Odoo database was successful
      */
     fun updateFavouriteModules(userModelId: Int, favouriteModules: List<Int>): Single<Boolean>
-
-    /**
-     * [fetchImplementedModules] - function for getting implemented modules from Firebase
-     *
-     * @return List<String> with names of implemented modules
-     */
-    fun fetchImplementedModules(): List<String>
-
-    /**
-     * [deserializeFavouriteModules] - function for deserializing json with favourite modules which
-     * looks like "[1, 2, 3]" (blame Odoo backend)
-     *
-     * @return List<Int> with ids of favourite modules
-     */
-    fun deserializeFavouriteModules(jsonString: String): List<Int>
 }

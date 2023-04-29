@@ -101,7 +101,6 @@ fun SmallModuleCard(
             } else {
                 DefaultCircleSpinner()
             }
-
         } else {
             Icon(
                 imageVector = Icons.Rounded.QuestionMark,

@@ -27,6 +27,9 @@ rootProject.name = "Odoo App"
 include(":common:network:authorization:api")
 include(":common:network:authorization:impl")
 
+include(":common:network:recruitment:api")
+include(":common:network:recruitment:impl")
+
 include(":common:network:selectingModules:api")
 include(":common:network:selectingModules:impl")
 

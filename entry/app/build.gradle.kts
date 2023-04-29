@@ -47,6 +47,9 @@ dependencies {
     implementation(project(":common:network:authorization:impl"))
 
     // Network - selecting modules
+    implementation(project(":common:network:recruitment:impl"))
+
+    // Network - selecting modules
     implementation(project(":common:network:selectingModules:impl"))
 
     // Core

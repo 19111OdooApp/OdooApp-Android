@@ -83,33 +83,35 @@ fun SmallModuleCard(
             .align(Alignment.Center),
         contentAlignment = Alignment.Center
     ) {
-        if (iconDownloadUrl.isNotBlank()) {
-            val model = ImageRequest.Builder(LocalContext.current)
-                .data(iconDownloadUrl)
-                .size(Size.ORIGINAL)
-                .build()
+        val model = ImageRequest.Builder(LocalContext.current)
+            .data(iconDownloadUrl)
+            .size(Size.ORIGINAL)
+            .build()
 
-            val painter = rememberAsyncImagePainter(model = model)
+        val painter = rememberAsyncImagePainter(model = model)
 
-            if (painter.state is AsyncImagePainter.State.Success) {
+        when (painter.state) {
+            is AsyncImagePainter.State.Success -> {
                 Icon(
                     painter = painter,
                     contentDescription = null,
                     tint = Color.White,
                     modifier = Modifier.fillMaxSize()
                 )
-            } else {
+            }
+            is AsyncImagePainter.State.Error -> {
+                Icon(
+                    imageVector = Icons.Rounded.QuestionMark,
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier.size(36.dp)
+                )
+            }
+            else -> {
                 DefaultCircleSpinner(
                     modifier = Modifier.size(36.dp)
                 )
             }
-        } else {
-            Icon(
-                imageVector = Icons.Rounded.QuestionMark,
-                contentDescription = null,
-                tint = Color.White,
-                modifier = Modifier.size(36.dp)
-            )
         }
     }
 

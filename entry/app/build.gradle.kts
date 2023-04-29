@@ -66,7 +66,7 @@ dependencies {
     implementation(project(":core:networkApi:userModules:impl"))
 
     // Network API - remote config
-    implementation(project(":core:networkApi:remoteConfig:impl"))
+    implementation(project(":core:networkApi:firebaseRemoteConfig:impl"))
 
     // Network API - firebase datastore and storage
     implementation(project(":core:networkApi:firebaseDatabase:impl"))

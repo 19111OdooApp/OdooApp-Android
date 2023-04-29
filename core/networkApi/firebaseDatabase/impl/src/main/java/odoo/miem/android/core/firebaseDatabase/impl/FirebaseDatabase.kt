@@ -4,10 +4,7 @@ import android.net.Uri
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storage
 import io.reactivex.rxjava3.core.Single
 import odoo.miem.android.core.networkApi.firebaseDatabase.api.IFirebaseDatabase
 import odoo.miem.android.core.networkApi.firebaseDatabase.api.source.ModuleIconResponse
@@ -20,18 +17,14 @@ import javax.inject.Inject
  *
  * @author Egor Danilov
  */
-class FirebaseDatabase @Inject constructor() : IFirebaseDatabase {
-
-    private val fireStore: FirebaseFirestore by lazy {
-        Firebase.firestore
-    }
-    private val storage: FirebaseStorage by lazy {
-        Firebase.storage
-    }
+class FirebaseDatabase @Inject constructor(
+    private val firestore: FirebaseFirestore,
+    private val storage: FirebaseStorage
+) : IFirebaseDatabase {
 
     override fun fetchModuleIcons(): Single<List<ModuleIconResponse>> {
         return Single.create { emitter ->
-            fireStore.collection(FIRESTORE_MODULE_COLLECTION)
+            firestore.collection(FIRESTORE_MODULE_COLLECTION)
                 .get()
                 .continueWithTask { query ->
                     val iconTasks = mutableListOf<Task<ModuleIconResponse>>()
@@ -71,7 +64,7 @@ class FirebaseDatabase @Inject constructor() : IFirebaseDatabase {
 
     override fun fetchStatusIcons(): Single<List<StatusIconResponse>> {
         return Single.create { emitter ->
-            fireStore.collection(FIRESTORE_STATUS_COLLECTION)
+            firestore.collection(FIRESTORE_STATUS_COLLECTION)
                 .get()
                 .continueWithTask { query ->
                     val iconTasks = mutableListOf<Task<StatusIconResponse>>()

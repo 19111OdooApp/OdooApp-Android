@@ -27,7 +27,7 @@ dependencies {
     api(project(":core:networkApi:userModules:api"))
 
     // remote config
-    api(project(":core:networkApi:remoteConfig:api"))
+    api(project(":core:networkApi:firebaseRemoteConfig:api"))
 
     // firebase database
     api(project(":core:networkApi:firebaseDatabase:api"))

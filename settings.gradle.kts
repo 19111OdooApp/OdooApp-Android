@@ -50,8 +50,8 @@ include(":core:networkApi:userInfo:impl")
 include(":core:networkApi:userModules:api")
 include(":core:networkApi:userModules:impl")
 
-include(":core:networkApi:remoteConfig:impl")
-include(":core:networkApi:remoteConfig:api")
+include(":core:networkApi:firebaseRemoteConfig:impl")
+include(":core:networkApi:firebaseRemoteConfig:api")
 
 include(":core:networkApi:firebaseDatabase:api")
 include(":core:networkApi:firebaseDatabase:impl")

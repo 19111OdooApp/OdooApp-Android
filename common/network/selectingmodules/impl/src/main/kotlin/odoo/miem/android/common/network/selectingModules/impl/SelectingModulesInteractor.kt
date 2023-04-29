@@ -9,7 +9,7 @@ import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.networkApi.firebaseDatabase.api.di.IFirebaseDatabaseApi
 import odoo.miem.android.core.networkApi.firebaseDatabase.api.source.ModuleIconResponse
-import odoo.miem.android.core.networkApi.remoteConfig.api.di.IRemoteConfigApi
+import odoo.miem.android.core.networkApi.firebaseRemoteConfig.api.di.IFirebaseRemoteConfigApi
 import odoo.miem.android.core.networkApi.userInfo.api.di.IUserInfoRepositoryApi
 import odoo.miem.android.core.networkApi.userInfo.api.di.IUserModulesRepositoryApi
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooGroupsResponse
@@ -33,7 +33,7 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
 
     private val dataStore by api(IDataStoreApi::dataStore)
 
-    private val remoteConfig by api(IRemoteConfigApi::remoteConfig)
+    private val remoteConfig by api(IFirebaseRemoteConfigApi::remoteConfig)
     private val firebase by api(IFirebaseDatabaseApi::firebaseDatabase)
 
     private val helper = SelectingModulesHelper()

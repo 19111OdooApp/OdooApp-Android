@@ -7,7 +7,6 @@ import odoo.miem.android.common.network.selectingModules.api.entities.User
 import odoo.miem.android.common.network.selectingModules.impl.helpers.SelectingModulesHelper
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
-import odoo.miem.android.core.jsonrpc.parser.api.di.ISerializerApi
 import odoo.miem.android.core.networkApi.firebaseDatabase.api.di.IFirebaseDatabaseApi
 import odoo.miem.android.core.networkApi.firebaseDatabase.api.source.ModuleIconResponse
 import odoo.miem.android.core.networkApi.firebaseRemoteConfig.api.di.IFirebaseRemoteConfigApi
@@ -37,8 +36,7 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
     private val remoteConfig by api(IFirebaseRemoteConfigApi::remoteConfig)
     private val firebase by api(IFirebaseDatabaseApi::firebaseDatabase)
 
-    private val serializer by api(ISerializerApi::resultParser)
-    private val helper = SelectingModulesHelper(serializer)
+    private val helper = SelectingModulesHelper()
 
     override fun getUserInfo(): ResultSingle<User> {
         Timber.d("getUserInfo()")

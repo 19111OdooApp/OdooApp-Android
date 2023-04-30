@@ -4,7 +4,8 @@ import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.network.selectingModules.api.entities.User
 import odoo.miem.android.common.network.selectingModules.impl.entities.ImplementedModules
 import odoo.miem.android.common.network.selectingModules.impl.entities.UserWithFavouriteModules
-import odoo.miem.android.core.jsonrpc.base.parser.ResultParser
+import odoo.miem.android.core.di.impl.api
+import odoo.miem.android.core.jsonrpc.parser.api.di.ISerializerApi
 import odoo.miem.android.core.networkApi.firebaseDatabase.api.source.ModuleIconResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooGroupsResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooModulesResponse
@@ -19,9 +20,9 @@ import java.util.Queue
  *
  * @author Egor Danilov
  */
-internal class SelectingModulesHelper(
-    private val serializer: ResultParser
-) {
+internal class SelectingModulesHelper {
+
+    private val serializer by api(ISerializerApi::resultParser)
 
     private fun deserializeFavouriteModules(jsonString: String): List<Int>? {
         return serializer.deserializeList(

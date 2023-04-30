@@ -1,8 +1,8 @@
-package odoo.miem.android.feature.recruitment.impl.data
+package odoo.miem.android.common.network.recruitment.api.entities
 
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.RecruitmentLikeStatusModel
 
-internal data class Status(
+data class Status(
     override val statusName: String,
     override val employees: List<Employee>,
     override val imageUrl: String?

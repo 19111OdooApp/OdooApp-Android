@@ -12,6 +12,10 @@ dependencies {
     // Recruitment API
     api(project(":common:network:recruitment:api"))
 
+    // Components
+    implementation(project(":common:uiKitComponents"))
+
+    // Core
     // Recruitment API - Authorization
     api(project(":core:networkApi:recruitment:api"))
 }

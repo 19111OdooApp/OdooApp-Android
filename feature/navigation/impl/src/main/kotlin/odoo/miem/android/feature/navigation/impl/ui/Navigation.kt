@@ -104,10 +104,11 @@ fun NavigationContent(
         NavHost(
             navController = navController,
             startDestination = remember {
-                if (isAuthorized)
+                if (isAuthorized) {
                     Routes.selectingModules
-                else
+                } else {
                     Routes.authorization
+                }
             }
         ) {
             composable(Routes.authorization) {

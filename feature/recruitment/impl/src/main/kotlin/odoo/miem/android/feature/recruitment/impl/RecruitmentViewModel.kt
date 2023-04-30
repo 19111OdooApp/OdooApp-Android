@@ -1,113 +1,38 @@
 package odoo.miem.android.feature.recruitment.impl
 
-import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.DeadlineStatus
+import odoo.miem.android.common.network.recruitment.api.di.IRecruitmentInteractorApi
+import odoo.miem.android.common.network.recruitment.api.entities.Employee
+import odoo.miem.android.common.network.recruitment.api.entities.Status
+import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.platform.presentation.BaseViewModel
 import odoo.miem.android.core.utils.rx.emptyResultBehaviorSubject
+import odoo.miem.android.core.utils.rx.lazyEmptyResultPublishSubject
 import odoo.miem.android.core.utils.rx.onLoadingState
+import odoo.miem.android.core.utils.state.ResultSubject
 import odoo.miem.android.core.utils.state.StateResultSubject
-import odoo.miem.android.core.utils.state.SuccessResult
-import odoo.miem.android.feature.recruitment.impl.data.Employee
-import odoo.miem.android.feature.recruitment.impl.data.Status
+import timber.log.Timber
 
 internal class RecruitmentViewModel : BaseViewModel() {
 
-    val statusState: StateResultSubject<List<Status>> = emptyResultBehaviorSubject()
     val picturesState: StateResultSubject<List<String>> = emptyResultBehaviorSubject()
 
-    @Suppress("MagicNumber") // TODO: Remove once implemented
+    private val recruitmentInteractor by api(IRecruitmentInteractorApi::recruitmentInteractor)
+    val statusState: ResultSubject<List<Status>> by lazyEmptyResultPublishSubject()
+
     fun fetchStatusList() {
-        // TODO: Fetch actual data
+        Timber.d("getRecruitmentInfo()")
 
         statusState.onLoadingState()
-        picturesState.onNext(
-            SuccessResult(
-                listOf(
-                    "https://yt3.googleusercontent.com/ytc/AL5GRJWDJvCQYGY8n6BT_f7DzaJCcGRJ69NY9I" +
-                        "PU4G-K4Q=s900-c-k-c0x00ffffff-no-rj"
-                )
+        recruitmentInteractor
+            .getRecruitmentInfo()
+            .schedule(
+                recruitmentChannel,
+                onSuccess = { list ->
+                    Timber.d("fetchStatusList(): list - ${list.data}")
+                    statusState.onNext(list)
+                },
+                onError = Timber::e
             )
-        )
-        statusState.onNext(
-            SuccessResult(
-                listOf(
-                    Status(
-                        "1",
-                        listOf(
-                            Employee(
-                                "anna",
-                                2.0,
-                                null,
-                                null,
-                                DeadlineStatus.NO_TASKS
-                            )
-                        ),
-                        null
-                    ),
-                    Status(
-                        "2",
-                        listOf(
-                            Employee(
-                                "alex",
-                                2.0,
-                                null,
-                                null,
-                                DeadlineStatus.NO_TASKS
-                            ),
-                            Employee(
-                                "misha",
-                                3.0,
-                                null,
-                                null,
-                                DeadlineStatus.NO_TASKS
-                            ),
-                            Employee(
-                                "alex",
-                                2.0,
-                                null,
-                                null,
-                                DeadlineStatus.NO_TASKS
-                            ),
-                            Employee(
-                                "misha",
-                                3.0,
-                                null,
-                                null,
-                                DeadlineStatus.NO_TASKS
-                            ),
-                            Employee(
-                                "alex",
-                                2.0,
-                                null,
-                                null,
-                                DeadlineStatus.EXPIRED
-                            ),
-                            Employee(
-                                "misha",
-                                3.0,
-                                null,
-                                null,
-                                DeadlineStatus.ACTIVE
-                            ),
-                            Employee(
-                                "alex",
-                                2.0,
-                                null,
-                                null,
-                                DeadlineStatus.NO_TASKS
-                            ),
-                            Employee(
-                                "misha",
-                                3.0,
-                                null,
-                                null,
-                                DeadlineStatus.NO_TASKS
-                            )
-                        ),
-                        null
-                    )
-                )
-            )
-        )
     }
 
     @Suppress("UnusedPrivateMember") // TODO: Remove once implemented
@@ -118,5 +43,9 @@ internal class RecruitmentViewModel : BaseViewModel() {
     @Suppress("UnusedPrivateMember") // TODO: Remove once implemented
     fun createNewStatus(statusName: String, imageLink: String) {
         // TODO: Add create status logic
+    }
+
+    companion object {
+        val recruitmentChannel = Channel()
     }
 }

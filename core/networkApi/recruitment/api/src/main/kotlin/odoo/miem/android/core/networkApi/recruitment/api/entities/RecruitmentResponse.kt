@@ -2,58 +2,74 @@ package odoo.miem.android.core.networkApi.recruitment.api.entities
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import com.squareup.moshi.JsonReader
+import odoo.miem.android.core.jsonrpc.parser.api.di.annotation.SpecifiedTypeOrNull
 
 @JsonClass(generateAdapter = true)
 data class RecruitmentResponse(
 
     @Json(name = "length")
-    val length: Int,
+    @SpecifiedTypeOrNull(JsonReader.Token.NUMBER)
+    val length: Int?,
 
     @Json(name = "records")
-    val records: List<Record>
+    @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
+    val records: List<Record>?
 ) {
 
     @JsonClass(generateAdapter = true)
     data class Record(
 
         @Json(name = "id")
-        val id: Long,
+        @SpecifiedTypeOrNull(JsonReader.Token.NUMBER)
+        val id: Long?,
 
         @Json(name = "priority")
-        val rating: Double,
+        @SpecifiedTypeOrNull(JsonReader.Token.STRING)
+        val rating: String?,
 
         // [id, job name]
         @Json(name = "job_id")
-        val jobInfo: List<Any>,
+        @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
+        val jobInfo: List<Any>?,
 
         // [id, stage name]
         @Json(name = "stage_id")
-        val stageInfo: List<Any>,
+        @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
+        val stageInfo: List<Any>?,
 
         // [id, stage name]
         @Json(name = "department_id")
-        val departmentInfo: List<Any>,
+        @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
+        val departmentInfo: List<Any>?,
 
         // [id, stage name]
         @Json(name = "user_id")
-        val creatorInfo: List<Any>,
+        @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
+        val creatorInfo: List<Any>?,
 
         @Json(name = "partner_name")
-        val name: String,
+        @SpecifiedTypeOrNull(JsonReader.Token.STRING)
+        val name: String?,
 
         @Json(name = "user_email")
-        val email: String,
+        @SpecifiedTypeOrNull(JsonReader.Token.STRING)
+        val email: String?,
 
         @Json(name = "activity_summary")
-        val summary: Any,
+        @SpecifiedTypeOrNull(JsonReader.Token.STRING)
+        val summary: String?,
 
         @Json(name = "salary_proposed")
-        val salaryProposed: Float,
+        @SpecifiedTypeOrNull(JsonReader.Token.NUMBER)
+        val salaryProposed: Float?,
 
         @Json(name = "salary_expected")
-        val salaryExpected: Float,
+        @SpecifiedTypeOrNull(JsonReader.Token.NUMBER)
+        val salaryExpected: Float?,
 
         @Json(name = "create_date")
-        val createdDate: String,
+        @SpecifiedTypeOrNull(JsonReader.Token.STRING)
+        val createdDate: String?,
     )
 }

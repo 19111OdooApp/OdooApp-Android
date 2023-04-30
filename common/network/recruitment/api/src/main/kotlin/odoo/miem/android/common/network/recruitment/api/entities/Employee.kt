@@ -1,10 +1,9 @@
-package odoo.miem.android.feature.recruitment.impl.data
+package odoo.miem.android.common.network.recruitment.api.entities
 
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.DeadlineStatus
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.RecruitmentLikeEmployeeModel
 
-// TODO: Move models to domain
-internal data class Employee(
+data class Employee(
     override val name: String,
     override val rating: Double,
     override val imageUrl: String?,

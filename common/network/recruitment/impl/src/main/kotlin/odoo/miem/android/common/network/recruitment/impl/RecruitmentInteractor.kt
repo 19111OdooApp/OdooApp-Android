@@ -1,9 +1,11 @@
 package odoo.miem.android.common.network.recruitment.impl
 
 import odoo.miem.android.common.network.recruitment.api.IRecruitmentInteractor
+import odoo.miem.android.common.network.recruitment.api.entities.Employee
+import odoo.miem.android.common.network.recruitment.api.entities.Status
+import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.DeadlineStatus
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.networkApi.recruitment.api.di.IRecruitmentRepositoryApi
-import odoo.miem.android.core.utils.regex.getSessionIdFromCookie
 import odoo.miem.android.core.utils.state.ErrorResult
 import odoo.miem.android.core.utils.state.Result
 import odoo.miem.android.core.utils.state.ResultSingle
@@ -18,52 +20,40 @@ import javax.inject.Inject
  */
 class RecruitmentInteractor @Inject constructor() : IRecruitmentInteractor {
 
-        private val recruitmentRepository by api(IRecruitmentRepositoryApi::recruitmentRepository)
+    private val recruitmentRepository by api(IRecruitmentRepositoryApi::recruitmentRepository)
 
-    override fun getRecruitmentInfo(): ResultSingle<Unit> {
+    override fun getRecruitmentInfo(): ResultSingle<List<Status>> {
         Timber.d("getRecruitmentInfo()")
 
-        return recruitmentRepository.getRecruitmentInfo()
-            .map<Result<Unit>> { response ->
+        return recruitmentRepository
+            .getRecruitmentInfo()
+            .map<Result<List<Status>>> { response ->
                 Timber.d("getRecruitmentInfo(): response = $response")
-                // TODO
-                SuccessResult()
+                val list = response.records
+                    ?.groupBy { it.stageInfo?.getOrNull(1) as? String }
+                    ?.mapNotNull { (key, value) ->
+                        key?.let {
+                            Status(
+                                statusName = key,
+                                employees = value.map { record ->
+                                    Employee(
+                                        name = record.name ?: "Cool name",
+                                        rating = record.rating?.toDouble() ?: 0.0,
+                                        imageUrl = null,
+                                        id = record.id,
+                                        deadlineStatus = DeadlineStatus.ACTIVE
+                                    )
+                                },
+                                imageUrl = null
+                            )
+                        }
+                    }
+                Timber.d("getRecruitmentInfo(): final list - $list")
+                SuccessResult(list)
             }
             .onErrorReturn {
-                Timber.e("generalAuthorization(): error message = ${it.message}")
+                Timber.e("getRecruitmentInfo(): error message = ${it.message}")
                 ErrorResult(R.string.general_authorization_error)
             }
-
-//        recruitmentRepository
-//            .getRecruitmentInfo(
-//            ).schedule(
-//                recruitmentChannel,
-//                onSuccess = { response ->
-//                    Timber.d("getRecruitmentInfo(): response - $response")
-//                    val list = response.records
-//                        .groupBy { it.stageInfo.getOrNull(1) as? String }
-//                        .mapNotNull { (key, value) ->
-//                            key?.let {
-//                                Status(
-//                                    statusName = key,
-//                                    employees = value.map { record ->
-//                                        Employee(
-//                                            name = record.name,
-//                                            rating = record.rating,
-//                                            imageUrl = null,
-//                                            id = record.id,
-//                                            deadlineStatus = DeadlineStatus.ACTIVE
-//                                        )
-//                                    },
-//                                    imageUrl = null
-//                                )
-//                            }
-//                        }
-//
-//                    Timber.d("getRecruitmentInfo(): final list - $list")
-//                    statusState.onNext(SuccessResult(list))
-//                },
-//                onError = Timber::e
-//            )
     }
 }

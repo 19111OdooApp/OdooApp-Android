@@ -10,11 +10,10 @@ dependencies {
 
     Dependencies.RxJava.ALL_DEPS.forEach { implementation(it) }
 
-    implementation(project(":core:jsonrpc:base"))
-
     // Core
     // Network API - authorization
     api(project(":core:networkApi:recruitment:api"))
+    implementation(project(":core:jsonrpc:base"))
 
     // Retrofit Api Fabric
     implementation(project(":core:jsonRpcApiFabric:impl"))

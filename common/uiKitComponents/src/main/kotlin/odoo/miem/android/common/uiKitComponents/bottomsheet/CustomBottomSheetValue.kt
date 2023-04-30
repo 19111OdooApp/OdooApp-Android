@@ -51,4 +51,8 @@ sealed class CustomBottomSheetValue : Serializable {
             return fullHeight
         }
     }
+
+    companion object {
+        const val serialVersionUID = 1L
+    }
 }

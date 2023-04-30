@@ -7,21 +7,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import odoo.miem.android.common.network.recruitment.api.entities.Employee
+import odoo.miem.android.common.network.recruitment.api.entities.Status
 import odoo.miem.android.common.uiKitComponents.progressbar.LoadingScreen
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.RecruitmentLikeScreen
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.DeadlineStatus
 import odoo.miem.android.common.uiKitComponents.stateholder.StateHolder
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.utils.rx.collectAsState
-import odoo.miem.android.core.utils.state.Result
-import odoo.miem.android.core.utils.state.SuccessResult
 import odoo.miem.android.core.utils.state.subscribeOnError
 import odoo.miem.android.feature.navigation.api.data.Routes
 import odoo.miem.android.feature.recruitment.api.IRecruitmentScreen
 import odoo.miem.android.feature.recruitment.impl.R
 import odoo.miem.android.feature.recruitment.impl.RecruitmentViewModel
-import odoo.miem.android.feature.recruitment.impl.data.Employee
-import odoo.miem.android.feature.recruitment.impl.data.Status
 import javax.inject.Inject
 
 class RecruitmentScreen @Inject constructor() : IRecruitmentScreen {

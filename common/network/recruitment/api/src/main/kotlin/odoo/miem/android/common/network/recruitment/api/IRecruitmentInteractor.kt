@@ -1,5 +1,6 @@
 package odoo.miem.android.common.network.recruitment.api
 
+import odoo.miem.android.common.network.recruitment.api.entities.Status
 import odoo.miem.android.core.utils.state.ResultSingle
 
 /**
@@ -10,5 +11,5 @@ import odoo.miem.android.core.utils.state.ResultSingle
 interface IRecruitmentInteractor {
 
     // TODO Desc
-    fun getRecruitmentInfo(): ResultSingle<Unit>
+    fun getRecruitmentInfo(): ResultSingle<List<Status>>
 }

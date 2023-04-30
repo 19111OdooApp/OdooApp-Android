@@ -5,3 +5,9 @@ plugins {
 android {
     namespace = "odoo.miem.android.common.network.recruitment.api"
 }
+
+dependencies {
+
+    // Components
+    implementation(project(":common:uiKitComponents"))
+}

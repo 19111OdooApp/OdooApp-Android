@@ -71,5 +71,9 @@ data class RecruitmentResponse(
         @Json(name = "create_date")
         @SpecifiedTypeOrNull(JsonReader.Token.STRING)
         val createdDate: String?,
+
+        @Json(name = "activity_state")
+        @SpecifiedTypeOrNull(JsonReader.Token.STRING)
+        val activityState: String?,
     )
 }

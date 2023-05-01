@@ -53,20 +53,18 @@ class RecruitmentScreen @Inject constructor() : IRecruitmentScreen {
             state = statusList,
             loadingContent = { LoadingScreen() },
             successContent = { result ->
-                result.data?.let {
-                    RecruitmentLikeScreen(
-                        statusList = it,
-                        onNavigateToModulesPressed = onNavigateToModulesPressed,
-                        onStatusClick = viewModel::changeEmployeeStatus,
-                        onNewStatusCreated = viewModel::createNewStatus,
-                        onUserIconClick = onUserIconClick,
-                        onEmployeeCardClick = {
-                            navController.navigate(Routes.details)
-                        },
-                        createStatusPictures = createStatusPictures.data ?: emptyList(),
-                        searchHintRes = R.string.recruitment_search_hint
-                    )
-                }
+                RecruitmentLikeScreen(
+                    statusList = result.data ?: emptyList(),
+                    onNavigateToModulesPressed = onNavigateToModulesPressed,
+                    onStatusClick = viewModel::changeEmployeeStatus,
+                    onNewStatusCreated = viewModel::createNewStatus,
+                    onUserIconClick = onUserIconClick,
+                    onEmployeeCardClick = {
+                        navController.navigate(Routes.details)
+                    },
+                    createStatusPictures = createStatusPictures.data ?: emptyList(),
+                    searchHintRes = R.string.recruitment_search_hint
+                )
             }
         )
     }

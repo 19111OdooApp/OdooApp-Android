@@ -41,7 +41,14 @@ class RecruitmentInteractor @Inject constructor() : IRecruitmentInteractor {
                                         rating = record.rating?.toDouble() ?: 0.0,
                                         imageUrl = null,
                                         id = record.id,
-                                        deadlineStatus = DeadlineStatus.ACTIVE
+                                        deadlineStatus = record.activityState?.let {
+                                            Timber.d("STATUS - $it")
+                                            if (it == DEADLINE_STATUS_OVERDUE) {
+                                                DeadlineStatus.EXPIRED
+                                            } else {
+                                                DeadlineStatus.ACTIVE
+                                            }
+                                        } ?: DeadlineStatus.NO_TASKS
                                     )
                                 },
                                 imageUrl = null
@@ -55,5 +62,9 @@ class RecruitmentInteractor @Inject constructor() : IRecruitmentInteractor {
                 Timber.e("getRecruitmentInfo(): error message = ${it.message}")
                 ErrorResult(R.string.general_authorization_error)
             }
+    }
+
+    companion object {
+        const val DEADLINE_STATUS_OVERDUE = "overdue"
     }
 }

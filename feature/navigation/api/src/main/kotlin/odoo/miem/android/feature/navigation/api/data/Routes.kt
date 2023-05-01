@@ -11,6 +11,7 @@ object Routes {
     const val selectingModules = "selectingModules"
     const val moduleNotFound = "moduleNotFound"
     const val recruitment = "recruitment"
+    const val recruitmentDetails = "recruitmentDetails"
     const val crm = "crm"
     const val userProfile = "userProfile"
 }

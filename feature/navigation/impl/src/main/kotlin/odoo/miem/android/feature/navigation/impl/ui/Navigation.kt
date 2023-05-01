@@ -21,11 +21,10 @@ import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
 import odoo.miem.android.feature.authorization.base.api.di.IAuthorizationApi
 import odoo.miem.android.feature.crm.api.ICrmScreen
 import odoo.miem.android.feature.crm.api.di.ICrmApi
-import odoo.miem.android.feature.details.api.IDetailsScreen
-import odoo.miem.android.feature.details.api.di.IDetailsScreenApi
 import odoo.miem.android.feature.moduleNotFound.api.IModuleNotFoundScreen
 import odoo.miem.android.feature.moduleNotFound.api.di.IModuleNotFoundApi
 import odoo.miem.android.feature.navigation.api.data.Routes
+import odoo.miem.android.feature.recruitment.api.IRecruitmentDetailsScreen
 import odoo.miem.android.feature.recruitment.api.IRecruitmentScreen
 import odoo.miem.android.feature.recruitment.api.di.IRecruitmentApi
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
@@ -58,20 +57,20 @@ fun Navigation(
 
     // Screens
     val authorizationScreen by api(IAuthorizationApi::authorizationScreen)
-    val detailsScreen by api(IDetailsScreenApi::detailsScreen)
     val selectingModulesScreen by api(ISelectingModulesApi::selectingModulesScreen)
     val moduleNotFoundScreen by api(IModuleNotFoundApi::moduleNotFoundScreen)
     val recruitmentScreen by api(IRecruitmentApi::recruitmentScreen)
+    val recruitmentDetailsScreen by api(IRecruitmentApi::recruitmentDetailsScreen)
     val crmScreen by api(ICrmApi::crmScreen)
     val userProfileScreen by api(IUserProfileScreenApi::userProfileScreen)
     val dataStore by api(IDataStoreApi::dataStore)
 
     NavigationContent(
         authorizationScreen = authorizationScreen,
-        detailsScreen = detailsScreen,
         selectingModulesScreen = selectingModulesScreen,
         moduleNotFoundScreen = moduleNotFoundScreen,
         recruitmentScreen = recruitmentScreen,
+        recruitmentDetailsScreen = recruitmentDetailsScreen,
         crmScreen = crmScreen,
         userProfileScreen = userProfileScreen,
         paddingValues = paddingValues,
@@ -84,10 +83,10 @@ fun Navigation(
 @Composable
 fun NavigationContent(
     authorizationScreen: IAuthorizationScreen,
-    detailsScreen: IDetailsScreen,
     selectingModulesScreen: ISelectingModulesScreen,
     moduleNotFoundScreen: IModuleNotFoundScreen,
     recruitmentScreen: IRecruitmentScreen,
+    recruitmentDetailsScreen: IRecruitmentDetailsScreen,
     crmScreen: ICrmScreen,
     userProfileScreen: IUserProfileScreen,
     paddingValues: PaddingValues,
@@ -118,13 +117,6 @@ fun NavigationContent(
                 )
             }
 
-            composable(Routes.details) {
-                detailsScreen.DetailsScreen(
-                    navController = navController,
-                    showMessage = showMessage
-                )
-            }
-
             composable(Routes.selectingModules) {
                 selectingModulesScreen.SelectingModulesScreen(
                     navController = navController,
@@ -140,6 +132,13 @@ fun NavigationContent(
 
             composable(Routes.recruitment) {
                 recruitmentScreen.RecruitmentScreen(
+                    navController = navController,
+                    showMessage = showMessage
+                )
+            }
+
+            composable(Routes.recruitmentDetails) {
+                recruitmentDetailsScreen.RecruitmentDetailsScreen(
                     navController = navController,
                     showMessage = showMessage
                 )

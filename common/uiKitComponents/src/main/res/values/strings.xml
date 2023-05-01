@@ -47,4 +47,8 @@
     <string name="cancel_new_status_creation">Cancel</string>
     <string name="create_new_status_headline">New status</string>
     <string name="create_status_hint">Status name</string>
+
+    <!--DetailsLike-->
+    <!--Job Item-->
+    <string name="item_salary" translatable="false">%.2f</string>
 </resources>

@@ -7,8 +7,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import io.reactivex.rxjava3.core.Single
 import odoo.miem.android.core.networkApi.firebaseDatabase.api.IFirebaseDatabase
+import odoo.miem.android.core.networkApi.firebaseDatabase.api.source.FavouriteModulesResponse
 import odoo.miem.android.core.networkApi.firebaseDatabase.api.source.ModuleIconResponse
 import odoo.miem.android.core.networkApi.firebaseDatabase.api.source.StatusIconResponse
+import odoo.miem.android.core.networkApi.firebaseDatabase.api.source.UserRequest
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -23,6 +25,8 @@ class FirebaseDatabase @Inject constructor(
 ) : IFirebaseDatabase {
 
     override fun fetchModuleIcons(): Single<List<ModuleIconResponse>> {
+        Timber.d("fetchModuleIcons()")
+
         return Single.create { emitter ->
             firestore.collection(FIRESTORE_MODULE_COLLECTION)
                 .get()
@@ -63,6 +67,8 @@ class FirebaseDatabase @Inject constructor(
     }
 
     override fun fetchStatusIcons(): Single<List<StatusIconResponse>> {
+        Timber.d("fetchStatusIcons()")
+
         return Single.create { emitter ->
             firestore.collection(FIRESTORE_STATUS_COLLECTION)
                 .get()
@@ -106,15 +112,103 @@ class FirebaseDatabase @Inject constructor(
         return storage.getReferenceFromUrl(fileReference).downloadUrl
     }
 
+    override fun fetchFavouriteModules(
+        uid: Int,
+        userName: String
+    ): Single<FavouriteModulesResponse> {
+        Timber.d("fetchFavouriteModules()")
+
+        return Single.create { emitter ->
+            firestore.collection(FIRESTORE_USER_COLLECTION)
+                .whereEqualTo(USER_UID_FIELD, uid)
+                .whereEqualTo(USER_NAME_FIELD, userName)
+                .get()
+                .continueWith { query ->
+                    val favouriteModules = query.result
+                        .documents
+                        .getOrNull(0)
+                        ?.data
+                        ?.get(USER_FAVOURITE_MODULES_FIELD) as? String
+                        ?: emptyList<String>().toString()
+
+                    FavouriteModulesResponse(
+                        modulesJson = favouriteModules
+                    )
+                }
+                .addOnSuccessListener { result ->
+                    Timber.d("fetchFavouriteModules(): result = $result")
+                    emitter.onSuccess(result)
+                }
+                .addOnFailureListener { e ->
+                    Timber.e("fetchFavouriteModules(): error = ${e.message}")
+                    emitter.onError(e)
+                }
+        }
+    }
+
+    override fun addOrUpdateUser(
+        uid: Int,
+        userName: String,
+        favouriteModules: List<String>
+    ): Single<Boolean> {
+        Timber.d("addOrUpdateUser()")
+
+        return Single.create { emitter ->
+            firestore.collection(FIRESTORE_USER_COLLECTION)
+                .whereEqualTo(USER_UID_FIELD, uid)
+                .whereEqualTo(USER_NAME_FIELD, userName)
+                .get()
+                .continueWithTask { query ->
+                    val documents = query.result.documents
+
+                    Timber.d("DOCUMENTS $documents")
+                    val task = if (documents.isEmpty()) {
+                        val newUser = UserRequest(
+                            uid = uid,
+                            name = userName,
+                            favouriteModules = favouriteModules
+                        )
+
+                        firestore.collection(FIRESTORE_USER_COLLECTION).add(newUser)
+                    } else {
+                        val documentId = documents.first().id
+
+                        firestore.collection(FIRESTORE_USER_COLLECTION)
+                            .document(documentId)
+                            .update(USER_FAVOURITE_MODULES_FIELD, favouriteModules)
+                    }
+
+                    task
+                }
+                .addOnSuccessListener {
+                    Timber.d(
+                        "addOrUpdateUser(): successfully added or updated user " +
+                            "with uid = $uid, name = $userName"
+                    )
+                    emitter.onSuccess(true)
+                }
+                .addOnFailureListener { e ->
+                    Timber.e("addOrUpdateUser(): error = ${e.message}")
+                    emitter.onError(e)
+                }
+        }
+    }
+
     private companion object {
-        const val FIRESTORE_MODULE_COLLECTION = "module_icons"
+        const val FIRESTORE_MODULE_COLLECTION = "moduleIcons"
 
-        const val MODULE_NAME_FIELD = "module_name"
-        const val MODULE_ICON_URL_FIELD = "icon_url"
+        const val MODULE_NAME_FIELD = "moduleName"
+        const val MODULE_ICON_URL_FIELD = "iconUrl"
 
-        const val FIRESTORE_STATUS_COLLECTION = "status_icons"
+        const val FIRESTORE_STATUS_COLLECTION = "statusIcons"
 
-        const val STATUS_NAME_FIELD = "status_name"
-        const val STATUS_ICON_URL_FIELD = "icon_url"
+        const val STATUS_NAME_FIELD = "statusName"
+        const val STATUS_ICON_URL_FIELD = "iconUrl"
+
+        const val FIRESTORE_USER_COLLECTION = "users"
+
+        const val USER_UID_FIELD = "uid"
+        const val USER_NAME_FIELD = "name"
+        const val USER_FAVOURITE_MODULES_FIELD = "favouriteModules"
     }
 }

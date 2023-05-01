@@ -29,7 +29,7 @@ class SelectingModulesViewModel(
     val userInfoState: ResultSubject<User> by lazyEmptyResultPublishSubject()
     val modulesState: ResultSubject<List<OdooModule>> by lazyEmptyResultPublishSubject()
 
-    private var userModelId: Int = -1
+    private var currentUser: User? = null
     val allModules = mutableStateListOf<OdooModule>()
 
     private var isReloaded: Boolean = false
@@ -45,7 +45,7 @@ class SelectingModulesViewModel(
                 onSuccess = { result ->
                     Timber.d("getUserInfo(): result = $result")
 
-                    result.data?.modelId?.let { userModelId = it }
+                    result.data?.let { currentUser = it }
                     userInfoState.onNext(result)
                 },
                 onError = Timber::e
@@ -82,18 +82,21 @@ class SelectingModulesViewModel(
         val previousState = allModules[index].isFavourite
 
         allModules[index] = allModules[index].copy(isFavourite = !previousState)
+
         updateUserFavouriteModules(
-            favouriteModules = allModules.filter { it.isFavourite }.map { it.id }
+            favouriteModules = allModules
+                .filter { it.isFavourite }
+                .map { it.name }
         )
     }
 
-    private fun updateUserFavouriteModules(favouriteModules: List<Int>) {
+    private fun updateUserFavouriteModules(favouriteModules: List<String>) {
         Timber.d("updateFavouriteModules(): favouriteModules = $favouriteModules")
 
-        if (userModelId != -1) {
+        currentUser?.let {
             selectingModulesInteractor
                 .updateFavouriteModules(
-                    userModelId = userModelId,
+                    user = it,
                     favouriteModules = favouriteModules
                 )
                 .schedule(

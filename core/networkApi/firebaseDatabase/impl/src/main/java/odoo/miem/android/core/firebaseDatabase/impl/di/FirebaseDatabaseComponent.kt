@@ -9,12 +9,16 @@ import odoo.miem.android.core.networkApi.firebaseDatabase.api.di.IFirebaseDataba
  *
  * Included modules:
  *  - [FirebaseDatabaseModule] - provides [FirebaseDatabase] in *DI graph*
+ *  - [FirestoreModule] - provides [FirebaseFirestore] in [FirebaseDatabase]
+ *  - [StorageModule] - provides [FirebaseStorage] in [FirebaseDatabase]
  *
  * @author Egor Danilov
  */
 @Component(
     modules = [
-        FirebaseDatabaseModule::class
+        FirebaseDatabaseModule::class,
+        FirestoreModule::class,
+        StorageModule::class
     ]
 )
 interface FirebaseDatabaseComponent : IFirebaseDatabaseApi {

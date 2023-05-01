@@ -50,8 +50,8 @@ include(":core:networkApi:userInfo:impl")
 include(":core:networkApi:userModules:api")
 include(":core:networkApi:userModules:impl")
 
-include(":core:networkApi:remoteConfig:impl")
-include(":core:networkApi:remoteConfig:api")
+include(":core:networkApi:firebaseRemoteConfig:impl")
+include(":core:networkApi:firebaseRemoteConfig:api")
 
 include(":core:networkApi:firebaseDatabase:api")
 include(":core:networkApi:firebaseDatabase:impl")
@@ -63,8 +63,8 @@ include(":core:jsonrpc:engine")
 include(":core:jsonRpcApiFabric:api")
 include(":core:jsonRpcApiFabric:impl")
 
-include(":core:jsonrpc:parser:api")
-include(":core:jsonrpc:parser:impl")
+include(":core:converter:api")
+include(":core:converter:impl")
 
 include(":core:platform")
 

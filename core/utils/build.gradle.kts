@@ -25,6 +25,9 @@ dependencies {
 
     implementation(Dependencies.Compose.RxJava.RX_JAVA)
 
+    // Moshi for serializer
+    implementation(Dependencies.Network.MOSHI_KOTLIN)
+
     // DataStore
     api(project(":core:dataStore:api"))
 }

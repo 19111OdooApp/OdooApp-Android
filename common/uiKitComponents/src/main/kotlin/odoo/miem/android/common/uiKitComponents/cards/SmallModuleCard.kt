@@ -26,10 +26,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
 import odoo.miem.android.common.uiKitComponents.R
+import odoo.miem.android.common.uiKitComponents.spinner.DefaultCircleSpinner
 import odoo.miem.android.common.uiKitComponents.utils.getBackgroundColorCard
 import odoo.miem.android.common.uiKitComponents.utils.glowEffect
 
@@ -37,10 +39,10 @@ import odoo.miem.android.common.uiKitComponents.utils.glowEffect
  * [SmallModuleCard] is implementation of small module's card
  *
  * @param moduleName - name of module
+ * @param iconDownloadUrl - url for downloading icon of module
  * @param isLiked - is module liked. If true, icon will be filled
  * @param onLikeClick - action, when user click on icon like
  * @param onClick - action, when user click on card
- * // TODO @param iconUrl
  *
  * @author Vorozhtsov Mikhail
  */
@@ -81,25 +83,35 @@ fun SmallModuleCard(
             .align(Alignment.Center),
         contentAlignment = Alignment.Center
     ) {
-        if (iconDownloadUrl.isNotBlank()) {
-            val model = ImageRequest.Builder(LocalContext.current)
-                .data(iconDownloadUrl)
-                .size(Size.ORIGINAL)
-                .build()
+        val model = ImageRequest.Builder(LocalContext.current)
+            .data(iconDownloadUrl)
+            .size(Size.ORIGINAL)
+            .build()
 
-            Icon(
-                painter = rememberAsyncImagePainter(model = model),
-                contentDescription = null,
-                tint = Color.White,
-                modifier = Modifier.fillMaxSize()
-            )
-        } else {
-            Icon(
-                imageVector = Icons.Rounded.QuestionMark,
-                contentDescription = null,
-                tint = Color.White,
-                modifier = Modifier.fillMaxSize()
-            )
+        val painter = rememberAsyncImagePainter(model = model)
+
+        when (painter.state) {
+            is AsyncImagePainter.State.Success -> {
+                Icon(
+                    painter = painter,
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+            is AsyncImagePainter.State.Error -> {
+                Icon(
+                    imageVector = Icons.Rounded.QuestionMark,
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier.size(36.dp)
+                )
+            }
+            else -> {
+                DefaultCircleSpinner(
+                    modifier = Modifier.size(36.dp)
+                )
+            }
         }
     }
 

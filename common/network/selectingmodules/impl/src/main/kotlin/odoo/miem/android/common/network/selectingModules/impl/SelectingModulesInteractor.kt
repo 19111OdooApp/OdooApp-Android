@@ -9,6 +9,7 @@ import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.networkApi.firebaseDatabase.api.di.IFirebaseDatabaseApi
 import odoo.miem.android.core.networkApi.firebaseDatabase.api.source.ModuleIconResponse
+import odoo.miem.android.core.networkApi.firebaseRemoteConfig.api.di.IFirebaseRemoteConfigApi
 import odoo.miem.android.core.networkApi.userInfo.api.di.IUserInfoRepositoryApi
 import odoo.miem.android.core.networkApi.userInfo.api.di.IUserModulesRepositoryApi
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooGroupsResponse
@@ -32,6 +33,7 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
 
     private val dataStore by api(IDataStoreApi::dataStore)
 
+    private val remoteConfig by api(IFirebaseRemoteConfigApi::remoteConfig)
     private val firebase by api(IFirebaseDatabaseApi::firebaseDatabase)
 
     private val helper = SelectingModulesHelper()
@@ -41,10 +43,7 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
 
         return userInfoRepository.getUserInfo()
             .map<Result<User>> { response ->
-                val userInfo = helper.convertUserInfoResponse(
-                    response = response,
-                    deserializeFavouriteModules = userInfoRepository::deserializeFavouriteModules
-                )
+                val userInfo = helper.convertUserInfoResponse(response = response)
 
                 Timber.d(
                     "getUserInfo(): id = ${userInfo.user.uid}, name = ${userInfo.user.name}"
@@ -72,13 +71,18 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
             .zip(
                 userModulesRepository.getOdooModules(),
                 userModulesRepository.getOdooGroups(),
-                firebase.fetchModuleIcons()
-            ) { modules: OdooModulesResponse, groups: OdooGroupsResponse, icons: List<ModuleIconResponse> ->
+                remoteConfig.fetchImplementedModules(),
+                firebase.fetchModuleIcons(),
+            ) { modules: OdooModulesResponse,
+                groups: OdooGroupsResponse,
+                implementedModulesJson: String,
+                icons: List<ModuleIconResponse> ->
+
                 helper.getAvailableModulesOfUser(
                     userUid = userUid,
                     modules = modules,
                     moduleIcons = icons,
-                    implementedModules = userInfoRepository.fetchImplementedModules(),
+                    implementedModulesJson = implementedModulesJson,
                     favouriteModules = dataStore.favouriteModules.map { it.toInt() },
                     groups = groups
                 )

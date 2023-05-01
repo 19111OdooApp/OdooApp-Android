@@ -8,9 +8,9 @@ import odoo.miem.android.core.dataStore.impl.di.DataStoreApiProvider
 import odoo.miem.android.core.di.impl.ApiRegistry
 import odoo.miem.android.core.di.impl.ApiResolver
 import odoo.miem.android.core.firebaseDatabase.impl.di.FirebaseDatabaseApiProvider
-import odoo.miem.android.core.jsonrpc.parser.impl.di.MoshiParserApiProvider
+import odoo.miem.android.core.jsonrpc.converter.impl.di.MoshiSerializerApiProvider
 import odoo.miem.android.core.networkApi.authorization.impl.di.AuthorizationRepositoryApiProvider
-import odoo.miem.android.core.networkApi.remoteConfig.impl.di.RemoteConfigApiProvider
+import odoo.miem.android.core.networkApi.firebaseRemoteConfig.impl.di.FirebaseRemoteConfigApiProvider
 import odoo.miem.android.core.networkApi.userInfo.impl.di.UserInfoRepositoryApiProvider
 import odoo.miem.android.core.networkApi.userModules.impl.di.UserModulesRepositoryApiProvider
 import odoo.miem.android.core.platform.dependecies.DefaultPlatformDependencies
@@ -37,7 +37,7 @@ import odoo.miem.android.feature.userProfile.impl.di.UserProfileScreenApiProvide
  *  - [AuthorizationRepositoryApiProvider] - to deliver the dependency of authorization repository
  *  - [UserInfoRepositoryApiProvider] - to deliver the dependency of user info repository
  *  - [UserModulesRepositoryApiProvider] - to deliver the dependency of user modules repository
- *  - [RemoteConfigApiProvider] - to deliver the dependency of Firebase Remote Config,
+ *  - [FirebaseRemoteConfigApiProvider] - to deliver the dependency of Firebase Remote Config,
  *  - [FirebaseDatabaseApiProvider] - to deliver the dependency of Firebase Firestore and Storage
  *
  *  - [AuthorizationScreenApiProvider] - to deliver the dependency of authorization screen
@@ -69,7 +69,7 @@ import odoo.miem.android.feature.userProfile.impl.di.UserProfileScreenApiProvide
         AuthorizationRepositoryApiProvider::class,
         UserInfoRepositoryApiProvider::class,
         UserModulesRepositoryApiProvider::class,
-        RemoteConfigApiProvider::class,
+        FirebaseRemoteConfigApiProvider::class,
         FirebaseDatabaseApiProvider::class,
 
         // Screens
@@ -87,7 +87,7 @@ import odoo.miem.android.feature.userProfile.impl.di.UserProfileScreenApiProvide
 
         // Utils
         DataStoreApiProvider::class,
-        MoshiParserApiProvider::class,
+        MoshiSerializerApiProvider::class,
         PlatformApiProvider::class,
         RxApiProvider::class,
         SelectingModulesScreenApiProvider::class,

@@ -9,7 +9,7 @@ import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcPath
 import odoo.miem.android.core.jsonrpc.base.engine.exception.JsonRpcException
 import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcRequest
 import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcResponse
-import odoo.miem.android.core.jsonrpc.base.parser.ResultParser
+import odoo.miem.android.core.jsonrpc.converter.api.IDeserializer
 import odoo.miem.android.core.jsonrpc.engine.interceptor.RealInterceptorChain
 import odoo.miem.android.core.jsonrpc.engine.interceptor.ServerCallInterceptor
 import okhttp3.Response
@@ -23,7 +23,7 @@ val requestId = AtomicLong(0)
 
 /**
  * Extension for resolving all data from annotation in method and
- * convert it to the map of json body request or path
+ * serialize it to the map of json body request or path
  *
  * @author Vorozhtsov Mikhail
  */
@@ -50,14 +50,14 @@ internal fun Method.jsonRpcParameters(args: Array<Any?>?, service: Class<*>): Pr
 
 /**
  * Function for creating [InvocationHandler], which will
- * create, send and convert final result
+ * create, send and serialize final result
  *
  * @author Vorozhtsov Mikhail
  */
 fun <T> createInvocationHandler(
     service: Class<T>,
     caller: JsonRpcCaller,
-    resultParser: ResultParser,
+    deserializer: IDeserializer,
     interceptors: List<JsonRpcInterceptor> = listOf(),
     headersResolver: (isAuthRequest: Boolean) -> Map<String, String> = { emptyMap() },
     logger: (String) -> Unit = { _ -> },
@@ -103,7 +103,9 @@ fun <T> createInvocationHandler(
             val result = response.result
 
             if (result != null) {
-                return resultParser.parse(returnType, result)
+                return checkNotNull(
+                    deserializer.deserialize(type = returnType, data = result)
+                )
             } else {
                 val error = response.error
                 checkNotNull(error)

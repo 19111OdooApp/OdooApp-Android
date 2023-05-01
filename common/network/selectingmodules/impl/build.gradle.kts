@@ -17,7 +17,7 @@ dependencies {
 
     // Core
     // Serializer
-    api(project(":core:serializer:api"))
+    api(project(":core:converter:api"))
 
     // DataStore
     api(project(":core:dataStore:api"))

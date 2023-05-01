@@ -8,7 +8,7 @@ import odoo.miem.android.core.dataStore.impl.di.DataStoreApiProvider
 import odoo.miem.android.core.di.impl.ApiRegistry
 import odoo.miem.android.core.di.impl.ApiResolver
 import odoo.miem.android.core.firebaseDatabase.impl.di.FirebaseDatabaseApiProvider
-import odoo.miem.android.core.jsonrpc.parser.impl.di.MoshiSerializerApiProvider
+import odoo.miem.android.core.jsonrpc.converter.impl.di.MoshiSerializerApiProvider
 import odoo.miem.android.core.networkApi.authorization.impl.di.AuthorizationRepositoryApiProvider
 import odoo.miem.android.core.networkApi.firebaseRemoteConfig.impl.di.FirebaseRemoteConfigApiProvider
 import odoo.miem.android.core.networkApi.userInfo.impl.di.UserInfoRepositoryApiProvider

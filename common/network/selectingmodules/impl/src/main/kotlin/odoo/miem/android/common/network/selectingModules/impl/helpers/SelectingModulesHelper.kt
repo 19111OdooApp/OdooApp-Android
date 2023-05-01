@@ -4,7 +4,7 @@ import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.network.selectingModules.api.entities.User
 import odoo.miem.android.common.network.selectingModules.impl.entities.ImplementedModules
 import odoo.miem.android.core.di.impl.api
-import odoo.miem.android.core.jsonrpc.parser.api.di.ISerializerApi
+import odoo.miem.android.core.jsonrpc.converter.api.di.IConverterApi
 import odoo.miem.android.core.networkApi.firebaseDatabase.api.source.ModuleIconResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooGroupsResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooModulesResponse
@@ -21,23 +21,23 @@ import java.util.Queue
  */
 internal class SelectingModulesHelper {
 
-    private val serializer by api(ISerializerApi::resultParser)
+    private val deserializer by api(IConverterApi::deserializer)
 
-    fun deserializeFavouriteModules(jsonString: String): List<String>? {
-        return serializer.deserializeList(
+    private fun deserializeFavouriteModules(jsonString: String): List<String>? {
+        return deserializer.deserialize(
             listType = String::class.java,
             data = jsonString
         )
     }
 
     private fun deserializeImplementedModules(jsonString: String): List<String>? {
-        return serializer.deserialize(
-            type = ImplementedModules::class.java,
-            data = jsonString
+        return deserializer.deserialize(
+            clazz = ImplementedModules::class.java,
+            str = jsonString
         )?.modules
     }
 
-    fun convertUserInfoResponse(response: UserInfoResponse): User {
+    fun convertUserInfoResponse(response: UserInfoResponse): UserWithFavouriteModules {
         Timber.d("convertUserInfoResponse()")
 
         val record = response.records[0]

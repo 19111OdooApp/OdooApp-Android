@@ -5,8 +5,8 @@ import odoo.miem.android.core.jsonrpc.base.engine.exception.NetworkRequestExcept
 import odoo.miem.android.core.jsonrpc.base.engine.exception.TransportException
 import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcRequest
 import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcResponse
-import odoo.miem.android.core.jsonrpc.base.parser.RequestConverter
-import odoo.miem.android.core.jsonrpc.base.parser.ResponseParser
+import odoo.miem.android.core.jsonrpc.converter.api.IDeserializer
+import odoo.miem.android.core.jsonrpc.converter.api.ISerializer
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -20,8 +20,8 @@ import okhttp3.Response
 class BaseJsonRpcCaller(
     private val baseUrl: String,
     private val okHttpClient: OkHttpClient,
-    private val requestConverter: RequestConverter,
-    private val responseParser: ResponseParser
+    private val serializer: ISerializer,
+    private val deserializer: IDeserializer
 ) : JsonRpcCaller {
 
     override fun call(
@@ -30,7 +30,10 @@ class BaseJsonRpcCaller(
         paths: List<String>,
         onResponseProceed: ((id: Long, Response) -> JsonRpcResponse)?
     ): JsonRpcResponse {
-        val requestBody = requestConverter.convert(jsonRpcRequest).toByteArray().toRequestBody()
+        val requestBody = serializer.serialize(
+            clazz = JsonRpcRequest::class.java,
+            data = jsonRpcRequest
+        ).toByteArray().toRequestBody()
         val request = Request.Builder()
             .post(requestBody)
             .setHeaders(headers)
@@ -50,7 +53,12 @@ class BaseJsonRpcCaller(
         }
         return if (response.isSuccessful) {
             onResponseProceed?.let { it(jsonRpcRequest.id, response) }
-                ?: response.body?.let { responseParser.parse(it.bytes()) }
+                ?: response.body?.let {
+                    deserializer.deserialize(
+                        clazz = JsonRpcResponse::class.java,
+                        byteArray = it.bytes()
+                    )
+                }
                 ?: error("Response body is null")
         } else {
             throw TransportException(

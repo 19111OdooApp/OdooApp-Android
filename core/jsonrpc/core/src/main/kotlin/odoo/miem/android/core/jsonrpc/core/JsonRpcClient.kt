@@ -5,12 +5,11 @@ import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcCaller
 import odoo.miem.android.core.jsonrpc.base.engine.JsonRpcInterceptor
 import odoo.miem.android.core.jsonrpc.base.engine.protocol.JsonRpcResponse
-import odoo.miem.android.core.jsonrpc.base.parser.RequestConverter
-import odoo.miem.android.core.jsonrpc.base.parser.ResponseParser
-import odoo.miem.android.core.jsonrpc.base.parser.ResultParser
+import odoo.miem.android.core.jsonrpc.converter.api.IDeserializer
+import odoo.miem.android.core.jsonrpc.converter.api.ISerializer
+import odoo.miem.android.core.jsonrpc.converter.api.di.IConverterApi
 import odoo.miem.android.core.jsonrpc.engine.caller.BaseJsonRpcCaller
 import odoo.miem.android.core.jsonrpc.engine.helpers.createInvocationHandler
-import odoo.miem.android.core.jsonrpc.parser.api.di.ISerializerApi
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import timber.log.Timber
@@ -58,14 +57,14 @@ class JsonRpcClient internal constructor(
         val caller = builder.caller ?: BaseJsonRpcCaller(
             baseUrl = builder.url,
             okHttpClient = builder.okHttpClient,
-            requestConverter = builder.requestConverter,
-            responseParser = builder.responseParser
+            serializer = builder.serializer,
+            deserializer = builder.deserializer
         )
 
         val invocationHandler = createInvocationHandler(
             service = service,
             caller = caller,
-            resultParser = builder.resultParser,
+            deserializer = builder.deserializer,
             interceptors = builder.interceptors,
             headersResolver = ::resolveRequestHeaders,
             logger = Timber::d,
@@ -96,9 +95,8 @@ class JsonRpcClient internal constructor(
         internal var caller: JsonRpcCaller? = null
         internal var interceptors: List<JsonRpcInterceptor> = emptyList()
         internal var okHttpClient: OkHttpClient = DEFAULT_OKHTTP_CLIENT
-        internal var requestConverter: RequestConverter = DEFAULT_REQUEST_CONVERTER
-        internal var responseParser: ResponseParser = DEFAULT_RESPONSE_PARSER
-        internal var resultParser: ResultParser = DEFAULT_RESULT_PARSER
+        internal var serializer: ISerializer = DEFAULT_SERIALIZER
+        internal var deserializer: IDeserializer = DEFAULT_DESERIALIZER
         internal var url: String = DEFAULT_URL
 
         fun setCaller(caller: JsonRpcCaller): Builder = apply {
@@ -113,16 +111,12 @@ class JsonRpcClient internal constructor(
             this.okHttpClient = okHttpClient
         }
 
-        fun setRequestConverter(requestConverter: RequestConverter): Builder = apply {
-            this.requestConverter = requestConverter
+        fun setSerializer(serializer: ISerializer): Builder = apply {
+            this.serializer = serializer
         }
 
-        fun setResponseParser(responseParser: ResponseParser): Builder = apply {
-            this.responseParser = responseParser
-        }
-
-        fun setResultParser(resultParser: ResultParser): Builder = apply {
-            this.resultParser = resultParser
+        fun setDeserializer(deserializer: IDeserializer): Builder = apply {
+            this.deserializer = deserializer
         }
 
         fun baseUrl(url: String): Builder = apply {
@@ -134,14 +128,13 @@ class JsonRpcClient internal constructor(
 
     private companion object {
         val DEFAULT_OKHTTP_CLIENT by lazy { OkHttpClient.Builder().build() }
-        val DEFAULT_REQUEST_CONVERTER by api(ISerializerApi::requestConverter)
+        val DEFAULT_SERIALIZER by api(IConverterApi::serializer)
         val DEFAULT_REQUEST_HEADERS by lazy {
             mapOf(
                 "Content-Type" to "application/json"
             )
         }
-        val DEFAULT_RESPONSE_PARSER by api(ISerializerApi::responseParser)
-        val DEFAULT_RESULT_PARSER by api(ISerializerApi::resultParser)
+        val DEFAULT_DESERIALIZER by api(IConverterApi::deserializer)
         const val DEFAULT_URL = ""
         const val FIELD_SESSION_ID = "X-Openerp-Session-Id"
     }

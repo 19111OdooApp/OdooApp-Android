@@ -3,6 +3,8 @@ package odoo.miem.android.feature.recruitment.impl
 import odoo.miem.android.common.network.recruitment.api.di.IRecruitmentInteractorApi
 import odoo.miem.android.common.network.recruitment.api.entities.Employee
 import odoo.miem.android.common.network.recruitment.api.entities.Status
+import odoo.miem.android.common.network.selectingModules.api.di.ISelectingModulesInteractorApi
+import odoo.miem.android.common.network.selectingModules.api.entities.User
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.platform.presentation.BaseViewModel
 import odoo.miem.android.core.utils.rx.emptyResultBehaviorSubject
@@ -14,12 +16,20 @@ import timber.log.Timber
 
 internal class RecruitmentViewModel : BaseViewModel() {
 
+    private val selectingModulesInteractor by api(ISelectingModulesInteractorApi::selectingModulesInteractor)
+    private val recruitmentInteractor by api(IRecruitmentInteractorApi::recruitmentInteractor)
+
     val picturesState: StateResultSubject<List<String>> = emptyResultBehaviorSubject()
 
-    private val recruitmentInteractor by api(IRecruitmentInteractorApi::recruitmentInteractor)
+    val userInfoState: ResultSubject<User> by lazyEmptyResultPublishSubject()
     val statusState: ResultSubject<List<Status>> by lazyEmptyResultPublishSubject()
 
-    fun fetchStatusList() {
+    fun onOpen() {
+        fetchStatusList()
+        getUserInfo()
+    }
+
+    private fun fetchStatusList() {
         Timber.d("getRecruitmentInfo()")
 
         statusState.onLoadingState()
@@ -45,7 +55,24 @@ internal class RecruitmentViewModel : BaseViewModel() {
         // TODO: Add create status logic
     }
 
+    private fun getUserInfo() {
+        Timber.d("getUserInfo()")
+
+        userInfoState.onLoadingState()
+        selectingModulesInteractor
+            .getUserInfo()
+            .schedule(
+                userInfoChannel,
+                onSuccess = { result ->
+                    Timber.d("getUserInfo(): result = $result")
+                    userInfoState.onNext(result)
+                },
+                onError = Timber::e
+            )
+    }
+
     companion object {
         val recruitmentChannel = Channel()
+        val userInfoChannel = Channel()
     }
 }

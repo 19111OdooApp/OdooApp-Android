@@ -13,12 +13,16 @@ import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 
 @Composable
 fun RecruitmentLikeScreenHeader(
+    avatarUrl: String?,
+    userName: String,
     title: String,
     onUserIconClick: () -> Unit = {}
 ) = Column {
     SimpleLogoAppBar(modifier = Modifier.background(Color.Black))
 
     CommonModuleHeader(
+        userName = userName,
+        avatarUrl = avatarUrl,
         onUserIconClick = onUserIconClick
     )
 

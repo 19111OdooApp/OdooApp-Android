@@ -19,6 +19,8 @@ import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.Rec
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> RecruitmentLikeScreen(
+    avatarUrl: String? = null,
+    userName: String,
     statusList: List<S>,
     onUserIconClick: () -> Unit = {},
     onNavigateToModulesPressed: () -> Unit,
@@ -51,6 +53,8 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
                 possibleValues = sheetState.possibleValues,
             )
             RecruitmentLikeBottomSheetLayout(
+                avatarUrl = avatarUrl,
+                userName = userName,
                 scaffoldState = scaffoldState,
                 statusList = statusList,
                 topRadius = topRadius,

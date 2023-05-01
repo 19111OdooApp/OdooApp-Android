@@ -69,6 +69,7 @@ class CrmScreen @Inject constructor() : ICrmScreen {
         if (statusList is SuccessResult) {
             statusList.data?.let {
                 RecruitmentLikeScreen(
+                    userName = "Cool User",
                     statusList = it,
                     onUserIconClick = onUserIconClick,
                     onNavigateToModulesPressed = onNavigateToModulesPressed,
@@ -89,6 +90,7 @@ class CrmScreen @Inject constructor() : ICrmScreen {
     fun CrmScreenContentPreview() {
         OdooMiemAndroidTheme {
             RecruitmentLikeScreen(
+                userName = "Cool User",
                 statusList =
                 listOf(
                     Status(

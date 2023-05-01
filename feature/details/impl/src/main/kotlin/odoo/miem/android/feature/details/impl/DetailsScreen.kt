@@ -1,7 +1,6 @@
 package odoo.miem.android.feature.details.impl
 
 import android.annotation.SuppressLint
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -209,10 +208,6 @@ class DetailsScreen @Inject constructor() : IDetailsScreen {
                     bottomSheetState.collapse()
                 }
             }
-        }
-
-        BackHandler(bottomSheetState.isExpanded) {
-            onSheetExpand(false, null)
         }
 
         BottomSheetScaffold(

@@ -35,6 +35,8 @@ import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> RecruitmentLikeBottomSheetLayout(
+    avatarUrl: String?,
+    userName: String,
     scaffoldState: CustomBottomSheetScaffoldState,
     statusList: List<S>,
     topRadius: Dp,
@@ -129,12 +131,12 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
                         }
                     },
                     onBackPressed = { isSearchScreenVisible = false },
-                    onEmployeeClick = {
-                        // TODO: Open Employee card
-                    }
+                    onEmployeeClick = { onEmployeeCardClick(it) }
                 )
             } else {
                 RecruitmentLikeScreenMainContent(
+                    avatarUrl = avatarUrl,
+                    userName = userName,
                     statusList = statusList,
                     onEmployeeActionClick = onChangeStatusClick,
                     onSearchBarClicked = {

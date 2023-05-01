@@ -33,6 +33,11 @@ class RecruitmentScreen @Inject constructor() : IRecruitmentScreen {
         val viewModel: RecruitmentViewModel = viewModel()
 
         val statusList by viewModel.statusState.collectAsState()
+        statusList.subscribeOnError(showMessage)
+
+        val userInfo by viewModel.userInfoState.collectAsState()
+        userInfo.subscribeOnError(showMessage)
+
         val createStatusPictures by viewModel.picturesState.collectAsState()
 
         statusList.subscribeOnError(showMessage)
@@ -46,7 +51,7 @@ class RecruitmentScreen @Inject constructor() : IRecruitmentScreen {
         }
 
         LaunchedEffect(Unit) {
-            viewModel.fetchStatusList()
+            viewModel.onOpen()
         }
 
         StateHolder(
@@ -54,6 +59,7 @@ class RecruitmentScreen @Inject constructor() : IRecruitmentScreen {
             loadingContent = { LoadingScreen() },
             successContent = { result ->
                 RecruitmentLikeScreen(
+                    userName = userInfo.data?.name ?: "Cool user",
                     statusList = result.data ?: emptyList(),
                     onNavigateToModulesPressed = onNavigateToModulesPressed,
                     onStatusClick = viewModel::changeEmployeeStatus,
@@ -75,6 +81,7 @@ class RecruitmentScreen @Inject constructor() : IRecruitmentScreen {
     fun RecruitmentScreenContentPreview() {
         OdooMiemAndroidTheme {
             RecruitmentLikeScreen(
+                userName = "Cool user",
                 statusList =
                 listOf(
                     Status(

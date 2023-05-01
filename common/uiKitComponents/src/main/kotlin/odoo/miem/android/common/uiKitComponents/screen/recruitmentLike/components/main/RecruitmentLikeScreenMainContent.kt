@@ -26,6 +26,8 @@ import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> RecruitmentLikeScreenMainContent(
+    avatarUrl: String?,
+    userName: String,
     statusList: List<S>,
     onUserIconClick: () -> Unit = {},
     onEmployeeActionClick: (E) -> Unit,
@@ -46,6 +48,8 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
     }
 
     RecruitmentLikeScreenHeader(
+        avatarUrl = avatarUrl,
+        userName = userName,
         title = headerTitle,
         onUserIconClick = onUserIconClick
     )

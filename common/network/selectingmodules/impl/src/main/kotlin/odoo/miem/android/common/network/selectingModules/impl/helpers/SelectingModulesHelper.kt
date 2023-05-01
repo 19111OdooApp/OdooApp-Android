@@ -5,7 +5,7 @@ import odoo.miem.android.common.network.selectingModules.api.entities.User
 import odoo.miem.android.common.network.selectingModules.impl.entities.ImplementedModules
 import odoo.miem.android.common.network.selectingModules.impl.entities.UserWithFavouriteModules
 import odoo.miem.android.core.di.impl.api
-import odoo.miem.android.core.jsonrpc.parser.api.di.ISerializerApi
+import odoo.miem.android.core.jsonrpc.converter.api.di.IConverterApi
 import odoo.miem.android.core.networkApi.firebaseDatabase.api.source.ModuleIconResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooGroupsResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooModulesResponse
@@ -22,19 +22,19 @@ import java.util.Queue
  */
 internal class SelectingModulesHelper {
 
-    private val serializer by api(ISerializerApi::resultParser)
+    private val deserializer by api(IConverterApi::deserializer)
 
     private fun deserializeFavouriteModules(jsonString: String): List<Int>? {
-        return serializer.deserializeList(
+        return deserializer.deserialize(
             listType = Integer::class.java,
             data = jsonString
         )
     }
 
     private fun deserializeImplementedModules(jsonString: String): List<String>? {
-        return serializer.deserialize(
-            type = ImplementedModules::class.java,
-            data = jsonString
+        return deserializer.deserialize(
+            clazz = ImplementedModules::class.java,
+            str = jsonString
         )?.modules
     }
 

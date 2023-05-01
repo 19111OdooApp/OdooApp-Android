@@ -63,8 +63,8 @@ include(":core:jsonrpc:engine")
 include(":core:jsonRpcApiFabric:api")
 include(":core:jsonRpcApiFabric:impl")
 
-include(":core:serializer:api")
-include(":core:serializer:impl")
+include(":core:converter:api")
+include(":core:converter:impl")
 
 include(":core:platform")
 

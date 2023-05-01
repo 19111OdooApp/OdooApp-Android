@@ -2,6 +2,7 @@ package odoo.miem.android.core.firebaseDatabase.impl.di
 
 import dagger.Component
 import odoo.miem.android.core.networkApi.firebaseDatabase.api.di.IFirebaseDatabaseApi
+import javax.inject.Singleton
 
 /**
  * [FirebaseDatabaseComponent] - **Dagger** component, which implements interface [IFirebaseDatabaseApi]
@@ -14,6 +15,7 @@ import odoo.miem.android.core.networkApi.firebaseDatabase.api.di.IFirebaseDataba
  *
  * @author Egor Danilov
  */
+@Singleton
 @Component(
     modules = [
         FirebaseDatabaseModule::class,

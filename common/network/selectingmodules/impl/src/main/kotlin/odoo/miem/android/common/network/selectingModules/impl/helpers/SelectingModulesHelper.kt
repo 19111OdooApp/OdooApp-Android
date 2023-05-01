@@ -23,7 +23,7 @@ internal class SelectingModulesHelper {
 
     private val deserializer by api(IConverterApi::deserializer)
 
-    private fun deserializeFavouriteModules(jsonString: String): List<String>? {
+    fun deserializeFavouriteModules(jsonString: String): List<String>? {
         return deserializer.deserialize(
             listType = String::class.java,
             data = jsonString
@@ -37,7 +37,7 @@ internal class SelectingModulesHelper {
         )?.modules
     }
 
-    fun convertUserInfoResponse(response: UserInfoResponse): UserWithFavouriteModules {
+    fun convertUserInfoResponse(response: UserInfoResponse): User {
         Timber.d("convertUserInfoResponse()")
 
         val record = response.records[0]

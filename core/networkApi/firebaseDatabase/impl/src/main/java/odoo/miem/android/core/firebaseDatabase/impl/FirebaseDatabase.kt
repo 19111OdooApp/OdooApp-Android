@@ -125,11 +125,13 @@ class FirebaseDatabase @Inject constructor(
                 .get()
                 .continueWith { query ->
 
-                    val favouriteModules = (query.result
-                        .documents
-                        .firstOrNull()
-                        ?.data
-                        ?.get(USER_FAVOURITE_MODULES_FIELD) as? List<*>)
+                    val favouriteModules = (
+                        query.result
+                            .documents
+                            .firstOrNull()
+                            ?.data
+                            ?.get(USER_FAVOURITE_MODULES_FIELD) as? List<*>
+                        )
                         ?.map { it.toString() }
                         ?: emptyList()
 

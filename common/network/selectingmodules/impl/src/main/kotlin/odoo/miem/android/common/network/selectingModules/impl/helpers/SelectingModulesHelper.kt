@@ -23,13 +23,6 @@ internal class SelectingModulesHelper {
 
     private val deserializer by api(IConverterApi::deserializer)
 
-    fun deserializeFavouriteModules(jsonString: String): List<String>? {
-        return deserializer.deserialize(
-            listType = String::class.java,
-            data = jsonString
-        )
-    }
-
     private fun deserializeImplementedModules(jsonString: String): List<String>? {
         return deserializer.deserialize(
             clazz = ImplementedModules::class.java,

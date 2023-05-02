@@ -58,12 +58,10 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
             }
             .concatMap { user: User ->
                 firebase.fetchFavouriteModules(uid = user.uid, userName = user.name)
-                    .map { result ->
+                    .map { modules ->
                         UserWithFavouriteModules(
                             user = user,
-                            favouriteModules = helper
-                                .deserializeFavouriteModules(result.modulesJson)
-                                ?: emptyList()
+                            favouriteModules = modules.modules
                         )
                     }
             }
@@ -135,6 +133,9 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
     }
 
     private fun processFavouriteModules(user: User, newModules: List<String>) {
+        // TODO REMOVE BEFORE MERGING, it's only for migration from module ids to names
+//        dataStore.setUserFavouriteModules(newModules.toSet())
+
         val currentFavouriteModules = dataStore.favouriteModules.toList()
 
         Timber.d("processFavouriteModules(): current $currentFavouriteModules new $newModules")

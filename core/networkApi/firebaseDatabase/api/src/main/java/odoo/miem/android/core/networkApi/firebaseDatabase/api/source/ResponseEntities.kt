@@ -11,5 +11,5 @@ data class StatusIconResponse(
 )
 
 data class FavouriteModulesResponse(
-    val modulesJson: String
+    val modules: List<String>
 )

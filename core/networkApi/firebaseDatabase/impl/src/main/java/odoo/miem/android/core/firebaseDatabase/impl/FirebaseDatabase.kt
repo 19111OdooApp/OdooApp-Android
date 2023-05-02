@@ -124,15 +124,17 @@ class FirebaseDatabase @Inject constructor(
                 .whereEqualTo(USER_NAME_FIELD, userName)
                 .get()
                 .continueWith { query ->
-                    val favouriteModules = query.result
+
+                    val favouriteModules = (query.result
                         .documents
-                        .getOrNull(0)
+                        .firstOrNull()
                         ?.data
-                        ?.get(USER_FAVOURITE_MODULES_FIELD) as? String
-                        ?: emptyList<String>().toString()
+                        ?.get(USER_FAVOURITE_MODULES_FIELD) as? List<*>)
+                        ?.map { it.toString() }
+                        ?: emptyList()
 
                     FavouriteModulesResponse(
-                        modulesJson = favouriteModules
+                        modules = favouriteModules
                     )
                 }
                 .addOnSuccessListener { result ->
@@ -161,7 +163,6 @@ class FirebaseDatabase @Inject constructor(
                 .continueWithTask { query ->
                     val documents = query.result.documents
 
-                    Timber.d("DOCUMENTS $documents")
                     val task = if (documents.isEmpty()) {
                         val newUser = UserRequest(
                             uid = uid,

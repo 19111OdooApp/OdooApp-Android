@@ -4,5 +4,5 @@ plugins {
 
 dependencies {
 
-    api(project(":core:jsonrpc:parser:api"))
+    api(project(":core:converter:api"))
 }

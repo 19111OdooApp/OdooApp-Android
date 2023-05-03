@@ -5,7 +5,6 @@ This module is a Retrofit implementation of a similar add-on on Okhttp. It consi
 - [base](core/jsonrpc/base) - contains protocols, base interfaces for implementation and errors
 - [core](core/jsonrpc/core) - special module, for external consumers, so **if you want to use this library, just include it**
 - [engine](core/jsonrpc/engine) - main module of library, which contain all implementations of [base](core/jsonrpc/base)
-- [parser](core/jsonrpc/parser) - module, which contains parser for request and response result
 
 ## Details about creating request
 So, in the basic scenario, you will need to create the following request body:

@@ -13,7 +13,6 @@ import odoo.miem.android.core.jsonrpc.converter.impl.di.MoshiSerializerApiProvid
 import odoo.miem.android.core.networkApi.authorization.impl.di.AuthorizationRepositoryApiProvider
 import odoo.miem.android.core.networkApi.firebaseRemoteConfig.impl.di.FirebaseRemoteConfigApiProvider
 import odoo.miem.android.core.networkApi.recruitment.impl.di.RecruitmentRepositoryApiProvider
-import odoo.miem.android.core.networkApi.remoteConfig.impl.di.RemoteConfigApiProvider
 import odoo.miem.android.core.networkApi.userInfo.impl.di.UserInfoRepositoryApiProvider
 import odoo.miem.android.core.networkApi.userModules.impl.di.UserModulesRepositoryApiProvider
 import odoo.miem.android.core.platform.dependecies.DefaultPlatformDependencies

@@ -1,4 +1,4 @@
-package odoo.miem.android.core.jsonrpc.parser.api.di.annotation
+package odoo.miem.android.core.jsonrpc.converter.api.annotation
 
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonQualifier

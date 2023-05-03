@@ -3,7 +3,7 @@ package odoo.miem.android.core.networkApi.recruitment.api.entities
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import com.squareup.moshi.JsonReader
-import odoo.miem.android.core.jsonrpc.parser.api.di.annotation.SpecifiedTypeOrNull
+import odoo.miem.android.core.jsonrpc.converter.api.annotation.SpecifiedTypeOrNull
 
 @JsonClass(generateAdapter = true)
 data class RecruitmentResponse(

@@ -6,4 +6,5 @@ interface RecruitmentLikeEmployeeModel {
     val id: Long?
     val rating: Double
     val deadlineStatus: DeadlineStatus
+    val statusId: Int
 }

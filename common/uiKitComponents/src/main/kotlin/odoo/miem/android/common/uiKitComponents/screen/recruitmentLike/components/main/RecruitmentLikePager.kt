@@ -38,7 +38,7 @@ fun <E : RecruitmentLikeEmployeeModel, S : RecruitmentLikeStatusModel<E>> Recrui
             employees = statusList[page].employees,
             onEmployeeCardClick = onEmployeeCardClick,
             onEmployeeActionClick = onEmployeeActionClick,
-            modifier = Modifier
+            modifier = Modifier,
         )
     } else {
         Box(

@@ -43,7 +43,6 @@ internal class CrmViewModel : BaseViewModel() {
                                 DeadlineStatus.NO_TASKS
                             )
                         ),
-                        null
                     ),
                     Status(
                         "2",
@@ -105,7 +104,6 @@ internal class CrmViewModel : BaseViewModel() {
                                 DeadlineStatus.NO_TASKS
                             )
                         ),
-                        null
                     )
                 )
             )
@@ -118,7 +116,7 @@ internal class CrmViewModel : BaseViewModel() {
     }
 
     @Suppress("UnusedPrivateMember") // TODO: Remove once implemented
-    fun createNewStatus(statusName: String, imageLink: String) {
+    fun createNewStatus(statusName: String) {
         // TODO: Add create status logic
     }
 }

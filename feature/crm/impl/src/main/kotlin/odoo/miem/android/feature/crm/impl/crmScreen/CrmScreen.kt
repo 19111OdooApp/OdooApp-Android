@@ -33,7 +33,6 @@ class CrmScreen @Inject constructor() : ICrmScreen {
         val viewModel: CrmViewModel = viewModel()
 
         val statusList by viewModel.statusState.collectAsState()
-        val createStatusPictures by viewModel.picturesState.collectAsState()
 
         statusList.subscribeOnError(showMessage)
 
@@ -52,7 +51,6 @@ class CrmScreen @Inject constructor() : ICrmScreen {
             onNavigateToModulesPressed = onNavigateToModulesPressed,
             onStatusClick = viewModel::changeEmployeeStatus,
             onNewStatusCreated = viewModel::createNewStatus,
-            createStatusPictures = createStatusPictures.data ?: emptyList()
         )
     }
 
@@ -63,8 +61,7 @@ class CrmScreen @Inject constructor() : ICrmScreen {
         onUserIconClick: () -> Unit = {},
         onNavigateToModulesPressed: () -> Unit,
         onStatusClick: (Employee, Status) -> Unit,
-        onNewStatusCreated: (String, String) -> Unit,
-        createStatusPictures: List<String>
+        onNewStatusCreated: (String) -> Unit,
     ) {
         if (statusList is SuccessResult) {
             statusList.data?.let {
@@ -75,7 +72,6 @@ class CrmScreen @Inject constructor() : ICrmScreen {
                     onNavigateToModulesPressed = onNavigateToModulesPressed,
                     onStatusClick = onStatusClick,
                     onNewStatusCreated = onNewStatusCreated,
-                    createStatusPictures = createStatusPictures,
                     searchHintRes = R.string.crm_search_hint,
                 )
             }
@@ -103,8 +99,7 @@ class CrmScreen @Inject constructor() : ICrmScreen {
                                 null,
                                 DeadlineStatus.NO_TASKS
                             )
-                        ),
-                        null
+                        )
                     ),
                     Status(
                         "2",
@@ -166,13 +161,11 @@ class CrmScreen @Inject constructor() : ICrmScreen {
                                 DeadlineStatus.NO_TASKS
                             )
                         ),
-                        null
                     )
                 ),
                 onNavigateToModulesPressed = {},
-                onStatusClick = { e, s -> },
-                onNewStatusCreated = { s: String, s2: String -> },
-                createStatusPictures = listOf(),
+                onStatusClick = { _, _ -> },
+                onNewStatusCreated = {},
                 searchHintRes = R.string.crm_search_hint,
             )
         }

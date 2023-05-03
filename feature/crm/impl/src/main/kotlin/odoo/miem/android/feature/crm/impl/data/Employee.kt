@@ -10,4 +10,5 @@ internal data class Employee(
     override val imageUrl: String?,
     override val id: Long? = 0,
     override val deadlineStatus: DeadlineStatus,
+    override val statusId: Int = 0,
 ) : RecruitmentLikeEmployeeModel

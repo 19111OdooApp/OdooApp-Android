@@ -50,9 +50,8 @@ internal class RecruitmentViewModel : BaseViewModel() {
         // TODO: Add change of status logic and update statusState
     }
 
-    @Suppress("UnusedPrivateMember") // TODO: Remove once implemented
-    fun createNewStatus(statusName: String, imageLink: String) {
-        // TODO: Add create status logic
+    fun createNewStatus(statusName: String) {
+        Timber.d("New status name - $statusName")
     }
 
     private fun getUserInfo() {

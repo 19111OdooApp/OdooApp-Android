@@ -30,6 +30,7 @@ import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.Rec
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.RecruitmentLikeEmployeeModel
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.RecruitmentLikeStatusModel
 import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
+import odoo.miem.android.common.uiKitComponents.utils.getStatusIcon
 
 @Suppress
 @OptIn(ExperimentalMaterialApi::class)
@@ -45,8 +46,7 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
     onUserIconClick: () -> Unit = {},
     onStatusClicked: (E, S) -> Unit,
     onEmployeeCardClick: (E) -> Unit,
-    onNewStatusCreated: (String, String) -> Unit,
-    createStatusPictures: List<String>,
+    onNewStatusCreated: (statusName: String) -> Unit,
     searchHintRes: Int,
 ) {
     var isSearchScreenVisible by remember { mutableStateOf(false) }
@@ -70,8 +70,8 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
         }
     }
 
-    val onNewStatusCreated: (String, String) -> Unit = { statusName, imageLink ->
-        onNewStatusCreated(statusName, imageLink)
+    val onNewStatusCreated: (String) -> Unit = { statusName ->
+        onNewStatusCreated(statusName)
         scope.launch {
             scaffoldState.customBottomSheetState.hide()
         }
@@ -87,10 +87,11 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
                             statusList = statusList,
                             onCreateStatusClick = onCreateStatusClick,
                             onStatusClicked = onStatusClicked,
-                            employee = employee
+                            employee = employee,
                         )
                     }
                 }
+
                 is RecruitmentBottomSheetState.CreateStatus -> RecruitmentLikeCreateStatusBottomSheetContent(
                     onCancelClick = {
                         scope.launch {
@@ -98,8 +99,9 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
                         }
                     },
                     onDoneClick = onNewStatusCreated,
-                    pictures = createStatusPictures,
+                    iconRes = getStatusIcon(statusList.size)
                 )
+
                 is RecruitmentBottomSheetState.Empty -> {
                     // Dirty hack so that animations would work normally
                     Spacer(Modifier.height(1.dp))
@@ -131,7 +133,7 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
                         }
                     },
                     onBackPressed = { isSearchScreenVisible = false },
-                    onEmployeeClick = { onEmployeeCardClick(it) }
+                    onEmployeeClick = { onEmployeeCardClick(it) },
                 )
             } else {
                 RecruitmentLikeScreenMainContent(
@@ -145,7 +147,7 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
                     onEmployeeCardClick = onEmployeeCardClick,
                     onCreateStatusClick = onCreateStatusClick,
                     searchHintRes = searchHintRes,
-                    onUserIconClick = onUserIconClick
+                    onUserIconClick = onUserIconClick,
                 )
             }
         }

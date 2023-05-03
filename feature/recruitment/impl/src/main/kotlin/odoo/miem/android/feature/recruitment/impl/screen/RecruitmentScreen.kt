@@ -38,8 +38,6 @@ class RecruitmentScreen @Inject constructor() : IRecruitmentScreen {
         val userInfo by viewModel.userInfoState.collectAsState()
         userInfo.subscribeOnError(showMessage)
 
-        val createStatusPictures by viewModel.picturesState.collectAsState()
-
         statusList.subscribeOnError(showMessage)
 
         val onNavigateToModulesPressed = {
@@ -68,7 +66,6 @@ class RecruitmentScreen @Inject constructor() : IRecruitmentScreen {
                     onEmployeeCardClick = {
                         navController.navigate(Routes.recruitmentDetails)
                     },
-                    createStatusPictures = createStatusPictures.data ?: emptyList(),
                     searchHintRes = R.string.recruitment_search_hint
                 )
             }
@@ -95,7 +92,6 @@ class RecruitmentScreen @Inject constructor() : IRecruitmentScreen {
                                 DeadlineStatus.NO_TASKS
                             )
                         ),
-                        null
                     ),
                     Status(
                         "2",
@@ -157,13 +153,11 @@ class RecruitmentScreen @Inject constructor() : IRecruitmentScreen {
                                 DeadlineStatus.NO_TASKS
                             )
                         ),
-                        null
                     )
                 ),
                 onNavigateToModulesPressed = {},
-                onStatusClick = { e, s -> },
-                onNewStatusCreated = { s: String, s2: String -> },
-                createStatusPictures = listOf(),
+                onStatusClick = { _, _ -> },
+                onNewStatusCreated = {},
                 searchHintRes = R.string.recruitment_search_hint,
             )
         }

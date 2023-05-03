@@ -103,7 +103,7 @@ fun <E : RecruitmentLikeEmployeeModel> RecruitmentLikeSearchResult(
             employees = employees,
             onEmployeeActionClick = onEmployeeActionClick,
             onEmployeeCardClick = onEmployeeClick,
-            modifier = Modifier
+            modifier = Modifier,
         )
     }
     AnimatedVisibility(
@@ -118,7 +118,7 @@ fun <E : RecruitmentLikeEmployeeModel> RecruitmentLikeSearchResult(
                 employees = items,
                 onEmployeeActionClick = onEmployeeActionClick,
                 onEmployeeCardClick = onEmployeeClick,
-                modifier = Modifier
+                modifier = Modifier,
             )
         }
     }

@@ -29,6 +29,7 @@ class RecruitmentInteractor @Inject constructor() : IRecruitmentInteractor {
             .getRecruitmentInfo()
             .map<Result<List<Status>>> { response ->
                 Timber.d("getRecruitmentInfo(): response = $response")
+                var counter = 0
                 val list = response.records
                     ?.groupBy { it.stageInfo?.getOrNull(1) as? String }
                     ?.mapNotNull { (key, value) ->
@@ -48,10 +49,11 @@ class RecruitmentInteractor @Inject constructor() : IRecruitmentInteractor {
                                             } else {
                                                 DeadlineStatus.ACTIVE
                                             }
-                                        } ?: DeadlineStatus.NO_TASKS
+                                        } ?: DeadlineStatus.NO_TASKS,
+                                        statusId = counter
                                     )
                                 },
-                                imageUrl = null
+                                id = counter++
                             )
                         }
                     }

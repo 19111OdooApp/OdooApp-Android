@@ -25,47 +25,44 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
     onUserIconClick: () -> Unit = {},
     onNavigateToModulesPressed: () -> Unit,
     onStatusClick: (E, S) -> Unit,
-    onNewStatusCreated: (String, String) -> Unit,
+    onNewStatusCreated: (statusName: String) -> Unit,
     onEmployeeCardClick: (E) -> Unit = {},
-    createStatusPictures: List<String>,
     @StringRes searchHintRes: Int,
-) =
-    Scaffold(
-        floatingActionButton = {
-            SelectModulesFloatingActionButton(onNavigateToModulesPressed)
-        },
-        backgroundColor = MaterialTheme.colorScheme.background
-    ) {
-        SharedElementsRoot {
-            val scope = rememberCoroutineScope()
+) = Scaffold(
+    floatingActionButton = {
+        SelectModulesFloatingActionButton(onNavigateToModulesPressed)
+    },
+    backgroundColor = MaterialTheme.colorScheme.background
+) {
+    SharedElementsRoot {
+        val scope = rememberCoroutineScope()
 
-            val topRadius = 35.dp
-            val possibleStates = listOf(
-                CustomBottomSheetValue.Hidden,
-                CustomBottomSheetValue.Expanded,
-            )
-            val sheetState = rememberCustomBottomSheetState(
-                initialValue = CustomBottomSheetValue.Hidden,
-                possibleValues = possibleStates
-            )
-            val scaffoldState = rememberCustomBottomSheetScaffoldState(
-                customBottomSheetState = sheetState,
-                possibleValues = sheetState.possibleValues,
-            )
-            RecruitmentLikeBottomSheetLayout(
-                avatarUrl = avatarUrl,
-                userName = userName,
-                scaffoldState = scaffoldState,
-                statusList = statusList,
-                topRadius = topRadius,
-                scope = scope,
-                contentPaddingValues = it,
-                onUserIconClick = onUserIconClick,
-                onStatusClicked = onStatusClick,
-                onNewStatusCreated = onNewStatusCreated,
-                onEmployeeCardClick = onEmployeeCardClick,
-                createStatusPictures = createStatusPictures,
-                searchHintRes = searchHintRes,
-            )
-        }
+        val topRadius = 35.dp
+        val possibleStates = listOf(
+            CustomBottomSheetValue.Hidden,
+            CustomBottomSheetValue.Expanded,
+        )
+        val sheetState = rememberCustomBottomSheetState(
+            initialValue = CustomBottomSheetValue.Hidden,
+            possibleValues = possibleStates
+        )
+        val scaffoldState = rememberCustomBottomSheetScaffoldState(
+            customBottomSheetState = sheetState,
+            possibleValues = sheetState.possibleValues,
+        )
+        RecruitmentLikeBottomSheetLayout(
+            avatarUrl = avatarUrl,
+            userName = userName,
+            scaffoldState = scaffoldState,
+            statusList = statusList,
+            topRadius = topRadius,
+            scope = scope,
+            contentPaddingValues = it,
+            onUserIconClick = onUserIconClick,
+            onStatusClicked = onStatusClick,
+            onNewStatusCreated = onNewStatusCreated,
+            onEmployeeCardClick = onEmployeeCardClick,
+            searchHintRes = searchHintRes,
+        )
     }
+}

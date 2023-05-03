@@ -16,16 +16,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
 import odoo.miem.android.common.uiKitComponents.R
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.RecruitmentLikeEmployeeModel
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.RecruitmentLikeStatusModel
 import odoo.miem.android.common.uiKitComponents.text.SubtitleText
+import odoo.miem.android.common.uiKitComponents.utils.getStatusIcon
 import odoo.miem.android.core.uiKitTheme.employeeCardSpacing
 import odoo.miem.android.core.uiKitTheme.halfMainVerticalPadding
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
@@ -49,7 +47,7 @@ RecruitmentLikeChangeStatusBottomSheetContent(
     employee: E,
     statusList: List<S>,
     onCreateStatusClick: () -> Unit,
-    onStatusClicked: (E, S) -> Unit
+    onStatusClicked: (E, S) -> Unit,
 ) =
     Column(modifier = Modifier.padding(horizontal = mainHorizontalPadding)) {
         Spacer(modifier = Modifier.padding(top = mainVerticalPadding))
@@ -75,16 +73,7 @@ RecruitmentLikeChangeStatusBottomSheetContent(
             items(statusList) { status ->
                 RecruitmentLikeBottomSheetElement(
                     onClick = { onStatusClicked(employee, status) },
-                    painter = rememberAsyncImagePainter(
-                        ImageRequest
-                            .Builder(LocalContext.current)
-                            .data(status.imageUrl)
-                            .placeholder(R.drawable.default_user_avatar)
-                            .apply {
-                                crossfade(true)
-                            }
-                            .build()
-                    ),
+                    painter = painterResource(getStatusIcon(status.id)),
                     name = status.statusName
                 )
             }
@@ -92,8 +81,7 @@ RecruitmentLikeChangeStatusBottomSheetContent(
                 RecruitmentLikeBottomSheetElement(
                     onClick = onCreateStatusClick,
                     painter = painterResource(id = R.drawable.add_plus),
-                    name = stringResource(id = R.string.recruitment_add_new_status),
-                    imageSize = 30.dp
+                    name = stringResource(id = R.string.recruitment_add_new_status)
                 )
             }
         }

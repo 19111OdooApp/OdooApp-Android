@@ -44,7 +44,11 @@ internal class SelectingModulesHelper {
             .subList(0, 2)
             .joinToString(" ")
 
-        val user = User(modelId = modelId, uid = uid, name = name)
+        val user = User(
+            modelId = modelId,
+            uid = uid,
+            name = name
+        )
 
         Timber.d("convertUserInfoResponse(): result = $user")
         return user

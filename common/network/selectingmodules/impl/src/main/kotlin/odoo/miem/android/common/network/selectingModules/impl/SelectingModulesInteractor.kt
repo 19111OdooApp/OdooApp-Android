@@ -58,10 +58,10 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
             }
             .concatMap { user: User ->
                 firebase.fetchFavouriteModules(uid = user.uid, userName = user.name)
-                    .map { modules ->
+                    .map { response ->
                         UserWithFavouriteModules(
                             user = user,
-                            favouriteModules = modules.modules
+                            favouriteModules = response.modules
                         )
                     }
             }
@@ -142,13 +142,16 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
         Timber.d("processFavouriteModules(): current $currentFavouriteModules new $newModules")
 
         return when {
+            // if current and new modules are equal, do nothing
             currentFavouriteModules == newModules -> {
                 Single.just(true)
             }
+            // if there are no liked modules at user side, get it from firebase
             currentFavouriteModules.isEmpty() && newModules.isNotEmpty() -> {
                 dataStore.setUserFavouriteModules(newModules.toSet())
                 Single.just(true)
             }
+            // else -> user if single source of truh
             else -> {
                 firebase.addOrUpdateUser(
                     uid = user.uid,

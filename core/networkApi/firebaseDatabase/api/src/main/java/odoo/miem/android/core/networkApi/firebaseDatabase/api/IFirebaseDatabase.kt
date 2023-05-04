@@ -41,7 +41,7 @@ interface IFirebaseDatabase {
      * [addOrUpdateUser] - function that updates user data, if one exists in collection. Otherwise
      * creates new document
      *
-     * @return [Single] with [Boolean]: true if add or update successful, false otherwise
+     * @return [Single] with [Boolean] (true if add or update successful)
      */
     fun addOrUpdateUser(uid: Int, userName: String, favouriteModules: List<String>): Single<Boolean>
 }

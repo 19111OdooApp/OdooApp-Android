@@ -93,10 +93,10 @@ class SelectingModulesViewModel(
     private fun updateUserFavouriteModules(favouriteModules: List<String>) {
         Timber.d("updateFavouriteModules(): favouriteModules = $favouriteModules")
 
-        currentUser?.let {
+        currentUser?.let { user ->
             selectingModulesInteractor
                 .updateFavouriteModules(
-                    user = it,
+                    user = user,
                     favouriteModules = favouriteModules
                 )
                 .schedule(

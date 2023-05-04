@@ -118,7 +118,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             Timber.d("onModuleCardClick(): name - ${it.name}, isImplemented - ${it.isImplemented}")
             if (it.isImplemented) {
                 when (it.name) {
-                    ImplementedModule.RECRUITMENT.naming -> navController.navigate(Routes.recruitment)
+                    ImplementedModule.RECRUITMENT.naming -> navController.navigate(Routes.recruitmentJobs)
                     ImplementedModule.CRM.naming -> navController.navigate(Routes.crm)
                 }
             } else {

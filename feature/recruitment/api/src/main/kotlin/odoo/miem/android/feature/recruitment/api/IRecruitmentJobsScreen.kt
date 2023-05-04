@@ -3,10 +3,10 @@ package odoo.miem.android.feature.recruitment.api
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 
-interface IRecruitmentDetailsScreen {
+interface IRecruitmentJobsScreen {
 
     @Composable
-    fun RecruitmentDetailsScreen(
+    fun RecruitmentJobsScreen(
         navController: NavHostController,
         showMessage: (Int) -> Unit
     )

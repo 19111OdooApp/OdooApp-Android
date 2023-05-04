@@ -25,6 +25,7 @@ import odoo.miem.android.feature.moduleNotFound.api.IModuleNotFoundScreen
 import odoo.miem.android.feature.moduleNotFound.api.di.IModuleNotFoundApi
 import odoo.miem.android.feature.navigation.api.data.Routes
 import odoo.miem.android.feature.recruitment.api.IRecruitmentDetailsScreen
+import odoo.miem.android.feature.recruitment.api.IRecruitmentJobsScreen
 import odoo.miem.android.feature.recruitment.api.IRecruitmentScreen
 import odoo.miem.android.feature.recruitment.api.di.IRecruitmentApi
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
@@ -61,6 +62,7 @@ fun Navigation(
     val moduleNotFoundScreen by api(IModuleNotFoundApi::moduleNotFoundScreen)
     val recruitmentScreen by api(IRecruitmentApi::recruitmentScreen)
     val recruitmentDetailsScreen by api(IRecruitmentApi::recruitmentDetailsScreen)
+    val recruitmentJobsScreen by api(IRecruitmentApi::recruitmentJobsScreen)
     val crmScreen by api(ICrmApi::crmScreen)
     val userProfileScreen by api(IUserProfileScreenApi::userProfileScreen)
     val dataStore by api(IDataStoreApi::dataStore)
@@ -71,6 +73,7 @@ fun Navigation(
         moduleNotFoundScreen = moduleNotFoundScreen,
         recruitmentScreen = recruitmentScreen,
         recruitmentDetailsScreen = recruitmentDetailsScreen,
+        recruitmentJobsScreen = recruitmentJobsScreen,
         crmScreen = crmScreen,
         userProfileScreen = userProfileScreen,
         paddingValues = paddingValues,
@@ -87,6 +90,7 @@ fun NavigationContent(
     moduleNotFoundScreen: IModuleNotFoundScreen,
     recruitmentScreen: IRecruitmentScreen,
     recruitmentDetailsScreen: IRecruitmentDetailsScreen,
+    recruitmentJobsScreen: IRecruitmentJobsScreen,
     crmScreen: ICrmScreen,
     userProfileScreen: IUserProfileScreen,
     paddingValues: PaddingValues,
@@ -139,6 +143,13 @@ fun NavigationContent(
 
             composable(Routes.recruitmentDetails) {
                 recruitmentDetailsScreen.RecruitmentDetailsScreen(
+                    navController = navController,
+                    showMessage = showMessage
+                )
+            }
+
+            composable(Routes.recruitmentJobs) {
+                recruitmentJobsScreen.RecruitmentJobsScreen(
                     navController = navController,
                     showMessage = showMessage
                 )

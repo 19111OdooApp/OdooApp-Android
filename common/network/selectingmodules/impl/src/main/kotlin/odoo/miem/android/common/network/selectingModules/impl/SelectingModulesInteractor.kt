@@ -65,11 +65,15 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
                         )
                     }
             }
-            .map<Result<User>> { result: UserWithFavouriteModules ->
+            .concatMap { userWithFavouriteModules ->
                 processFavouriteModules(
-                    user = result.user,
-                    newModules = result.favouriteModules
-                )
+                    user = userWithFavouriteModules.user,
+                    newModules = userWithFavouriteModules.favouriteModules
+                ).map {
+                    userWithFavouriteModules
+                }
+            }
+            .map<Result<User>> { result: UserWithFavouriteModules ->
 
                 SuccessResult(result.user)
             }
@@ -132,25 +136,23 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
             }
     }
 
-    private fun processFavouriteModules(user: User, newModules: List<String>) {
-        // TODO REMOVE BEFORE MERGING, it's only for migration from module ids to names
-//        dataStore.setUserFavouriteModules(newModules.toSet())
-
+    private fun processFavouriteModules(user: User, newModules: List<String>): Single<Boolean> {
         val currentFavouriteModules = dataStore.favouriteModules.toList()
 
         Timber.d("processFavouriteModules(): current $currentFavouriteModules new $newModules")
 
-        when {
-            // if current and new modules are equal, do nothing
-            currentFavouriteModules == newModules -> {}
-            // if current modules list is empty, get from api
+        return when {
+            currentFavouriteModules == newModules -> {
+                Single.just(true)
+            }
             currentFavouriteModules.isEmpty() && newModules.isNotEmpty() -> {
                 dataStore.setUserFavouriteModules(newModules.toSet())
+                Single.just(true)
             }
-            // else: user is single source of truth
             else -> {
-                updateFavouriteModules(
-                    user = user,
+                firebase.addOrUpdateUser(
+                    uid = user.uid,
+                    userName = user.name,
                     favouriteModules = currentFavouriteModules
                 )
             }

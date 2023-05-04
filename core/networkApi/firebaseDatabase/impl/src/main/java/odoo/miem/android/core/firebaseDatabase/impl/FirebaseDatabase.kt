@@ -186,7 +186,7 @@ class FirebaseDatabase @Inject constructor(
                 .addOnSuccessListener {
                     Timber.d(
                         "addOrUpdateUser(): successfully added or updated user " +
-                            "with uid = $uid, name = $userName"
+                            "with uid = $uid, name = $userName, favouriteModules = $favouriteModules"
                     )
                     emitter.onSuccess(true)
                 }

@@ -56,6 +56,9 @@ include(":core:networkApi:firebaseRemoteConfig:api")
 include(":core:networkApi:firebaseDatabase:api")
 include(":core:networkApi:firebaseDatabase:impl")
 
+include(":core:networkApi:employees:api")
+include(":core:networkApi:employees:impl")
+
 include(":core:jsonrpc:base")
 include(":core:jsonrpc:core")
 include(":core:jsonrpc:engine")

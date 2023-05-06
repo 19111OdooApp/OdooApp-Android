@@ -17,7 +17,7 @@ interface IUserInfo : JsonRpcApi {
     fun getUserInfo(
         @JsonRpcPath path: String = "web/dataset/search_read",
         @JsonRpcArgument("model") model: String = "res.users.settings",
-        @JsonRpcArgument("fields") fields: List<String> = listOf("id", "user_id", "x_favourite_modules")
+        @JsonRpcArgument("fields") fields: List<String> = userInfoFields
     ): UserInfoResponse
 
     @JsonRpc("call")
@@ -28,4 +28,9 @@ interface IUserInfo : JsonRpcApi {
         @JsonRpcArgument("kwargs") kwargs: Map<Any, Any> = emptyMap(),
         @JsonRpcArgument("args") args: List<Any>
     ): Boolean
+
+    private companion object {
+
+        val userInfoFields = listOf("id", "user_id", "x_favourite_modules")
+    }
 }

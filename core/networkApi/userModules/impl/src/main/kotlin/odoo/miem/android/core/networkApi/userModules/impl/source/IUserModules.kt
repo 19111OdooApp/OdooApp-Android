@@ -18,19 +18,19 @@ interface IUserModules : JsonRpcApi {
     fun getOdooGroups(
         @JsonRpcPath path: String = "web/dataset/search_read",
         @JsonRpcArgument("model") model: String = "res.groups",
-        @JsonRpcArgument("fields") fields: List<String> = listOf("id", "name", "users")
+        @JsonRpcArgument("fields") fields: List<String> = odooGroupsFields
     ): OdooGroupsResponse
 
     @JsonRpc("call")
     fun getOdooModules(
         @JsonRpcPath path: String = "web/dataset/search_read",
         @JsonRpcArgument("model") model: String = "ir.ui.menu",
-        @JsonRpcArgument("fields") fields: List<String> = listOf(
-            "id",
-            "name",
-            "child_id",
-            "parent_id",
-            "groups_id"
-        )
+        @JsonRpcArgument("fields") fields: List<String> = odooModulesFields
     ): OdooModulesResponse
+
+    private companion object {
+
+        val odooGroupsFields = listOf("id", "name", "users")
+        val odooModulesFields = listOf("id", "name", "child_id", "parent_id", "groups_id")
+    }
 }

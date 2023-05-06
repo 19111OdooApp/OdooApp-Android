@@ -1,10 +1,11 @@
-package odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.components.screen
+package odoo.miem.android.common.uiKitComponents.screen.searchLike.components
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -19,33 +20,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.mxalbert.sharedelements.FadeMode
 import com.mxalbert.sharedelements.MaterialArcMotionFactory
 import com.mxalbert.sharedelements.SharedElement
 import com.mxalbert.sharedelements.SharedElementsTransitionSpec
-import odoo.miem.android.common.uiKitComponents.R
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
-import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.components.main.RecruitmentLikeList
-import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.RecruitmentLikeEmployeeModel
+import odoo.miem.android.common.uiKitComponents.screen.searchLike.model.SearchLikeModel
 import odoo.miem.android.common.uiKitComponents.search.SearchResultEmpty
 import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
 import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
 import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
 
-/**
- * [RecruitmentLikeSearchResult] - screen for searching Odoo modules in [RecruitmentScreen]
- *
- * @author Alexander Lyutikov
- */
 @Composable
-fun <E : RecruitmentLikeEmployeeModel> RecruitmentLikeSearchResult(
-    employees: List<E>,
-    onEmployeeClick: (E) -> Unit = {},
-    onEmployeeActionClick: (E) -> Unit = {},
+internal fun <T : SearchLikeModel> BaseSearchingContent(
+    sharedKey: String,
+    sharedScreenKey: String,
+    items: List<T>,
     onBackPressed: () -> Unit = {},
+    searchResultListContent: @Composable (ColumnScope.(items: List<T>) -> Unit),
+    searchStartListContent: @Composable (ColumnScope.(items: List<T>) -> Unit)?
 ) = Column(
     horizontalAlignment = Alignment.CenterHorizontally,
     modifier = Modifier
@@ -55,7 +50,7 @@ fun <E : RecruitmentLikeEmployeeModel> RecruitmentLikeSearchResult(
     var searchInput by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue())
     }
-    val items = employees.filter {
+    val filteredItems = items.filter {
         it.name.lowercase().contains(searchInput.text.lowercase())
     }
     val focusRequester = FocusRequester()
@@ -73,8 +68,8 @@ fun <E : RecruitmentLikeEmployeeModel> RecruitmentLikeSearchResult(
     Spacer(modifier = Modifier.height(40.dp))
 
     SharedElement(
-        key = stringResource(R.string.recruitment_search_bar_key),
-        screenKey = stringResource(R.string.recruitment_search_screen_key),
+        key = sharedKey,
+        screenKey = sharedScreenKey,
         transitionSpec = SharedElementsTransitionSpec(
             pathMotionFactory = MaterialArcMotionFactory,
             durationMillis = SharedElementConstants.transitionDurationMills,
@@ -96,26 +91,21 @@ fun <E : RecruitmentLikeEmployeeModel> RecruitmentLikeSearchResult(
         enter = fadeIn(),
         exit = fadeOut()
     ) {
-        RecruitmentLikeList(
-            employees = employees,
-            onEmployeeActionClick = onEmployeeActionClick,
-            onEmployeeCardClick = onEmployeeClick,
-            modifier = Modifier,
-        )
+        searchStartListContent?.let {
+            it(items)
+        } ?: searchResultListContent(items)
     }
+
     AnimatedVisibility(
         visible = searchInput.text.isNotBlank(),
         enter = fadeIn(),
         exit = fadeOut()
     ) {
-        if (items.isEmpty()) {
+        if (filteredItems.isEmpty()) {
             SearchResultEmpty(searchInput = searchInput.text)
         } else {
-            RecruitmentLikeList(
-                employees = items,
-                onEmployeeActionClick = onEmployeeActionClick,
-                onEmployeeCardClick = onEmployeeClick,
-                modifier = Modifier,
+            searchResultListContent(
+                items = filteredItems
             )
         }
     }

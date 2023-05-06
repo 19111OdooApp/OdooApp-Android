@@ -134,7 +134,7 @@ fun NavigationContent(
                 )
             }
 
-            composable(Routes.recruitment) {
+            composable(Routes.recruitmentKanban) {
                 recruitmentScreen.RecruitmentScreen(
                     navController = navController,
                     showMessage = showMessage

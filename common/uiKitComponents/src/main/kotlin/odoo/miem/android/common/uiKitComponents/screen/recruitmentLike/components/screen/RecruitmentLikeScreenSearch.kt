@@ -40,10 +40,7 @@ fun RecruitmentLikeScreenSearch(
     ) {
         SearchTextField(
             value = searchInput,
-            onValueChange = {
-                searchInput = it
-                // TODO search logic from viewModel
-            },
+            onValueChange = { searchInput = it },
             enabled = false,
             modifier = Modifier.clickable { onSearchBarClicked() },
             stringRes = searchHintRes,

@@ -3,12 +3,29 @@
     <!--Default-->
     <string name="default_module_name">Крутой модуль</string>
 
+    <!--  Job card  -->
+    <plurals name="job_number_of_new_application">
+        <item quantity="one">%d Новая Заявка</item>
+        <item quantity="few">%d Новых Заявок</item>
+        <item quantity="many">%d Новых Заявок</item>
+        <item quantity="other">%d Новые Заявки</item>
+    </plurals>
+    <plurals name="job_number_of_application">
+        <item quantity="one">%d Заявка</item>
+        <item quantity="few">%d Заявок</item>
+        <item quantity="many">%d Заявок</item>
+        <item quantity="other">%d Заявки</item>
+    </plurals>
+    <string name="job_big_number_of_application">1000+ Заявок</string>
+    <string name="job_number_to_recruit">%d Нанять</string>
+    <string name="job_big_number_to_recruit">1000+ Нанять</string>
+
     <!--  Modules Card  -->
     <plurals name="module_number_of_notifications">
         <item quantity="one">%d Новое Уведомления</item>
         <item quantity="few">%d Новых Уведомления</item>
         <item quantity="many">%d Новых Уведомлений</item>
-        <item quantity="other">%d Новых Уведомления</item>
+        <item quantity="other">%d Новые Уведомления</item>
     </plurals>
 
     <!--  Search Text field  -->

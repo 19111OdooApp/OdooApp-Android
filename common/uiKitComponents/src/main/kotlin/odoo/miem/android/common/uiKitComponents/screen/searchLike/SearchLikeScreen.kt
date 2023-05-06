@@ -5,7 +5,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -59,7 +58,6 @@ fun <T : SearchLikeModel> SearchLikeScreen(
         Crossfade(
             targetState = isSearchScreenContentVisible,
             animationSpec = tween(durationMillis = SharedElementConstants.transitionDurationMills),
-            modifier = Modifier.padding(it)
         ) { visible ->
             if (visible) {
                 BaseSearchingContent(

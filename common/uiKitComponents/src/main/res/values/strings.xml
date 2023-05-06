@@ -5,9 +5,26 @@
     <string name="default_user_phone" translatable="false">+79999999999</string>
     <string name="default_module_name">Cool module</string>
 
+    <!--  Job card  -->
+    <plurals name="job_number_of_new_application">
+        <item quantity="one">%d New Application</item>
+        <item quantity="few">%d New Applications</item>
+        <item quantity="many">%d New Applications</item>
+        <item quantity="other">%d New Applications</item>
+    </plurals>
+    <plurals name="job_number_of_application">
+        <item quantity="one">%d Application</item>
+        <item quantity="few">%d Applications</item>
+        <item quantity="many">%d Applications</item>
+        <item quantity="other">%d Applications</item>
+    </plurals>
+    <string name="job_big_number_of_application">1000+ Application</string>
+    <string name="job_number_to_recruit">%d To Recruit</string>
+    <string name="job_big_number_to_recruit">1000+ To Recruit</string>
+
     <!--  Modules Card  -->
     <plurals name="module_number_of_notifications">
-        <item quantity="one">%d New Notifications</item>
+        <item quantity="one">%d New Notification</item>
         <item quantity="few">%d New Notifications</item>
         <item quantity="many">%d New Notifications</item>
         <item quantity="other">%d New Notifications</item>

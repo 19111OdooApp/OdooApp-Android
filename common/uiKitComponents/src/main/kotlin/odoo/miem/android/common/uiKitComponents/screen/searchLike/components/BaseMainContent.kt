@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -31,7 +32,8 @@ internal fun BaseMainContent(
     onUserIconClick: () -> Unit = {},
     mainListContent: @Composable (ColumnScope.() -> Unit),
 ) = Column(
-    horizontalAlignment = Alignment.CenterHorizontally
+    modifier = Modifier.fillMaxSize(),
+    horizontalAlignment = Alignment.CenterHorizontally,
 ) {
     SimpleLogoAppBar()
 
@@ -67,7 +69,7 @@ internal fun BaseMainContent(
         )
     }
 
-    Spacer(modifier = Modifier.height(36.dp))
+    Spacer(modifier = Modifier.height(32.dp))
 
     mainListContent()
 }

@@ -7,4 +7,16 @@
 
     <string name="recruitment_change_status">Change status</string>
     <string name="recruitment_add_new_status">Add a new status</string>
+
+    <string name="recruitment_job_positions">Job Positions</string>
+
+    <string name="recruitment_job_link">Job Link</string>
+
+    <string name="recruitment_job_details">Details</string>
+
+    <string name="recruitment_job_recruit_start">Start Recruit</string>
+    <string name="recruitment_job_recruit_done">Recruit done</string>
+
+    <string name="recruitment_job_published">Published</string>
+    <string name="recruitment_job_not_published">Not Published</string>
 </resources>

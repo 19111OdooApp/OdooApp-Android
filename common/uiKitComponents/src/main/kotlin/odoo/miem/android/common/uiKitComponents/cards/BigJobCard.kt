@@ -32,8 +32,8 @@ import androidx.compose.ui.unit.sp
 import odoo.miem.android.common.uiKitComponents.R
 import odoo.miem.android.common.uiKitComponents.utils.conditional
 import odoo.miem.android.common.uiKitComponents.utils.drawDiagonalLabel
+import odoo.miem.android.common.uiKitComponents.utils.getBackgroundColorCard
 import odoo.miem.android.common.uiKitComponents.utils.glowEffect
-import odoo.miem.android.core.uiKitTheme.odooPrimary
 
 /**
  * [BigModuleCard] is implementation of big module's card
@@ -66,7 +66,7 @@ fun BigJobCard(
 ) = Card(
     shape = RoundedCornerShape(20.dp),
     colors = CardDefaults.cardColors(
-        containerColor = odooPrimary,
+        containerColor = jobName.getBackgroundColorCard(),
     ),
     modifier = modifier
         .fillMaxWidth()

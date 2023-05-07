@@ -3,4 +3,17 @@
     <string name="recruitment_search_hint">Введите имя сотрудника</string>
     <string name="recruitment_change_status">Изменить статус</string>
     <string name="recruitment_add_new_status">Добавить новый статус</string>
+
+
+    <string name="recruitment_job_positions">Вакансии</string>
+
+    <string name="recruitment_job_link">Ссылка на вакансию</string>
+
+    <string name="recruitment_job_details">Детали</string>
+
+    <string name="recruitment_job_recruit_start">Начать Найм</string>
+    <string name="recruitment_job_recruit_done">Закончить Найм</string>
+
+    <string name="recruitment_job_published">Опубликовано</string>
+    <string name="recruitment_job_not_published">Не Опубликовано</string>
 </resources>

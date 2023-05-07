@@ -2,7 +2,7 @@ package odoo.miem.android.core.networkApi.employees.api
 
 import io.reactivex.rxjava3.core.Single
 import odoo.miem.android.core.networkApi.employees.api.source.AllEmployeesResponse
-import odoo.miem.android.core.networkApi.employees.api.source.EmployeesInfoResponse
+import odoo.miem.android.core.networkApi.employees.api.source.EmployeeInfoResponse
 
 /**
  * [IEmployeesRepository] - interface for wrapping data layer
@@ -24,5 +24,5 @@ interface IEmployeesRepository {
      *
      * @return Observable<Boolean> - true or false whether updating Odoo database was successful
      */
-    fun getEmployeeInfo(employeeId: Int): Single<EmployeesInfoResponse>
+    fun getEmployeeInfo(employeeId: Int): Single<List<EmployeeInfoResponse>>
 }

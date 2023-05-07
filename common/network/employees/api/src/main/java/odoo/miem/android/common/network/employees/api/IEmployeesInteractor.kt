@@ -14,5 +14,5 @@ interface IEmployeesInteractor {
 
     fun getAllEmployeesInfo(): ResultSingle<List<EmployeeBasicInfo>>
 
-    fun getEmployeesDetails(employeeId: Int): ResultSingle<EmployeeDetails>
+    fun getEmployeeDetails(employeeId: Int): ResultSingle<EmployeeDetails>
 }

@@ -22,7 +22,5 @@ data class EmployeeDetails(
     val address: String?,
     val workLocation: String?,
     val resourceCalendar: String?,
-    val aboutMe: String?,
-    val hasBadges: Boolean,
-    val badges: List<String>
+    val aboutMe: String?
 )

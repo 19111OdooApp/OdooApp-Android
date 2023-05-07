@@ -4,7 +4,7 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import odoo.miem.android.core.jsonRpcApiFabric.jsonRpcApi
 import odoo.miem.android.core.networkApi.employees.api.source.AllEmployeesResponse
-import odoo.miem.android.core.networkApi.employees.api.source.EmployeesInfoResponse
+import odoo.miem.android.core.networkApi.employees.api.source.EmployeeInfoResponse
 import odoo.miem.android.core.networkApi.employees.api.source.GetEmployeeInfoRequest
 import odoo.miem.android.core.networkApi.employees.api.source.IEmployeesInfo
 import timber.log.Timber
@@ -28,7 +28,7 @@ class EmployeesRepository @Inject constructor() : IEmployeesRepository {
         }.subscribeOn(Schedulers.io())
     }
 
-    override fun getEmployeeInfo(employeeId: Int): Single<EmployeesInfoResponse> {
+    override fun getEmployeeInfo(employeeId: Int): Single<List<EmployeeInfoResponse>> {
         Timber.d("getEmployeeInfo: id = $employeeId")
 
         val request = GetEmployeeInfoRequest(
@@ -46,9 +46,9 @@ class EmployeesRepository @Inject constructor() : IEmployeesRepository {
     private companion object {
 
         val getEmployeeInfoFields = listOf(
-            "image_128", "avatar_1920", "name", "job_title", "mobile_phone", "work_phone",
-            "work_email", "department_id", "studygroup_id", "employee_type", "company_id",
-            "address_id", "work_location_id", "resource_calendar_id", "cv", "has_badges", "badge_ids"
+            "id", "name", "job_title", "mobile_phone", "work_phone", "work_email",
+            "department_id", "studygroup_id", "company_id", "address_id",
+            "work_location_id", "resource_calendar_id", "cv"
         )
     }
 }

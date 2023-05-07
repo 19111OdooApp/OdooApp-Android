@@ -49,7 +49,7 @@ class EmployeesScreenViewModel(
 
         employeeDetails.onLoadingState()
         employeesInteracor
-            .getEmployeesDetails(employeeId = employeeId)
+            .getEmployeeDetails(employeeId = employeeId)
             .schedule(
                 employeesDetailsChannel,
                 onSuccess = { result ->

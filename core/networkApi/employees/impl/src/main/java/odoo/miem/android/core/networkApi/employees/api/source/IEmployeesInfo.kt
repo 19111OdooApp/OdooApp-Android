@@ -26,7 +26,7 @@ interface IEmployeesInfo: JsonRpcApi {
         @JsonRpcArgument("model") model: String = "hr.employee",
         @JsonRpcArgument("kwargs") kwargs: Map<Any, Any> = emptyMap(),
         @JsonRpcArgument("args") args: List<Any>
-    ): EmployeesInfoResponse
+    ): List<EmployeeInfoResponse>
 
     private companion object {
 

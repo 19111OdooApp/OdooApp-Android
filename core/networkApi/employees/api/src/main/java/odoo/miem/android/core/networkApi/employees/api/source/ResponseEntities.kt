@@ -33,4 +33,7 @@ data class EmployeeInfoResponse(
     @Json(name = "work_location_id") val workLocation: Any,
     @Json(name = "resource_calendar_id") val resourceCalendar: Any,
     @Json(name = "cv") val aboutMe: Any,
+    @Json(name = "coach_id") val coach: Any,
+    @Json(name = "parent_id") val manager: Any,
+    @Json(name = "employee_type") val employeeType: Any
 )

@@ -22,5 +22,8 @@ data class EmployeeDetails(
     val address: String?,
     val workLocation: String?,
     val resourceCalendar: String?,
-    val aboutMe: String?
+    val aboutMe: String?,
+    val coach: String?,
+    val manager: String?,
+    val employeeType: String?
 )

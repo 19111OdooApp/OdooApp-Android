@@ -46,8 +46,8 @@ class EmployeesRepository @Inject constructor() : IEmployeesRepository {
 
         val getEmployeeInfoFields = listOf(
             "id", "name", "job_title", "mobile_phone", "work_phone", "work_email",
-            "department_id", "studygroup_id", "company_id", "address_id",
-            "work_location_id", "resource_calendar_id", "cv"
+            "department_id", "studygroup_id", "company_id", "address_id", "work_location_id",
+            "resource_calendar_id", "cv", "coach_id", "parent_id", "employee_type"
         )
     }
 }

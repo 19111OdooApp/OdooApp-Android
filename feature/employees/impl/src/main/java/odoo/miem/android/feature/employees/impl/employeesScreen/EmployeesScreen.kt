@@ -1,6 +1,7 @@
 package odoo.miem.android.feature.employees.impl.employeesScreen
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -59,7 +60,9 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
     }
 
     @Composable
-    private fun EmployeesScreenContent() {
+    private fun EmployeesScreenContent(
+
+    ) = Column {
     }
 
     @Composable

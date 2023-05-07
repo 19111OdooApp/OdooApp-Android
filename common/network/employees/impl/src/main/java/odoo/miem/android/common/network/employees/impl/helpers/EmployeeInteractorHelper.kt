@@ -123,6 +123,26 @@ class EmployeeInteractorHelper {
             null
         }
 
+        val coach = response.coach
+        val castedCoach = if (coach is List<*>) {
+            coach[1].toString()
+        } else {
+            null
+        }
+
+        val manager = response.manager
+        val castedManager = if (manager is List<*>) {
+            manager[1].toString()
+        } else {
+            null
+        }
+
+        val employeeType = if (response.employeeType is String) {
+            response.employeeType.toString()
+        } else {
+            null
+        }
+
         val employeeDetails = EmployeeDetails(
             id = response.id,
             name = response.employeeName,
@@ -136,7 +156,10 @@ class EmployeeInteractorHelper {
             address = castedAddress,
             workLocation = castedWorkLocation,
             resourceCalendar = castedResourceCalendar,
-            aboutMe = aboutMe
+            aboutMe = aboutMe,
+            coach = castedCoach,
+            manager = castedManager,
+            employeeType = employeeType
         )
 
         Timber.d("convertEmployeeInfoResponse(): result = $employeeDetails")

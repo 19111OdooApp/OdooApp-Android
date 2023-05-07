@@ -106,3 +106,6 @@ include(":feature:crm:impl")
 
 include(":feature:userProfile:api")
 include(":feature:userProfile:impl")
+
+include(":feature:employees:api")
+include(":feature:employees:impl")

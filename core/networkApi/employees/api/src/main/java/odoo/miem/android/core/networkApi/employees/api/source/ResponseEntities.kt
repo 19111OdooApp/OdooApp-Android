@@ -5,6 +5,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class AllEmployeesResponse(
+    @Json(name = "id") val id: Int,
     @Json(name = "name") val employeeName: String,
     @Json(name = "job_title") val job: Any,
     @Json(name = "work_email") val email: Any,
@@ -14,6 +15,7 @@ data class AllEmployeesResponse(
 
 @JsonClass(generateAdapter = true)
 data class EmployeesInfoResponse(
+    @Json(name = "id") val id: Int,
     @Json(name = "name") val employeeName: String,
     @Json(name = "job_title") val job: Any,
     @Json(name = "mobile_phone") val mobilePhone: Any,
@@ -24,7 +26,7 @@ data class EmployeesInfoResponse(
     @Json(name = "employee_type") val company: Any,
     @Json(name = "address_id") val address: Any,
     @Json(name = "work_location_id") val workLocation: Any,
-    @Json(name = "resouce_calendar_id") val resouceCalendar: Any,
+    @Json(name = "resource_calendar_id") val resourceCalendar: Any,
     @Json(name = "cv") val aboutMe: Any,
     @Json(name = "has_badges") val hasBadges: Boolean,
     @Json(name = "badge_ids") val badges: Any

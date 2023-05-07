@@ -22,6 +22,8 @@ import odoo.miem.android.feature.crm.api.ICrmScreen
 import odoo.miem.android.feature.crm.api.di.ICrmApi
 import odoo.miem.android.feature.details.api.IDetailsScreen
 import odoo.miem.android.feature.details.api.di.IDetailsScreenApi
+import odoo.miem.android.feature.employees.api.IEmployeesScreen
+import odoo.miem.android.feature.employees.api.di.IEmployeesScreenApi
 import odoo.miem.android.feature.moduleNotFound.api.IModuleNotFoundScreen
 import odoo.miem.android.feature.moduleNotFound.api.di.IModuleNotFoundApi
 import odoo.miem.android.feature.navigation.api.data.Routes
@@ -38,7 +40,7 @@ import odoo.miem.android.feature.userProfile.api.di.IUserProfileScreenApi
  * For adding new screen one should write corresponding path to [Routes]
  * and add new [composable] в [NavHost]
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 @Composable
 fun Navigation(
@@ -63,6 +65,7 @@ fun Navigation(
     val recruitmentScreen by api(IRecruitmentApi::recruitmentScreen)
     val crmScreen by api(ICrmApi::crmScreen)
     val userProfileScreen by api(IUserProfileScreenApi::userProfileScreen)
+    val employeesScreen by api(IEmployeesScreenApi::employeesScreen)
 
     NavigationContent(
         authorizationScreen = authorizationScreen,
@@ -72,6 +75,7 @@ fun Navigation(
         recruitmentScreen = recruitmentScreen,
         crmScreen = crmScreen,
         userProfileScreen = userProfileScreen,
+        employeesScreen = employeesScreen,
         paddingValues = paddingValues,
         navController = navController,
 //        isAuthorized = dataStore.isAuthorized,
@@ -88,6 +92,7 @@ fun NavigationContent(
     recruitmentScreen: IRecruitmentScreen,
     crmScreen: ICrmScreen,
     userProfileScreen: IUserProfileScreen,
+    employeesScreen: IEmployeesScreen,
     paddingValues: PaddingValues,
     navController: NavHostController,
 //    isAuthorized: Boolean,
@@ -148,6 +153,13 @@ fun NavigationContent(
 
             composable(Routes.userProfile) {
                 userProfileScreen.UserProfileScreen(
+                    navController = navController,
+                    showMessage = showMessage
+                )
+            }
+
+            composable(Routes.employees) {
+                employeesScreen.EmployeesScreen(
                     navController = navController,
                     showMessage = showMessage
                 )

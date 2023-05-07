@@ -31,6 +31,9 @@ include(":common:network:authorization:impl")
 include(":common:network:selectingModules:api")
 include(":common:network:selectingModules:impl")
 
+include(":common:network:employees:api")
+include(":common:network:employees:impl")
+
 include(":common:uiKitComponents")
 
 

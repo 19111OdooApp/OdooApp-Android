@@ -21,7 +21,7 @@ interface IEmployeesInfo : JsonRpcApi {
 
     @JsonRpc("call")
     fun getEmployeeInfo(
-        @JsonRpcPath path: String = "web/dataset/call_kw/write",
+        @JsonRpcPath path: String = "web/dataset/call_kw/hr.employee/read",
         @JsonRpcArgument("method") method: String = "read",
         @JsonRpcArgument("model") model: String = "hr.employee",
         @JsonRpcArgument("kwargs") kwargs: Map<Any, Any> = emptyMap(),
@@ -31,11 +31,7 @@ interface IEmployeesInfo : JsonRpcApi {
     private companion object {
 
         val allEmployeesFields = listOf(
-            "name",
-            "job_title",
-            "work_email",
-            "work_phone",
-            "avatar_1920"
+            "name", "job_title", "work_email", "work_phone", "avatar_1920"
         )
     }
 }

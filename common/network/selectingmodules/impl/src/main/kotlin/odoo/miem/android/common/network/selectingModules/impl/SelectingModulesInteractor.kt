@@ -88,6 +88,8 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
                 )
             }
             .map<Result<List<OdooModule>>> { modules ->
+                Timber.d("getOdooModules(): result = $modules")
+
                 SuccessResult(modules)
             }
             .onErrorReturn {

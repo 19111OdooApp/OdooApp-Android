@@ -112,9 +112,13 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             viewModel.getUserInfo()
         }
 
+        val navigateToEmployees: () -> Unit = { navController.navigate(Routes.employees) }
+
         val onModuleCardClick: (OdooModule) -> Unit = {
             if (it.isImplemented) {
-                // TODO when some module will be ready, add navigation
+                when (it.name) {
+                    "Employees" -> navigateToEmployees()
+                }
             } else {
                 navController.navigate(Routes.moduleNotFound)
             }

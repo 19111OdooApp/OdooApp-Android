@@ -31,6 +31,8 @@ class EmployeesInteractor @Inject constructor() : IEmployeesInteractor {
             .map<Result<List<EmployeeBasicInfo>>> { response ->
                 val employeesInfo = helper.convertAllEmployeesResponse(response)
 
+                Timber.d("getAllEmployeesInfo(): result = $employeesInfo")
+
                 SuccessResult(employeesInfo)
             }
             .onErrorReturn {
@@ -44,7 +46,9 @@ class EmployeesInteractor @Inject constructor() : IEmployeesInteractor {
 
         return employeesRepository.getEmployeeInfo(employeeId = employeeId)
             .map<Result<EmployeeDetails>> { response ->
-                val employeeDetails = helper.convertEmployeeInfoResponse(response[0])
+                val employeeDetails = helper.convertEmployeeInfoResponse(response.first())
+
+                Timber.d("getEmployeeDetails(): result = $employeeDetails")
 
                 SuccessResult(employeeDetails)
             }

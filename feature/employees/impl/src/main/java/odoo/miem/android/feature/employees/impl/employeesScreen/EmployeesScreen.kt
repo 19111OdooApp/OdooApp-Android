@@ -2,12 +2,14 @@ package odoo.miem.android.feature.employees.impl.employeesScreen
 
 import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.utils.rx.collectAsState
+import odoo.miem.android.core.utils.state.SuccessResult
 import odoo.miem.android.core.utils.state.subscribeOnError
 import odoo.miem.android.feature.employees.api.IEmployeesScreen
 import odoo.miem.android.feature.employees.impl.EmployeesScreenViewModel
@@ -39,6 +41,19 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
 
         val employeeDetailsState by viewModel.employeeDetails.collectAsState()
         employeeDetailsState.subscribeOnError(showMessage)
+
+        if (allEmployeesState is SuccessResult) {
+            LaunchedEffect(Unit) {
+                allEmployeesState.data
+                    ?.get(0)
+                    ?.id
+                    ?.let { viewModel.getEmployeeDetails(it) }
+            }
+        }
+
+        LaunchedEffect(Unit) {
+            viewModel.getAllEmployees()
+        }
 
         EmployeesScreenContent()
     }

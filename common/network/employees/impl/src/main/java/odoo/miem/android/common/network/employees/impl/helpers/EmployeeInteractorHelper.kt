@@ -4,12 +4,15 @@ import odoo.miem.android.common.network.employees.api.entities.EmployeeBasicInfo
 import odoo.miem.android.common.network.employees.api.entities.EmployeeDetails
 import odoo.miem.android.core.networkApi.employees.api.source.AllEmployeesResponse
 import odoo.miem.android.core.networkApi.employees.api.source.EmployeeInfoResponse
+import timber.log.Timber
 
 class EmployeeInteractorHelper {
 
     fun convertAllEmployeesResponse(
         response: AllEmployeesResponse
     ): List<EmployeeBasicInfo> {
+        Timber.d("convertAllEmployeesResponse()")
+
         val employees = response.records.map { info ->
             val job = if (info.job is String) {
                 info.job.toString()
@@ -39,12 +42,15 @@ class EmployeeInteractorHelper {
             )
         }
 
+        Timber.d("convertAllEmployeesResponse(): result = $employees")
         return employees
     }
 
     fun convertEmployeeInfoResponse(
         response: EmployeeInfoResponse
     ): EmployeeDetails {
+        Timber.d("convertEmployeeInfoResponse()")
+
         val job = if (response.job is String) {
             response.job.toString()
         } else {
@@ -117,7 +123,7 @@ class EmployeeInteractorHelper {
             null
         }
 
-        return EmployeeDetails(
+        val employeeDetails = EmployeeDetails(
             id = response.id,
             name = response.employeeName,
             job = job,
@@ -132,5 +138,8 @@ class EmployeeInteractorHelper {
             resourceCalendar = castedResourceCalendar,
             aboutMe = aboutMe
         )
+
+        Timber.d("convertEmployeeInfoResponse(): result = $employeeDetails")
+        return employeeDetails
     }
 }

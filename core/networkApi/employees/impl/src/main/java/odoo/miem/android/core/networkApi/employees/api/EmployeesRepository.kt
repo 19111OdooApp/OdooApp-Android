@@ -10,7 +10,6 @@ import odoo.miem.android.core.networkApi.employees.api.source.IEmployeesInfo
 import timber.log.Timber
 import javax.inject.Inject
 
-
 /**
  * [EmployeesRepository] - implementation of [IEmployeesRepository]
  *

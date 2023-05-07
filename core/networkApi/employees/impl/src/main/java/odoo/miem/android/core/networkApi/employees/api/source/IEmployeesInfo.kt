@@ -10,7 +10,7 @@ import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcPath
  *
  * @author Egor Danilov
  */
-interface IEmployeesInfo: JsonRpcApi {
+interface IEmployeesInfo : JsonRpcApi {
 
     @JsonRpc("call")
     fun getAllEmployees(
@@ -31,7 +31,11 @@ interface IEmployeesInfo: JsonRpcApi {
     private companion object {
 
         val allEmployeesFields = listOf(
-            "name", "job_title", "work_email", "work_phone", "avatar_1920"
+            "name",
+            "job_title",
+            "work_email",
+            "work_phone",
+            "avatar_1920"
         )
     }
 }

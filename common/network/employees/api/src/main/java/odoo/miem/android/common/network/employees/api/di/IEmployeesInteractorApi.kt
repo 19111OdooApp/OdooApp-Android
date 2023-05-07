@@ -11,7 +11,7 @@ import odoo.miem.android.core.di.api.Api
  *
  * @author Egor Danilov
  */
-interface IEmployeesInteractorApi: Api {
+interface IEmployeesInteractorApi : Api {
 
     val employeesInteractor: IEmployeesInteractor
 }

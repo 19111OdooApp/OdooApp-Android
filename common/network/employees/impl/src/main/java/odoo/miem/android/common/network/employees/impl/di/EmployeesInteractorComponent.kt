@@ -17,7 +17,7 @@ import odoo.miem.android.common.network.employees.api.di.IEmployeesInteractorApi
         EmployeesInteractorModule::class
     ]
 )
-interface EmployeesInteractorComponent: IEmployeesInteractorApi {
+interface EmployeesInteractorComponent : IEmployeesInteractorApi {
 
     companion object {
         fun create(): IEmployeesInteractorApi = DaggerEmployeesInteractorComponent.builder()

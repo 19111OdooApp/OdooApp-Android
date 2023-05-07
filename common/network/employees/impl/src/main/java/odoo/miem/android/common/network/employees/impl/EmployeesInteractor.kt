@@ -18,7 +18,7 @@ import javax.inject.Inject
  *
  * @author Egor Danilov
  */
-class EmployeesInteractor @Inject constructor(): IEmployeesInteractor {
+class EmployeesInteractor @Inject constructor() : IEmployeesInteractor {
 
     private val employeesRepository by api(IEmployeesRepositoryApi::employeesRepository)
 

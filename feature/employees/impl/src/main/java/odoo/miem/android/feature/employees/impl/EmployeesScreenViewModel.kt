@@ -20,7 +20,7 @@ import timber.log.Timber
  */
 class EmployeesScreenViewModel(
     schedulers: PresentationSchedulers = apiBlocking(RxApi::presentationSchedulers)
-): BaseViewModel(schedulers) {
+) : BaseViewModel(schedulers) {
 
     private val employeesInteracor by api(IEmployeesInteractorApi::employeesInteractor)
 

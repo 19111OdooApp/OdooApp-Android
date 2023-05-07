@@ -24,7 +24,7 @@ import javax.inject.Inject
  *
  * @author Egor Danilov
  */
-class EmployeesScreen @Inject constructor(): IEmployeesScreen {
+class EmployeesScreen @Inject constructor() : IEmployeesScreen {
 
     @SuppressLint("NotConstructor")
     @Composable
@@ -44,10 +44,7 @@ class EmployeesScreen @Inject constructor(): IEmployeesScreen {
     }
 
     @Composable
-    private fun EmployeesScreenContent(
-
-    ) {
-
+    private fun EmployeesScreenContent() {
     }
 
     @Composable

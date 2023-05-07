@@ -11,7 +11,7 @@ import odoo.miem.android.feature.employees.api.IEmployeesScreen
  *
  * @author Egor Danilov
  */
-interface IEmployeesScreenApi: Api {
+interface IEmployeesScreenApi : Api {
 
     val employeesScreen: IEmployeesScreen
 }

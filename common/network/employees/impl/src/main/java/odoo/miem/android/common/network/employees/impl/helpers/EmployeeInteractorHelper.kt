@@ -10,7 +10,6 @@ class EmployeeInteractorHelper {
     fun convertAllEmployeesResponse(
         response: AllEmployeesResponse
     ): List<EmployeeBasicInfo> {
-
         val employees = response.records.map { info ->
             val job = if (info.job is String) {
                 info.job.toString()

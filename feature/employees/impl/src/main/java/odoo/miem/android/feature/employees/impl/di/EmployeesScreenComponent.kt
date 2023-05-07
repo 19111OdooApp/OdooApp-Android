@@ -17,7 +17,7 @@ import odoo.miem.android.feature.employees.api.di.IEmployeesScreenApi
         EmployeesScreenModule::class
     ]
 )
-interface EmployeesScreenComponent: IEmployeesScreenApi {
+interface EmployeesScreenComponent : IEmployeesScreenApi {
 
     companion object {
         fun create(): IEmployeesScreenApi = DaggerEmployeesScreenComponent.builder().build()

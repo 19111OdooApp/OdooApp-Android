@@ -16,7 +16,7 @@ import dagger.Component
         EmployeesRepositoryModule::class
     ]
 )
-interface EmployeesRepositoryComponent: IEmployeesRepositoryApi {
+interface EmployeesRepositoryComponent : IEmployeesRepositoryApi {
 
     companion object {
         fun create(): IEmployeesRepositoryApi = DaggerEmployeesRepositoryComponent.builder()

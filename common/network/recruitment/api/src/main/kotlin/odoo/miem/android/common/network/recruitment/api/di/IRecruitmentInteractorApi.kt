@@ -1,6 +1,7 @@
 package odoo.miem.android.common.network.recruitment.api.di
 
 import odoo.miem.android.common.network.recruitment.api.IRecruitmentInteractor
+import odoo.miem.android.common.network.recruitment.api.IRecruitmentJobsInteractor
 import odoo.miem.android.core.di.api.Api
 
 /**
@@ -14,4 +15,6 @@ import odoo.miem.android.core.di.api.Api
 interface IRecruitmentInteractorApi : Api {
 
     val recruitmentInteractor: IRecruitmentInteractor
+
+    val recruitmentJobsInteractor: IRecruitmentJobsInteractor
 }

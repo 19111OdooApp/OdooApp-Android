@@ -1,6 +1,7 @@
 package odoo.miem.android.core.networkApi.recruitment.api
 
 import io.reactivex.rxjava3.core.Single
+import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentJobsResponse
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentResponse
 
 /**
@@ -11,5 +12,13 @@ import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentRes
  */
 interface IRecruitmentRepository {
 
+    /**
+     * Recruitment Kanban
+     */
     fun getRecruitmentInfo(): Single<RecruitmentResponse>
+
+    /**
+     * Recruitment Jobs
+     */
+    fun getRecruitmentJobsInfo(): Single<RecruitmentJobsResponse>
 }

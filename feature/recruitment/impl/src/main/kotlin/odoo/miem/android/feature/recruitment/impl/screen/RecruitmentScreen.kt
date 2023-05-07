@@ -7,8 +7,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import odoo.miem.android.common.network.recruitment.api.entities.Employee
-import odoo.miem.android.common.network.recruitment.api.entities.Status
+import odoo.miem.android.common.network.recruitment.api.entities.kanban.Employee
+import odoo.miem.android.common.network.recruitment.api.entities.kanban.Status
 import odoo.miem.android.common.uiKitComponents.progressbar.LoadingScreen
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.RecruitmentLikeScreen
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.DeadlineStatus
@@ -49,7 +49,8 @@ class RecruitmentScreen @Inject constructor() : IRecruitmentScreen {
         }
 
         LaunchedEffect(Unit) {
-            viewModel.onOpen()
+            viewModel.fetchStatusList()
+            viewModel.getUserInfo()
         }
 
         StateHolder(

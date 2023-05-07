@@ -1,4 +1,4 @@
-package odoo.miem.android.common.uiKitComponents.cards
+package odoo.miem.android.feature.recruitment.impl.screen.jobs.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
@@ -27,8 +27,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import odoo.miem.android.common.network.recruitment.api.entities.jobs.RecruitmentJob
 import odoo.miem.android.common.uiKitComponents.R
 import odoo.miem.android.common.uiKitComponents.utils.conditional
 import odoo.miem.android.common.uiKitComponents.utils.drawDiagonalLabel
@@ -52,34 +54,29 @@ import odoo.miem.android.common.uiKitComponents.utils.glowEffect
 )
 @Composable
 fun BigJobCard(
-    jobName: String,
-    numberOfNewApplication: Int = 0,
-    numberOfApplication: Int = 0,
-    numberToRecruit: Int = 0,
-    isLiked: Boolean = false,
-    isPublished: Boolean = false,
+    job: RecruitmentJob,
     biggestNumber: Int = 1000,
     modifier: Modifier = Modifier,
-    onLikeClick: () -> Unit = {},
-    onClick: () -> Unit = {},
-    onLongClick: () -> Unit = {}
+    onLikeClick: (job: RecruitmentJob) -> Unit = {},
+    onClick: (job: RecruitmentJob) -> Unit = {},
+    onLongClick: (job: RecruitmentJob) -> Unit = {}
 ) = Card(
     shape = RoundedCornerShape(20.dp),
     colors = CardDefaults.cardColors(
-        containerColor = jobName.getBackgroundColorCard(),
+        containerColor = job.name.getBackgroundColorCard(),
     ),
     modifier = modifier
         .fillMaxWidth()
-        .height(210.dp)
-        .conditional(isPublished) {
+        .height(240.dp)
+        .conditional(job.isPublished) {
             drawDiagonalLabel(
                 text = "Published",
                 color = Color.White
             )
         }
         .combinedClickable(
-            onClick = onClick,
-            onLongClick = onLongClick
+            onClick = { onClick(job) },
+            onLongClick = { onLongClick(job) }
         )
 ) {
     val horizontalPadding = 36.dp
@@ -88,24 +85,26 @@ fun BigJobCard(
     Spacer(modifier = Modifier.height(topPadding))
 
     IconButton(
-        onClick = onLikeClick,
+        onClick = { onLikeClick(job) },
         modifier = Modifier
             .size(45.dp)
             .align(Alignment.End)
             .padding(end = horizontalPadding / 2)
     ) {
         Icon(
-            imageVector = if (isLiked) Icons.Outlined.Favorite else Icons.Outlined.FavoriteBorder,
+            imageVector = if (job.isFavorite) Icons.Outlined.Favorite else Icons.Outlined.FavoriteBorder,
             contentDescription = null,
             tint = Color.White,
-            modifier = Modifier.glowEffect(isLiked)
+            modifier = Modifier.glowEffect(job.isFavorite)
         )
     }
 
     Text(
-        text = jobName,
+        text = job.name,
         style = MaterialTheme.typography.titleLarge,
         color = Color.White,
+        maxLines = 2,
+        overflow = TextOverflow.Clip,
         modifier = Modifier
             .align(Alignment.Start)
             .padding(start = horizontalPadding)
@@ -116,8 +115,8 @@ fun BigJobCard(
     Text(
         text = pluralStringResource(
             id = R.plurals.job_number_of_new_application,
-            count = numberOfNewApplication
-        ).format(numberOfNewApplication),
+            count = job.numberOfNewApplication
+        ).format(job.numberOfNewApplication),
         style = MaterialTheme.typography.titleSmall.copy(
             textDecoration = TextDecoration.Underline
         ),
@@ -136,25 +135,27 @@ fun BigJobCard(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         MetaText(
-            text = if (numberOfApplication > biggestNumber) {
+            text = if (job.numberOfApplication > biggestNumber) {
                 stringResource(id = R.string.job_big_number_of_application)
             } else {
                 pluralStringResource(
                     id = R.plurals.job_number_of_application,
-                    count = numberOfNewApplication
-                ).format(numberOfApplication)
+                    count = job.numberOfApplication
+                ).format(job.numberOfApplication)
             }
         )
         MetaText(
-            text = if (numberOfApplication > biggestNumber) {
+            text = if (job.numberToRecruit > biggestNumber) {
                 stringResource(id = R.string.job_big_number_to_recruit)
             } else {
                 stringResource(
                     id = R.string.job_number_to_recruit
-                ).format(numberToRecruit)
+                ).format(job.numberToRecruit)
             }
         )
     }
+
+    Spacer(modifier = Modifier.height(topPadding))
 }
 
 @Composable

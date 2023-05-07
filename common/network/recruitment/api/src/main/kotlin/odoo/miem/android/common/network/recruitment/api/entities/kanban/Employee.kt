@@ -1,4 +1,4 @@
-package odoo.miem.android.common.network.recruitment.api.entities
+package odoo.miem.android.common.network.recruitment.api.entities.kanban
 
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.DeadlineStatus
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.RecruitmentLikeEmployeeModel

@@ -1,8 +1,8 @@
 package odoo.miem.android.common.network.recruitment.impl
 
 import odoo.miem.android.common.network.recruitment.api.IRecruitmentInteractor
-import odoo.miem.android.common.network.recruitment.api.entities.Employee
-import odoo.miem.android.common.network.recruitment.api.entities.Status
+import odoo.miem.android.common.network.recruitment.api.entities.kanban.Employee
+import odoo.miem.android.common.network.recruitment.api.entities.kanban.Status
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.DeadlineStatus
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.networkApi.recruitment.api.di.IRecruitmentRepositoryApi
@@ -14,7 +14,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 /**
- * [RecruitmentInteractor] - implementation of [IAuthorizationInteractor]
+ * [RecruitmentInteractor] - implementation of [IRecruitmentInteractor]
  *
  * @author Vorozhtsov Mikhail
  */

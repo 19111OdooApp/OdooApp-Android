@@ -4,7 +4,9 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import odoo.miem.android.core.jsonRpcApiFabric.jsonRpcApi
 import odoo.miem.android.core.networkApi.recruitment.api.IRecruitmentRepository
+import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentJobsResponse
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentResponse
+import odoo.miem.android.core.networkApi.recruitment.impl.source.IRecruitmentJobsService
 import odoo.miem.android.core.networkApi.recruitment.impl.source.IRecruitmentService
 import timber.log.Timber
 import javax.inject.Inject
@@ -17,12 +19,21 @@ import javax.inject.Inject
 class RecruitmentRepository @Inject constructor() : IRecruitmentRepository {
 
     private val recruitmentService by jsonRpcApi<IRecruitmentService>()
+    private val recruitmentJobsService by jsonRpcApi<IRecruitmentJobsService>()
 
     override fun getRecruitmentInfo(): Single<RecruitmentResponse> {
         Timber.d("getRecruitmentInfo()")
 
         return Single.fromCallable {
             recruitmentService.getRecruitmentInfo()
+        }.subscribeOn(Schedulers.io())
+    }
+
+    override fun getRecruitmentJobsInfo(): Single<RecruitmentJobsResponse> {
+        Timber.d("getRecruitmentJobsInfo()")
+
+        return Single.fromCallable {
+            recruitmentJobsService.getRecruitmentJobs()
         }.subscribeOn(Schedulers.io())
     }
 }

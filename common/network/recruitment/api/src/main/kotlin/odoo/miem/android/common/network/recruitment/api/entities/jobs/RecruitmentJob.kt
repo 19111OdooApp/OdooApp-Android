@@ -3,7 +3,7 @@ package odoo.miem.android.common.network.recruitment.api.entities.jobs
 import odoo.miem.android.common.uiKitComponents.screen.searchLike.model.SearchLikeModel
 
 data class RecruitmentJob(
-    val id: Int,
+    val id: Long,
     override val name: String,
     val isFavorite: Boolean,
     val state: RecruitmentJobState,

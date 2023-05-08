@@ -13,9 +13,9 @@ interface IRecruitmentJobsInteractor {
     // TODO Desc
     fun getRecruitmentJobs(): ResultSingle<List<RecruitmentJob>>
 
-    fun setJobPublication(jobId: Int, publish: Boolean): ResultSingle<Boolean>
+    fun setJobPublication(jobId: Long, publish: Boolean): ResultSingle<Boolean>
 
-    fun setJobFavoritable(jobId: Int, isFavorite: Boolean): ResultSingle<Boolean>
+    fun setJobFavoritable(jobId: Long, isFavorite: Boolean): ResultSingle<Boolean>
 
-    fun setJobRecruit(jobId: Int, isRecruitingDone: Boolean): ResultSingle<Boolean>
+    fun setJobRecruit(jobId: Long, isRecruitingDone: Boolean): ResultSingle<Boolean>
 }

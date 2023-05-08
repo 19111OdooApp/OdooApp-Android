@@ -72,6 +72,7 @@ class RecruitmentJobsScreen @Inject constructor() : IRecruitmentJobsScreen {
                     changePublicationState = viewModel::changePublicationState,
                     changeRecruitState = viewModel::changeRecruitState,
                     changeFavoriteState = viewModel::changeFavoriteState,
+                    onCardClick = { navController.navigate("${Routes.recruitmentKanban}/${it.id}") },
                     onUserIconClick = { navController.navigate(Routes.userProfile) },
                     onBackPressed = { navController.popBackStack() }
                 )
@@ -85,10 +86,11 @@ class RecruitmentJobsScreen @Inject constructor() : IRecruitmentJobsScreen {
         userName: String,
         jobs: List<RecruitmentJob> = emptyList(),
         focusedJob: RecruitmentJob? = null,
-        setFocusedJob: (job: RecruitmentJob) -> Unit = { _ -> },
-        changePublicationState: (job: RecruitmentJob) -> Unit = { _ -> },
-        changeRecruitState: (job: RecruitmentJob) -> Unit = { _ -> },
-        changeFavoriteState: (job: RecruitmentJob) -> Unit = { _ -> },
+        setFocusedJob: (job: RecruitmentJob) -> Unit = {},
+        changePublicationState: (job: RecruitmentJob) -> Unit = {},
+        changeRecruitState: (job: RecruitmentJob) -> Unit = {},
+        changeFavoriteState: (job: RecruitmentJob) -> Unit = {},
+        onCardClick: (job: RecruitmentJob) -> Unit = {},
         onUserIconClick: () -> Unit = {},
         onBackPressed: () -> Unit = {},
     ) {
@@ -108,6 +110,7 @@ class RecruitmentJobsScreen @Inject constructor() : IRecruitmentJobsScreen {
         val content: @Composable (ColumnScope.(items: List<RecruitmentJob>) -> Unit) = { jobs ->
             RecruitmentJobsList(
                 onLikeClick = changeFavoriteState,
+                onClick = onCardClick,
                 jobs = jobs
             ) {
                 setFocusedJob(it)

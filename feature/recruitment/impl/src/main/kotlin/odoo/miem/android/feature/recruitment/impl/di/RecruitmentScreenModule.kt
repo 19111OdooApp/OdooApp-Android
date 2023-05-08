@@ -4,13 +4,13 @@ import dagger.Binds
 import dagger.Module
 import odoo.miem.android.feature.recruitment.api.IRecruitmentDetailsScreen
 import odoo.miem.android.feature.recruitment.api.IRecruitmentJobsScreen
-import odoo.miem.android.feature.recruitment.api.IRecruitmentScreen
-import odoo.miem.android.feature.recruitment.impl.screen.RecruitmentScreen
+import odoo.miem.android.feature.recruitment.api.IRecruitmentKanbanScreen
 import odoo.miem.android.feature.recruitment.impl.screen.details.RecruitmentDetailsScreen
 import odoo.miem.android.feature.recruitment.impl.screen.jobs.RecruitmentJobsScreen
+import odoo.miem.android.feature.recruitment.impl.screen.kanban.RecruitmentKanbanScreen
 
 /**
- * [RecruitmentScreenModule] - module for proving instance of [RecruitmentScreen]
+ * [RecruitmentScreenModule] - module for proving instance of [RecruitmentKanbanScreen]
  * in general **DI graph**
  *
  * @author Alexander Lyutikov
@@ -19,7 +19,7 @@ import odoo.miem.android.feature.recruitment.impl.screen.jobs.RecruitmentJobsScr
 interface RecruitmentScreenModule {
 
     @Binds
-    fun provideRecruitmentScreen(recruitmentScreen: RecruitmentScreen): IRecruitmentScreen
+    fun provideRecruitmentScreen(recruitmentScreen: RecruitmentKanbanScreen): IRecruitmentKanbanScreen
 
     @Binds
     fun provideRecruitmentDetailsScreen(recruitmentDetailsScreen: RecruitmentDetailsScreen): IRecruitmentDetailsScreen

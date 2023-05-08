@@ -17,5 +17,6 @@ interface IRecruitmentService : JsonRpcApi {
     fun getRecruitmentInfo(
         @JsonRpcPath path: String = "web/dataset/search_read",
         @JsonRpcArgument("model") model: String = "hr.applicant",
+        @JsonRpcArgument("domain") domain: List<Any>,
     ): RecruitmentResponse
 }

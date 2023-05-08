@@ -12,7 +12,7 @@ data class RecruitmentResponse(
     @SpecifiedTypeOrNull(JsonReader.Token.NUMBER)
     val length: Int?,
 
-    @Json(name = "jobs")
+    @Json(name = "records")
     @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
     val records: List<Record>?
 ) {

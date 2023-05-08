@@ -1,4 +1,4 @@
-package odoo.miem.android.feature.recruitment.impl.screen
+package odoo.miem.android.feature.recruitment.impl.screen.kanban
 
 import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
@@ -17,17 +17,18 @@ import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.utils.rx.collectAsState
 import odoo.miem.android.core.utils.state.subscribeOnError
 import odoo.miem.android.feature.navigation.api.data.Routes
-import odoo.miem.android.feature.recruitment.api.IRecruitmentScreen
+import odoo.miem.android.feature.recruitment.api.IRecruitmentKanbanScreen
 import odoo.miem.android.feature.recruitment.impl.R
 import odoo.miem.android.feature.recruitment.impl.RecruitmentViewModel
 import javax.inject.Inject
 
-class RecruitmentScreen @Inject constructor() : IRecruitmentScreen {
+class RecruitmentKanbanScreen @Inject constructor() : IRecruitmentKanbanScreen {
 
     @SuppressLint("NotConstructor")
     @Composable
-    override fun RecruitmentScreen(
+    override fun RecruitmentKanbanScreen(
         navController: NavHostController,
+        jobId: Long,
         showMessage: (Int) -> Unit
     ) {
         val viewModel: RecruitmentViewModel = viewModel()
@@ -49,7 +50,7 @@ class RecruitmentScreen @Inject constructor() : IRecruitmentScreen {
         }
 
         LaunchedEffect(Unit) {
-            viewModel.fetchStatusList()
+            viewModel.fetchStatusList(jobId)
             viewModel.getUserInfo()
         }
 

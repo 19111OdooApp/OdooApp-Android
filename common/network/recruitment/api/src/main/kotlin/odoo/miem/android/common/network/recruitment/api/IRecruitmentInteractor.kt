@@ -11,5 +11,5 @@ import odoo.miem.android.core.utils.state.ResultSingle
 interface IRecruitmentInteractor {
 
     // TODO Desc
-    fun getRecruitmentInfo(): ResultSingle<List<Status>>
+    fun getRecruitmentKanbanInfo(jobId: Long): ResultSingle<List<Status>>
 }

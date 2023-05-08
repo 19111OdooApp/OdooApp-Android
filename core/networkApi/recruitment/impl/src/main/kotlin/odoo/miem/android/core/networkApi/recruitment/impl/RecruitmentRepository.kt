@@ -21,11 +21,15 @@ class RecruitmentRepository @Inject constructor() : IRecruitmentRepository {
     private val recruitmentService by jsonRpcApi<IRecruitmentService>()
     private val recruitmentJobsService by jsonRpcApi<IRecruitmentJobsService>()
 
-    override fun getRecruitmentInfo(): Single<RecruitmentResponse> {
+    override fun getRecruitmentKanbanInfo(jobId: Long): Single<RecruitmentResponse> {
         Timber.d("getRecruitmentInfo()")
 
         return Single.fromCallable {
-            recruitmentService.getRecruitmentInfo()
+            recruitmentService.getRecruitmentInfo(
+                domain = listOf(
+                    listOf("job_id", "=", jobId)
+                )
+            )
         }.subscribeOn(Schedulers.io())
     }
 
@@ -37,7 +41,7 @@ class RecruitmentRepository @Inject constructor() : IRecruitmentRepository {
         }.subscribeOn(Schedulers.io())
     }
 
-    override fun setJobPublication(jobId: Int, publish: Boolean): Single<Boolean> {
+    override fun setJobPublication(jobId: Long, publish: Boolean): Single<Boolean> {
         Timber.d("setJobPublication(): jobId - $jobId, publish - $publish")
 
         return Single.fromCallable {
@@ -53,7 +57,7 @@ class RecruitmentRepository @Inject constructor() : IRecruitmentRepository {
         }.subscribeOn(Schedulers.io())
     }
 
-    override fun setJobFavoritable(jobId: Int, isFavorite: Boolean): Single<Boolean> {
+    override fun setJobFavoritable(jobId: Long, isFavorite: Boolean): Single<Boolean> {
         Timber.d("setJobFavoritable(): jobId - $jobId, isFavorite - $isFavorite")
 
         return Single.fromCallable {
@@ -68,7 +72,7 @@ class RecruitmentRepository @Inject constructor() : IRecruitmentRepository {
         }.subscribeOn(Schedulers.io())
     }
 
-    override fun setJobRecruit(jobId: Int, isRecruitingDone: Boolean): Single<Boolean> {
+    override fun setJobRecruit(jobId: Long, isRecruitingDone: Boolean): Single<Boolean> {
         Timber.d("setJobRecruit(): jobId - $jobId, isRecruitingDone - $isRecruitingDone")
 
         return Single.fromCallable {

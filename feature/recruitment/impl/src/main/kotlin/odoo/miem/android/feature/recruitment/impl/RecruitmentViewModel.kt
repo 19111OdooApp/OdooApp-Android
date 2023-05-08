@@ -62,7 +62,7 @@ internal class RecruitmentViewModel : BaseViewModel() {
             jobId = job.id,
             publish = !previousState
         ).schedule(
-            recruitmentChannel,
+            recruitmentJobsChannel,
             onSuccess = { response ->
                 Timber.d("changePublicationState(): response - $response")
             },
@@ -87,7 +87,7 @@ internal class RecruitmentViewModel : BaseViewModel() {
             jobId = job.id,
             isRecruitingDone = previousState != RecruitmentJobState.RECRUIT_DONE
         ).schedule(
-            recruitmentChannel,
+            recruitmentJobsChannel,
             onSuccess = { response ->
                 Timber.d("changeRecruitState(): response - $response")
             },
@@ -104,7 +104,7 @@ internal class RecruitmentViewModel : BaseViewModel() {
             jobId = job.id,
             isFavorite = !previousState
         ).schedule(
-            recruitmentChannel,
+            recruitmentJobsChannel,
             onSuccess = { response ->
                 Timber.d("changePublicationState(): response - $response")
             },
@@ -115,14 +115,14 @@ internal class RecruitmentViewModel : BaseViewModel() {
     /**
      * Recruitment Kanban
      */
-    fun fetchStatusList() {
+    fun fetchStatusList(jobId: Long) {
         Timber.d("fetchStatusList()")
 
         statusState.onLoadingState()
         recruitmentInteractor
-            .getRecruitmentInfo()
+            .getRecruitmentKanbanInfo(jobId)
             .schedule(
-                recruitmentChannel,
+                recruitmentKanbanChannel,
                 onSuccess = { list ->
                     Timber.d("fetchStatusList(): list - ${list.data}")
                     statusState.onNext(list)
@@ -161,7 +161,7 @@ internal class RecruitmentViewModel : BaseViewModel() {
     }
 
     companion object {
-        val recruitmentChannel = Channel()
+        val recruitmentKanbanChannel = Channel()
         val recruitmentJobsChannel = Channel()
         val userInfoChannel = Channel()
     }

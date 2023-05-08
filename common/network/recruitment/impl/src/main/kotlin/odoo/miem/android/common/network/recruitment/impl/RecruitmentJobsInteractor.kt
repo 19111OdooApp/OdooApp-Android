@@ -39,7 +39,7 @@ class RecruitmentJobsInteractor @Inject constructor() : IRecruitmentJobsInteract
             }
     }
 
-    override fun setJobPublication(jobId: Int, publish: Boolean): ResultSingle<Boolean> {
+    override fun setJobPublication(jobId: Long, publish: Boolean): ResultSingle<Boolean> {
         Timber.d("setJobPublication()")
 
         return recruitmentRepository
@@ -54,7 +54,7 @@ class RecruitmentJobsInteractor @Inject constructor() : IRecruitmentJobsInteract
             }
     }
 
-    override fun setJobFavoritable(jobId: Int, isFavorite: Boolean): ResultSingle<Boolean> {
+    override fun setJobFavoritable(jobId: Long, isFavorite: Boolean): ResultSingle<Boolean> {
         Timber.d("setJobFavoritable()")
 
         return recruitmentRepository
@@ -69,7 +69,7 @@ class RecruitmentJobsInteractor @Inject constructor() : IRecruitmentJobsInteract
             }
     }
 
-    override fun setJobRecruit(jobId: Int, isRecruitingDone: Boolean): ResultSingle<Boolean> {
+    override fun setJobRecruit(jobId: Long, isRecruitingDone: Boolean): ResultSingle<Boolean> {
         Timber.d("setJobRecruit()")
 
         return recruitmentRepository

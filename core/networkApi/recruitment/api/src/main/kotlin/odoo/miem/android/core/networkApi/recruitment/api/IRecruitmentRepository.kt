@@ -15,16 +15,16 @@ interface IRecruitmentRepository {
     /**
      * Recruitment Kanban
      */
-    fun getRecruitmentInfo(): Single<RecruitmentResponse>
+    fun getRecruitmentKanbanInfo(jobId: Long): Single<RecruitmentResponse>
 
     /**
      * Recruitment Jobs
      */
     fun getRecruitmentJobsInfo(): Single<RecruitmentJobsResponse>
 
-    fun setJobPublication(jobId: Int, publish: Boolean): Single<Boolean>
+    fun setJobPublication(jobId: Long, publish: Boolean): Single<Boolean>
 
-    fun setJobFavoritable(jobId: Int, isFavorite: Boolean): Single<Boolean>
+    fun setJobFavoritable(jobId: Long, isFavorite: Boolean): Single<Boolean>
 
-    fun setJobRecruit(jobId: Int, isRecruitingDone: Boolean): Single<Boolean>
+    fun setJobRecruit(jobId: Long, isRecruitingDone: Boolean): Single<Boolean>
 }

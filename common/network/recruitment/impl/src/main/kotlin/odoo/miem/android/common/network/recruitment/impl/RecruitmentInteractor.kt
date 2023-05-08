@@ -22,11 +22,11 @@ class RecruitmentInteractor @Inject constructor() : IRecruitmentInteractor {
 
     private val recruitmentRepository by api(IRecruitmentRepositoryApi::recruitmentRepository)
 
-    override fun getRecruitmentInfo(): ResultSingle<List<Status>> {
+    override fun getRecruitmentKanbanInfo(jobId: Long): ResultSingle<List<Status>> {
         Timber.d("getRecruitmentInfo()")
 
         return recruitmentRepository
-            .getRecruitmentInfo()
+            .getRecruitmentKanbanInfo(jobId)
             .map<Result<List<Status>>> { response ->
                 Timber.d("getRecruitmentInfo(): response = $response")
                 var counter = 0

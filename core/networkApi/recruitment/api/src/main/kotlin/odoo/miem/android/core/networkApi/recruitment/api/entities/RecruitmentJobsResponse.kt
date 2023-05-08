@@ -22,7 +22,7 @@ data class RecruitmentJobsResponse(
 
         @Json(name = "id")
         @SpecifiedTypeOrNull(JsonReader.Token.NUMBER)
-        val id: Int?,
+        val id: Long?,
 
         @Json(name = "name")
         @SpecifiedTypeOrNull(JsonReader.Token.STRING)

@@ -12,8 +12,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import kotlinx.coroutines.launch
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
@@ -26,7 +28,7 @@ import odoo.miem.android.feature.moduleNotFound.api.di.IModuleNotFoundApi
 import odoo.miem.android.feature.navigation.api.data.Routes
 import odoo.miem.android.feature.recruitment.api.IRecruitmentDetailsScreen
 import odoo.miem.android.feature.recruitment.api.IRecruitmentJobsScreen
-import odoo.miem.android.feature.recruitment.api.IRecruitmentScreen
+import odoo.miem.android.feature.recruitment.api.IRecruitmentKanbanScreen
 import odoo.miem.android.feature.recruitment.api.di.IRecruitmentApi
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
 import odoo.miem.android.feature.selectingModules.api.di.ISelectingModulesApi
@@ -88,7 +90,7 @@ fun NavigationContent(
     authorizationScreen: IAuthorizationScreen,
     selectingModulesScreen: ISelectingModulesScreen,
     moduleNotFoundScreen: IModuleNotFoundScreen,
-    recruitmentScreen: IRecruitmentScreen,
+    recruitmentScreen: IRecruitmentKanbanScreen,
     recruitmentDetailsScreen: IRecruitmentDetailsScreen,
     recruitmentJobsScreen: IRecruitmentJobsScreen,
     crmScreen: ICrmScreen,
@@ -134,9 +136,15 @@ fun NavigationContent(
                 )
             }
 
-            composable(Routes.recruitmentKanban) {
-                recruitmentScreen.RecruitmentScreen(
+            composable(
+                "${Routes.recruitmentKanban}/{${Routes.Arguments.recruitmentJobId}}",
+                arguments = listOf(
+                    navArgument(Routes.Arguments.recruitmentJobId) { type = NavType.LongType }
+                )
+            ) {
+                recruitmentScreen.RecruitmentKanbanScreen(
                     navController = navController,
+                    jobId = it.arguments!!.getLong(Routes.Arguments.recruitmentJobId),
                     showMessage = showMessage
                 )
             }

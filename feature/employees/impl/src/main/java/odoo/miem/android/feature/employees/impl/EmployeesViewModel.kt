@@ -14,11 +14,11 @@ import odoo.miem.android.core.utils.state.ResultSubject
 import timber.log.Timber
 
 /**
- * [EmployeesScreenViewModel] handle major logic for [EmployeesScreen]
+ * [EmployeesViewModel] handle major logic for [EmployeesScreen]
  *
  * @author Egor Danilov
  */
-class EmployeesScreenViewModel(
+class EmployeesViewModel(
     schedulers: PresentationSchedulers = apiBlocking(RxApi::presentationSchedulers)
 ) : BaseViewModel(schedulers) {
 

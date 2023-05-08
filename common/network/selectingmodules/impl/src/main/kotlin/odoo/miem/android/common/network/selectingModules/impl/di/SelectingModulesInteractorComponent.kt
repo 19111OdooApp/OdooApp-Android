@@ -4,7 +4,8 @@ import dagger.Component
 import odoo.miem.android.common.network.selectingModules.api.di.ISelectingModulesInteractorApi
 
 /**
- * [SelectingModulesInteractorComponent] - **Dagger** component, which implements interface [ISelectingModulesInteractorApi]
+ * [SelectingModulesInteractorComponent] - **Dagger** component,
+ * which implements interface [ISelectingModulesInteractorApi]
  * Providing in general **DI graph** with a help of [SelectingModulesInteractorApiProvider].
  *
  * Included modules:

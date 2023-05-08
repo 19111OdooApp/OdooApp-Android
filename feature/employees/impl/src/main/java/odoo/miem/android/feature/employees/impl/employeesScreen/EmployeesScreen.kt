@@ -13,7 +13,7 @@ import odoo.miem.android.core.utils.rx.collectAsState
 import odoo.miem.android.core.utils.state.SuccessResult
 import odoo.miem.android.core.utils.state.subscribeOnError
 import odoo.miem.android.feature.employees.api.IEmployeesScreen
-import odoo.miem.android.feature.employees.impl.EmployeesScreenViewModel
+import odoo.miem.android.feature.employees.impl.EmployeesViewModel
 import javax.inject.Inject
 
 /**
@@ -35,7 +35,7 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
         navController: NavHostController,
         showMessage: (Int) -> Unit
     ) {
-        val viewModel: EmployeesScreenViewModel = viewModel()
+        val viewModel: EmployeesViewModel = viewModel()
 
         val allEmployeesState by viewModel.allEmployeesState.collectAsState()
         allEmployeesState.subscribeOnError(showMessage)
@@ -43,6 +43,7 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
         val employeeDetailsState by viewModel.employeeDetails.collectAsState()
         employeeDetailsState.subscribeOnError(showMessage)
 
+        // TODO DELETE STUB
         if (allEmployeesState is SuccessResult) {
             LaunchedEffect(Unit) {
                 allEmployeesState.data
@@ -60,9 +61,7 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
     }
 
     @Composable
-    private fun EmployeesScreenContent(
-
-    ) = Column {
+    private fun EmployeesScreenContent() = Column {
     }
 
     @Composable

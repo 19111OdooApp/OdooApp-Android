@@ -14,23 +14,9 @@ class EmployeeInteractorHelper {
         Timber.d("convertAllEmployeesResponse()")
 
         val employees = response.records.map { info ->
-            val job = if (info.job is String) {
-                info.job.toString()
-            } else {
-                null
-            }
-
-            val email = if (info.email is String) {
-                info.email.toString()
-            } else {
-                null
-            }
-
-            val phone = if (info.phone is String) {
-                info.phone.toString()
-            } else {
-                null
-            }
+            val job = info.job as? String
+            val email = info.email as? String
+            val phone = info.phone as? String
 
             EmployeeBasicInfo(
                 id = info.id,
@@ -51,97 +37,44 @@ class EmployeeInteractorHelper {
     ): EmployeeDetails {
         Timber.d("convertEmployeeInfoResponse()")
 
-        val job = if (response.job is String) {
-            response.job.toString()
-        } else {
-            null
-        }
+        val job = response.job as? String
+        val mobilePhone = response.mobilePhone as? String
+        val workPhone = response.workPhone as? String
+        val email = response.email as? String
+        val aboutMe = response.aboutMe as? String
+        val employeeType = response.employeeType as? String
 
-        val mobilePhone = if (response.mobilePhone is String) {
-            response.mobilePhone.toString()
-        } else {
-            null
-        }
+        val department = (response.departmentId as? List<*>)
+            ?.get(1)
+            ?.toString()
 
-        val workPhone = if (response.workPhone is String) {
-            response.workPhone.toString()
-        } else {
-            null
-        }
+        val studyGroup = (response.studyGroup as? List<*>)
+            ?.get(1)
+            ?.toString()
 
-        val email = if (response.email is String) {
-            response.email.toString()
-        } else {
-            null
-        }
+        val company = (response.company as? List<*>)
+            ?.get((1))
+            ?.toString()
 
-        val department = response.departmentId
-        val castedDepartment = if (department is List<*>) {
-            department[1].toString()
-        } else {
-            null
-        }
+        val address = (response.address as? List<*>)
+            ?.get(1)
+            ?.toString()
 
-        val studyGroup = response.studyGroup
-        val castedStudyGroup = if (studyGroup is List<*>) {
-            studyGroup[1].toString()
-        } else {
-            null
-        }
+        val workLocation = (response.workLocation as? List<*>)
+            ?.get(1)
+            ?.toString()
 
-        val company = response.company
-        val castedCompany = if (company is List<*>) {
-            company[1].toString()
-        } else {
-            null
-        }
+        val resourceCalendar = (response.resourceCalendar as? List<*>)
+            ?.get(1)
+            ?.toString()
 
-        val address = response.address
-        val castedAddress = if (address is List<*>) {
-            address[1].toString()
-        } else {
-            null
-        }
+        val coach = (response.coach as? List<*>)
+            ?.get(1)
+            ?.toString()
 
-        val workLocation = response.workLocation
-        val castedWorkLocation = if (workLocation is List<*>) {
-            workLocation[1].toString()
-        } else {
-            null
-        }
-
-        val resourceCalendar = response.resourceCalendar
-        val castedResourceCalendar = if (resourceCalendar is List<*>) {
-            resourceCalendar[1].toString()
-        } else {
-            null
-        }
-
-        val aboutMe = if (response.aboutMe is String) {
-            response.aboutMe.toString()
-        } else {
-            null
-        }
-
-        val coach = response.coach
-        val castedCoach = if (coach is List<*>) {
-            coach[1].toString()
-        } else {
-            null
-        }
-
-        val manager = response.manager
-        val castedManager = if (manager is List<*>) {
-            manager[1].toString()
-        } else {
-            null
-        }
-
-        val employeeType = if (response.employeeType is String) {
-            response.employeeType.toString()
-        } else {
-            null
-        }
+        val manager = (response.manager as? List<*>)
+            ?.get(1)
+            ?.toString()
 
         val employeeDetails = EmployeeDetails(
             id = response.id,
@@ -150,15 +83,15 @@ class EmployeeInteractorHelper {
             mobilePhone = mobilePhone,
             workPhone = workPhone,
             email = email,
-            department = castedDepartment,
-            studyGroup = castedStudyGroup,
-            company = castedCompany,
-            address = castedAddress,
-            workLocation = castedWorkLocation,
-            resourceCalendar = castedResourceCalendar,
+            department = department,
+            studyGroup = studyGroup,
+            company = company,
+            address = address,
+            workLocation = workLocation,
+            resourceCalendar = resourceCalendar,
             aboutMe = aboutMe,
-            coach = castedCoach,
-            manager = castedManager,
+            coach = coach,
+            manager = manager,
             employeeType = employeeType
         )
 

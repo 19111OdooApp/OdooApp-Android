@@ -53,11 +53,9 @@ internal class SelectingModulesHelper {
             .subList(0, 2)
             .joinToString(" ")
 
-        val castedFavouriteModules = if (favouriteModules is String) {
-            deserializeFavouriteModules(favouriteModules) ?: emptyList()
-        } else {
-            emptyList()
-        }
+        val castedFavouriteModules = (favouriteModules as? String)
+            ?.let { deserializeFavouriteModules(it) }
+            ?: emptyList()
 
         val user = UserWithFavouriteModules(
             user = User(modelId = modelId, uid = uid, name = name),
@@ -94,18 +92,11 @@ internal class SelectingModulesHelper {
         // TODO consider to remove if unnecessary
         for (module in modules.records) {
             if (groupsOfUser.intersect(module.groupIds.toSet()).isNotEmpty()) {
-                val parentInfo = module.parentId
+                val parentInfo = module.parentId as? List<*> ?: emptyList<Any>()
 
-                val castedParentInfo = if (parentInfo is List<*>) {
-                    parentInfo
-                } else {
-                    emptyList<Any>()
-                }
-                val parentId = if (castedParentInfo.isEmpty()) {
-                    null
-                } else {
-                    (castedParentInfo[0] as Double).toInt()
-                }
+                val parentId = parentInfo
+                    .getOrNull(0)
+                    ?.let { (it as Double).toInt() }
 
                 rootModules.add(
                     OdooModule(

@@ -68,6 +68,9 @@ class RecruitmentKanbanScreen @Inject constructor() : IRecruitmentKanbanScreen {
                     onEmployeeCardClick = {
                         navController.navigate(Routes.recruitmentDetails)
                     },
+                    onBackPressed = {
+                        navController.popBackStack()
+                    },
                     searchHintRes = R.string.recruitment_search_hint
                 )
             }

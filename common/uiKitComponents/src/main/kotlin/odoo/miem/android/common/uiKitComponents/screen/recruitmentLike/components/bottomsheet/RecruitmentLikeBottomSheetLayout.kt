@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,7 +32,6 @@ import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
 import odoo.miem.android.common.uiKitComponents.utils.getStatusIcon
 
 @Suppress
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> RecruitmentLikeBottomSheetLayout(
     avatarUrl: String?,

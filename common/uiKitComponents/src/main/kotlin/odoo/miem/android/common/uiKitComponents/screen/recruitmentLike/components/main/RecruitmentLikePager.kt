@@ -2,7 +2,6 @@ package odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.componen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -29,7 +28,7 @@ fun <E : RecruitmentLikeEmployeeModel, S : RecruitmentLikeStatusModel<E>> Recrui
 ) = HorizontalPager(
     count = statusList.size + 1,
     state = pagerState,
-    modifier = Modifier.fillMaxWidth(),
+    modifier = Modifier.fillMaxSize(),
     verticalAlignment = Alignment.Top,
 ) { page ->
 

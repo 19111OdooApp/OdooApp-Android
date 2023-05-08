@@ -34,6 +34,13 @@ internal class RecruitmentViewModel : BaseViewModel() {
      */
     val focusedJob: PublishSubject<RecruitmentJob> by lazy { PublishSubject.create() }
 
+    fun onOpenJobs() {
+        jobsList.clear()
+
+        fetchJobsList()
+        getUserInfo()
+    }
+
     fun fetchJobsList() {
         Timber.d("fetchJobsList()")
 

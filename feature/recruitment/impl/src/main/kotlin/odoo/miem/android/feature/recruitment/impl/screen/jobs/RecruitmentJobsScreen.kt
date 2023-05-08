@@ -52,8 +52,7 @@ class RecruitmentJobsScreen @Inject constructor() : IRecruitmentJobsScreen {
         val focusedJob by viewModel.focusedJob.subscribeAsState(null)
 
         LaunchedEffect(Unit) {
-            viewModel.fetchJobsList()
-            viewModel.getUserInfo()
+            viewModel.onOpenJobs()
         }
 
         // TODO On error?
@@ -73,6 +72,7 @@ class RecruitmentJobsScreen @Inject constructor() : IRecruitmentJobsScreen {
                     changeRecruitState = viewModel::changeRecruitState,
                     changeFavoriteState = viewModel::changeFavoriteState,
                     onCardClick = { navController.navigate("${Routes.recruitmentKanban}/${it.id}") },
+                    onNavigateToModulesPressed = { navController.navigate(Routes.selectingModules) },
                     onUserIconClick = { navController.navigate(Routes.userProfile) },
                     onBackPressed = { navController.popBackStack() }
                 )
@@ -91,6 +91,7 @@ class RecruitmentJobsScreen @Inject constructor() : IRecruitmentJobsScreen {
         changeRecruitState: (job: RecruitmentJob) -> Unit = {},
         changeFavoriteState: (job: RecruitmentJob) -> Unit = {},
         onCardClick: (job: RecruitmentJob) -> Unit = {},
+        onNavigateToModulesPressed: () -> Unit = {},
         onUserIconClick: () -> Unit = {},
         onBackPressed: () -> Unit = {},
     ) {
@@ -155,6 +156,7 @@ class RecruitmentJobsScreen @Inject constructor() : IRecruitmentJobsScreen {
             },
             mainListContent = content,
             searchResultListContent = content,
+            onNavigateToModulesPressed = onNavigateToModulesPressed,
             onUserIconClick = onUserIconClick
         )
     }

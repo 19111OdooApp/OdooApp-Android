@@ -31,7 +31,7 @@ class RecruitmentJobsInteractor @Inject constructor() : IRecruitmentJobsInteract
             .getRecruitmentJobsInfo()
             .map<Result<List<RecruitmentJob>>> { response ->
                 Timber.d("getRecruitmentJobs(): get response - $response")
-                SuccessResult(response.toListDTO())
+                SuccessResult(response.toListDTO().sortedBy { !it.isFavorite })
             }
             .onErrorReturn {
                 Timber.e("getRecruitmentJobs(): error message = ${it.message}")
@@ -39,22 +39,73 @@ class RecruitmentJobsInteractor @Inject constructor() : IRecruitmentJobsInteract
             }
     }
 
-    private fun RecruitmentJobsResponse.toListDTO(): List<RecruitmentJob> = jobs?.map {
-        RecruitmentJob(
-            id = it.id,
-            name = it.name ?: DEFAULT_UNTITLED_JOB,
-            state = when (it.state) {
-                "open" -> RecruitmentJobState.RECRUIT_DONE
-                else -> RecruitmentJobState.RECRUIT_START
-            },
-            isFavorite = it.isFavorite ?: false,
-            numberToRecruit = it.numberToRecruit ?: DEFAULT_NUMBER,
-            numberOfNewApplication = it.numberOfNewApplication ?: DEFAULT_NUMBER,
-            numberOfApplication = it.numberOfApplication ?: DEFAULT_NUMBER,
-            url = "${dataStore.url}${it.websiteUrl?.drop(1)}",
-            isPublished = it.isPublished ?: false
-        )
-    } ?: emptyList()
+    override fun setJobPublication(jobId: Int, publish: Boolean): ResultSingle<Boolean> {
+        Timber.d("setJobPublication()")
+
+        return recruitmentRepository
+            .setJobPublication(jobId, publish)
+            .map<Result<Boolean>> { response ->
+                Timber.d("getRecruitmentJobs(): get response - $response")
+                SuccessResult(response)
+            }
+            .onErrorReturn {
+                Timber.e("getRecruitmentJobs(): error message = ${it.message}")
+                ErrorResult(R.string.general_authorization_error)
+            }
+    }
+
+    override fun setJobFavoritable(jobId: Int, isFavorite: Boolean): ResultSingle<Boolean> {
+        Timber.d("setJobFavoritable()")
+
+        return recruitmentRepository
+            .setJobFavoritable(jobId, isFavorite)
+            .map<Result<Boolean>> { response ->
+                Timber.d("getRecruitmentJobs(): get response - $response")
+                SuccessResult(response)
+            }
+            .onErrorReturn {
+                Timber.e("getRecruitmentJobs(): error message = ${it.message}")
+                ErrorResult(R.string.general_authorization_error)
+            }
+    }
+
+    override fun setJobRecruit(jobId: Int, isRecruitingDone: Boolean): ResultSingle<Boolean> {
+        Timber.d("setJobRecruit()")
+
+        return recruitmentRepository
+            .setJobRecruit(jobId, isRecruitingDone)
+            .map<Result<Boolean>> { response ->
+                Timber.d("getRecruitmentJobs(): get response - $response")
+                SuccessResult(response)
+            }
+            .onErrorReturn {
+                Timber.e("getRecruitmentJobs(): error message = ${it.message}")
+                ErrorResult(R.string.general_authorization_error)
+            }
+    }
+
+    private fun RecruitmentJobsResponse.toListDTO(): List<RecruitmentJob> =
+        jobs?.fold(mutableListOf()) { list, job ->
+            job.id?.let {
+                list.add(
+                    RecruitmentJob(
+                        id = it,
+                        name = job.name ?: DEFAULT_UNTITLED_JOB,
+                        state = when (job.state) {
+                            "open" -> RecruitmentJobState.RECRUIT_DONE
+                            else -> RecruitmentJobState.RECRUIT_START
+                        },
+                        isFavorite = job.isFavorite ?: false,
+                        numberToRecruit = job.numberToRecruit ?: DEFAULT_NUMBER,
+                        numberOfNewApplication = job.numberOfNewApplication ?: DEFAULT_NUMBER,
+                        numberOfApplication = job.numberOfApplication ?: DEFAULT_NUMBER,
+                        url = "${dataStore.url}${job.websiteUrl?.drop(1)}",
+                        isPublished = job.isPublished ?: false
+                    )
+                )
+            }
+            list
+        } ?: emptyList()
 
     companion object {
         const val DEFAULT_UNTITLED_JOB = "Untitled Job"

@@ -21,4 +21,10 @@ interface IRecruitmentRepository {
      * Recruitment Jobs
      */
     fun getRecruitmentJobsInfo(): Single<RecruitmentJobsResponse>
+
+    fun setJobPublication(jobId: Int, publish: Boolean): Single<Boolean>
+
+    fun setJobFavoritable(jobId: Int, isFavorite: Boolean): Single<Boolean>
+
+    fun setJobRecruit(jobId: Int, isRecruitingDone: Boolean): Single<Boolean>
 }

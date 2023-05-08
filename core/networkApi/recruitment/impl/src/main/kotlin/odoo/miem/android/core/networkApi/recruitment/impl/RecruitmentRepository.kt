@@ -36,4 +36,48 @@ class RecruitmentRepository @Inject constructor() : IRecruitmentRepository {
             recruitmentJobsService.getRecruitmentJobs()
         }.subscribeOn(Schedulers.io())
     }
+
+    override fun setJobPublication(jobId: Int, publish: Boolean): Single<Boolean> {
+        Timber.d("setJobPublication(): jobId - $jobId, publish - $publish")
+
+        return Single.fromCallable {
+            recruitmentJobsService.editJob(
+                args = listOf(
+                    listOf(jobId),
+                    mapOf(
+                        "is_published" to publish,
+                        "website_published" to publish
+                    )
+                )
+            )
+        }.subscribeOn(Schedulers.io())
+    }
+
+    override fun setJobFavoritable(jobId: Int, isFavorite: Boolean): Single<Boolean> {
+        Timber.d("setJobFavoritable(): jobId - $jobId, isFavorite - $isFavorite")
+
+        return Single.fromCallable {
+            recruitmentJobsService.editJob(
+                args = listOf(
+                    listOf(jobId),
+                    mapOf(
+                        "is_favorite" to isFavorite
+                    )
+                )
+            )
+        }.subscribeOn(Schedulers.io())
+    }
+
+    override fun setJobRecruit(jobId: Int, isRecruitingDone: Boolean): Single<Boolean> {
+        Timber.d("setJobRecruit(): jobId - $jobId, isRecruitingDone - $isRecruitingDone")
+
+        return Single.fromCallable {
+            recruitmentJobsService.editJob(
+                args = listOf(
+                    listOf(jobId)
+                ),
+                method = if (isRecruitingDone) "set_open" else "set_recruit"
+            )
+        }.subscribeOn(Schedulers.io())
+    }
 }

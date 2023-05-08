@@ -7,10 +7,8 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rxjava3.subscribeAsState
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -51,8 +49,11 @@ class RecruitmentJobsScreen @Inject constructor() : IRecruitmentJobsScreen {
         val userInfo by viewModel.userInfoState.collectAsState()
         userInfo.subscribeOnError(showMessage)
 
+        val focusedJob by viewModel.focusedJob.subscribeAsState(null)
+
         LaunchedEffect(Unit) {
-            viewModel.onOpenJobs()
+            viewModel.fetchJobsList()
+            viewModel.getUserInfo()
         }
 
         // TODO On error?
@@ -63,6 +64,14 @@ class RecruitmentJobsScreen @Inject constructor() : IRecruitmentJobsScreen {
                 RecruitmentJobsScreenContent(
                     userName = userInfo.data?.name ?: "Cool user",
                     jobs = viewModel.jobsList,
+                    focusedJob = focusedJob,
+                    setFocusedJob = {
+                        Timber.d("New job - $it")
+                        viewModel.focusedJob.onNext(it)
+                    },
+                    changePublicationState = viewModel::changePublicationState,
+                    changeRecruitState = viewModel::changeRecruitState,
+                    changeFavoriteState = viewModel::changeFavoriteState,
                     onUserIconClick = { navController.navigate(Routes.userProfile) },
                     onBackPressed = { navController.popBackStack() }
                 )
@@ -75,6 +84,11 @@ class RecruitmentJobsScreen @Inject constructor() : IRecruitmentJobsScreen {
     private fun RecruitmentJobsScreenContent(
         userName: String,
         jobs: List<RecruitmentJob> = emptyList(),
+        focusedJob: RecruitmentJob? = null,
+        setFocusedJob: (job: RecruitmentJob) -> Unit = { _ -> },
+        changePublicationState: (job: RecruitmentJob) -> Unit = { _ -> },
+        changeRecruitState: (job: RecruitmentJob) -> Unit = { _ -> },
+        changeFavoriteState: (job: RecruitmentJob) -> Unit = { _ -> },
         onUserIconClick: () -> Unit = {},
         onBackPressed: () -> Unit = {},
     ) {
@@ -91,15 +105,12 @@ class RecruitmentJobsScreen @Inject constructor() : IRecruitmentJobsScreen {
             possibleValues = sheetState.possibleValues,
         )
 
-        var currentJob: RecruitmentJob? by remember {
-            mutableStateOf(null)
-        }
-
         val content: @Composable (ColumnScope.(items: List<RecruitmentJob>) -> Unit) = { jobs ->
             RecruitmentJobsList(
+                onLikeClick = changeFavoriteState,
                 jobs = jobs
             ) {
-                currentJob = it
+                setFocusedJob(it)
                 scope.launch {
                     scaffoldState.customBottomSheetState.expand()
                 }
@@ -111,7 +122,6 @@ class RecruitmentJobsScreen @Inject constructor() : IRecruitmentJobsScreen {
             if (scaffoldState.customBottomSheetState.isExpanded) {
                 scope.launch {
                     scaffoldState.customBottomSheetState.hide()
-                    currentJob = null
                 }
             } else {
                 onBackPressed()
@@ -125,11 +135,19 @@ class RecruitmentJobsScreen @Inject constructor() : IRecruitmentJobsScreen {
             mainTitle = stringResource(R.string.recruitment_job_positions),
             sheetContent = {
                 RecruitmentJobsSheet(
-                    jobLink = currentJob?.url ?: "Error url",
-                    isRecruitingDone = currentJob?.state == RecruitmentJobState.RECRUIT_DONE,
-                    isPublished = currentJob?.isPublished ?: false,
-                    onRecruitClick = { /* TODO */ },
-                    onPublishedClick = { /* TODO */ },
+                    jobLink = focusedJob?.url ?: "Error url",
+                    isRecruitingDone = focusedJob?.state == RecruitmentJobState.RECRUIT_DONE,
+                    isPublished = focusedJob?.isPublished ?: false,
+                    onRecruitClick = {
+                        focusedJob?.let {
+                            changeRecruitState(it)
+                        }
+                    },
+                    onPublishedClick = {
+                        focusedJob?.let {
+                            changePublicationState(it)
+                        }
+                    },
                 )
             },
             mainListContent = content,

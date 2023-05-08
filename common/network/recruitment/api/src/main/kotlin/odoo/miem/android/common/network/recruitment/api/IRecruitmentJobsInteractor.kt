@@ -12,4 +12,10 @@ interface IRecruitmentJobsInteractor {
 
     // TODO Desc
     fun getRecruitmentJobs(): ResultSingle<List<RecruitmentJob>>
+
+    fun setJobPublication(jobId: Int, publish: Boolean): ResultSingle<Boolean>
+
+    fun setJobFavoritable(jobId: Int, isFavorite: Boolean): ResultSingle<Boolean>
+
+    fun setJobRecruit(jobId: Int, isRecruitingDone: Boolean): ResultSingle<Boolean>
 }

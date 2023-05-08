@@ -29,4 +29,13 @@ interface IRecruitmentJobsService : JsonRpcApi {
             "is_published"
         )
     ): RecruitmentJobsResponse
+
+    @JsonRpc("call")
+    fun editJob(
+        @JsonRpcPath path: String = "web/dataset/call_kw/write",
+        @JsonRpcArgument("model") model: String = "hr.job",
+        @JsonRpcArgument("method") method: String = "write",
+        @JsonRpcArgument("kwargs") kwargs: Map<Any, Any> = emptyMap(),
+        @JsonRpcArgument("args") args: List<Any>
+    ): Boolean
 }

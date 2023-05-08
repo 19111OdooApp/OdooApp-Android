@@ -1,8 +1,10 @@
 package odoo.miem.android.feature.recruitment.impl
 
 import androidx.compose.runtime.mutableStateListOf
+import io.reactivex.rxjava3.subjects.PublishSubject
 import odoo.miem.android.common.network.recruitment.api.di.IRecruitmentInteractorApi
 import odoo.miem.android.common.network.recruitment.api.entities.jobs.RecruitmentJob
+import odoo.miem.android.common.network.recruitment.api.entities.jobs.RecruitmentJobState
 import odoo.miem.android.common.network.recruitment.api.entities.kanban.Employee
 import odoo.miem.android.common.network.recruitment.api.entities.kanban.Status
 import odoo.miem.android.common.network.selectingModules.api.di.ISelectingModulesInteractorApi
@@ -30,18 +32,9 @@ internal class RecruitmentViewModel : BaseViewModel() {
     /**
      * Recruitment Jobs
      */
-    private var shouldJobsReload = true
+    val focusedJob: PublishSubject<RecruitmentJob> by lazy { PublishSubject.create() }
 
-    fun onOpenJobs() {
-        if (!shouldJobsReload) return
-
-        fetchJobsList()
-        getUserInfo()
-
-        shouldJobsReload = false
-    }
-
-    private fun fetchJobsList() {
+    fun fetchJobsList() {
         Timber.d("fetchJobsList()")
 
         statusState.onLoadingState()
@@ -56,6 +49,67 @@ internal class RecruitmentViewModel : BaseViewModel() {
                 },
                 onError = Timber::e
             )
+    }
+
+    fun changePublicationState(job: RecruitmentJob) {
+        val index = jobsList.indexOf(job)
+        val previousState = jobsList[index].isPublished
+        jobsList[index] = jobsList[index].copy(isPublished = !previousState)
+
+        focusedJob.onNext(jobsList[index])
+
+        recruitmentJobsInteractor.setJobPublication(
+            jobId = job.id,
+            publish = !previousState
+        ).schedule(
+            recruitmentChannel,
+            onSuccess = { response ->
+                Timber.d("changePublicationState(): response - $response")
+            },
+            onError = Timber::e
+        )
+    }
+
+    fun changeRecruitState(job: RecruitmentJob) {
+        val index = jobsList.indexOf(job)
+        val previousState = jobsList[index].state
+        jobsList[index] = jobsList[index].copy(
+            state = if (previousState == RecruitmentJobState.RECRUIT_DONE) {
+                RecruitmentJobState.RECRUIT_START
+            } else {
+                RecruitmentJobState.RECRUIT_DONE
+            }
+        )
+
+        focusedJob.onNext(jobsList[index])
+
+        recruitmentJobsInteractor.setJobRecruit(
+            jobId = job.id,
+            isRecruitingDone = previousState != RecruitmentJobState.RECRUIT_DONE
+        ).schedule(
+            recruitmentChannel,
+            onSuccess = { response ->
+                Timber.d("changeRecruitState(): response - $response")
+            },
+            onError = Timber::e
+        )
+    }
+
+    fun changeFavoriteState(job: RecruitmentJob) {
+        val index = jobsList.indexOf(job)
+        val previousState = jobsList[index].isFavorite
+        jobsList[index] = jobsList[index].copy(isFavorite = !previousState)
+
+        recruitmentJobsInteractor.setJobFavoritable(
+            jobId = job.id,
+            isFavorite = !previousState
+        ).schedule(
+            recruitmentChannel,
+            onSuccess = { response ->
+                Timber.d("changePublicationState(): response - $response")
+            },
+            onError = Timber::e
+        )
     }
 
     /**

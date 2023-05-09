@@ -45,35 +45,35 @@ class EmployeeInteractorHelper {
         val employeeType = response.employeeType as? String
 
         val department = (response.departmentId as? List<*>)
-            ?.get(1)
+            ?.getOrNull(1)
             ?.toString()
 
         val studyGroup = (response.studyGroup as? List<*>)
-            ?.get(1)
+            ?.getOrNull(1)
             ?.toString()
 
         val company = (response.company as? List<*>)
-            ?.get((1))
+            ?.getOrNull(1)
             ?.toString()
 
         val address = (response.address as? List<*>)
-            ?.get(1)
+            ?.getOrNull(1)
             ?.toString()
 
         val workLocation = (response.workLocation as? List<*>)
-            ?.get(1)
+            ?.getOrNull(1)
             ?.toString()
 
         val resourceCalendar = (response.resourceCalendar as? List<*>)
-            ?.get(1)
+            ?.getOrNull(1)
             ?.toString()
 
         val coach = (response.coach as? List<*>)
-            ?.get(1)
+            ?.getOrNull(1)
             ?.toString()
 
         val manager = (response.manager as? List<*>)
-            ?.get(1)
+            ?.getOrNull(1)
             ?.toString()
 
         val employeeDetails = EmployeeDetails(

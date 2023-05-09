@@ -13,6 +13,7 @@ import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.platform.presentation.BaseViewModel
 import odoo.miem.android.core.utils.rx.lazyEmptyResultPublishSubject
 import odoo.miem.android.core.utils.rx.onLoadingState
+import odoo.miem.android.core.utils.state.ErrorResult
 import odoo.miem.android.core.utils.state.ResultSubject
 import timber.log.Timber
 
@@ -25,6 +26,7 @@ internal class RecruitmentViewModel : BaseViewModel() {
 
     val userInfoState: ResultSubject<User> by lazyEmptyResultPublishSubject()
     val statusState: ResultSubject<List<Status>> by lazyEmptyResultPublishSubject()
+    val changeStatusState: ResultSubject<Boolean> by lazyEmptyResultPublishSubject()
 
     val jobsState: ResultSubject<List<RecruitmentJob>> by lazyEmptyResultPublishSubject()
     val jobsList = mutableStateListOf<RecruitmentJob>()
@@ -138,14 +140,41 @@ internal class RecruitmentViewModel : BaseViewModel() {
             )
     }
 
-    @Suppress("UnusedPrivateMember") // TODO: Remove once implemented
-    fun changeEmployeeStatus(employee: Employee, status: Status) {
-        // TODO: Add change of status logic and update statusState
+    fun changeEmployeeStatus(jobId: Long, employee: Employee, status: Status) {
+        recruitmentInteractor
+            .changeStageInRecruitmentKanban(
+                stageId = status.id,
+                employeeId = employee.id
+            )
+            .schedule(
+                recruitmentKanbanChannel,
+                onSuccess = { result ->
+                    Timber.d("changeEmployeeStatus(): result - $result")
+                    if (result is ErrorResult) {
+                        changeStatusState.onNext(ErrorResult(R.string.error_recruitment_change_status))
+                    } else {
+                        fetchStatusList(jobId)
+                        changeStatusState.onNext(result)
+                    }
+                },
+                onError = Timber::e
+            )
     }
 
-    fun createNewStatus(statusName: String) {
-        // TODO
-        Timber.d("New status name - $statusName")
+    fun createNewStatus(jobId: Long, topic: String) {
+        Timber.d("createNewStatus()")
+
+        statusState.onLoadingState()
+        recruitmentInteractor
+            .createNewKanbanStatus(jobId, topic)
+            .schedule(
+                recruitmentKanbanChannel,
+                onSuccess = { status ->
+                    Timber.d("createNewStatus(): list - ${status.data}")
+                    fetchStatusList(jobId)
+                },
+                onError = Timber::e
+            )
     }
 
     /**

@@ -41,7 +41,7 @@ fun <E : RecruitmentLikeEmployeeModel> RecruitmentLikeList(
             onClick = { onEmployeeCardClick(it) },
             onActionClick = { onEmployeeActionClick(it) },
             scheduleIconColor = getClockColor(it.deadlineStatus),
-            statusIconRes = getStatusIcon(it.statusId)
+            statusIconRes = getStatusIcon(it.iconId)
         )
     }
 }

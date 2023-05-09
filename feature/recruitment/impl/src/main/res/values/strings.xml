@@ -19,4 +19,6 @@
 
     <string name="recruitment_job_published">Published</string>
     <string name="recruitment_job_not_published">Not Published</string>
+
+    <string name="error_recruitment_change_status">Status can not be changed without reasons!</string>
 </resources>

@@ -71,6 +71,6 @@ fun RecruitmentBottomSheetElementPreview() {
     RecruitmentLikeBottomSheetElement(
         onClick = {},
         painter = painterResource(id = R.drawable.add_plus),
-        name = "stringResource(id = R.string.recruitment_add_new_status)",
+        name = "stringResource(iconId = R.string.recruitment_add_new_status)",
     )
 }

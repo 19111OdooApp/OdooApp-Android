@@ -39,7 +39,7 @@ internal class CrmViewModel : BaseViewModel() {
                                 "anna",
                                 2.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             )
                         ),
@@ -51,56 +51,56 @@ internal class CrmViewModel : BaseViewModel() {
                                 "alex",
                                 2.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             ),
                             Employee(
                                 "misha",
                                 3.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             ),
                             Employee(
                                 "alex",
                                 2.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             ),
                             Employee(
                                 "misha",
                                 3.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             ),
                             Employee(
                                 "alex",
                                 2.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.EXPIRED
                             ),
                             Employee(
                                 "misha",
                                 3.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.ACTIVE
                             ),
                             Employee(
                                 "alex",
                                 2.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             ),
                             Employee(
                                 "misha",
                                 3.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             )
                         ),

@@ -39,7 +39,8 @@ class RecruitmentKanbanScreen @Inject constructor() : IRecruitmentKanbanScreen {
         val userInfo by viewModel.userInfoState.collectAsState()
         userInfo.subscribeOnError(showMessage)
 
-        statusList.subscribeOnError(showMessage)
+        val changeStatusState by viewModel.changeStatusState.collectAsState()
+        changeStatusState.subscribeOnError(showMessage)
 
         val onNavigateToModulesPressed = {
             navController.navigate(Routes.selectingModules)
@@ -62,8 +63,14 @@ class RecruitmentKanbanScreen @Inject constructor() : IRecruitmentKanbanScreen {
                     userName = userInfo.data?.name ?: "Cool user",
                     statusList = result.data ?: emptyList(),
                     onNavigateToModulesPressed = onNavigateToModulesPressed,
-                    onStatusClick = viewModel::changeEmployeeStatus,
-                    onNewStatusCreated = viewModel::createNewStatus,
+                    onStatusClick = { employee, status ->
+                        viewModel.changeEmployeeStatus(
+                            jobId,
+                            employee,
+                            status
+                        )
+                    },
+                    onNewStatusCreated = { viewModel.createNewStatus(jobId, it) },
                     onUserIconClick = onUserIconClick,
                     onEmployeeCardClick = {
                         navController.navigate(Routes.recruitmentDetails)
@@ -93,7 +100,7 @@ class RecruitmentKanbanScreen @Inject constructor() : IRecruitmentKanbanScreen {
                                 "anna",
                                 2.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             )
                         ),
@@ -105,56 +112,56 @@ class RecruitmentKanbanScreen @Inject constructor() : IRecruitmentKanbanScreen {
                                 "alex",
                                 2.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             ),
                             Employee(
                                 "misha",
                                 3.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             ),
                             Employee(
                                 "alex",
                                 2.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             ),
                             Employee(
                                 "misha",
                                 3.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             ),
                             Employee(
                                 "alex",
                                 2.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.EXPIRED
                             ),
                             Employee(
                                 "misha",
                                 3.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.ACTIVE
                             ),
                             Employee(
                                 "alex",
                                 2.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             ),
                             Employee(
                                 "misha",
                                 3.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             )
                         ),

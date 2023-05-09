@@ -73,7 +73,7 @@ RecruitmentLikeChangeStatusBottomSheetContent(
             items(statusList) { status ->
                 RecruitmentLikeBottomSheetElement(
                     onClick = { onStatusClicked(employee, status) },
-                    painter = painterResource(getStatusIcon(status.id)),
+                    painter = painterResource(getStatusIcon(status.iconId)),
                     name = status.statusName
                 )
             }

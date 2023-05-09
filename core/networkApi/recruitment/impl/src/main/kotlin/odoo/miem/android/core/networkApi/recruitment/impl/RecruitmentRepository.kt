@@ -5,6 +5,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import odoo.miem.android.core.jsonRpcApiFabric.jsonRpcApi
 import odoo.miem.android.core.networkApi.recruitment.api.IRecruitmentRepository
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentJobsResponse
+import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentKanbanStagesResponse
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentResponse
 import odoo.miem.android.core.networkApi.recruitment.impl.source.IRecruitmentJobsService
 import odoo.miem.android.core.networkApi.recruitment.impl.source.IRecruitmentService
@@ -29,6 +30,42 @@ class RecruitmentRepository @Inject constructor() : IRecruitmentRepository {
                 domain = listOf(
                     listOf("job_id", "=", jobId)
                 )
+            )
+        }.subscribeOn(Schedulers.io())
+    }
+
+    override fun getRecruitmentKanbanStages(): Single<RecruitmentKanbanStagesResponse> {
+        Timber.d("getRecruitmentKanbanStages()")
+
+        return Single.fromCallable {
+            recruitmentService.getRecruitmentKanbanStages()
+        }.subscribeOn(Schedulers.io())
+    }
+
+    override fun createNewKanbanStatus(jobId: Long, topic: String): Single<List<Any>> {
+        Timber.d("getRecruitmentInfo()")
+
+        return Single.fromCallable {
+            recruitmentService.createNewKanbanStatus(
+                args = listOf(topic),
+                kwargs = mapOf(
+                    "context" to mapOf(
+                        "default_job_id" to jobId
+                    )
+                )
+            )
+        }.subscribeOn(Schedulers.io())
+    }
+
+    override fun changeStageInRecruitmentKanban(stageId: Long, employeeId: Long): Single<Boolean> {
+        Timber.d("getRecruitmentInfo()")
+
+        return Single.fromCallable {
+            recruitmentService.changeStageInRecruitmentKanban(
+                args = listOf(
+                    listOf(employeeId),
+                    listOf("stage_id", stageId)
+                ),
             )
         }.subscribeOn(Schedulers.io())
     }

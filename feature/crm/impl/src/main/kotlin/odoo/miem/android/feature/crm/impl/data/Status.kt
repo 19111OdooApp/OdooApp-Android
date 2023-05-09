@@ -5,5 +5,6 @@ import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.Rec
 internal data class Status(
     override val statusName: String,
     override val employees: List<Employee>,
-    override val id: Int = 0
+    override val iconId: Int = 0,
+    override val id: Long = 0
 ) : RecruitmentLikeStatusModel<Employee>

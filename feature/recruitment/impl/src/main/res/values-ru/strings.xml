@@ -16,4 +16,6 @@
 
     <string name="recruitment_job_published">Опубликовано</string>
     <string name="recruitment_job_not_published">Не Опубликовано</string>
+
+    <string name="error_recruitment_change_status">Статус не может меняться без причины!</string>
 </resources>

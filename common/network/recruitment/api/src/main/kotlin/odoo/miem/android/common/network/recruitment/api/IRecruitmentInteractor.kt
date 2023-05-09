@@ -12,4 +12,8 @@ interface IRecruitmentInteractor {
 
     // TODO Desc
     fun getRecruitmentKanbanInfo(jobId: Long): ResultSingle<List<Status>>
+
+    fun createNewKanbanStatus(jobId: Long, topic: String): ResultSingle<List<Any>>
+
+    fun changeStageInRecruitmentKanban(stageId: Long, employeeId: Long): ResultSingle<Boolean>
 }

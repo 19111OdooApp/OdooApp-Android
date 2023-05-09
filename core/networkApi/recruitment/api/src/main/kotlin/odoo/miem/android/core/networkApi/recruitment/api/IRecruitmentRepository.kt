@@ -2,6 +2,7 @@ package odoo.miem.android.core.networkApi.recruitment.api
 
 import io.reactivex.rxjava3.core.Single
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentJobsResponse
+import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentKanbanStagesResponse
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentResponse
 
 /**
@@ -16,6 +17,12 @@ interface IRecruitmentRepository {
      * Recruitment Kanban
      */
     fun getRecruitmentKanbanInfo(jobId: Long): Single<RecruitmentResponse>
+
+    fun getRecruitmentKanbanStages(): Single<RecruitmentKanbanStagesResponse>
+
+    fun createNewKanbanStatus(jobId: Long, topic: String): Single<List<Any>>
+
+    fun changeStageInRecruitmentKanban(stageId: Long, employeeId: Long): Single<Boolean>
 
     /**
      * Recruitment Jobs

@@ -9,3 +9,7 @@ data class StatusIconResponse(
     val statusName: String?,
     val downloadUrl: String?
 )
+
+data class FavouriteModulesResponse(
+    val modules: List<String>
+)

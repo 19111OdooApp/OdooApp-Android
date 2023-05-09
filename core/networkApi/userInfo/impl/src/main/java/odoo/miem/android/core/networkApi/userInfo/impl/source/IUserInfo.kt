@@ -17,15 +17,6 @@ interface IUserInfo : JsonRpcApi {
     fun getUserInfo(
         @JsonRpcPath path: String = "web/dataset/search_read",
         @JsonRpcArgument("model") model: String = "res.users.settings",
-        @JsonRpcArgument("fields") fields: List<String> = listOf("id", "user_id", "x_favourite_modules")
+        @JsonRpcArgument("fields") fields: List<String> = listOf("id", "user_id")
     ): UserInfoResponse
-
-    @JsonRpc("call")
-    fun updateFavouriteModules(
-        @JsonRpcPath path: String = "web/dataset/call_kw/write",
-        @JsonRpcArgument("method") method: String = "write",
-        @JsonRpcArgument("model") model: String = "res.users.settings",
-        @JsonRpcArgument("kwargs") kwargs: Map<Any, Any> = emptyMap(),
-        @JsonRpcArgument("args") args: List<Any>
-    ): Boolean
 }

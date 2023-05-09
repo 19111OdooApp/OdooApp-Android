@@ -5,6 +5,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 /**
  * [RemoteConfigModule] - **Dagger** module for providing [FirebaseRemoteConfig] in general map
@@ -15,5 +16,6 @@ import dagger.Provides
 class RemoteConfigModule {
 
     @Provides
+    @Singleton
     fun provideRemoteConfig(): FirebaseRemoteConfig = Firebase.remoteConfig
 }

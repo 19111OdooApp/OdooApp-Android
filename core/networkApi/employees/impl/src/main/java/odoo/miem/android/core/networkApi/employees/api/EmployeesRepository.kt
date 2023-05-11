@@ -5,7 +5,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import odoo.miem.android.core.jsonRpcApiFabric.jsonRpcApi
 import odoo.miem.android.core.networkApi.employees.api.source.AllEmployeesResponse
 import odoo.miem.android.core.networkApi.employees.api.source.EmployeeDetailsResponse
-import odoo.miem.android.core.networkApi.employees.api.source.GetEmployeeInfoRequest
+import odoo.miem.android.core.networkApi.employees.api.source.GetEmployeeDetailsRequest
 import odoo.miem.android.core.networkApi.employees.api.source.IEmployeesService
 import timber.log.Timber
 import javax.inject.Inject
@@ -30,7 +30,7 @@ class EmployeesRepository @Inject constructor() : IEmployeesRepository {
     override fun getEmployeeDetailInfo(employeeId: Int): Single<List<EmployeeDetailsResponse>> {
         Timber.d("getEmployeeInfo: id = $employeeId")
 
-        val request = GetEmployeeInfoRequest(
+        val request = GetEmployeeDetailsRequest(
             args = listOf(
                 employeeId,
                 getEmployeeInfoFields

@@ -7,6 +7,6 @@ package odoo.miem.android.core.networkApi.employees.api.source
  *
  * @param fields - list of strings with fields you want to get
  */
-data class GetEmployeeInfoRequest(
+data class GetEmployeeDetailsRequest(
     val args: List<Any>
 )

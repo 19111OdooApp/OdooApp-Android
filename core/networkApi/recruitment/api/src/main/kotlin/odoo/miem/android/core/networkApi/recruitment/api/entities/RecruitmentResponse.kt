@@ -10,11 +10,11 @@ data class RecruitmentResponse(
 
     @Json(name = "length")
     @SpecifiedTypeOrNull(JsonReader.Token.NUMBER)
-    val length: Int?,
+    val length: Int? = null,
 
     @Json(name = "records")
     @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
-    val records: List<Record>?
+    val records: List<Record>? = null
 ) {
 
     @JsonClass(generateAdapter = true)

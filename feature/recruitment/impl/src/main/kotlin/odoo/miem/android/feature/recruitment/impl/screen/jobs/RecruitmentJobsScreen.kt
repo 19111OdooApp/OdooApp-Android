@@ -22,6 +22,7 @@ import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottom
 import odoo.miem.android.common.uiKitComponents.progressbar.LoadingScreen
 import odoo.miem.android.common.uiKitComponents.screen.searchLike.SearchLikeScreen
 import odoo.miem.android.common.uiKitComponents.stateholder.StateHolder
+import odoo.miem.android.common.uiKitComponents.stateholder.error.ErrorScreen
 import odoo.miem.android.core.utils.rx.collectAsState
 import odoo.miem.android.core.utils.state.subscribeOnError
 import odoo.miem.android.feature.navigation.api.data.Routes
@@ -49,7 +50,6 @@ class RecruitmentJobsScreen @Inject constructor() : IRecruitmentJobsScreen {
         val viewModel: RecruitmentViewModel = viewModel()
 
         val jobsState by viewModel.jobsState.collectAsState()
-        jobsState.subscribeOnError(showMessage)
 
         val userInfo by viewModel.userInfoState.collectAsState()
         userInfo.subscribeOnError(showMessage)
@@ -60,10 +60,10 @@ class RecruitmentJobsScreen @Inject constructor() : IRecruitmentJobsScreen {
             viewModel.onOpenJobs()
         }
 
-        // TODO On error?
         StateHolder(
             state = jobsState,
             loadingContent = { LoadingScreen() },
+            errorContent = { ErrorScreen { viewModel.onOpenJobs() } },
             successContent = {
                 RecruitmentJobsScreenContent(
                     userName = userInfo.data?.name ?: "Cool user",
@@ -81,7 +81,7 @@ class RecruitmentJobsScreen @Inject constructor() : IRecruitmentJobsScreen {
                     onUserIconClick = { navController.navigate(Routes.userProfile) },
                     onBackPressed = { navController.popBackStack() }
                 )
-            }
+            },
         )
     }
 

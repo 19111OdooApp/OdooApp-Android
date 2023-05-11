@@ -13,6 +13,7 @@ import odoo.miem.android.common.uiKitComponents.progressbar.LoadingScreen
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.RecruitmentLikeScreen
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.DeadlineStatus
 import odoo.miem.android.common.uiKitComponents.stateholder.StateHolder
+import odoo.miem.android.common.uiKitComponents.stateholder.error.ErrorScreen
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.utils.rx.collectAsState
 import odoo.miem.android.core.utils.state.subscribeOnError
@@ -39,7 +40,6 @@ class RecruitmentKanbanScreen @Inject constructor() : IRecruitmentKanbanScreen {
         val viewModel: RecruitmentViewModel = viewModel()
 
         val statusList by viewModel.statusState.collectAsState()
-        statusList.subscribeOnError(showMessage)
 
         val userInfo by viewModel.userInfoState.collectAsState()
         userInfo.subscribeOnError(showMessage)
@@ -56,13 +56,15 @@ class RecruitmentKanbanScreen @Inject constructor() : IRecruitmentKanbanScreen {
         }
 
         LaunchedEffect(Unit) {
-            viewModel.fetchStatusList(jobId)
-            viewModel.getUserInfo()
+            viewModel.onOpenKanban(jobId)
         }
 
         StateHolder(
             state = statusList,
             loadingContent = { LoadingScreen() },
+            errorContent = {
+                ErrorScreen { viewModel.onOpenKanban(jobId) }
+            },
             successContent = { result ->
                 RecruitmentLikeScreen(
                     userName = userInfo.data?.name ?: "Cool user",

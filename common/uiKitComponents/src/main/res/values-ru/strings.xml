@@ -53,4 +53,9 @@
 
     <string name="recruitment_empty_status">Пока нет здесь нет заявок!</string>
     <string name="recruitment_empty_status_description">Попробуйте найти в поиске нужную 🤔</string>
+
+    <!--Error State-->
+    <string name="error_message">Извините, но что-то пошло не так 😔</string>
+    <string name="error_message_subtitle">Может попробуем ещё раз?</string>
+    <string name="error_retry">Повторить</string>
 </resources>

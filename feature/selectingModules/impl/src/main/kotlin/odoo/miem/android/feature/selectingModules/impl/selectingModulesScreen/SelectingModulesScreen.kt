@@ -59,6 +59,7 @@ import odoo.miem.android.common.uiKitComponents.cards.SmallModuleCard
 import odoo.miem.android.common.uiKitComponents.headers.CommonModuleHeader
 import odoo.miem.android.common.uiKitComponents.splash.OdooSplashScreen
 import odoo.miem.android.common.uiKitComponents.stateholder.StateHolder
+import odoo.miem.android.common.uiKitComponents.stateholder.error.ErrorScreen
 import odoo.miem.android.common.uiKitComponents.text.SubtitleText
 import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
@@ -66,8 +67,6 @@ import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.utils.rx.collectAsState
-import odoo.miem.android.core.utils.state.SuccessResult
-import odoo.miem.android.core.utils.state.subscribeOnError
 import odoo.miem.android.feature.navigation.api.data.Routes
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
 import odoo.miem.android.feature.selectingModules.impl.R
@@ -99,16 +98,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         val viewModel: SelectingModulesViewModel = viewModel()
 
         val userInfoState by viewModel.userInfoState.collectAsState()
-        userInfoState.subscribeOnError(showMessage)
 
         val modulesState by viewModel.modulesState.collectAsState()
-        modulesState.subscribeOnError(showMessage)
-
-        if (userInfoState is SuccessResult) {
-            LaunchedEffect(Unit) {
-                viewModel.getUserModules(userInfoState.data?.uid!!)
-            }
-        }
 
         LaunchedEffect(Unit) {
             viewModel.getUserInfo()
@@ -133,6 +124,11 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         StateHolder(
             state = modulesState,
             loadingContent = { OdooSplashScreen() },
+            errorContent = {
+                ErrorScreen {
+                    viewModel.getUserInfo()
+                }
+            },
             successContent = {
                 val allModules = viewModel.allModules
                 val favouriteModules = allModules.filter { it.isFavourite }

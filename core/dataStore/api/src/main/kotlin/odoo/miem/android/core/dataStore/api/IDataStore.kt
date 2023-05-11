@@ -37,4 +37,6 @@ interface IDataStore {
      */
     val favouriteModules: Set<String>
     fun setUserFavouriteModules(newFavouriteModules: Set<String>)
+
+    fun clear()
 }

@@ -79,7 +79,10 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
             }
             .onErrorReturn {
                 Timber.e("getUserInfo(): error message = ${it.message}")
-                ErrorResult(R.string.selecting_modules_error)
+                ErrorResult(
+                    message = R.string.selecting_modules_error,
+                    isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
+                )
             }
     }
 
@@ -111,7 +114,10 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
             }
             .onErrorReturn {
                 Timber.e("getOdooModules(): error message = ${it.message}")
-                ErrorResult(R.string.selecting_modules_error)
+                ErrorResult(
+                    message = R.string.selecting_modules_error,
+                    isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
+                )
             }
     }
 
@@ -132,7 +138,10 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
             }
             .onErrorReturn {
                 Timber.e("updateFavouriteModules(): error message = ${it.message}")
-                ErrorResult(R.string.selecting_modules_error)
+                ErrorResult(
+                    message = R.string.selecting_modules_error,
+                    isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
+                )
             }
     }
 

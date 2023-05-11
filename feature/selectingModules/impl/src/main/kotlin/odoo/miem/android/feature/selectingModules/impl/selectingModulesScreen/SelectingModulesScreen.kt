@@ -125,9 +125,11 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             state = modulesState,
             loadingContent = { OdooSplashScreen() },
             errorContent = {
-                ErrorScreen {
-                    viewModel.getUserInfo()
-                }
+                ErrorScreen(
+                    isSessionExpired = it.isSessionExpired,
+                    onSessionExpired = { navController.navigate(Routes.authorization) },
+                    onRetry = { viewModel.getUserInfo() }
+                )
             },
             successContent = {
                 val allModules = viewModel.allModules

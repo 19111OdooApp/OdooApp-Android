@@ -56,7 +56,13 @@ class SelectingModulesViewModel(
                             getUserModules(it)
                         }
                     } else {
-                        modulesState.onNext(ErrorResult())
+                        modulesState.onNext(
+                            ErrorResult(
+                                isSessionExpired = (result as? ErrorResult)
+                                    ?.isSessionExpired
+                                    ?: false
+                            )
+                        )
                     }
                 },
                 onError = Timber::e

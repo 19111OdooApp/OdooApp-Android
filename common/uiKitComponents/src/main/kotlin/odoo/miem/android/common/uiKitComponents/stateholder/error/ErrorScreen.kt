@@ -28,7 +28,9 @@ import odoo.miem.android.core.uiKitTheme.odooErrorPrimaryDark
 
 @Composable
 fun ErrorScreen(
-    onRetry: () -> Unit
+    isSessionExpired: Boolean,
+    onSessionExpired: () -> Unit = { },
+    onRetry: () -> Unit = {}
 ) = Column(
     verticalArrangement = Arrangement.Center,
     horizontalAlignment = Alignment.CenterHorizontally,
@@ -46,7 +48,7 @@ fun ErrorScreen(
     Spacer(modifier = Modifier.height(mainVerticalPadding))
 
     LabelText(
-        textRes = R.string.error_message,
+        textRes = if (isSessionExpired) R.string.error_session_message else R.string.error_message,
         isLarge = true,
         textAlign = TextAlign.Center
     )
@@ -54,7 +56,7 @@ fun ErrorScreen(
     Spacer(modifier = Modifier.height(mainVerticalPadding / 2))
 
     SubtitleText(
-        textRes = R.string.error_message_subtitle,
+        textRes = if (isSessionExpired) R.string.error_session_message_subtitle else R.string.error_message_subtitle,
         textAlign = TextAlign.Center,
         color = MaterialTheme.colorScheme.tertiary
     )
@@ -62,7 +64,13 @@ fun ErrorScreen(
     Spacer(modifier = Modifier.height(mainVerticalPadding))
 
     FilledTextButton(
-        onClick = { onRetry() },
+        onClick = {
+            if (isSessionExpired) {
+                onSessionExpired()
+            } else {
+                onRetry()
+            }
+        },
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = Color.White,
@@ -71,6 +79,6 @@ fun ErrorScreen(
             .fillMaxWidth()
             .padding(top = 75.dp)
             .padding(horizontal = 36.dp),
-        textResource = R.string.error_retry
+        textResource = if (isSessionExpired) R.string.error_session_retry else R.string.error_retry
     )
 }

@@ -63,7 +63,13 @@ class RecruitmentJobsScreen @Inject constructor() : IRecruitmentJobsScreen {
         StateHolder(
             state = jobsState,
             loadingContent = { LoadingScreen() },
-            errorContent = { ErrorScreen { viewModel.onOpenJobs() } },
+            errorContent = {
+                ErrorScreen(
+                    isSessionExpired = it.isSessionExpired,
+                    onSessionExpired = { navController.navigate(Routes.authorization) },
+                    onRetry = { viewModel.onOpenJobs() }
+                )
+            },
             successContent = {
                 RecruitmentJobsScreenContent(
                     userName = userInfo.data?.name ?: "Cool user",

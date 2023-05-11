@@ -95,7 +95,10 @@ class RecruitmentInteractor @Inject constructor() : IRecruitmentInteractor {
             }
             .onErrorReturn {
                 Timber.e("getRecruitmentInfo(): error message = ${it.message}")
-                ErrorResult(R.string.general_authorization_error)
+                ErrorResult(
+                    message = R.string.general_authorization_error,
+                    isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
+                )
             }
     }
 
@@ -109,7 +112,10 @@ class RecruitmentInteractor @Inject constructor() : IRecruitmentInteractor {
             }
             .onErrorReturn {
                 Timber.e("createNewKanbanStatus(): error message = ${it.message}")
-                ErrorResult(R.string.general_authorization_error)
+                ErrorResult(
+                    message = R.string.general_authorization_error,
+                    isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
+                )
             }
     }
 
@@ -126,7 +132,10 @@ class RecruitmentInteractor @Inject constructor() : IRecruitmentInteractor {
             }
             .onErrorReturn {
                 Timber.e("changeStageInRecruitmentKanban(): error message = ${it.message}")
-                ErrorResult(R.string.general_authorization_error)
+                ErrorResult(
+                    message = R.string.general_authorization_error,
+                    isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
+                )
             }
     }
 

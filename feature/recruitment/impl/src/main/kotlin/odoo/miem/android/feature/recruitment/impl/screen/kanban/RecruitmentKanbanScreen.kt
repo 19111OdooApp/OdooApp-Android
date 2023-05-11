@@ -63,7 +63,11 @@ class RecruitmentKanbanScreen @Inject constructor() : IRecruitmentKanbanScreen {
             state = statusList,
             loadingContent = { LoadingScreen() },
             errorContent = {
-                ErrorScreen { viewModel.onOpenKanban(jobId) }
+                ErrorScreen(
+                    isSessionExpired = it.isSessionExpired,
+                    onSessionExpired = { navController.navigate(Routes.authorization) },
+                    onRetry = { viewModel.onOpenKanban(jobId) }
+                )
             },
             successContent = { result ->
                 RecruitmentLikeScreen(

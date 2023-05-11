@@ -76,4 +76,8 @@
     <string name="error_message">Sorry, but something go wrong 😔</string>
     <string name="error_message_subtitle">Maybe we will try one more time?</string>
     <string name="error_retry">Retry</string>
+
+    <string name="error_session_message">Sorry, but your session is expired 😔</string>
+    <string name="error_session_message_subtitle">You shoud authorize one more time</string>
+    <string name="error_session_retry">Let\'s go to authorization!</string>
 </resources>

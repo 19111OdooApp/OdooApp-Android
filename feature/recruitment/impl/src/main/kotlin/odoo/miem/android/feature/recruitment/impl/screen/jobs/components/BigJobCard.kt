@@ -38,13 +38,10 @@ import odoo.miem.android.common.uiKitComponents.utils.getBackgroundColorCard
 import odoo.miem.android.common.uiKitComponents.utils.glowEffect
 
 /**
- * [BigModuleCard] is implementation of big module's card
+ * [BigJobCard] is implementation of big card for recruitment jobs
  *
- * @param moduleName - name of module
- * @param numberOfNotification - number of module notification
- * @param isLiked - is module liked. If true, icon will be filled
- * @param onLikeClick - action, when user click on icon like
- * @param onClick - action, when user click on card
+ * @param job is current Job DTO
+ * @param biggestNumber to show
  *
  * @author Vorozhtsov Mikhail
  */

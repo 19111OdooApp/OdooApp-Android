@@ -18,12 +18,12 @@ import odoo.miem.android.core.uiKitTheme.odooPrimaryGray
 /**
  * ProgressIndicator for ODOO
  *
- * @author Alexander Lyutikov
  *
+ * @param statusDivisionMap is map of status with their count
+ * @param count is total count of application with different status
  * @param modifier modifier
- * @param progress float between 0.0 and 1.0, represents how filled the indicator is
- * @param backgroundColor color of empty progress
- * @param tintColor color of filled progress
+ *
+ * @author Vorozhtcov Mikhail
  */
 @Composable
 fun ThickLinearProgressIndicator(

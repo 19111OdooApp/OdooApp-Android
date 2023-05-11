@@ -21,6 +21,11 @@ import odoo.miem.android.feature.recruitment.impl.RecruitmentViewModel
 import java.util.Date
 import javax.inject.Inject
 
+/**
+ * [RecruitmentDetailsScreen] implementation of [IRecruitmentDetailsScreen]
+ *
+ * @author Vorozhtsov Mikhail
+ */
 class RecruitmentDetailsScreen @Inject constructor() : IRecruitmentDetailsScreen {
 
     @SuppressLint("NotConstructor")

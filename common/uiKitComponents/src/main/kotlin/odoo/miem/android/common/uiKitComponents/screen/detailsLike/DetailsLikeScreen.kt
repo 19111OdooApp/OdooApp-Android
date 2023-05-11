@@ -46,6 +46,11 @@ import odoo.miem.android.common.uiKitComponents.screen.detailsLike.models.Detail
 import timber.log.Timber
 import java.util.*
 
+/**
+ * [DetailsLikeScreen] is template screen for cases of list smt and search
+ *
+ * @author Vorozhtcov Mikhail
+ */
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DetailsLikeScreen(

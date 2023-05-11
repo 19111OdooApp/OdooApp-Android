@@ -5,6 +5,11 @@ import odoo.miem.android.feature.recruitment.api.IRecruitmentDetailsScreen
 import odoo.miem.android.feature.recruitment.api.IRecruitmentJobsScreen
 import odoo.miem.android.feature.recruitment.api.IRecruitmentKanbanScreen
 
+/**
+ * [IRecruitmentApi] is api for recruitment in general DI graph
+ *
+ * @author Vorozhtcov Mikhail
+ */
 interface IRecruitmentApi : Api {
 
     val recruitmentScreen: IRecruitmentKanbanScreen

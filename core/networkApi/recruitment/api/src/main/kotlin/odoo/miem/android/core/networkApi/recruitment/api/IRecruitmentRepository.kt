@@ -18,7 +18,7 @@ interface IRecruitmentRepository {
      */
     fun getRecruitmentKanbanInfo(jobId: Long): Single<RecruitmentResponse>
 
-    fun getRecruitmentKanbanStages(): Single<RecruitmentKanbanStagesResponse>
+    fun getRecruitmentKanbanStages(jobId: Long): Single<RecruitmentKanbanStagesResponse>
 
     fun createNewKanbanStatus(jobId: Long, topic: String): Single<List<Any>>
 

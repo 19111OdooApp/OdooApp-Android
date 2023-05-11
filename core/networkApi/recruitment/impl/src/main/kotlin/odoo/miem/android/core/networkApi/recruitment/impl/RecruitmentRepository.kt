@@ -34,11 +34,17 @@ class RecruitmentRepository @Inject constructor() : IRecruitmentRepository {
         }.subscribeOn(Schedulers.io())
     }
 
-    override fun getRecruitmentKanbanStages(): Single<RecruitmentKanbanStagesResponse> {
+    override fun getRecruitmentKanbanStages(jobId: Long): Single<RecruitmentKanbanStagesResponse> {
         Timber.d("getRecruitmentKanbanStages()")
 
         return Single.fromCallable {
-            recruitmentService.getRecruitmentKanbanStages()
+            recruitmentService.getRecruitmentKanbanStages(
+                kwargs = mapOf(
+                    "domain" to listOf(listOf("job_id", "=", jobId)),
+                    "fields" to listOf("stage_id"),
+                    "groupby" to listOf("stage_id"),
+                )
+            )
         }.subscribeOn(Schedulers.io())
     }
 

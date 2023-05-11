@@ -78,8 +78,10 @@ internal class SelectingModulesHelper {
         // our backend is AWFUL, forgive me...
         // as Odoo API returns all modules in one list, we should build hierarch of modules..
         // TODO consider to remove if unnecessary
-        for (module in modules.records) {
-            if (groupsOfUser.intersect(module.groupIds.toSet()).isNotEmpty()) {
+        val records = modules.records ?: emptyList()
+        for (module in records) {
+            val groupIds = module.groupIds?.toSet() ?: emptySet()
+            if (groupsOfUser.intersect(groupIds).isNotEmpty()) {
                 val parentInfo = module.parentId
 
                 val castedParentInfo = if (parentInfo is List<*>) {
@@ -93,17 +95,22 @@ internal class SelectingModulesHelper {
                     (castedParentInfo[0] as Double).toInt()
                 }
 
-                rootModules.add(
-                    OdooModule(
-                        id = module.id,
-                        name = module.name,
-                        iconDownloadUrl = moduleIconsMap[module.name] ?: "",
-                        parentId = parentId,
-                        childModules = mutableListOf(),
-                        isFavourite = module.name in favouriteModulesSet,
-                        isImplemented = module.name in implementedModulesSet
+                val moduleId = module.id
+                val moduleName = module.name
+
+                if (moduleId != null && moduleName != null) {
+                    rootModules.add(
+                        OdooModule(
+                            id = moduleId,
+                            name = moduleName,
+                            iconDownloadUrl = moduleIconsMap[module.name] ?: "",
+                            parentId = parentId,
+                            childModules = mutableListOf(),
+                            isFavourite = module.name in favouriteModulesSet,
+                            isImplemented = module.name in implementedModulesSet
+                        )
                     )
-                )
+                }
             }
         }
 
@@ -151,6 +158,7 @@ internal class SelectingModulesHelper {
         userUid: Int,
         groups: OdooGroupsResponse
     ): List<Int> = groups.records
-        .filter { userUid in it.users }
-        .map { it.id }
+        ?.filter { userUid in (it.users ?: emptyList()) }
+        ?.mapNotNull { it.id }
+        ?: emptyList()
 }

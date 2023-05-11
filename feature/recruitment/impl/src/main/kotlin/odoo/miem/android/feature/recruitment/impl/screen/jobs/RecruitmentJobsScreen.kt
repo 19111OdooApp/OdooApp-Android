@@ -33,6 +33,11 @@ import odoo.miem.android.feature.recruitment.impl.screen.jobs.components.Recruit
 import timber.log.Timber
 import javax.inject.Inject
 
+/**
+ * [RecruitmentJobsScreen] implementation of [IRecruitmentJobsScreen]
+ *
+ * @author Vorozhtsov Mikhail
+ */
 class RecruitmentJobsScreen @Inject constructor() : IRecruitmentJobsScreen {
 
     @SuppressLint("NotConstructor")

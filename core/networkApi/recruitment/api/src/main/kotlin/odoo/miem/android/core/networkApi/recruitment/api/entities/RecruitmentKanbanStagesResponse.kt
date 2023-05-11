@@ -8,11 +8,7 @@ import odoo.miem.android.core.jsonrpc.converter.api.annotation.SpecifiedTypeOrNu
 @JsonClass(generateAdapter = true)
 data class RecruitmentKanbanStagesResponse(
 
-    @Json(name = "length")
-    @SpecifiedTypeOrNull(JsonReader.Token.NUMBER)
-    val length: Int?,
-
-    @Json(name = "records")
+    @Json(name = "groups")
     @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
     val stages: List<Stage>?
 ) {
@@ -20,16 +16,9 @@ data class RecruitmentKanbanStagesResponse(
     @JsonClass(generateAdapter = true)
     data class Stage(
 
-        @Json(name = "id")
-        @SpecifiedTypeOrNull(JsonReader.Token.NUMBER)
-        val id: Long?,
-
-        @Json(name = "display_name")
-        @SpecifiedTypeOrNull(JsonReader.Token.STRING)
-        val name: String?,
-
-        @Json(name = "job_ids")
+        // [id, name]
+        @Json(name = "stage_id")
         @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
-        val jobIds: List<Long>?,
+        val stageInfo: List<Any>,
     )
 }

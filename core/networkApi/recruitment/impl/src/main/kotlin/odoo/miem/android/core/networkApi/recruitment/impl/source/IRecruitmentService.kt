@@ -38,13 +38,11 @@ interface IRecruitmentService : JsonRpcApi {
 
     @JsonRpc("call")
     fun getRecruitmentKanbanStages(
-        @JsonRpcPath path: String = "web/dataset/search_read",
-        @JsonRpcArgument("model") model: String = "hr.recruitment.stage",
-        @JsonRpcArgument("fields") fields: List<String> = listOf(
-            "id",
-            "display_name",
-            "job_ids"
-        )
+        @JsonRpcPath path: String = "web/dataset/call_kw/web_read_group",
+        @JsonRpcArgument("model") model: String = "hr.applicant",
+        @JsonRpcArgument("method") method: String = "web_read_group",
+        @JsonRpcArgument("args") args: List<Any> = emptyList(),
+        @JsonRpcArgument("kwargs") kwargs: Map<Any, Any>
     ): RecruitmentKanbanStagesResponse
 
     @JsonRpc("call")

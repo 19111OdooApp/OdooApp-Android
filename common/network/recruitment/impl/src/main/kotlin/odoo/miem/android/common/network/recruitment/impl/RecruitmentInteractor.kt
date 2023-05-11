@@ -33,41 +33,35 @@ class RecruitmentInteractor @Inject constructor() : IRecruitmentInteractor {
         return Single
             .zip(
                 recruitmentRepository.getRecruitmentKanbanInfo(jobId),
-                recruitmentRepository.getRecruitmentKanbanStages()
+                recruitmentRepository.getRecruitmentKanbanStages(jobId)
             ) { kanbanInfo: RecruitmentResponse,
                 rawStages: RecruitmentKanbanStagesResponse ->
 
                 Timber.d("getRecruitmentInfo(): kanbanInfo = $kanbanInfo")
                 Timber.d("getRecruitmentInfo(): rawStages = $rawStages")
 
-                // Firstly, filter status for current job
+                // Firstly, make mutable status for current job
                 var iconIdcounter = 0
-                val stages = rawStages.stages?.mapNotNull { stage ->
-                    if (stage.jobIds?.contains(jobId) == true || stage.jobIds?.isEmpty() == true) {
-                        val name = stage.name
-                        val id = stage.id
-                        if (name != null && id != null) {
+                val mapOfStages = rawStages.stages
+                    ?.mapNotNull { stage ->
+                        val stageId = (stage.stageInfo.getOrNull(0) as? Double)?.toLong()
+                        val stageTopic = stage.stageInfo.getOrNull(1).toString()
+                        stageId?.let {
                             MutableStatus(
-                                statusName = name,
+                                statusName = stageTopic,
                                 iconId = iconIdcounter++,
-                                id = id
+                                id = it
                             )
-                        } else {
-                            null
                         }
-                    } else {
-                        null
                     }
-                } ?: emptyList()
+                    ?.associate { status -> status.id to status }
+                    ?: emptyMap()
 
-                Timber.d("getRecruitmentInfo(): filtered stages = $stages")
-
-                val mapOfStages = mutableMapOf<Long, MutableStatus>()
-                stages.forEach { mapOfStages[it.id] = it }
+                Timber.d("getRecruitmentInfo(): mutable stages = $mapOfStages")
 
                 // Secondly, enhance filtered status with employees
                 kanbanInfo.records?.forEach { record ->
-                    (record.jobInfo?.firstOrNull() as? Double)?.let { id ->
+                    (record.stageInfo?.firstOrNull() as? Double)?.let { id ->
                         mapOfStages[id.toLong()]?.employees?.add(
                             Employee(
                                 name = record.name ?: "Cool name",
@@ -87,6 +81,9 @@ class RecruitmentInteractor @Inject constructor() : IRecruitmentInteractor {
                         )
                     }
                 }
+
+                Timber.d("getRecruitmentInfo(): final stages = $mapOfStages")
+
                 mapOfStages.values.map { it.toStatus() }
             }
             .map<Result<List<Status>>> { result ->

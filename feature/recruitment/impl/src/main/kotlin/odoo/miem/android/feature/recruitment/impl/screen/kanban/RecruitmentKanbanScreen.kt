@@ -22,6 +22,11 @@ import odoo.miem.android.feature.recruitment.impl.R
 import odoo.miem.android.feature.recruitment.impl.RecruitmentViewModel
 import javax.inject.Inject
 
+/**
+ * [RecruitmentKanbanScreen] implementation of [IRecruitmentKanbanScreen]
+ *
+ * @author Vorozhtsov Mikhail
+ */
 class RecruitmentKanbanScreen @Inject constructor() : IRecruitmentKanbanScreen {
 
     @SuppressLint("NotConstructor")

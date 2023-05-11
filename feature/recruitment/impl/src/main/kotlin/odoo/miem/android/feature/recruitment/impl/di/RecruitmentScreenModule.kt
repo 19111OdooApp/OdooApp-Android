@@ -10,8 +10,8 @@ import odoo.miem.android.feature.recruitment.impl.screen.jobs.RecruitmentJobsScr
 import odoo.miem.android.feature.recruitment.impl.screen.kanban.RecruitmentKanbanScreen
 
 /**
- * [RecruitmentScreenModule] - module for proving instance of [RecruitmentKanbanScreen]
- * in general **DI graph**
+ * [RecruitmentScreenModule] - module for proving instance of [RecruitmentKanbanScreen],
+ * [RecruitmentDetailsScreen] and [RecruitmentJobsScreen] in general **DI graph**
  *
  * @author Alexander Lyutikov
  */

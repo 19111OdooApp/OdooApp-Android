@@ -70,7 +70,7 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
         inactiveColor = MaterialTheme.colorScheme.tertiary,
     )
 
-    if (statusList.size != pagerState.currentPage) {
+    if (statusList.size != pagerState.currentPage && statusList[pagerState.currentPage].employees.isNotEmpty()) {
         Spacer(modifier = Modifier.padding(top = halfMainVerticalPadding))
         val statusDivisionMap = mutableMapOf<DeadlineStatus, Int>()
 

@@ -18,7 +18,15 @@ sealed class Result<T>(
 
 class SuccessResult<T>(data: T? = null) : Result<T>(data = data)
 
-class ErrorResult<T>(@StringRes message: Int? = null) : Result<T>(message = message)
+class ErrorResult<T>(
+    @StringRes message: Int? = null,
+    val isSessionExpired: Boolean = false
+) : Result<T>(message = message) {
+    companion object {
+        private const val SESSION_EXPIRED_MESSAGE = "Odoo Session Expired"
+        fun isSessionExpiredMessage(message: String?) = message == SESSION_EXPIRED_MESSAGE
+    }
+}
 
 class LoadingResult<T>(data: T? = null) : Result<T>(data = data)
 

@@ -50,4 +50,16 @@
     <string name="finish_new_status_creation">Готово</string>
     <string name="cancel_new_status_creation">Отмена</string>
     <string name="create_new_status_headline">Новый статус</string>
+
+    <string name="recruitment_empty_status">Пока нет здесь нет заявок!</string>
+    <string name="recruitment_empty_status_description">Попробуйте найти в поиске нужную 🤔</string>
+
+    <!--Error State-->
+    <string name="error_message">Извините, но что-то пошло не так 😔</string>
+    <string name="error_message_subtitle">Может попробуем ещё раз?</string>
+    <string name="error_retry">Повторить</string>
+
+    <string name="error_session_message">Извините,но ваша сессия истекла 😔</string>
+    <string name="error_session_message_subtitle">Вам необходимо авторизоваться ещё раз</string>
+    <string name="error_session_retry">Навстречу к авторизации!</string>
 </resources>

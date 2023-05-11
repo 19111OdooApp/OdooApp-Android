@@ -32,8 +32,12 @@ class RecruitmentInteractor @Inject constructor() : IRecruitmentInteractor {
 
         return Single
             .zip(
-                recruitmentRepository.getRecruitmentKanbanInfo(jobId),
-                recruitmentRepository.getRecruitmentKanbanStages(jobId)
+                recruitmentRepository
+                    .getRecruitmentKanbanInfo(jobId)
+                    .onErrorReturn { RecruitmentResponse() },
+                recruitmentRepository
+                    .getRecruitmentKanbanStages(jobId)
+                    .onErrorReturn { RecruitmentKanbanStagesResponse() }
             ) { kanbanInfo: RecruitmentResponse,
                 rawStages: RecruitmentKanbanStagesResponse ->
 
@@ -91,7 +95,10 @@ class RecruitmentInteractor @Inject constructor() : IRecruitmentInteractor {
             }
             .onErrorReturn {
                 Timber.e("getRecruitmentInfo(): error message = ${it.message}")
-                ErrorResult(R.string.general_authorization_error)
+                ErrorResult(
+                    message = R.string.general_authorization_error,
+                    isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
+                )
             }
     }
 
@@ -105,7 +112,10 @@ class RecruitmentInteractor @Inject constructor() : IRecruitmentInteractor {
             }
             .onErrorReturn {
                 Timber.e("createNewKanbanStatus(): error message = ${it.message}")
-                ErrorResult(R.string.general_authorization_error)
+                ErrorResult(
+                    message = R.string.general_authorization_error,
+                    isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
+                )
             }
     }
 
@@ -122,7 +132,10 @@ class RecruitmentInteractor @Inject constructor() : IRecruitmentInteractor {
             }
             .onErrorReturn {
                 Timber.e("changeStageInRecruitmentKanban(): error message = ${it.message}")
-                ErrorResult(R.string.general_authorization_error)
+                ErrorResult(
+                    message = R.string.general_authorization_error,
+                    isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
+                )
             }
     }
 

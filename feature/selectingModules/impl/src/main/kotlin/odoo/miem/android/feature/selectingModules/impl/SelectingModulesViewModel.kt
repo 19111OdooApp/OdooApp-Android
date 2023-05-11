@@ -11,6 +11,7 @@ import odoo.miem.android.core.utils.di.RxApi
 import odoo.miem.android.core.utils.rx.PresentationSchedulers
 import odoo.miem.android.core.utils.rx.lazyEmptyResultPublishSubject
 import odoo.miem.android.core.utils.rx.onLoadingState
+import odoo.miem.android.core.utils.state.ErrorResult
 import odoo.miem.android.core.utils.state.ResultSubject
 import odoo.miem.android.core.utils.state.SuccessResult
 import timber.log.Timber
@@ -38,6 +39,8 @@ class SelectingModulesViewModel(
         Timber.d("getUserInfo()")
 
         userInfoState.onLoadingState()
+        modulesState.onLoadingState()
+
         selectingModulesInteractor
             .getUserInfo()
             .schedule(
@@ -47,6 +50,20 @@ class SelectingModulesViewModel(
 
                     result.data?.let { currentUser = it }
                     userInfoState.onNext(result)
+
+                    if (result is SuccessResult) {
+                        result.data?.uid?.let {
+                            getUserModules(it)
+                        }
+                    } else {
+                        modulesState.onNext(
+                            ErrorResult(
+                                isSessionExpired = (result as? ErrorResult)
+                                    ?.isSessionExpired
+                                    ?: false
+                            )
+                        )
+                    }
                 },
                 onError = Timber::e
             )

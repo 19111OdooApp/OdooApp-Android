@@ -33,12 +33,16 @@ fun <E : RecruitmentLikeEmployeeModel, S : RecruitmentLikeStatusModel<E>> Recrui
 ) { page ->
 
     if (page < statusList.size) {
-        RecruitmentLikeList(
-            employees = statusList[page].employees,
-            onEmployeeCardClick = onEmployeeCardClick,
-            onEmployeeActionClick = onEmployeeActionClick,
-            modifier = Modifier,
-        )
+        if (statusList[page].employees.isNotEmpty()) {
+            RecruitmentLikeList(
+                employees = statusList[page].employees,
+                onEmployeeCardClick = onEmployeeCardClick,
+                onEmployeeActionClick = onEmployeeActionClick,
+                modifier = Modifier,
+            )
+        } else {
+            RecruitmentLikeEmptyList()
+        }
     } else {
         Box(
             contentAlignment = Alignment.Center,

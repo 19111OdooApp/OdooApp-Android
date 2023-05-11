@@ -97,6 +97,14 @@ class DataStore @Inject constructor() : IDataStore {
         }
     }
 
+    override fun clear() {
+        setUrl("")
+        setUID(-1)
+        setAuthorized(false)
+        setSessionId("")
+        setUserFavouriteModules(emptySet())
+    }
+
     private companion object {
         const val PREFERENCES_NAME = "dataStore"
     }

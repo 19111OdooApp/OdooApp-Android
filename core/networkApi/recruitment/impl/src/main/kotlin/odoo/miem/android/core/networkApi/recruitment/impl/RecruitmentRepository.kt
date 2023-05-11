@@ -40,6 +40,7 @@ class RecruitmentRepository @Inject constructor() : IRecruitmentRepository {
         return Single.fromCallable {
             recruitmentService.getRecruitmentKanbanStages(
                 kwargs = mapOf(
+                    "context" to mapOf("default_job_id" to jobId),
                     "domain" to listOf(listOf("job_id", "=", jobId)),
                     "fields" to listOf("stage_id"),
                     "groupby" to listOf("stage_id"),

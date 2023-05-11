@@ -65,7 +65,19 @@
     <string name="create_new_status_headline">New status</string>
     <string name="create_status_hint">Status name</string>
 
+    <string name="recruitment_empty_status">There is no application yet!</string>
+    <string name="recruitment_empty_status_description">Try to search the right one 🤔</string>
+
     <!--DetailsLike-->
     <!--Job Item-->
     <string name="item_salary" translatable="false">%.2f</string>
+
+    <!--Error State-->
+    <string name="error_message">Sorry, but something go wrong 😔</string>
+    <string name="error_message_subtitle">Maybe we will try one more time?</string>
+    <string name="error_retry">Retry</string>
+
+    <string name="error_session_message">Sorry, but your session is expired 😔</string>
+    <string name="error_session_message_subtitle">You shoud authorize one more time</string>
+    <string name="error_session_retry">Let\'s go to authorization!</string>
 </resources>

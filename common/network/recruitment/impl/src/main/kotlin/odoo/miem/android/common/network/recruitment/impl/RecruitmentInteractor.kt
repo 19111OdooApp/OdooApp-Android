@@ -45,7 +45,7 @@ class RecruitmentInteractor @Inject constructor() : IRecruitmentInteractor {
                 Timber.d("getRecruitmentInfo(): rawStages = $rawStages")
 
                 // Firstly, make mutable status for current job
-                var iconIdcounter = 0
+                var iconIdCounter = 0
                 val mapOfStages = rawStages.stages
                     ?.mapNotNull { stage ->
                         val stageId = (stage.stageInfo.getOrNull(0) as? Double)?.toLong()
@@ -53,7 +53,7 @@ class RecruitmentInteractor @Inject constructor() : IRecruitmentInteractor {
                         stageId?.let {
                             MutableStatus(
                                 statusName = stageTopic,
-                                iconId = iconIdcounter++,
+                                iconId = iconIdCounter++,
                                 id = it
                             )
                         }

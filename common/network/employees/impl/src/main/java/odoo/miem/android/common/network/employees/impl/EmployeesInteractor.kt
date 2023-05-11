@@ -46,7 +46,10 @@ class EmployeesInteractor @Inject constructor() : IEmployeesInteractor {
             }
             .onErrorReturn {
                 Timber.e("getAllEmployeesInfo(): error message = ${it.message}")
-                ErrorResult(R.string.employees_error)
+                ErrorResult(
+                    message = R.string.employees_error,
+                    isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
+                )
             }
     }
 
@@ -63,7 +66,10 @@ class EmployeesInteractor @Inject constructor() : IEmployeesInteractor {
             }
             .onErrorReturn {
                 Timber.e("getEmployeeDetails(): error message = ${it.message}")
-                ErrorResult(R.string.employees_error)
+                ErrorResult(
+                    message = R.string.employees_error,
+                    isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
+                )
             }
     }
 }

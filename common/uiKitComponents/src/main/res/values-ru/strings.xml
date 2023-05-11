@@ -50,4 +50,7 @@
     <string name="finish_new_status_creation">Готово</string>
     <string name="cancel_new_status_creation">Отмена</string>
     <string name="create_new_status_headline">Новый статус</string>
+
+    <string name="recruitment_empty_status">Пока нет здесь нет заявок!</string>
+    <string name="recruitment_empty_status_description">Попробуйте найти в поиске нужную 🤔</string>
 </resources>

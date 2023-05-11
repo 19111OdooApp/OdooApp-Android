@@ -65,6 +65,9 @@
     <string name="create_new_status_headline">New status</string>
     <string name="create_status_hint">Status name</string>
 
+    <string name="recruitment_empty_status">There is no application yet!</string>
+    <string name="recruitment_empty_status_description">Try to search the right one 🤔</string>
+
     <!--DetailsLike-->
     <!--Job Item-->
     <string name="item_salary" translatable="false">%.2f</string>

@@ -17,11 +17,4 @@ interface IUserInfoRepository {
      * @return Observable<[UserInfoResponse]> which provides modules accessible for user
      */
     fun getUserInfo(): Single<UserInfoResponse>
-
-    /**
-     * [updateFavouriteModules] - function for sending favourite modules to Odoo API
-     *
-     * @return Observable<Boolean> - true or false whether updating Odoo database was successful
-     */
-    fun updateFavouriteModules(userModelId: Int, favouriteModules: List<Int>): Single<Boolean>
 }

@@ -5,6 +5,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 /**
  * [FirestoreModule] - **Dagger** module for providing [FirebaseStorage] in general map
@@ -15,5 +16,6 @@ import dagger.Provides
 class StorageModule {
 
     @Provides
+    @Singleton
     fun provideStorage(): FirebaseStorage = Firebase.storage
 }

@@ -1,36 +1,54 @@
 package odoo.miem.android.common.uiKitComponents.progressbar
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.DeadlineStatus
+import odoo.miem.android.core.uiKitTheme.odooErrorPrimaryDark
+import odoo.miem.android.core.uiKitTheme.odooPrimaryDark
+import odoo.miem.android.core.uiKitTheme.odooPrimaryGray
 
 /**
  * ProgressIndicator for ODOO
  *
- * @author Alexander Lyutikov
  *
+ * @param statusDivisionMap is map of status with their count
+ * @param count is total count of application with different status
  * @param modifier modifier
- * @param progress float between 0.0 and 1.0, represents how filled the indicator is
- * @param backgroundColor color of empty progress
- * @param tintColor color of filled progress
+ *
+ * @author Vorozhtcov Mikhail
  */
 @Composable
 fun ThickLinearProgressIndicator(
-    modifier: Modifier,
-    progress: Float,
-    backgroundColor: Color = Color.LightGray,
-    tintColor: Color = MaterialTheme.colorScheme.primary,
-) = LinearProgressIndicator(
-    progress,
-    modifier
+    statusDivisionMap: Map<DeadlineStatus, Int>,
+    count: Int,
+    modifier: Modifier
+) = Row(
+    modifier = modifier
         .height(10.dp)
         .clip(CircleShape),
-    tintColor,
-    backgroundColor,
-)
+) {
+    statusDivisionMap.forEach { (key, value) ->
+        if (value != 0) {
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(value.toFloat() / count.toFloat())
+                    .background(resolveStatusColor(key))
+            )
+        }
+    }
+}
+
+private fun resolveStatusColor(status: DeadlineStatus) = when (status) {
+    DeadlineStatus.NO_TASKS -> odooPrimaryGray
+    DeadlineStatus.EXPIRED -> odooErrorPrimaryDark
+    DeadlineStatus.ACTIVE -> odooPrimaryDark
+}

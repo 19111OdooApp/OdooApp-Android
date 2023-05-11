@@ -16,3 +16,13 @@ data class OdooModule(
     var isFavourite: Boolean = false,
     val isImplemented: Boolean = false,
 )
+
+/**
+ * [ImplementedModule] is list of implemented modules
+ */
+enum class ImplementedModule(val naming: String) {
+
+    CRM("CRM"),
+
+    RECRUITMENT("Recruitment")
+}

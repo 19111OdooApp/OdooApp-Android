@@ -18,6 +18,7 @@ import odoo.miem.android.common.uiKitComponents.R
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.components.header.RecruitmentLikeScreenHeader
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.components.screen.RecruitmentLikeScreenProgressBar
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.components.screen.RecruitmentLikeScreenSearch
+import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.DeadlineStatus
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.RecruitmentLikeEmployeeModel
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.RecruitmentLikeStatusModel
 import odoo.miem.android.core.uiKitTheme.halfMainVerticalPadding
@@ -26,9 +27,12 @@ import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> RecruitmentLikeScreenMainContent(
+    avatarUrl: String?,
+    userName: String,
     statusList: List<S>,
     onUserIconClick: () -> Unit = {},
     onEmployeeActionClick: (E) -> Unit,
+    onEmployeeCardClick: (E) -> Unit,
     onSearchBarClicked: () -> Unit,
     onCreateStatusClick: () -> Unit,
     @StringRes searchHintRes: Int,
@@ -45,6 +49,8 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
     }
 
     RecruitmentLikeScreenHeader(
+        avatarUrl = avatarUrl,
+        userName = userName,
         title = headerTitle,
         onUserIconClick = onUserIconClick
     )
@@ -66,9 +72,16 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
 
     if (statusList.size != pagerState.currentPage) {
         Spacer(modifier = Modifier.padding(top = halfMainVerticalPadding))
+        val statusDivisionMap = mutableMapOf<DeadlineStatus, Int>()
+
+        // Do it for consistency
+        DeadlineStatus.values().forEach { statusDivisionMap[it] = 0 }
+        statusList[pagerState.currentPage].employees.forEach {
+            statusDivisionMap[it.deadlineStatus] = 1 + (statusDivisionMap[it.deadlineStatus] ?: 0)
+        }
 
         RecruitmentLikeScreenProgressBar(
-            progress = 0.0f,
+            statusDivisionMap = statusDivisionMap,
             count = statusList[pagerState.currentPage].employees.size
         )
     }
@@ -77,6 +90,7 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
         statusList = statusList,
         pagerState = pagerState,
         onEmployeeActionClick = onEmployeeActionClick,
+        onEmployeeCardClick = onEmployeeCardClick,
         onCreateStatusClick = onCreateStatusClick,
     )
 }

@@ -10,7 +10,6 @@ data class UserInfoResponse(
     @JsonClass(generateAdapter = true)
     data class ResponseRecord(
         @Json(name = "id") val modelId: Int,
-        @Json(name = "user_id") val userInfo: List<Any>,
-        @Json(name = "x_favourite_modules") val favouriteModules: Any
+        @Json(name = "user_id") val userInfo: List<Any>
     )
 }

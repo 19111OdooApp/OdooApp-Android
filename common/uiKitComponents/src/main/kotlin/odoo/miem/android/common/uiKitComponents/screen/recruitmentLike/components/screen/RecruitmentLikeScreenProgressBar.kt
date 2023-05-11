@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import odoo.miem.android.common.uiKitComponents.progressbar.ThickLinearProgressIndicator
+import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.DeadlineStatus
 import odoo.miem.android.common.uiKitComponents.text.SubtitleText
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 
@@ -16,7 +17,7 @@ private const val PROGRESS_BAR_COEFFICIENT = 0.88f
 
 @Composable
 fun RecruitmentLikeScreenProgressBar(
-    progress: Float,
+    statusDivisionMap: Map<DeadlineStatus, Int>,
     count: Int
 ) = Row(
     modifier = Modifier
@@ -25,7 +26,8 @@ fun RecruitmentLikeScreenProgressBar(
     verticalAlignment = Alignment.CenterVertically
 ) {
     ThickLinearProgressIndicator(
-        progress = progress,
+        statusDivisionMap = statusDivisionMap,
+        count = count,
         modifier = Modifier
             .weight(PROGRESS_BAR_COEFFICIENT)
     )

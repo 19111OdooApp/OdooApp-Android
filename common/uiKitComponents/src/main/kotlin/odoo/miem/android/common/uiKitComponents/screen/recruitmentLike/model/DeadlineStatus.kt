@@ -1,7 +1,7 @@
 package odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model
 
-public enum class DeadlineStatus {
-    NO_TASKS,
+enum class DeadlineStatus {
     EXPIRED,
-    ACTIVE
+    ACTIVE,
+    NO_TASKS
 }

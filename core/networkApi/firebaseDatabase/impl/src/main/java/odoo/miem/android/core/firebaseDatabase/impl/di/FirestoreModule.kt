@@ -5,6 +5,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 /**
  * [FirestoreModule] - **Dagger** module for providing [FirebaseFirestore] in general map
@@ -15,5 +16,6 @@ import dagger.Provides
 class FirestoreModule {
 
     @Provides
+    @Singleton
     fun provideFirestore(): FirebaseFirestore = Firebase.firestore
 }

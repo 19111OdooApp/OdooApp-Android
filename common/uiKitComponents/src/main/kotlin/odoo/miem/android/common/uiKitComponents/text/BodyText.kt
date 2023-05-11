@@ -23,13 +23,15 @@ fun BodyText(
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onPrimaryContainer,
     textAlign: TextAlign = TextAlign.Start,
-    isLarge: Boolean = false
+    isLarge: Boolean = false,
+    maxLines: Int? = null
 ) = BaseBodyText(
     text = stringResource(textRes),
     modifier = modifier,
     color = color,
     textAlign = textAlign,
-    isLarge = isLarge
+    isLarge = isLarge,
+    maxLines = maxLines
 )
 
 /**
@@ -46,13 +48,15 @@ fun BodyText(
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onPrimaryContainer,
     textAlign: TextAlign = TextAlign.Start,
-    isLarge: Boolean = false
+    isLarge: Boolean = false,
+    maxLines: Int? = null
 ) = BaseBodyText(
     text = text,
     modifier = modifier,
     color = color,
     textAlign = textAlign,
-    isLarge = isLarge
+    isLarge = isLarge,
+    maxLines = maxLines
 )
 
 /**
@@ -69,7 +73,8 @@ private fun BaseBodyText(
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onPrimaryContainer,
     textAlign: TextAlign = TextAlign.Start,
-    isLarge: Boolean = false
+    isLarge: Boolean = false,
+    maxLines: Int? = null
 ) = Text(
     text = text,
     style = if (isLarge) {
@@ -79,5 +84,6 @@ private fun BaseBodyText(
     },
     modifier = modifier,
     color = color,
-    textAlign = textAlign
+    textAlign = textAlign,
+    maxLines = maxLines ?: Int.MAX_VALUE
 )

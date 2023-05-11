@@ -2,6 +2,7 @@ package odoo.miem.android.core.networkApi.firebaseRemoteConfig.impl.di
 
 import dagger.Component
 import odoo.miem.android.core.networkApi.firebaseRemoteConfig.api.di.IFirebaseRemoteConfigApi
+import javax.inject.Singleton
 
 /**
  * [FirebaseRemoteConfigComponent] - **Dagger** component, which implements interface [IFirebaseRemoteConfigApi]
@@ -13,6 +14,7 @@ import odoo.miem.android.core.networkApi.firebaseRemoteConfig.api.di.IFirebaseRe
  *
  * @author Egor Danilov
  */
+@Singleton
 @Component(
     modules = [
         FirebaseRemoteConfigModule::class,

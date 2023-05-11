@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,11 +29,13 @@ import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.Rec
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.RecruitmentLikeEmployeeModel
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.RecruitmentLikeStatusModel
 import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
+import odoo.miem.android.common.uiKitComponents.utils.getStatusIcon
 
 @Suppress
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> RecruitmentLikeBottomSheetLayout(
+    avatarUrl: String?,
+    userName: String,
     scaffoldState: CustomBottomSheetScaffoldState,
     statusList: List<S>,
     topRadius: Dp,
@@ -42,8 +43,8 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
     contentPaddingValues: PaddingValues,
     onUserIconClick: () -> Unit = {},
     onStatusClicked: (E, S) -> Unit,
-    onNewStatusCreated: (String, String) -> Unit,
-    createStatusPictures: List<String>,
+    onEmployeeCardClick: (E) -> Unit,
+    onNewStatusCreated: (statusName: String) -> Unit,
     searchHintRes: Int,
 ) {
     var isSearchScreenVisible by remember { mutableStateOf(false) }
@@ -67,8 +68,8 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
         }
     }
 
-    val onNewStatusCreated: (String, String) -> Unit = { statusName, imageLink ->
-        onNewStatusCreated(statusName, imageLink)
+    val onNewStatusCreated: (String) -> Unit = { statusName ->
+        onNewStatusCreated(statusName)
         scope.launch {
             scaffoldState.customBottomSheetState.hide()
         }
@@ -84,10 +85,11 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
                             statusList = statusList,
                             onCreateStatusClick = onCreateStatusClick,
                             onStatusClicked = onStatusClicked,
-                            employee = employee
+                            employee = employee,
                         )
                     }
                 }
+
                 is RecruitmentBottomSheetState.CreateStatus -> RecruitmentLikeCreateStatusBottomSheetContent(
                     onCancelClick = {
                         scope.launch {
@@ -95,8 +97,9 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
                         }
                     },
                     onDoneClick = onNewStatusCreated,
-                    pictures = createStatusPictures,
+                    iconRes = getStatusIcon(statusList.size)
                 )
+
                 is RecruitmentBottomSheetState.Empty -> {
                     // Dirty hack so that animations would work normally
                     Spacer(Modifier.height(1.dp))
@@ -128,20 +131,21 @@ fun <S : RecruitmentLikeStatusModel<E>, E : RecruitmentLikeEmployeeModel> Recrui
                         }
                     },
                     onBackPressed = { isSearchScreenVisible = false },
-                    onEmployeeClick = {
-                        // TODO: Open Employee card
-                    }
+                    onEmployeeClick = { onEmployeeCardClick(it) },
                 )
             } else {
                 RecruitmentLikeScreenMainContent(
+                    avatarUrl = avatarUrl,
+                    userName = userName,
                     statusList = statusList,
                     onEmployeeActionClick = onChangeStatusClick,
                     onSearchBarClicked = {
                         isSearchScreenVisible = true
                     },
+                    onEmployeeCardClick = onEmployeeCardClick,
                     onCreateStatusClick = onCreateStatusClick,
                     searchHintRes = searchHintRes,
-                    onUserIconClick = onUserIconClick
+                    onUserIconClick = onUserIconClick,
                 )
             }
         }

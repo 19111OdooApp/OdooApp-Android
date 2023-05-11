@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 // TODO: Migrate to another Loading screen
 @Composable
 fun LoadingScreen(
-    load: () -> Unit,
+    load: () -> Unit = {},
 ) {
     Box(Modifier.fillMaxSize()) {
         CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))

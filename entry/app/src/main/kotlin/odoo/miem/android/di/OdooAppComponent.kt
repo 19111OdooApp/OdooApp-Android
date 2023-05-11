@@ -3,6 +3,7 @@ package odoo.miem.android.di
 import android.content.Context
 import dagger.Component
 import odoo.miem.android.common.network.authorization.impl.di.AuthorizationInteractorApiProvider
+import odoo.miem.android.common.network.recruitment.impl.di.RecruitmentInteractorApiProvider
 import odoo.miem.android.common.network.employees.impl.di.EmployeesInteractorApiProvider
 import odoo.miem.android.common.network.selectingModules.impl.di.SelectingModulesInteractorApiProvider
 import odoo.miem.android.core.dataStore.impl.di.DataStoreApiProvider
@@ -13,6 +14,7 @@ import odoo.miem.android.core.jsonrpc.converter.impl.di.MoshiSerializerApiProvid
 import odoo.miem.android.core.networkApi.authorization.impl.di.AuthorizationRepositoryApiProvider
 import odoo.miem.android.core.networkApi.employees.api.di.EmployeesRepositoryApiProvider
 import odoo.miem.android.core.networkApi.firebaseRemoteConfig.impl.di.FirebaseRemoteConfigApiProvider
+import odoo.miem.android.core.networkApi.recruitment.impl.di.RecruitmentRepositoryApiProvider
 import odoo.miem.android.core.networkApi.userInfo.impl.di.UserInfoRepositoryApiProvider
 import odoo.miem.android.core.networkApi.userModules.impl.di.UserModulesRepositoryApiProvider
 import odoo.miem.android.core.platform.dependecies.DefaultPlatformDependencies
@@ -41,6 +43,7 @@ import odoo.miem.android.feature.userProfile.impl.di.UserProfileScreenApiProvide
  *  - [AuthorizationRepositoryApiProvider] - authorization repository
  *  - [UserInfoRepositoryApiProvider] - user info repository
  *  - [UserModulesRepositoryApiProvider] - user modules repository
+ *  - [RecruitmentRepositoryApiProvider] - recruitment repository
  *  - [EmployeesRepositoryApiProvider] - employees repository
  *  - [FirebaseRemoteConfigApiProvider] - Firebase Remote Config,
  *  - [FirebaseDatabaseApiProvider] - Firebase Firestore and Storage
@@ -51,7 +54,6 @@ import odoo.miem.android.feature.userProfile.impl.di.UserProfileScreenApiProvide
  *  - [SelectingModulesScreenApiProvider] - selecting modules screen
  *  - [ModuleNotFoundScreenApiProvider] - module not found screen
  *  - [RecruitmentScreenApiProvider] - recruitment screen
- *  - [DetailsScreenApiProvider] - screen with details for recruitment like module
  *  - [CrmScreenApiProvider] - crm screen
  *  - [UserProfileScreenApiProvider] - user profile screen
  *  - [EmployeesScreenApiProvider] - employees screen
@@ -59,6 +61,7 @@ import odoo.miem.android.feature.userProfile.impl.di.UserProfileScreenApiProvide
  * Interactors:
  *  - [AuthorizationInteractorApiProvider] - authorization interactor
  *  - [SelectingModulesInteractorApiProvider] - selecting modules interactor
+ *  - [RecruitmentInteractorApiProvider] - recruitment interactor
  *  - [EmployeesInteractorApiProvider] - employees interactor
  *
  * Utils:
@@ -78,6 +81,7 @@ import odoo.miem.android.feature.userProfile.impl.di.UserProfileScreenApiProvide
         UserInfoRepositoryApiProvider::class,
         UserModulesRepositoryApiProvider::class,
         EmployeesRepositoryApiProvider::class,
+        RecruitmentRepositoryApiProvider::class,
         FirebaseRemoteConfigApiProvider::class,
         FirebaseDatabaseApiProvider::class,
         DataStoreApiProvider::class,
@@ -87,7 +91,6 @@ import odoo.miem.android.feature.userProfile.impl.di.UserProfileScreenApiProvide
         SelectingModulesScreenApiProvider::class,
         ModuleNotFoundScreenApiProvider::class,
         RecruitmentScreenApiProvider::class,
-        DetailsScreenApiProvider::class,
         CrmScreenApiProvider::class,
         UserProfileScreenApiProvider::class,
         EmployeesScreenApiProvider::class,
@@ -95,6 +98,7 @@ import odoo.miem.android.feature.userProfile.impl.di.UserProfileScreenApiProvide
         // Interactors
         AuthorizationInteractorApiProvider::class,
         SelectingModulesInteractorApiProvider::class,
+        RecruitmentInteractorApiProvider::class,
         EmployeesInteractorApiProvider::class,
 
         // Utils

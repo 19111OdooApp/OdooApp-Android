@@ -11,13 +11,6 @@ class EmployeeInteractorHelper {
     ): EmployeeDetails {
         Timber.d("convertEmployeeInfoResponse()")
 
-        val job = response.job
-        val mobilePhone = response.mobilePhone
-        val workPhone = response.workPhone
-        val email = response.email
-        val aboutMe = response.aboutMe
-        val employeeType = response.employeeType
-
         val department = response.departmentId
             ?.getOrNull(1)
             ?.toString()
@@ -53,20 +46,20 @@ class EmployeeInteractorHelper {
         val employeeDetails = EmployeeDetails(
             id = response.id,
             name = response.employeeName,
-            job = job,
-            mobilePhone = mobilePhone,
-            workPhone = workPhone,
-            email = email,
+            job = response.job,
+            mobilePhone = response.mobilePhone,
+            workPhone = response.workPhone,
+            email = response.email,
             department = department,
             studyGroup = studyGroup,
             company = company,
             address = address,
             workLocation = workLocation,
             resourceCalendar = resourceCalendar,
-            aboutMe = aboutMe,
+            aboutMe = response.aboutMe,
             coach = coach,
             manager = manager,
-            employeeType = employeeType
+            employeeType = response.employeeType
         )
 
         Timber.d("convertEmployeeInfoResponse(): result = $employeeDetails")

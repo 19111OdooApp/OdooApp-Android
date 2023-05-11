@@ -12,15 +12,15 @@ import odoo.miem.android.core.utils.state.SuccessResult
 fun <T> StateHolder(
     state: Result<T>,
     loadingContent: (@Composable () -> Unit)? = null,
-    errorContent: (@Composable () -> Unit)? = null,
-    successContent: (@Composable () -> Unit)? = null
+    errorContent: (@Composable (state: ErrorResult<T>) -> Unit)? = null,
+    successContent: (@Composable (state: SuccessResult<T>) -> Unit)? = null
 ) = Crossfade(
     targetState = state
 ) {
     when (it) {
         is LoadingResult -> LoadingScreen(loadingContent = loadingContent)
-        is SuccessResult -> successContent?.invoke()
-        is ErrorResult -> errorContent?.invoke()
+        is SuccessResult -> successContent?.invoke(it)
+        is ErrorResult -> errorContent?.invoke(it)
         else -> LoadingScreen(loadingContent = loadingContent)
     }
 }

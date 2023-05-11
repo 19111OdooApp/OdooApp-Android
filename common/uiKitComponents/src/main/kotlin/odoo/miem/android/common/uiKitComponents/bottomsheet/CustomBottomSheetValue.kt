@@ -1,5 +1,7 @@
 package odoo.miem.android.common.uiKitComponents.bottomsheet
 
+import java.io.Serializable
+
 /**
  * Custom reference of [BottomSheetValue] with new [CustomBottomSheetValue.Half] state
  *
@@ -7,7 +9,7 @@ package odoo.miem.android.common.uiKitComponents.bottomsheet
  *
  * @author Vorozhtsov Mikhail
  */
-sealed class CustomBottomSheetValue {
+sealed class CustomBottomSheetValue : Serializable {
 
     abstract fun calculate(
         fullHeight: Float,
@@ -48,5 +50,9 @@ sealed class CustomBottomSheetValue {
         override fun calculate(fullHeight: Float, bottomSheetHeight: Float): Float {
             return fullHeight
         }
+    }
+
+    companion object {
+        const val serialVersionUID = 1L
     }
 }

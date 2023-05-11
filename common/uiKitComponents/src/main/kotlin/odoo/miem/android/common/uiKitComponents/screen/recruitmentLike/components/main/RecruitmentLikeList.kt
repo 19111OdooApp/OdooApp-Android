@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import odoo.miem.android.common.uiKitComponents.cards.OutlinedEmployeeCard
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.DeadlineStatus
 import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.RecruitmentLikeEmployeeModel
+import odoo.miem.android.common.uiKitComponents.utils.getStatusIcon
 import odoo.miem.android.core.uiKitTheme.commonPadding
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
@@ -40,7 +41,7 @@ fun <E : RecruitmentLikeEmployeeModel> RecruitmentLikeList(
             onClick = { onEmployeeCardClick(it) },
             onActionClick = { onEmployeeActionClick(it) },
             scheduleIconColor = getClockColor(it.deadlineStatus),
-            actionIconPainter = it.imageUrl,
+            statusIconRes = getStatusIcon(it.iconId)
         )
     }
 }

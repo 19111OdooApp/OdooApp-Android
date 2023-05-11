@@ -1,5 +1,6 @@
 package odoo.miem.android.common.uiKitComponents.cards
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,11 +10,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Schedule
-import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.icons.outlined.StarHalf
 import androidx.compose.material.icons.outlined.StarOutline
@@ -27,13 +28,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
 import odoo.miem.android.common.uiKitComponents.R
 import odoo.miem.android.common.uiKitComponents.text.HeadlineText
 import odoo.miem.android.core.uiKitTheme.halfMainHorizontalPadding
@@ -48,9 +46,9 @@ fun OutlinedEmployeeCard(
     rating: Double,
     modifier: Modifier = Modifier,
     onActionClick: () -> Unit = {},
-    actionIconPainter: String? = null,
     starsCount: Int = 3,
     scheduleIconColor: Color = Color.Black,
+    @DrawableRes statusIconRes: Int,
     onClick: () -> Unit = {},
 ) = Card(
     onClick = onClick,
@@ -93,24 +91,11 @@ fun OutlinedEmployeeCard(
         }
 
         IconButton(onClick = onActionClick) {
-            actionIconPainter?.let {
-                AsyncImage(
-                    model = rememberAsyncImagePainter(
-                        ImageRequest
-                            .Builder(LocalContext.current)
-                            .data(it)
-                            .placeholder(R.drawable.default_user_avatar)
-                            .apply {
-                                crossfade(true)
-                            }
-                            .build()
-                    ),
-                    contentDescription = null,
-                )
-            } ?: Icon(
-                imageVector = Icons.Outlined.Search,
+            Icon(
+                painter = painterResource(statusIconRes),
                 contentDescription = null,
-                tint = Color.Black
+                tint = Color.Black,
+                modifier = Modifier.size(30.dp)
             )
         }
     }
@@ -153,5 +138,5 @@ fun RatingBar(
 @Preview
 @Composable
 fun OutlinedEmployeeCardPreview() {
-    OutlinedEmployeeCard(rating = 1.3)
+    OutlinedEmployeeCard(rating = 1.3, statusIconRes = R.drawable.add_plus)
 }

@@ -39,11 +39,10 @@ internal class CrmViewModel : BaseViewModel() {
                                 "anna",
                                 2.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             )
                         ),
-                        null
                     ),
                     Status(
                         "2",
@@ -52,60 +51,59 @@ internal class CrmViewModel : BaseViewModel() {
                                 "alex",
                                 2.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             ),
                             Employee(
                                 "misha",
                                 3.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             ),
                             Employee(
                                 "alex",
                                 2.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             ),
                             Employee(
                                 "misha",
                                 3.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             ),
                             Employee(
                                 "alex",
                                 2.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.EXPIRED
                             ),
                             Employee(
                                 "misha",
                                 3.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.ACTIVE
                             ),
                             Employee(
                                 "alex",
                                 2.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             ),
                             Employee(
                                 "misha",
                                 3.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             )
                         ),
-                        null
                     )
                 )
             )
@@ -118,7 +116,7 @@ internal class CrmViewModel : BaseViewModel() {
     }
 
     @Suppress("UnusedPrivateMember") // TODO: Remove once implemented
-    fun createNewStatus(statusName: String, imageLink: String) {
+    fun createNewStatus(statusName: String) {
         // TODO: Add create status logic
     }
 }

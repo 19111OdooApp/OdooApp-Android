@@ -84,10 +84,7 @@ fun <E : RecruitmentLikeEmployeeModel> RecruitmentLikeSearchResult(
     ) {
         SearchTextField(
             value = searchInput,
-            onValueChange = {
-                searchInput = it
-                // TODO search logic from viewModel
-            },
+            onValueChange = { searchInput = it },
             modifier = Modifier.focusRequester(focusRequester)
         )
     }
@@ -103,7 +100,7 @@ fun <E : RecruitmentLikeEmployeeModel> RecruitmentLikeSearchResult(
             employees = employees,
             onEmployeeActionClick = onEmployeeActionClick,
             onEmployeeCardClick = onEmployeeClick,
-            modifier = Modifier
+            modifier = Modifier,
         )
     }
     AnimatedVisibility(
@@ -118,7 +115,7 @@ fun <E : RecruitmentLikeEmployeeModel> RecruitmentLikeSearchResult(
                 employees = items,
                 onEmployeeActionClick = onEmployeeActionClick,
                 onEmployeeCardClick = onEmployeeClick,
-                modifier = Modifier
+                modifier = Modifier,
             )
         }
     }

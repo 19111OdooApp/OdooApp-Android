@@ -23,10 +23,12 @@ dependencyResolutionManagement {
 rootProject.name = "Odoo App"
 
 
-
 // Common layer
 include(":common:network:authorization:api")
 include(":common:network:authorization:impl")
+
+include(":common:network:recruitment:api")
+include(":common:network:recruitment:impl")
 
 include(":common:network:selectingModules:api")
 include(":common:network:selectingModules:impl")
@@ -43,6 +45,12 @@ include(":core:di:impl")
 
 include(":core:networkApi:authorization:api")
 include(":core:networkApi:authorization:impl")
+
+include(":core:networkApi:firebaseDatabase:api")
+include(":core:networkApi:firebaseDatabase:impl")
+
+include(":core:networkApi:recruitment:api")
+include(":core:networkApi:recruitment:impl")
 
 include(":core:networkApi:userInfo:api")
 include(":core:networkApi:userInfo:impl")
@@ -82,9 +90,6 @@ include(":feature:authorization:base:impl")
 
 include(":feature:navigation:api")
 include(":feature:navigation:impl")
-
-include(":feature:details:api")
-include(":feature:details:impl")
 
 include(":feature:selectingModules:api")
 include(":feature:selectingModules:impl")

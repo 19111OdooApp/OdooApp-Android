@@ -3,6 +3,7 @@ package odoo.miem.android.di
 import android.content.Context
 import dagger.Component
 import odoo.miem.android.common.network.authorization.impl.di.AuthorizationInteractorApiProvider
+import odoo.miem.android.common.network.recruitment.impl.di.RecruitmentInteractorApiProvider
 import odoo.miem.android.common.network.selectingModules.impl.di.SelectingModulesInteractorApiProvider
 import odoo.miem.android.core.dataStore.impl.di.DataStoreApiProvider
 import odoo.miem.android.core.di.impl.ApiRegistry
@@ -11,6 +12,7 @@ import odoo.miem.android.core.firebaseDatabase.impl.di.FirebaseDatabaseApiProvid
 import odoo.miem.android.core.jsonrpc.converter.impl.di.MoshiSerializerApiProvider
 import odoo.miem.android.core.networkApi.authorization.impl.di.AuthorizationRepositoryApiProvider
 import odoo.miem.android.core.networkApi.firebaseRemoteConfig.impl.di.FirebaseRemoteConfigApiProvider
+import odoo.miem.android.core.networkApi.recruitment.impl.di.RecruitmentRepositoryApiProvider
 import odoo.miem.android.core.networkApi.userInfo.impl.di.UserInfoRepositoryApiProvider
 import odoo.miem.android.core.networkApi.userModules.impl.di.UserModulesRepositoryApiProvider
 import odoo.miem.android.core.platform.dependecies.DefaultPlatformDependencies
@@ -19,7 +21,6 @@ import odoo.miem.android.core.platform.di.PlatformApiProvider
 import odoo.miem.android.core.utils.di.RxApiProvider
 import odoo.miem.android.feature.authorization.base.impl.di.AuthorizationScreenApiProvider
 import odoo.miem.android.feature.crm.impl.di.CrmScreenApiProvider
-import odoo.miem.android.feature.details.impl.di.DetailsScreenApiProvider
 import odoo.miem.android.feature.moduleNotFound.impl.di.ModuleNotFoundScreenApiProvider
 import odoo.miem.android.feature.recruitment.impl.di.RecruitmentScreenApiProvider
 import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreenApiProvider
@@ -71,18 +72,19 @@ import odoo.miem.android.feature.userProfile.impl.di.UserProfileScreenApiProvide
         UserModulesRepositoryApiProvider::class,
         FirebaseRemoteConfigApiProvider::class,
         FirebaseDatabaseApiProvider::class,
+        RecruitmentRepositoryApiProvider::class,
 
         // Screens
         AuthorizationScreenApiProvider::class,
         SelectingModulesScreenApiProvider::class,
         ModuleNotFoundScreenApiProvider::class,
         RecruitmentScreenApiProvider::class,
-        DetailsScreenApiProvider::class,
         CrmScreenApiProvider::class,
         UserProfileScreenApiProvider::class,
 
         // Interactors
         AuthorizationInteractorApiProvider::class,
+        RecruitmentInteractorApiProvider::class,
         SelectingModulesInteractorApiProvider::class,
 
         // Utils

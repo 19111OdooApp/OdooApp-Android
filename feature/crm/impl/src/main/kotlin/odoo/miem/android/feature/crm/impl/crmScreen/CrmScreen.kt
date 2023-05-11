@@ -33,7 +33,6 @@ class CrmScreen @Inject constructor() : ICrmScreen {
         val viewModel: CrmViewModel = viewModel()
 
         val statusList by viewModel.statusState.collectAsState()
-        val createStatusPictures by viewModel.picturesState.collectAsState()
 
         statusList.subscribeOnError(showMessage)
 
@@ -52,7 +51,6 @@ class CrmScreen @Inject constructor() : ICrmScreen {
             onNavigateToModulesPressed = onNavigateToModulesPressed,
             onStatusClick = viewModel::changeEmployeeStatus,
             onNewStatusCreated = viewModel::createNewStatus,
-            createStatusPictures = createStatusPictures.data ?: emptyList()
         )
     }
 
@@ -63,18 +61,17 @@ class CrmScreen @Inject constructor() : ICrmScreen {
         onUserIconClick: () -> Unit = {},
         onNavigateToModulesPressed: () -> Unit,
         onStatusClick: (Employee, Status) -> Unit,
-        onNewStatusCreated: (String, String) -> Unit,
-        createStatusPictures: List<String>
+        onNewStatusCreated: (String) -> Unit,
     ) {
         if (statusList is SuccessResult) {
             statusList.data?.let {
                 RecruitmentLikeScreen(
+                    userName = "Cool User",
                     statusList = it,
                     onUserIconClick = onUserIconClick,
                     onNavigateToModulesPressed = onNavigateToModulesPressed,
                     onStatusClick = onStatusClick,
                     onNewStatusCreated = onNewStatusCreated,
-                    createStatusPictures = createStatusPictures,
                     searchHintRes = R.string.crm_search_hint,
                 )
             }
@@ -89,6 +86,7 @@ class CrmScreen @Inject constructor() : ICrmScreen {
     fun CrmScreenContentPreview() {
         OdooMiemAndroidTheme {
             RecruitmentLikeScreen(
+                userName = "Cool User",
                 statusList =
                 listOf(
                     Status(
@@ -98,11 +96,10 @@ class CrmScreen @Inject constructor() : ICrmScreen {
                                 "anna",
                                 2.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             )
-                        ),
-                        null
+                        )
                     ),
                     Status(
                         "2",
@@ -111,66 +108,64 @@ class CrmScreen @Inject constructor() : ICrmScreen {
                                 "alex",
                                 2.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             ),
                             Employee(
                                 "misha",
                                 3.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             ),
                             Employee(
                                 "alex",
                                 2.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             ),
                             Employee(
                                 "misha",
                                 3.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             ),
                             Employee(
                                 "alex",
                                 2.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.EXPIRED
                             ),
                             Employee(
                                 "misha",
                                 3.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.ACTIVE
                             ),
                             Employee(
                                 "alex",
                                 2.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             ),
                             Employee(
                                 "misha",
                                 3.0,
                                 null,
-                                null,
+                                0,
                                 DeadlineStatus.NO_TASKS
                             )
                         ),
-                        null
                     )
                 ),
                 onNavigateToModulesPressed = {},
-                onStatusClick = { e, s -> },
-                onNewStatusCreated = { s: String, s2: String -> },
-                createStatusPictures = listOf(),
+                onStatusClick = { _, _ -> },
+                onNewStatusCreated = {},
                 searchHintRes = R.string.crm_search_hint,
             )
         }

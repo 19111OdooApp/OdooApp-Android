@@ -1,78 +1,52 @@
 package odoo.miem.android.common.network.employees.impl.helpers
 
-import odoo.miem.android.common.network.employees.api.entities.EmployeeBasicInfo
 import odoo.miem.android.common.network.employees.api.entities.EmployeeDetails
-import odoo.miem.android.core.networkApi.employees.api.source.AllEmployeesResponse
-import odoo.miem.android.core.networkApi.employees.api.source.EmployeeInfoResponse
+import odoo.miem.android.core.networkApi.employees.api.source.EmployeeDetailsResponse
 import timber.log.Timber
 
 class EmployeeInteractorHelper {
 
-    fun convertAllEmployeesResponse(
-        response: AllEmployeesResponse
-    ): List<EmployeeBasicInfo> {
-        Timber.d("convertAllEmployeesResponse()")
-
-        val employees = response.records.map { info ->
-            val job = info.job as? String
-            val email = info.email as? String
-            val phone = info.phone as? String
-
-            EmployeeBasicInfo(
-                id = info.id,
-                name = info.employeeName,
-                job = job,
-                email = email,
-                phone = phone,
-                avatar = info.avatar
-            )
-        }
-
-        Timber.d("convertAllEmployeesResponse(): result = $employees")
-        return employees
-    }
-
     fun convertEmployeeInfoResponse(
-        response: EmployeeInfoResponse
+        response: EmployeeDetailsResponse
     ): EmployeeDetails {
         Timber.d("convertEmployeeInfoResponse()")
 
-        val job = response.job as? String
-        val mobilePhone = response.mobilePhone as? String
-        val workPhone = response.workPhone as? String
-        val email = response.email as? String
-        val aboutMe = response.aboutMe as? String
-        val employeeType = response.employeeType as? String
+        val job = response.job
+        val mobilePhone = response.mobilePhone
+        val workPhone = response.workPhone
+        val email = response.email
+        val aboutMe = response.aboutMe
+        val employeeType = response.employeeType
 
-        val department = (response.departmentId as? List<*>)
+        val department = response.departmentId
             ?.getOrNull(1)
             ?.toString()
 
-        val studyGroup = (response.studyGroup as? List<*>)
+        val studyGroup = response.studyGroup
             ?.getOrNull(1)
             ?.toString()
 
-        val company = (response.company as? List<*>)
+        val company = response.company
             ?.getOrNull(1)
             ?.toString()
 
-        val address = (response.address as? List<*>)
+        val address = response.address
             ?.getOrNull(1)
             ?.toString()
 
-        val workLocation = (response.workLocation as? List<*>)
+        val workLocation = response.workLocation
             ?.getOrNull(1)
             ?.toString()
 
-        val resourceCalendar = (response.resourceCalendar as? List<*>)
+        val resourceCalendar = response.resourceCalendar
             ?.getOrNull(1)
             ?.toString()
 
-        val coach = (response.coach as? List<*>)
+        val coach = response.coach
             ?.getOrNull(1)
             ?.toString()
 
-        val manager = (response.manager as? List<*>)
+        val manager = response.manager
             ?.getOrNull(1)
             ?.toString()
 

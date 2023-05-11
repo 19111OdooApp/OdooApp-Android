@@ -4,9 +4,9 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import odoo.miem.android.core.jsonRpcApiFabric.jsonRpcApi
 import odoo.miem.android.core.networkApi.employees.api.source.AllEmployeesResponse
-import odoo.miem.android.core.networkApi.employees.api.source.EmployeeInfoResponse
+import odoo.miem.android.core.networkApi.employees.api.source.EmployeeDetailsResponse
 import odoo.miem.android.core.networkApi.employees.api.source.GetEmployeeInfoRequest
-import odoo.miem.android.core.networkApi.employees.api.source.IEmployeesInfo
+import odoo.miem.android.core.networkApi.employees.api.source.IEmployeesService
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -17,7 +17,7 @@ import javax.inject.Inject
  */
 class EmployeesRepository @Inject constructor() : IEmployeesRepository {
 
-    private val employeesInfo by jsonRpcApi<IEmployeesInfo>()
+    private val employeesInfo by jsonRpcApi<IEmployeesService>()
 
     override fun getAllEmployees(): Single<AllEmployeesResponse> {
         Timber.d("getAllEmployees()")
@@ -27,7 +27,7 @@ class EmployeesRepository @Inject constructor() : IEmployeesRepository {
         }.subscribeOn(Schedulers.io())
     }
 
-    override fun getEmployeeInfo(employeeId: Int): Single<List<EmployeeInfoResponse>> {
+    override fun getEmployeeDetailInfo(employeeId: Int): Single<List<EmployeeDetailsResponse>> {
         Timber.d("getEmployeeInfo: id = $employeeId")
 
         val request = GetEmployeeInfoRequest(
@@ -38,7 +38,7 @@ class EmployeesRepository @Inject constructor() : IEmployeesRepository {
         )
 
         return Single.fromCallable {
-            employeesInfo.getEmployeeInfo(args = request.args)
+            employeesInfo.getEmployeeDetails(args = request.args)
         }.subscribeOn(Schedulers.io())
     }
 

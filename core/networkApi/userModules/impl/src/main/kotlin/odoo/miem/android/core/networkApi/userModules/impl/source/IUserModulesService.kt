@@ -8,11 +8,11 @@ import odoo.miem.android.core.networkApi.userInfo.api.source.OdooGroupsResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooModulesResponse
 
 /**
- * [IUserModules] - interface for making Retrofit instance of getting modules
+ * [IUserModulesService] - interface for making Retrofit instance of getting modules
  *
  * @author Egor Danilov
  */
-interface IUserModules : JsonRpcApi {
+interface IUserModulesService : JsonRpcApi {
 
     @JsonRpc("call")
     fun getOdooGroups(

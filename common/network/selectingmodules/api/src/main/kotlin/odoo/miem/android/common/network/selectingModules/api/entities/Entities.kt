@@ -24,5 +24,7 @@ enum class ImplementedModule(val naming: String) {
 
     CRM("CRM"),
 
-    RECRUITMENT("Recruitment")
+    RECRUITMENT("Recruitment"),
+
+    EMPLOYEES("Employees")
 }

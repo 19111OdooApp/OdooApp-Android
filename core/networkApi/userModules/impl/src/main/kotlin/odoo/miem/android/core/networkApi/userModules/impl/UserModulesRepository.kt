@@ -6,7 +6,7 @@ import odoo.miem.android.core.jsonRpcApiFabric.jsonRpcApi
 import odoo.miem.android.core.networkApi.userInfo.api.IUserModulesRepository
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooGroupsResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooModulesResponse
-import odoo.miem.android.core.networkApi.userModules.impl.source.IUserModules
+import odoo.miem.android.core.networkApi.userModules.impl.source.IUserModulesService
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -17,7 +17,7 @@ import javax.inject.Inject
  */
 class UserModulesRepository @Inject constructor() : IUserModulesRepository {
 
-    private val userModules by jsonRpcApi<IUserModules>()
+    private val userModules by jsonRpcApi<IUserModulesService>()
 
     override fun getOdooGroups(): Single<OdooGroupsResponse> {
         Timber.d("getOdooGroups()")

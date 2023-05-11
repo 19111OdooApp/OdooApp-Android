@@ -6,11 +6,11 @@ import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcArgument
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcPath
 
 /**
- * [IEmployeesInfo] - interface for making Retrofit instance of employees info
+ * [IEmployeesService] - interface for making Retrofit instance of employees info
  *
  * @author Egor Danilov
  */
-interface IEmployeesInfo : JsonRpcApi {
+interface IEmployeesService : JsonRpcApi {
 
     @JsonRpc("call")
     fun getAllEmployees(
@@ -20,13 +20,13 @@ interface IEmployeesInfo : JsonRpcApi {
     ): AllEmployeesResponse
 
     @JsonRpc("call")
-    fun getEmployeeInfo(
+    fun getEmployeeDetails(
         @JsonRpcPath path: String = "web/dataset/call_kw/hr.employee/read",
         @JsonRpcArgument("method") method: String = "read",
         @JsonRpcArgument("model") model: String = "hr.employee.public",
         @JsonRpcArgument("kwargs") kwargs: Map<Any, Any> = emptyMap(),
         @JsonRpcArgument("args") args: List<Any>
-    ): List<EmployeeInfoResponse>
+    ): List<EmployeeDetailsResponse>
 
     private companion object {
 

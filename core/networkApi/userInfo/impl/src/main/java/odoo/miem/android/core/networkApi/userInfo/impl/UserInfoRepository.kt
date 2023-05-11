@@ -5,7 +5,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import odoo.miem.android.core.jsonRpcApiFabric.jsonRpcApi
 import odoo.miem.android.core.networkApi.userInfo.api.IUserInfoRepository
 import odoo.miem.android.core.networkApi.userInfo.api.source.UserInfoResponse
-import odoo.miem.android.core.networkApi.userInfo.impl.source.IUserInfo
+import odoo.miem.android.core.networkApi.userInfo.impl.source.IUserInfoService
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -16,7 +16,7 @@ import javax.inject.Inject
  */
 class UserInfoRepository @Inject constructor() : IUserInfoRepository {
 
-    private val userInfo by jsonRpcApi<IUserInfo>()
+    private val userInfo by jsonRpcApi<IUserInfoService>()
 
     override fun getUserInfo(): Single<UserInfoResponse> {
         Timber.d("getUserInfo()")

@@ -3,8 +3,8 @@ package odoo.miem.android.di
 import android.content.Context
 import dagger.Component
 import odoo.miem.android.common.network.authorization.impl.di.AuthorizationInteractorApiProvider
-import odoo.miem.android.common.network.recruitment.impl.di.RecruitmentInteractorApiProvider
 import odoo.miem.android.common.network.employees.impl.di.EmployeesInteractorApiProvider
+import odoo.miem.android.common.network.recruitment.impl.di.RecruitmentInteractorApiProvider
 import odoo.miem.android.common.network.selectingModules.impl.di.SelectingModulesInteractorApiProvider
 import odoo.miem.android.core.dataStore.impl.di.DataStoreApiProvider
 import odoo.miem.android.core.di.impl.ApiRegistry
@@ -23,7 +23,6 @@ import odoo.miem.android.core.platform.di.PlatformApiProvider
 import odoo.miem.android.core.utils.di.RxApiProvider
 import odoo.miem.android.feature.authorization.base.impl.di.AuthorizationScreenApiProvider
 import odoo.miem.android.feature.crm.impl.di.CrmScreenApiProvider
-import odoo.miem.android.feature.details.impl.di.DetailsScreenApiProvider
 import odoo.miem.android.feature.employees.impl.di.EmployeesScreenApiProvider
 import odoo.miem.android.feature.moduleNotFound.impl.di.ModuleNotFoundScreenApiProvider
 import odoo.miem.android.feature.recruitment.impl.di.RecruitmentScreenApiProvider

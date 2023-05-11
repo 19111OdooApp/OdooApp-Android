@@ -29,7 +29,16 @@ class EmployeesInteractor @Inject constructor() : IEmployeesInteractor {
 
         return employeesRepository.getAllEmployees()
             .map<Result<List<EmployeeBasicInfo>>> { response ->
-                val employeesInfo = helper.convertAllEmployeesResponse(response)
+                val employeesInfo = response.records.map { info ->
+                    EmployeeBasicInfo(
+                        id = info.id,
+                        name = info.employeeName,
+                        job = info.job,
+                        email = info.email,
+                        phone = info.phone,
+                        avatar = info.avatar
+                    )
+                }
 
                 Timber.d("getAllEmployeesInfo(): result = $employeesInfo")
 
@@ -44,7 +53,7 @@ class EmployeesInteractor @Inject constructor() : IEmployeesInteractor {
     override fun getEmployeeDetails(employeeId: Int): ResultSingle<EmployeeDetails> {
         Timber.d("getEmployeeDetails")
 
-        return employeesRepository.getEmployeeInfo(employeeId = employeeId)
+        return employeesRepository.getEmployeeDetailInfo(employeeId = employeeId)
             .map<Result<EmployeeDetails>> { response ->
                 val employeeDetails = helper.convertEmployeeInfoResponse(response.first())
 

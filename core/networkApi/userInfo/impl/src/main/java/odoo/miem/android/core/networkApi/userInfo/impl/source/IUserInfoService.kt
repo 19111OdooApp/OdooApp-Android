@@ -7,11 +7,11 @@ import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcPath
 import odoo.miem.android.core.networkApi.userInfo.api.source.UserInfoResponse
 
 /**
- * [IUserInfo] - interface for making Retrofit instance of user info
+ * [IUserInfoService] - interface for making Retrofit instance of user info
  *
  * @author Egor Danilov
  */
-interface IUserInfo : JsonRpcApi {
+interface IUserInfoService : JsonRpcApi {
 
     @JsonRpc("call")
     fun getUserInfo(
@@ -19,15 +19,6 @@ interface IUserInfo : JsonRpcApi {
         @JsonRpcArgument("model") model: String = "res.users.settings",
         @JsonRpcArgument("fields") fields: List<String> = userInfoFields
     ): UserInfoResponse
-
-    @JsonRpc("call")
-    fun updateFavouriteModules(
-        @JsonRpcPath path: String = "web/dataset/call_kw/write",
-        @JsonRpcArgument("method") method: String = "write",
-        @JsonRpcArgument("model") model: String = "res.users.settings",
-        @JsonRpcArgument("kwargs") kwargs: Map<Any, Any> = emptyMap(),
-        @JsonRpcArgument("args") args: List<Any>
-    ): Boolean
 
     private companion object {
 

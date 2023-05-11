@@ -6,7 +6,7 @@ data class EmployeeBasicInfo(
     val job: String?,
     val email: String?,
     val phone: String?,
-    val avatar: String
+    val avatar: String?
 )
 
 data class EmployeeDetails(

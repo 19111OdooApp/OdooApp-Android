@@ -23,8 +23,6 @@ import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
 import odoo.miem.android.feature.authorization.base.api.di.IAuthorizationApi
 import odoo.miem.android.feature.crm.api.ICrmScreen
 import odoo.miem.android.feature.crm.api.di.ICrmApi
-import odoo.miem.android.feature.details.api.IDetailsScreen
-import odoo.miem.android.feature.details.api.di.IDetailsScreenApi
 import odoo.miem.android.feature.employees.api.IEmployeesScreen
 import odoo.miem.android.feature.employees.api.di.IEmployeesScreenApi
 import odoo.miem.android.feature.moduleNotFound.api.IModuleNotFoundScreen

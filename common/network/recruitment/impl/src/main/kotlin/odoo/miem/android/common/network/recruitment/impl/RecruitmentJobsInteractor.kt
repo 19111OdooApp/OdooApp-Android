@@ -35,7 +35,10 @@ class RecruitmentJobsInteractor @Inject constructor() : IRecruitmentJobsInteract
             }
             .onErrorReturn {
                 Timber.e("getRecruitmentJobs(): error message = ${it.message}")
-                ErrorResult(R.string.general_authorization_error)
+                ErrorResult(
+                    message = R.string.general_authorization_error,
+                    isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
+                )
             }
     }
 
@@ -45,12 +48,15 @@ class RecruitmentJobsInteractor @Inject constructor() : IRecruitmentJobsInteract
         return recruitmentRepository
             .setJobPublication(jobId, publish)
             .map<Result<Boolean>> { response ->
-                Timber.d("getRecruitmentJobs(): get response - $response")
+                Timber.d("setJobPublication(): get response - $response")
                 SuccessResult(response)
             }
             .onErrorReturn {
-                Timber.e("getRecruitmentJobs(): error message = ${it.message}")
-                ErrorResult(R.string.general_authorization_error)
+                Timber.e("setJobPublication(): error message = ${it.message}")
+                ErrorResult(
+                    message = R.string.general_authorization_error,
+                    isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
+                )
             }
     }
 
@@ -60,12 +66,15 @@ class RecruitmentJobsInteractor @Inject constructor() : IRecruitmentJobsInteract
         return recruitmentRepository
             .setJobFavoritable(jobId, isFavorite)
             .map<Result<Boolean>> { response ->
-                Timber.d("getRecruitmentJobs(): get response - $response")
+                Timber.d("setJobFavoritable(): get response - $response")
                 SuccessResult(response)
             }
             .onErrorReturn {
-                Timber.e("getRecruitmentJobs(): error message = ${it.message}")
-                ErrorResult(R.string.general_authorization_error)
+                Timber.e("setJobFavoritable(): error message = ${it.message}")
+                ErrorResult(
+                    message = R.string.general_authorization_error,
+                    isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
+                )
             }
     }
 
@@ -75,12 +84,15 @@ class RecruitmentJobsInteractor @Inject constructor() : IRecruitmentJobsInteract
         return recruitmentRepository
             .setJobRecruit(jobId, isRecruitingDone)
             .map<Result<Boolean>> { response ->
-                Timber.d("getRecruitmentJobs(): get response - $response")
+                Timber.d("setJobRecruit(): get response - $response")
                 SuccessResult(response)
             }
             .onErrorReturn {
-                Timber.e("getRecruitmentJobs(): error message = ${it.message}")
-                ErrorResult(R.string.general_authorization_error)
+                Timber.e("setJobRecruit(): error message = ${it.message}")
+                ErrorResult(
+                    message = R.string.general_authorization_error,
+                    isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
+                )
             }
     }
 

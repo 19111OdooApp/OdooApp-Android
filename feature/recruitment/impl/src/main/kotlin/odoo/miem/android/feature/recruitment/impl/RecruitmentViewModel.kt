@@ -50,7 +50,7 @@ internal class RecruitmentViewModel : BaseViewModel() {
         recruitmentJobsInteractor
             .getRecruitmentJobs()
             .schedule(
-                recruitmentJobsChannel,
+                recruitmentJobsGetChannel,
                 onSuccess = { list ->
                     Timber.d("fetchJobsList(): list - ${list.data}")
                     jobsList.addAll(list.data ?: emptyList())
@@ -71,7 +71,7 @@ internal class RecruitmentViewModel : BaseViewModel() {
             jobId = job.id,
             publish = !previousState
         ).schedule(
-            recruitmentJobsChannel,
+            recruitmentJobsChangePublicationChannel,
             onSuccess = { response ->
                 Timber.d("changePublicationState(): response - $response")
             },
@@ -96,7 +96,7 @@ internal class RecruitmentViewModel : BaseViewModel() {
             jobId = job.id,
             isRecruitingDone = previousState != RecruitmentJobState.RECRUIT_DONE
         ).schedule(
-            recruitmentJobsChannel,
+            recruitmentJobsChangeRecruitChannel,
             onSuccess = { response ->
                 Timber.d("changeRecruitState(): response - $response")
             },
@@ -113,7 +113,7 @@ internal class RecruitmentViewModel : BaseViewModel() {
             jobId = job.id,
             isFavorite = !previousState
         ).schedule(
-            recruitmentJobsChannel,
+            recruitmentJobsChangeFavoriteChannel,
             onSuccess = { response ->
                 Timber.d("changePublicationState(): response - $response")
             },
@@ -124,6 +124,11 @@ internal class RecruitmentViewModel : BaseViewModel() {
     /**
      * Recruitment Kanban
      */
+    fun onOpenKanban(jobId: Long) {
+        fetchStatusList(jobId)
+        getUserInfo()
+    }
+
     fun fetchStatusList(jobId: Long) {
         Timber.d("fetchStatusList()")
 
@@ -131,7 +136,7 @@ internal class RecruitmentViewModel : BaseViewModel() {
         recruitmentInteractor
             .getRecruitmentKanbanInfo(jobId)
             .schedule(
-                recruitmentKanbanChannel,
+                recruitmentKanbanFetchStatusChannel,
                 onSuccess = { list ->
                     Timber.d("fetchStatusList(): list - ${list.data}")
                     statusState.onNext(list)
@@ -147,7 +152,7 @@ internal class RecruitmentViewModel : BaseViewModel() {
                 employeeId = employee.id
             )
             .schedule(
-                recruitmentKanbanChannel,
+                recruitmentKanbanChangeEmployeeChannel,
                 onSuccess = { result ->
                     Timber.d("changeEmployeeStatus(): result - $result")
                     if (result is ErrorResult) {
@@ -168,7 +173,7 @@ internal class RecruitmentViewModel : BaseViewModel() {
         recruitmentInteractor
             .createNewKanbanStatus(jobId, topic)
             .schedule(
-                recruitmentKanbanChannel,
+                recruitmentKanbanCreateStatusChannel,
                 onSuccess = { status ->
                     Timber.d("createNewStatus(): list - ${status.data}")
                     fetchStatusList(jobId)
@@ -197,8 +202,18 @@ internal class RecruitmentViewModel : BaseViewModel() {
     }
 
     companion object {
-        val recruitmentKanbanChannel = Channel()
-        val recruitmentJobsChannel = Channel()
+        // Jobs
+        val recruitmentJobsGetChannel = Channel()
+        val recruitmentJobsChangePublicationChannel = Channel()
+        val recruitmentJobsChangeRecruitChannel = Channel()
+        val recruitmentJobsChangeFavoriteChannel = Channel()
+
+        // Kanban
+        val recruitmentKanbanFetchStatusChannel = Channel()
+        val recruitmentKanbanChangeEmployeeChannel = Channel()
+        val recruitmentKanbanCreateStatusChannel = Channel()
+
+        // User info
         val userInfoChannel = Channel()
     }
 }

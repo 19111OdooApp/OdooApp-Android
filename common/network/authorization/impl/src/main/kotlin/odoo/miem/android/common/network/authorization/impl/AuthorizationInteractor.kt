@@ -49,7 +49,10 @@ class AuthorizationInteractor @Inject constructor() : IAuthorizationInteractor {
             }
             .onErrorReturn {
                 Timber.e("generalAuthorization(): error message = ${it.message}")
-                ErrorResult(R.string.general_authorization_error)
+                ErrorResult(
+                    message = R.string.general_authorization_error,
+                    isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
+                )
             }
     }
 

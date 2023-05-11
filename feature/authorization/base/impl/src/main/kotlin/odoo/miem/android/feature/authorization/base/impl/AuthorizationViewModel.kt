@@ -26,6 +26,12 @@ class AuthorizationViewModel : BaseViewModel() {
 
     val authorizationState: ResultSubject<Unit> by lazyEmptyResultPublishSubject()
 
+    init {
+        if (dataStore.isAuthorized) {
+            dataStore.clear()
+        }
+    }
+
     fun generalAuthorization(
         baseUrl: String,
         login: String,

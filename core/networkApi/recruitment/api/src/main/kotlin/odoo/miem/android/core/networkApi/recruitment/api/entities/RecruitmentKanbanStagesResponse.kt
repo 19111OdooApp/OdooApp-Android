@@ -10,7 +10,7 @@ data class RecruitmentKanbanStagesResponse(
 
     @Json(name = "groups")
     @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
-    val stages: List<Stage>?
+    val stages: List<Stage>? = null
 ) {
 
     @JsonClass(generateAdapter = true)

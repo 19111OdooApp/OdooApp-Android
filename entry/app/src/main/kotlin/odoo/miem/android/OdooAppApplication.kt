@@ -2,6 +2,7 @@ package odoo.miem.android
 
 import android.app.Application
 import android.os.StrictMode
+import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import odoo.miem.android.di.OdooAppComponent
 import odoo.miem.android.di.initApis
 import timber.log.Timber
@@ -20,6 +21,9 @@ class OdooAppApplication : Application() {
         super.onCreate()
 
         initTimber()
+
+        RxJavaPlugins.setErrorHandler(Timber::e)
+
         odooAppComponent = initApis(this)
         Timber.d("onCreate(): Init apis")
     }

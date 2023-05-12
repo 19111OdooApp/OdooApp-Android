@@ -32,12 +32,8 @@ class RecruitmentInteractor @Inject constructor() : IRecruitmentInteractor {
 
         return Single
             .zip(
-                recruitmentRepository
-                    .getRecruitmentKanbanInfo(jobId)
-                    .onErrorReturn { RecruitmentResponse() },
-                recruitmentRepository
-                    .getRecruitmentKanbanStages(jobId)
-                    .onErrorReturn { RecruitmentKanbanStagesResponse() }
+                recruitmentRepository.getRecruitmentKanbanInfo(jobId),
+                recruitmentRepository.getRecruitmentKanbanStages(jobId)
             ) { kanbanInfo: RecruitmentResponse,
                 rawStages: RecruitmentKanbanStagesResponse ->
 

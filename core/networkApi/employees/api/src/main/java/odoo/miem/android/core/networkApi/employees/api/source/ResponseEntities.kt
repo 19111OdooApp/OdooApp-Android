@@ -10,16 +10,18 @@ data class AllEmployeesResponse(
 
     @Json(name = "records")
     @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
-    val records: List<EmployeeBasicInfoResponse>
+    val records: List<EmployeeBasicInfoResponse>?
 ) {
     @JsonClass(generateAdapter = true)
     data class EmployeeBasicInfoResponse(
 
         @Json(name = "id")
-        val id: Int,
+        @SpecifiedTypeOrNull(JsonReader.Token.NUMBER)
+        val id: Int?,
 
         @Json(name = "name")
-        val employeeName: String,
+        @SpecifiedTypeOrNull(JsonReader.Token.STRING)
+        val employeeName: String?,
 
         @Json(name = "job_title")
         @SpecifiedTypeOrNull(JsonReader.Token.STRING)
@@ -43,9 +45,12 @@ data class AllEmployeesResponse(
 data class EmployeeDetailsResponse(
 
     @Json(name = "id")
-    val id: Int,
+    @SpecifiedTypeOrNull(JsonReader.Token.NUMBER)
+    val id: Int?,
+
     @Json(name = "name")
-    val employeeName: String,
+    @SpecifiedTypeOrNull(JsonReader.Token.STRING)
+    val employeeName: String?,
 
     @Json(name = "job_title")
     @SpecifiedTypeOrNull(JsonReader.Token.STRING)

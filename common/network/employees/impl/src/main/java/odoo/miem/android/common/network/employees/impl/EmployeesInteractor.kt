@@ -29,7 +29,7 @@ class EmployeesInteractor @Inject constructor() : IEmployeesInteractor {
 
         return employeesRepository.getAllEmployees()
             .map<Result<List<EmployeeBasicInfo>>> { response ->
-                val employeesInfo = response.records.map { info ->
+                val employeesInfo = response.records?.map { info ->
                     EmployeeBasicInfo(
                         id = info.id,
                         name = info.employeeName,
@@ -38,7 +38,7 @@ class EmployeesInteractor @Inject constructor() : IEmployeesInteractor {
                         phone = info.phone,
                         avatar = info.avatar
                     )
-                }
+                } ?: emptyList()
 
                 Timber.d("getAllEmployeesInfo(): result = $employeesInfo")
 
@@ -47,7 +47,6 @@ class EmployeesInteractor @Inject constructor() : IEmployeesInteractor {
             .onErrorReturn {
                 Timber.e("getAllEmployeesInfo(): error message = ${it.message}")
                 ErrorResult(
-                    message = R.string.employees_error,
                     isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
                 )
             }
@@ -67,7 +66,6 @@ class EmployeesInteractor @Inject constructor() : IEmployeesInteractor {
             .onErrorReturn {
                 Timber.e("getEmployeeDetails(): error message = ${it.message}")
                 ErrorResult(
-                    message = R.string.employees_error,
                     isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
                 )
             }

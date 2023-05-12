@@ -11,37 +11,21 @@ class EmployeeInteractorHelper {
     ): EmployeeDetails {
         Timber.d("convertEmployeeInfoResponse()")
 
-        val department = response.departmentId
-            ?.getOrNull(1)
-            ?.toString()
+        val department = response.departmentId.getSecondItem()
 
-        val studyGroup = response.studyGroup
-            ?.getOrNull(1)
-            ?.toString()
+        val studyGroup = response.studyGroup.getSecondItem()
 
-        val company = response.company
-            ?.getOrNull(1)
-            ?.toString()
+        val company = response.company.getSecondItem()
 
-        val address = response.address
-            ?.getOrNull(1)
-            ?.toString()
+        val address = response.address.getSecondItem()
 
-        val workLocation = response.workLocation
-            ?.getOrNull(1)
-            ?.toString()
+        val workLocation = response.workLocation.getSecondItem()
 
-        val resourceCalendar = response.resourceCalendar
-            ?.getOrNull(1)
-            ?.toString()
+        val resourceCalendar = response.resourceCalendar.getSecondItem()
 
-        val coach = response.coach
-            ?.getOrNull(1)
-            ?.toString()
+        val coach = response.coach.getSecondItem()
 
-        val manager = response.manager
-            ?.getOrNull(1)
-            ?.toString()
+        val manager = response.manager.getSecondItem()
 
         val employeeDetails = EmployeeDetails(
             id = response.id,
@@ -64,5 +48,9 @@ class EmployeeInteractorHelper {
 
         Timber.d("convertEmployeeInfoResponse(): result = $employeeDetails")
         return employeeDetails
+    }
+
+    private fun List<Any>?.getSecondItem(): String? {
+        return this?.getOrNull(1) as? String
     }
 }

@@ -22,6 +22,6 @@ interface IUserInfoService : JsonRpcApi {
 
     private companion object {
 
-        val userInfoFields = listOf("id", "user_id", "x_favourite_modules")
+        val userInfoFields = listOf("id", "user_id")
     }
 }

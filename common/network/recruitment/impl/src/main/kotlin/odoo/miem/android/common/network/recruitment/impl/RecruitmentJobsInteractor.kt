@@ -36,7 +36,6 @@ class RecruitmentJobsInteractor @Inject constructor() : IRecruitmentJobsInteract
             .onErrorReturn {
                 Timber.e("getRecruitmentJobs(): error message = ${it.message}")
                 ErrorResult(
-                    message = R.string.general_authorization_error,
                     isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
                 )
             }
@@ -54,7 +53,6 @@ class RecruitmentJobsInteractor @Inject constructor() : IRecruitmentJobsInteract
             .onErrorReturn {
                 Timber.e("setJobPublication(): error message = ${it.message}")
                 ErrorResult(
-                    message = R.string.general_authorization_error,
                     isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
                 )
             }
@@ -72,7 +70,6 @@ class RecruitmentJobsInteractor @Inject constructor() : IRecruitmentJobsInteract
             .onErrorReturn {
                 Timber.e("setJobFavoritable(): error message = ${it.message}")
                 ErrorResult(
-                    message = R.string.general_authorization_error,
                     isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
                 )
             }
@@ -90,7 +87,6 @@ class RecruitmentJobsInteractor @Inject constructor() : IRecruitmentJobsInteract
             .onErrorReturn {
                 Timber.e("setJobRecruit(): error message = ${it.message}")
                 ErrorResult(
-                    message = R.string.general_authorization_error,
                     isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
                 )
             }

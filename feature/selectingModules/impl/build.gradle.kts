@@ -18,7 +18,6 @@ dependencies {
     // SelectingModules
     api(project(":common:network:selectingModules:api"))
 
-
     // Core
     // UiKitTheme
     implementation(project(":core:uiKitTheme"))

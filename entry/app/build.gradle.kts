@@ -38,6 +38,10 @@ dependencies {
     implementation(project(":feature:moduleNotFound:api"))
     implementation(project(":feature:moduleNotFound:impl"))
 
+    // Employees
+    implementation(project(":feature:employees:api"))
+    implementation(project(":feature:employees:impl"))
+
     // Common
     // Network - authorization
     implementation(project(":common:network:authorization:impl"))
@@ -47,6 +51,9 @@ dependencies {
 
     // Network - selecting modules
     implementation(project(":common:network:selectingModules:impl"))
+
+    // Network - employees
+    implementation(project(":common:network:employees:impl"))
 
     // Core
     // Datastore
@@ -63,6 +70,9 @@ dependencies {
 
     // Network API - user modules
     implementation(project(":core:networkApi:userModules:impl"))
+
+    // Network API - employees
+    implementation(project(":core:networkApi:employees:impl"))
 
     // Network API - remote config
     implementation(project(":core:networkApi:firebaseRemoteConfig:impl"))

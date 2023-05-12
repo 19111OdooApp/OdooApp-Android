@@ -111,6 +111,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                 when (it.name) {
                     ImplementedModule.RECRUITMENT.naming -> navController.navigate(Routes.recruitmentJobs)
                     ImplementedModule.CRM.naming -> navController.navigate(Routes.crm)
+                    ImplementedModule.EMPLOYEES.naming -> navController.navigate(Routes.employees)
                 }
             } else {
                 navController.navigate(Routes.moduleNotFound)

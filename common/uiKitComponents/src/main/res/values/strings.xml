@@ -58,6 +58,7 @@
     <string name="recruitment_screen_key" translatable="false">recruitmentScreen</string>
     <string name="recruitment_search_screen_key" translatable="false">searchScreen</string>
 
+    <string name="recruitment_search_hint">Enter employee name</string>
     <string name="recruitment_change_status">Change status</string>
     <string name="recruitment_add_new_status">Add a new status</string>
     <string name="finish_new_status_creation">Done</string>
@@ -78,6 +79,6 @@
     <string name="error_retry">Retry</string>
 
     <string name="error_session_message">Sorry, but your session is expired 😔</string>
-    <string name="error_session_message_subtitle">You shoud authorize one more time</string>
+    <string name="error_session_message_subtitle">You should authorize one more time</string>
     <string name="error_session_retry">Let\'s go to authorization!</string>
 </resources>

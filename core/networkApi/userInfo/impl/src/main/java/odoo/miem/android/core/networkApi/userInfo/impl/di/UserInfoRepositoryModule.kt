@@ -15,5 +15,5 @@ import odoo.miem.android.core.networkApi.userInfo.impl.UserInfoRepository
 interface UserInfoRepositoryModule {
 
     @Binds
-    fun provideSelectingModulesRepository(impl: UserInfoRepository): IUserInfoRepository
+    fun provideUserInfoRepository(impl: UserInfoRepository): IUserInfoRepository
 }

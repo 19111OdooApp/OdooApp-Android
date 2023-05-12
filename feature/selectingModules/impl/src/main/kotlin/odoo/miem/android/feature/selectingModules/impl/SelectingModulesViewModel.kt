@@ -69,7 +69,7 @@ class SelectingModulesViewModel(
             )
     }
 
-    fun getUserModules(userUid: Int) {
+    private fun getUserModules(userUid: Int) {
         Timber.d("getUserModules(): userUid = $userUid")
 
         if (isReloaded) {

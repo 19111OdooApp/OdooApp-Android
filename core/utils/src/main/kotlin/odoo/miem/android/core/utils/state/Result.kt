@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.PublishSubject
+import odoo.miem.android.core.utils.R
 
 /**
  * States of response
@@ -19,7 +20,7 @@ sealed class Result<T>(
 class SuccessResult<T>(data: T? = null) : Result<T>(data = data)
 
 class ErrorResult<T>(
-    @StringRes message: Int? = null,
+    @StringRes message: Int = R.string.common_error_message,
     val isSessionExpired: Boolean = false
 ) : Result<T>(message = message) {
     companion object {

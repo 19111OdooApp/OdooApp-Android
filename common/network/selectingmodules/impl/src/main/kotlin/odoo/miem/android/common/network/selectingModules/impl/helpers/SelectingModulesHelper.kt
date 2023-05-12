@@ -82,18 +82,7 @@ internal class SelectingModulesHelper {
         for (module in records) {
             val groupIds = module.groupIds?.toSet() ?: emptySet()
             if (groupsOfUser.intersect(groupIds).isNotEmpty()) {
-                val parentInfo = module.parentId
-
-                val castedParentInfo = if (parentInfo is List<*>) {
-                    parentInfo
-                } else {
-                    emptyList<Any>()
-                }
-                val parentId = if (castedParentInfo.isEmpty()) {
-                    null
-                } else {
-                    (castedParentInfo[0] as Double).toInt()
-                }
+                val parentId = (module.parentId?.firstOrNull() as? Double)?.toInt()
 
                 val moduleId = module.id
                 val moduleName = module.name

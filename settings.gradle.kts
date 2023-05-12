@@ -33,6 +33,9 @@ include(":common:network:recruitment:impl")
 include(":common:network:selectingModules:api")
 include(":common:network:selectingModules:impl")
 
+include(":common:network:employees:api")
+include(":common:network:employees:impl")
+
 include(":common:uiKitComponents")
 
 
@@ -63,6 +66,9 @@ include(":core:networkApi:firebaseRemoteConfig:api")
 
 include(":core:networkApi:firebaseDatabase:api")
 include(":core:networkApi:firebaseDatabase:impl")
+
+include(":core:networkApi:employees:api")
+include(":core:networkApi:employees:impl")
 
 include(":core:jsonrpc:base")
 include(":core:jsonrpc:core")
@@ -105,3 +111,6 @@ include(":feature:crm:impl")
 
 include(":feature:userProfile:api")
 include(":feature:userProfile:impl")
+
+include(":feature:employees:api")
+include(":feature:employees:impl")

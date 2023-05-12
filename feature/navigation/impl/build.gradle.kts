@@ -33,4 +33,7 @@ dependencies {
 
     // Module User Profile
     implementation(project(":feature:userProfile:api"))
+
+    // Module Employees
+    implementation(project(":feature:employees:api"))
 }

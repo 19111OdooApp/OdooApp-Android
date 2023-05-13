@@ -1,6 +1,7 @@
 package odoo.miem.android.core.utils.builder
 
 import android.net.Uri
+import odoo.miem.android.core.utils.builder.HseUriAuthorizationBuilder.Builder
 import odoo.miem.android.core.utils.network.RequestHelpers
 import org.json.JSONObject
 
@@ -35,6 +36,7 @@ class HseUriAuthorizationBuilder internal constructor(
     class Builder {
         internal var authority = DEFAULT_HSE_AUTHORITY
         internal var baseDomain = DEFAULT_HSE_DOMAIN
+        internal var clientID: String? = null
         internal var path = DEFAULT_HSE_AUTHORIZATION_PATH
         internal var queryParameters = DEFAULT_HSE_QUERY_PARAMS
         internal var scheme = DEFAULT_HSE_SCHEME
@@ -45,6 +47,10 @@ class HseUriAuthorizationBuilder internal constructor(
 
         fun setAuthority(authority: String): Builder = apply {
             this.authority = authority
+        }
+
+        fun setClientID(clientID: String?): Builder = apply {
+            this.clientID = clientID
         }
 
         fun appendPath(path: String): Builder = apply {
@@ -62,7 +68,7 @@ class HseUriAuthorizationBuilder internal constructor(
         private fun generateRedirectStateUrl(): String = "$DEFAULT_HSE_SCHEME://$baseDomain/web"
 
         fun build(): HseUriAuthorizationBuilder {
-            queryParameters[FIELD_CLIENT_ID] = baseDomain
+            queryParameters[FIELD_CLIENT_ID] = clientID ?: baseDomain
             queryParameters[FIELD_STATE] = JSONObject()
                 .put(FIELD_STATE_DATABASE, RequestHelpers.databaseName)
                 .put(FIELD_STATE_PAGE, FIELD_STATE_PAGE_VALUE)

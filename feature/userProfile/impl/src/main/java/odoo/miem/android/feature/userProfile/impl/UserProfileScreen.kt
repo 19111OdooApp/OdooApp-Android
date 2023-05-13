@@ -39,6 +39,7 @@ import odoo.miem.android.core.uiKitTheme.halfMainVerticalPadding
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
 import odoo.miem.android.core.uiKitTheme.odooPrimaryDark
+import odoo.miem.android.feature.navigation.api.data.Routes
 import odoo.miem.android.feature.userProfile.api.IUserProfileScreen
 import javax.inject.Inject
 
@@ -64,14 +65,16 @@ class UserProfileScreen @Inject constructor() : IUserProfileScreen {
         showMessage: (Int) -> Unit
     ) {
         UserProfileScreenContent(
-            navigateBack = navController::popBackStack
+            navigateBack = navController::popBackStack,
+            onLogOutButtonClick = { navController.navigate(Routes.authorization) }
         )
     }
 
     @OptIn(ExperimentalMaterialApi::class)
     @Composable
     private fun UserProfileScreenContent(
-        navigateBack: () -> Unit = {}
+        navigateBack: () -> Unit = {},
+        onLogOutButtonClick: () -> Unit = {}
     ) {
         val bottomSheetTopRadius = 35.dp
 
@@ -117,7 +120,8 @@ class UserProfileScreen @Inject constructor() : IUserProfileScreen {
         ) {
             UserProfileScreenMainContent(
                 navigateBack = navigateBack,
-                showBottomSheet = expandBottomSheet
+                showBottomSheet = expandBottomSheet,
+                onLogOutButtonClick = onLogOutButtonClick
             )
         }
     }

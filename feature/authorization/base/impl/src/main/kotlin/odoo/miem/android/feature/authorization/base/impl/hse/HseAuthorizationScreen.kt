@@ -40,6 +40,12 @@ fun HseAuthorizationScreen(
     AndroidView(
         factory = { context ->
             WebView(context).apply {
+                clearCache(true)
+                CookieManager.getInstance().apply {
+                    removeAllCookies(null)
+                    flush()
+                }
+
                 layoutParams = ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT

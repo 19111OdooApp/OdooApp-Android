@@ -4,9 +4,11 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import odoo.miem.android.core.jsonRpcApiFabric.jsonRpcApi
 import odoo.miem.android.core.networkApi.recruitment.api.IRecruitmentRepository
+import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentApplicationDetailsResponse
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentJobsResponse
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentKanbanStagesResponse
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentResponse
+import odoo.miem.android.core.networkApi.recruitment.impl.source.IRecruitmentDetailsService
 import odoo.miem.android.core.networkApi.recruitment.impl.source.IRecruitmentJobsService
 import odoo.miem.android.core.networkApi.recruitment.impl.source.IRecruitmentService
 import timber.log.Timber
@@ -21,7 +23,11 @@ class RecruitmentRepository @Inject constructor() : IRecruitmentRepository {
 
     private val recruitmentService by jsonRpcApi<IRecruitmentService>()
     private val recruitmentJobsService by jsonRpcApi<IRecruitmentJobsService>()
+    private val recruitmentDetailsService by jsonRpcApi<IRecruitmentDetailsService>()
 
+    /**
+     * Recruitment Kanban
+     */
     override fun getRecruitmentKanbanInfo(jobId: Long): Single<RecruitmentResponse> {
         Timber.d("getRecruitmentInfo()")
 
@@ -77,6 +83,9 @@ class RecruitmentRepository @Inject constructor() : IRecruitmentRepository {
         }.subscribeOn(Schedulers.io())
     }
 
+    /**
+     * Recruitment Jobs
+     */
     override fun getRecruitmentJobsInfo(): Single<RecruitmentJobsResponse> {
         Timber.d("getRecruitmentJobsInfo()")
 
@@ -127,5 +136,48 @@ class RecruitmentRepository @Inject constructor() : IRecruitmentRepository {
                 method = if (isRecruitingDone) "set_open" else "set_recruit"
             )
         }.subscribeOn(Schedulers.io())
+    }
+
+    /**
+     * Recruitment Application Details
+     */
+    override fun getApplicationInfo(applicationId: Long): Single<RecruitmentApplicationDetailsResponse> {
+        Timber.d("getApplicationInfo(): applicationId - $applicationId")
+
+        return Single.fromCallable {
+            recruitmentDetailsService.getApplicationInfo(
+                args = listOf(
+                    listOf(applicationId),
+                    applicationInfoFields
+                )
+            ).first()
+        }.subscribeOn(Schedulers.io())
+    }
+
+    private companion object {
+        val applicationInfoFields = listOf(
+            "id",
+            "stage_id",
+            "name",
+            "display_name",
+            "email_from",
+            "partner_phone",
+            "partner_mobile",
+
+            "user_id",
+            "priority",
+            "source_id",
+
+            "job_id",
+            "department_id",
+
+            "salary_expected",
+            "salary_proposed",
+
+            "description",
+
+            "activity_ids",
+            "message_ids",
+        )
     }
 }

@@ -35,7 +35,7 @@ internal fun TextPage(
         color = odooPrimary,
     )
 
-    if (textType.text.isNotEmpty()) {
+    if (textType.text?.isNotEmpty() == true) {
         Spacer(modifier = Modifier.height(32.dp))
 
         Text(

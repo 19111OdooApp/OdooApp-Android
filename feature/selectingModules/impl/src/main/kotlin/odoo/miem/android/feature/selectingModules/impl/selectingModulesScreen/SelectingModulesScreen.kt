@@ -405,7 +405,6 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     name = "CRM",
                     nameStandard = "",
                     iconDownloadUrl = "",
-                    numberOfNotifications = 1
                 ),
                 OdooModule(
                     id = -1,
@@ -414,7 +413,6 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     name = "Recruitment",
                     nameStandard = "",
                     iconDownloadUrl = "",
-                    numberOfNotifications = 5,
                     isFavourite = true
                 ),
                 OdooModule(
@@ -423,8 +421,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     childModules = mutableListOf(),
                     name = "Pricing",
                     nameStandard = "",
-                    iconDownloadUrl = "",
-                    numberOfNotifications = 123
+                    iconDownloadUrl = ""
                 )
             )
         )

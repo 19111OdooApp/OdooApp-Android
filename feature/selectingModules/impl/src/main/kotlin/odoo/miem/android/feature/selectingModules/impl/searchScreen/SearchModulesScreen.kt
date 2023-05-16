@@ -140,7 +140,6 @@ private fun SearchModulesScreenPreview() = OdooMiemAndroidTheme {
             name = "CRM",
             nameStandard = "CRM",
             iconDownloadUrl = "",
-            numberOfNotifications = 1
         ),
         OdooModule(
             id = -1,
@@ -149,7 +148,6 @@ private fun SearchModulesScreenPreview() = OdooMiemAndroidTheme {
             name = "Recruitment",
             nameStandard = "Recruitment",
             iconDownloadUrl = "",
-            numberOfNotifications = 5,
             isFavourite = true
         ),
         OdooModule(
@@ -159,7 +157,6 @@ private fun SearchModulesScreenPreview() = OdooMiemAndroidTheme {
             name = "Pricing",
             nameStandard = "Pricing",
             iconDownloadUrl = "",
-            numberOfNotifications = 123
         ),
     )
 

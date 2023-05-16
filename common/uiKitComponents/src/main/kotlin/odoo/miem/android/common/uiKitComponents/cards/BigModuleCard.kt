@@ -43,10 +43,10 @@ import odoo.miem.android.common.uiKitComponents.utils.glowEffect
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun BigModuleCard(
+    modifier: Modifier = Modifier,
     moduleName: String = stringResource(id = R.string.default_module_name),
     numberOfNotification: Int = 0,
     isLiked: Boolean = false,
-    modifier: Modifier = Modifier,
     onLikeClick: () -> Unit = {},
     onClick: () -> Unit = {}
 ) = Card(

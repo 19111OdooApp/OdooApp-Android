@@ -48,7 +48,7 @@ import com.mxalbert.sharedelements.MaterialContainerTransformSpec
 import com.mxalbert.sharedelements.SharedElement
 import com.mxalbert.sharedelements.SharedElementsRoot
 import kotlinx.coroutines.launch
-import odoo.miem.android.common.network.selectingModules.api.entities.ImplementedModule
+import odoo.miem.android.common.network.selectingModules.api.entities.ImplementedModulesEnum
 import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
 import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetScaffold
@@ -106,12 +106,15 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         }
 
         val onModuleCardClick: (OdooModule) -> Unit = {
-            Timber.d("onModuleCardClick(): name - ${it.name}, isImplemented - ${it.isImplemented}")
+            Timber.d(
+                "onModuleCardClick(): name - ${it.name}, nameStandard = ${it.nameStandard} " +
+                    "isImplemented - ${it.isImplemented}"
+            )
             if (it.isImplemented) {
-                when (it.name) {
-                    ImplementedModule.RECRUITMENT.naming -> navController.navigate(Routes.recruitmentJobs)
-                    ImplementedModule.CRM.naming -> navController.navigate(Routes.crm)
-                    ImplementedModule.EMPLOYEES.naming -> navController.navigate(Routes.employees)
+                when (it.nameStandard) {
+                    ImplementedModulesEnum.RECRUITMENT.naming -> navController.navigate(Routes.recruitmentJobs)
+                    ImplementedModulesEnum.CRM.naming -> navController.navigate(Routes.crm)
+                    ImplementedModulesEnum.EMPLOYEES.naming -> navController.navigate(Routes.employees)
                 }
             } else {
                 navController.navigate(Routes.moduleNotFound)
@@ -400,6 +403,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     parentId = null,
                     childModules = mutableListOf(),
                     name = "CRM",
+                    nameStandard = "",
                     iconDownloadUrl = "",
                     numberOfNotifications = 1
                 ),
@@ -408,6 +412,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     parentId = null,
                     childModules = mutableListOf(),
                     name = "Recruitment",
+                    nameStandard = "",
                     iconDownloadUrl = "",
                     numberOfNotifications = 5,
                     isFavourite = true
@@ -417,6 +422,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     parentId = null,
                     childModules = mutableListOf(),
                     name = "Pricing",
+                    nameStandard = "",
                     iconDownloadUrl = "",
                     numberOfNotifications = 123
                 )

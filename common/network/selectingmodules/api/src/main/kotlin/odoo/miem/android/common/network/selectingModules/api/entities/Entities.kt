@@ -9,6 +9,7 @@ data class User(
 data class OdooModule(
     val id: Int,
     val name: String,
+    val nameStandard: String,
     val iconDownloadUrl: String,
     val parentId: Int?,
     val childModules: MutableList<OdooModule>,
@@ -18,9 +19,9 @@ data class OdooModule(
 )
 
 /**
- * [ImplementedModule] is list of implemented modules
+ * [ImplementedModulesEnum] is list of implemented modules
  */
-enum class ImplementedModule(val naming: String) {
+enum class ImplementedModulesEnum(val naming: String) {
 
     CRM("CRM"),
 

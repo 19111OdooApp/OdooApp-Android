@@ -2,6 +2,7 @@ package odoo.miem.android.common.network.selectingModules.impl.helpers
 
 import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.network.selectingModules.api.entities.User
+import odoo.miem.android.common.network.selectingModules.impl.entities.ImplementedModule
 import odoo.miem.android.common.network.selectingModules.impl.entities.ImplementedModules
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.jsonrpc.converter.api.di.IConverterApi
@@ -23,7 +24,7 @@ internal class SelectingModulesHelper {
 
     private val deserializer by api(IConverterApi::deserializer)
 
-    private fun deserializeImplementedModules(jsonString: String): List<String>? {
+    private fun deserializeImplementedModules(jsonString: String): List<ImplementedModule>? {
         return deserializer.deserialize(
             clazz = ImplementedModules::class.java,
             str = jsonString
@@ -65,11 +66,14 @@ internal class SelectingModulesHelper {
         Timber.d("getAvailableModulesOfUser()")
 
         val groupsOfUser = getGroupsOfUser(userUid, groups)
-        val moduleIconsMap = moduleIcons.associate { it.moduleName to it.downloadUrl }
 
-        val implementedModulesSet = deserializeImplementedModules(implementedModulesJson)
-            ?.toHashSet()
-            ?: hashSetOf()
+        val implementedModules = hashSetOf<String?>().apply {
+            deserializeImplementedModules(implementedModulesJson)
+                ?.map {
+                    this.add(it.nameRu)
+                    this.add(it.nameEn)
+                }
+        }
 
         val favouriteModulesSet = favouriteModules.toHashSet()
 
@@ -87,16 +91,21 @@ internal class SelectingModulesHelper {
                 val moduleId = module.id
                 val moduleName = module.name
 
+                val icon = moduleIcons.find {
+                    moduleName == it.moduleNameEn || moduleName == it.moduleNameRu
+                }
+
                 if (moduleId != null && moduleName != null) {
                     rootModules.add(
                         OdooModule(
                             id = moduleId,
                             name = moduleName,
-                            iconDownloadUrl = moduleIconsMap[module.name] ?: "",
+                            nameStandard = icon?.moduleNameEn ?: "",
+                            iconDownloadUrl = icon?.downloadUrl ?: "",
                             parentId = parentId,
                             childModules = mutableListOf(),
                             isFavourite = module.name in favouriteModulesSet,
-                            isImplemented = module.name in implementedModulesSet
+                            isImplemented = module.name in implementedModules
                         )
                     )
                 }
@@ -105,7 +114,8 @@ internal class SelectingModulesHelper {
 
         Timber.d(
             "getAvailableModulesOfUser(): rootModules = $rootModules, " +
-                "implementedModules = $implementedModulesSet, favouriteModules = $favouriteModulesSet"
+                "implementedModules = $implementedModules," +
+                " favouriteModules = $favouriteModulesSet"
         )
         return buildModuleHierarchy(rootModules)
     }

@@ -34,14 +34,16 @@ class FirebaseDatabase @Inject constructor(
                     val iconTasks = mutableListOf<Task<ModuleIconResponse>>()
 
                     query.result.map { module ->
-                        val moduleName = module.data[MODULE_NAME_FIELD] as? String
+                        val moduleNameEn = module.data[MODULE_NAME_EN_FIELD] as? String
+                        val moduleNameRu = module.data[MODULE_NAME_RU_FIELD] as? String
                         val iconUrl = module.data[MODULE_ICON_URL_FIELD] as? String
 
                         iconUrl?.let {
                             val task = fetchFileFromStorage(it)
                                 .continueWith { task ->
                                     ModuleIconResponse(
-                                        moduleName = moduleName,
+                                        moduleNameEn = moduleNameEn,
+                                        moduleNameRu = moduleNameRu,
                                         downloadUrl = task.result.toString()
                                     )
                                 }
@@ -200,7 +202,8 @@ class FirebaseDatabase @Inject constructor(
     private companion object {
         const val FIRESTORE_MODULE_COLLECTION = "moduleIcons"
 
-        const val MODULE_NAME_FIELD = "moduleName"
+        const val MODULE_NAME_EN_FIELD = "moduleNameEn"
+        const val MODULE_NAME_RU_FIELD = "moduleNameRu"
         const val MODULE_ICON_URL_FIELD = "iconUrl"
 
         const val FIRESTORE_STATUS_COLLECTION = "statusIcons"

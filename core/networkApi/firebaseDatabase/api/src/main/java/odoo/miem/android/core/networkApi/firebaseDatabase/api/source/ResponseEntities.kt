@@ -1,7 +1,8 @@
 package odoo.miem.android.core.networkApi.firebaseDatabase.api.source
 
 data class ModuleIconResponse(
-    val moduleName: String?,
+    val moduleNameEn: String?,
+    val moduleNameRu: String?,
     val downloadUrl: String?
 )
 

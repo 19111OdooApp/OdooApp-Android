@@ -51,7 +51,7 @@ class FirebaseRemoteConfig @Inject constructor(
     private companion object {
         const val FIREBASE_FETCH_INTERVAL = 3600L
 
-        const val IMPLEMENTED_MODULES_KEY = "implementedModules"
+        const val IMPLEMENTED_MODULES_KEY = "implementedModulesTest" // TODO change json before merging
         const val IMPLEMENTED_MODULES_DEFAULT = "{\"modules\": []}"
     }
 }

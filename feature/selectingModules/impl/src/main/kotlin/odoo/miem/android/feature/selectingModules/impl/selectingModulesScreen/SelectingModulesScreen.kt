@@ -48,7 +48,6 @@ import com.mxalbert.sharedelements.MaterialContainerTransformSpec
 import com.mxalbert.sharedelements.SharedElement
 import com.mxalbert.sharedelements.SharedElementsRoot
 import kotlinx.coroutines.launch
-import odoo.miem.android.common.network.selectingModules.api.entities.ImplementedModule
 import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
 import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetScaffold
@@ -107,15 +106,17 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
         val onModuleCardClick: (OdooModule) -> Unit = {
             Timber.d("onModuleCardClick(): name - ${it.name}, isImplemented - ${it.isImplemented}")
-            if (it.isImplemented) {
-                when (it.name) {
-                    ImplementedModule.RECRUITMENT.naming -> navController.navigate(Routes.recruitmentJobs)
-                    ImplementedModule.CRM.naming -> navController.navigate(Routes.crm)
-                    ImplementedModule.EMPLOYEES.naming -> navController.navigate(Routes.employees)
-                }
-            } else {
-                navController.navigate(Routes.moduleNotFound)
-            }
+            // TODO Return
+//            if (it.isImplemented) {
+//                when (it.name) {
+//                    ImplementedModule.RECRUITMENT.naming -> navController.navigate(Routes.recruitmentJobs)
+//                    ImplementedModule.CRM.naming -> navController.navigate(Routes.crm)
+//                    ImplementedModule.EMPLOYEES.naming -> navController.navigate(Routes.employees)
+//                }
+//            } else {
+//                navController.navigate(Routes.moduleNotFound)
+//            }
+            navController.navigate(Routes.recruitmentJobs)
         }
 
         val navigateToUserProfile: () -> Unit = {

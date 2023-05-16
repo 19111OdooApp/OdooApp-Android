@@ -19,11 +19,11 @@ import odoo.miem.android.common.network.recruitment.impl.RecruitmentJobsInteract
 interface RecruitmentInteractorModule {
 
     @Binds
-    fun provideRecruitmentUseCase(recruitmentInteractor: RecruitmentInteractor): IRecruitmentInteractor
+    fun provideRecruitmentUseCase(impl: RecruitmentInteractor): IRecruitmentInteractor
 
     @Binds
-    fun provideRecruitmentJobsUseCase(recruitmentJobsInteractor: RecruitmentJobsInteractor): IRecruitmentJobsInteractor
+    fun provideRecruitmentJobsUseCase(impl: RecruitmentJobsInteractor): IRecruitmentJobsInteractor
 
     @Binds
-    fun provideRecruitmentDetailsUseCase(recruitmentDetailsInteractor: RecruitmentDetailsInteractor): IRecruitmentDetailsInteractor
+    fun provideRecruitmentDetailsUseCase(impl: RecruitmentDetailsInteractor): IRecruitmentDetailsInteractor
 }

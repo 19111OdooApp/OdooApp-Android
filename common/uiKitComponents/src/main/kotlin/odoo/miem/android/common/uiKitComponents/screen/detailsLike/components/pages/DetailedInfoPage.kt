@@ -98,7 +98,7 @@ private fun LazyItemScope.textJobPageItem(
 ) {
     baseJobPageItem(key) { modifier ->
         JobPageItemText(
-            text = value ?: "",
+            text = value ?: "Empty",
             modifier = modifier
         )
     }

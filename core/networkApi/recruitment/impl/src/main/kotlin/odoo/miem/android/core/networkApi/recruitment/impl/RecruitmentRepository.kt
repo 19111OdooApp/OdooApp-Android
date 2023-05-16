@@ -2,6 +2,8 @@ package odoo.miem.android.core.networkApi.recruitment.impl
 
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
+import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
+import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.jsonRpcApiFabric.jsonRpcApi
 import odoo.miem.android.core.networkApi.recruitment.api.IRecruitmentRepository
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentApplicationDetailsResponse
@@ -155,6 +157,9 @@ class RecruitmentRepository @Inject constructor() : IRecruitmentRepository {
     }
 
     private companion object {
+
+        val dataStore by api(IDataStoreApi::dataStore)
+
         val applicationInfoFields = listOf(
             "id",
             "stage_id",
@@ -163,6 +168,7 @@ class RecruitmentRepository @Inject constructor() : IRecruitmentRepository {
             "email_from",
             "partner_phone",
             "partner_mobile",
+            "partner_name",
 
             "user_id",
             "priority",
@@ -178,6 +184,16 @@ class RecruitmentRepository @Inject constructor() : IRecruitmentRepository {
 
             "activity_ids",
             "message_ids",
-        )
+        ) + if (dataStore.isProdUrl) {
+            listOf(
+                "x_employee",
+                "x_test_task",
+                "x_project",
+                "x_group",
+                "x_specialization"
+            )
+        } else {
+            emptyList()
+        }
     }
 }

@@ -47,11 +47,31 @@ private fun getDetailedInfoPage(applicationInfo: ApplicationInfo) = DetailedInfo
             ),
             DetailedInfoType.TextType(
                 key = "Mobile",
-                text = applicationInfo.employeePhone
+                text = applicationInfo.employeeMobile
             ),
             DetailedInfoType.TextType(
                 key = "Email",
                 text = applicationInfo.employeeEmail
+            ),
+            DetailedInfoType.TextType(
+                key = "Full Name",
+                text = applicationInfo.employeeFullName
+            ),
+            DetailedInfoType.TextType(
+                key = "Test Task",
+                text = applicationInfo.employeeTestTask
+            ),
+            DetailedInfoType.TextType(
+                key = "Project",
+                text = applicationInfo.employeeProject
+            ),
+            DetailedInfoType.TextType(
+                key = "Group",
+                text = applicationInfo.employeeGroup
+            ),
+            DetailedInfoType.TextType(
+                key = "Specialization",
+                text = applicationInfo.employeeSpecialization
             ),
         ),
         "Contract" to listOf(

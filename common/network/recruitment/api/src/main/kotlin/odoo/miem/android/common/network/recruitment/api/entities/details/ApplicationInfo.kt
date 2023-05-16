@@ -15,6 +15,16 @@ data class ApplicationInfo(
 
     val employeeMobile: String?,
 
+    val employeeFullName: String?,
+
+    val employeeTestTask: String?,
+
+    val employeeProject: String?,
+
+    val employeeGroup: String?,
+
+    val employeeSpecialization: String?,
+
     // Recruit Info
     val recruiterName: String?,
 

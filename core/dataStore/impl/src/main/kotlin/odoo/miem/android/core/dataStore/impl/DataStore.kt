@@ -26,6 +26,9 @@ class DataStore @Inject constructor() : IDataStore {
     }
 
     override val url by sharedPreferences.delegates.string()
+    override val isProdUrl: Boolean
+        get() = url.contains(DEFAULT_PROD_DOMAIN)
+
     override fun setUrl(baseUrl: String) {
         if (baseUrl != url) {
             sharedPreferences.edit {
@@ -107,5 +110,6 @@ class DataStore @Inject constructor() : IDataStore {
 
     private companion object {
         const val PREFERENCES_NAME = "dataStore"
+        const val DEFAULT_PROD_DOMAIN = "erp.miem.hse.ru"
     }
 }

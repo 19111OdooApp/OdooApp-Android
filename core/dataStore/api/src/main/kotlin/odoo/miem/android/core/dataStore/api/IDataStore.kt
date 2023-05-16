@@ -12,6 +12,8 @@ interface IDataStore {
      * Current server url property and setter
      */
     val url: String
+
+    val isProdUrl: Boolean
     fun setUrl(baseUrl: String)
 
     /**

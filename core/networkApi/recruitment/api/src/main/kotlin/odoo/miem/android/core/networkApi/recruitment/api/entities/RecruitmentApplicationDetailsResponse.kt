@@ -17,6 +17,11 @@ data class RecruitmentApplicationDetailsResponse(
     @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
     val stageInfo: List<Any>?, // [id, name]
 
+    @Json(name = "partner_name")
+    @SpecifiedTypeOrNull(JsonReader.Token.STRING)
+    val partnerName: String?,
+
+    // Take this, if partnerName is empty
     @Json(name = "name")
     @SpecifiedTypeOrNull(JsonReader.Token.STRING)
     val employeeName: String?,
@@ -77,4 +82,25 @@ data class RecruitmentApplicationDetailsResponse(
     @Json(name = "message_ids")
     @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
     val messageIds: List<Long>?,
+
+    // Prod fields
+    @Json(name = "x_employee")
+    @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
+    val employeeFullNameInfo: List<Any>?,
+
+    @Json(name = "x_test_task")
+    @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
+    val employeeTestTaskInfo: List<Any>?,
+
+    @Json(name = "x_project")
+    @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
+    val employeeProjectInfo: List<Any>?,
+
+    @Json(name = "x_group")
+    @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
+    val employeeGroupInfo: List<Any>?,
+
+    @Json(name = "x_specialization")
+    @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
+    val employeeSpecializationInfo: List<Any>?,
 )

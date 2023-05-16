@@ -4,6 +4,7 @@ import odoo.miem.android.common.network.recruitment.api.entities.details.Applica
 import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.DetailedInfoType
 import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.TextType
 import odoo.miem.android.common.uiKitComponents.screen.detailsLike.models.DetailsLikeHeader
+import odoo.miem.android.feature.recruitment.impl.R
 
 internal fun getDetailsHeader(applicationInfo: ApplicationInfo) = DetailsLikeHeader(
     title = applicationInfo.employeeName,
@@ -11,83 +12,95 @@ internal fun getDetailsHeader(applicationInfo: ApplicationInfo) = DetailsLikeHea
     minorSubtitle = applicationInfo.employeePhone ?: applicationInfo.employeeMobile
 )
 
-internal fun getDetailsPages(applicationInfo: ApplicationInfo) = listOf(
-    getDetailedInfoPage(applicationInfo),
-    getSummaryPage(applicationInfo.employeeSummary)
+internal fun getDetailsPages(
+    stringResolver: (stringRes: Int) -> String,
+    applicationInfo: ApplicationInfo
+) = listOf(
+    getDetailedInfoPage(
+        stringResolver = stringResolver,
+        applicationInfo = applicationInfo
+    ),
+    getSummaryPage(
+        topic = stringResolver(R.string.recruitment_details_title_application_summary),
+        summary = applicationInfo.employeeSummary
+    )
 )
 
-private fun getDetailedInfoPage(applicationInfo: ApplicationInfo) = DetailedInfoType(
+private fun getDetailedInfoPage(
+    stringResolver: (stringRes: Int) -> String,
+    applicationInfo: ApplicationInfo
+) = DetailedInfoType(
     blocks = mapOf(
-        "Job" to listOf(
+        stringResolver(R.string.recruitment_details_title_job) to listOf(
             DetailedInfoType.TextType(
-                key = "Applied Job",
+                key = stringResolver(R.string.recruitment_details_title_applied_job),
                 text = applicationInfo.jobName
             ),
             DetailedInfoType.TextType(
-                key = "Department",
+                key = stringResolver(R.string.recruitment_details_title_department),
                 text = applicationInfo.departmentName
             ),
             DetailedInfoType.TextType(
-                key = "Recruiter",
+                key = stringResolver(R.string.recruitment_details_title_recruiter),
                 text = applicationInfo.recruiterName
             ),
             DetailedInfoType.RatingType(
-                key = "Appreciation",
+                key = stringResolver(R.string.recruitment_details_title_appreciation),
                 rating = applicationInfo.rating
             ),
             DetailedInfoType.TextType(
-                key = "Source",
+                key = stringResolver(R.string.recruitment_details_title_source),
                 text = applicationInfo.recruiterSourceName
             ),
         ),
-        "Employee" to listOf(
+        stringResolver(R.string.recruitment_details_title_employee) to listOf(
             DetailedInfoType.TextType(
-                key = "Phone",
+                key = stringResolver(R.string.recruitment_details_title_phone),
                 text = applicationInfo.employeePhone
             ),
             DetailedInfoType.TextType(
-                key = "Mobile",
+                key = stringResolver(R.string.recruitment_details_title_mobile),
                 text = applicationInfo.employeeMobile
             ),
             DetailedInfoType.TextType(
-                key = "Email",
+                key = stringResolver(R.string.recruitment_details_title_email),
                 text = applicationInfo.employeeEmail
             ),
             DetailedInfoType.TextType(
-                key = "Full Name",
+                key = stringResolver(R.string.recruitment_details_title_full_name),
                 text = applicationInfo.employeeFullName
             ),
             DetailedInfoType.TextType(
-                key = "Test Task",
+                key = stringResolver(R.string.recruitment_details_title_test_task),
                 text = applicationInfo.employeeTestTask
             ),
             DetailedInfoType.TextType(
-                key = "Project",
+                key = stringResolver(R.string.recruitment_details_title_project),
                 text = applicationInfo.employeeProject
             ),
             DetailedInfoType.TextType(
-                key = "Group",
+                key = stringResolver(R.string.recruitment_details_title_group),
                 text = applicationInfo.employeeGroup
             ),
             DetailedInfoType.TextType(
-                key = "Specialization",
+                key = stringResolver(R.string.recruitment_details_title_specialization),
                 text = applicationInfo.employeeSpecialization
             ),
         ),
-        "Contract" to listOf(
+        stringResolver(R.string.recruitment_details_title_contract) to listOf(
             DetailedInfoType.NumberType(
-                key = "Expected Salary",
+                key = stringResolver(R.string.recruitment_details_title_expected_salary),
                 number = applicationInfo.salaryExpected ?: 0.0
             ),
             DetailedInfoType.NumberType(
-                key = "Proposed Salary",
+                key = stringResolver(R.string.recruitment_details_title_proposed_salary),
                 number = applicationInfo.salaryProposed ?: 0.0
             )
         )
     )
 )
 
-private fun getSummaryPage(summary: String?) = TextType(
-    topic = "Application Summary",
+private fun getSummaryPage(topic: String, summary: String?) = TextType(
+    topic = topic,
     text = summary
 )

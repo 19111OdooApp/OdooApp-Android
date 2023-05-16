@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -48,6 +49,7 @@ class RecruitmentDetailsScreen @Inject constructor() : IRecruitmentDetailsScreen
         showMessage: (Int) -> Unit
     ) {
         val viewModel: RecruitmentViewModel = viewModel()
+        val context = LocalContext.current
 
         Timber.d("RecruitmentDetailsScreen: applicationId - $applicationId")
 
@@ -72,7 +74,10 @@ class RecruitmentDetailsScreen @Inject constructor() : IRecruitmentDetailsScreen
                 applicationInfo.data?.let {
                     RecruitmentDetailsScreenContent(
                         header = getDetailsHeader(it),
-                        pages = getDetailsPages(it),
+                        pages = getDetailsPages(
+                            stringResolver = { res -> context.resources.getString(res) },
+                            applicationInfo = it,
+                        ),
                         navigateBack = navController::popBackStack
                     )
                 } ?: ErrorScreen(

@@ -11,6 +11,10 @@ import odoo.miem.android.core.utils.state.ResultSingle
  */
 interface IRecruitmentDetailsInteractor {
 
-    // TODO Descr
+    /**
+     * [getApplicationInfo] get base info about appication by [applicationId]
+     *
+     * @return [ApplicationInfo]
+     */
     fun getApplicationInfo(applicationId: Long): ResultSingle<ApplicationInfo>
 }

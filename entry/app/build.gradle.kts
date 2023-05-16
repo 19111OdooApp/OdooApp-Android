@@ -80,8 +80,11 @@ dependencies {
     // Network API - firebase datastore and storage
     implementation(project(":core:networkApi:firebaseDatabase:impl"))
 
-    // Network API - authorization
+    // Network API - recruitment
     implementation(project(":core:networkApi:recruitment:impl"))
+
+    // Network API - crm
+    implementation(project(":core:networkApi:crm:impl"))
 
     // Json RPC - Engine
     implementation(project(":core:jsonrpc:engine"))

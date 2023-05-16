@@ -55,6 +55,9 @@ include(":core:networkApi:firebaseDatabase:impl")
 include(":core:networkApi:recruitment:api")
 include(":core:networkApi:recruitment:impl")
 
+include(":core:networkApi:crm:api")
+include(":core:networkApi:crm:impl")
+
 include(":core:networkApi:userInfo:api")
 include(":core:networkApi:userInfo:impl")
 

@@ -12,6 +12,7 @@ import odoo.miem.android.core.di.impl.ApiResolver
 import odoo.miem.android.core.firebaseDatabase.impl.di.FirebaseDatabaseApiProvider
 import odoo.miem.android.core.jsonrpc.converter.impl.di.MoshiSerializerApiProvider
 import odoo.miem.android.core.networkApi.authorization.impl.di.AuthorizationRepositoryApiProvider
+import odoo.miem.android.core.networkApi.crm.impl.di.CrmRepositoryApiProvider
 import odoo.miem.android.core.networkApi.employees.api.di.EmployeesRepositoryApiProvider
 import odoo.miem.android.core.networkApi.firebaseRemoteConfig.impl.di.FirebaseRemoteConfigApiProvider
 import odoo.miem.android.core.networkApi.recruitment.impl.di.RecruitmentRepositoryApiProvider
@@ -77,6 +78,7 @@ import odoo.miem.android.feature.userProfile.impl.di.UserProfileScreenApiProvide
     modules = [
         // Repositories
         AuthorizationRepositoryApiProvider::class,
+        CrmRepositoryApiProvider::class,
         UserInfoRepositoryApiProvider::class,
         UserModulesRepositoryApiProvider::class,
         EmployeesRepositoryApiProvider::class,

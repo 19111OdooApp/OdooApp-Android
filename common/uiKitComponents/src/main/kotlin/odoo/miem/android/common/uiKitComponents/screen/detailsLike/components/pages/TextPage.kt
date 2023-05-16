@@ -5,14 +5,16 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import de.charlex.compose.HtmlText
 import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.TextType
 import odoo.miem.android.common.uiKitComponents.text.SubtitleText
 import odoo.miem.android.common.uiKitComponents.text.TitleText
@@ -28,6 +30,7 @@ internal fun TextPage(
     modifier = Modifier
         .padding(horizontal = mainHorizontalPadding)
         .fillMaxSize()
+        .verticalScroll(rememberScrollState())
 ) {
     TitleText(
         text = textType.topic,
@@ -38,7 +41,7 @@ internal fun TextPage(
     if (textType.text?.isNotEmpty() == true) {
         Spacer(modifier = Modifier.height(32.dp))
 
-        Text(
+        HtmlText(
             text = textType.text,
             style = MaterialTheme.typography.bodyMedium.copy(fontSize = 12.sp),
             color = odooOnGray,

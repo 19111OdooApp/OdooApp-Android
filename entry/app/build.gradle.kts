@@ -46,8 +46,11 @@ dependencies {
     // Network - authorization
     implementation(project(":common:network:authorization:impl"))
 
-    // Network - selecting modules
+    // Network - recruitment
     implementation(project(":common:network:recruitment:impl"))
+
+    // Network - crm
+    implementation(project(":common:network:crm:impl"))
 
     // Network - selecting modules
     implementation(project(":common:network:selectingModules:impl"))

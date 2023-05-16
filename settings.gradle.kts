@@ -30,6 +30,9 @@ include(":common:network:authorization:impl")
 include(":common:network:recruitment:api")
 include(":common:network:recruitment:impl")
 
+include(":common:network:crm:api")
+include(":common:network:crm:impl")
+
 include(":common:network:selectingModules:api")
 include(":common:network:selectingModules:impl")
 

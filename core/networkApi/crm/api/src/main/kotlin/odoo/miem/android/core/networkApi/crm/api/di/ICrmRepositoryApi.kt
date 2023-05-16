@@ -13,5 +13,5 @@ import odoo.miem.android.core.networkApi.crm.api.ICrmRepository
  */
 interface ICrmRepositoryApi : Api {
 
-    val recruitmentRepository: ICrmRepository
+    val crmRepository: ICrmRepository
 }

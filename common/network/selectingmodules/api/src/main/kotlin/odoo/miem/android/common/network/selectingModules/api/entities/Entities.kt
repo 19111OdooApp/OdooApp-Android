@@ -9,7 +9,7 @@ data class User(
 data class OdooModule(
     val id: Int,
     val name: String,
-    val nameStandard: String,
+    val identificationName: String,
     val iconDownloadUrl: String,
     val parentId: Int?,
     val childModules: MutableList<OdooModule>,

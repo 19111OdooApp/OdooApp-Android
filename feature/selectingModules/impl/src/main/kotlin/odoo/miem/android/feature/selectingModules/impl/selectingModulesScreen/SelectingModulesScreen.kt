@@ -107,11 +107,11 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
         val onModuleCardClick: (OdooModule) -> Unit = {
             Timber.d(
-                "onModuleCardClick(): name - ${it.name}, nameStandard = ${it.nameStandard} " +
+                "onModuleCardClick(): name - ${it.name}, nameStandard = ${it.identificationName} " +
                     "isImplemented - ${it.isImplemented}"
             )
             if (it.isImplemented) {
-                when (it.nameStandard) {
+                when (it.identificationName) {
                     ImplementedModulesEnum.RECRUITMENT.naming -> navController.navigate(Routes.recruitmentJobs)
                     ImplementedModulesEnum.CRM.naming -> navController.navigate(Routes.crm)
                     ImplementedModulesEnum.EMPLOYEES.naming -> navController.navigate(Routes.employees)
@@ -403,7 +403,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     parentId = null,
                     childModules = mutableListOf(),
                     name = "CRM",
-                    nameStandard = "",
+                    identificationName = "",
                     iconDownloadUrl = "",
                 ),
                 OdooModule(
@@ -411,7 +411,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     parentId = null,
                     childModules = mutableListOf(),
                     name = "Recruitment",
-                    nameStandard = "",
+                    identificationName = "",
                     iconDownloadUrl = "",
                     isFavourite = true
                 ),
@@ -420,7 +420,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     parentId = null,
                     childModules = mutableListOf(),
                     name = "Pricing",
-                    nameStandard = "",
+                    identificationName = "",
                     iconDownloadUrl = ""
                 )
             )

@@ -138,7 +138,7 @@ private fun SearchModulesScreenPreview() = OdooMiemAndroidTheme {
             parentId = null,
             childModules = mutableListOf(),
             name = "CRM",
-            nameStandard = "CRM",
+            identificationName = "CRM",
             iconDownloadUrl = "",
         ),
         OdooModule(
@@ -146,7 +146,7 @@ private fun SearchModulesScreenPreview() = OdooMiemAndroidTheme {
             parentId = null,
             childModules = mutableListOf(),
             name = "Recruitment",
-            nameStandard = "Recruitment",
+            identificationName = "Recruitment",
             iconDownloadUrl = "",
             isFavourite = true
         ),
@@ -155,7 +155,7 @@ private fun SearchModulesScreenPreview() = OdooMiemAndroidTheme {
             parentId = null,
             childModules = mutableListOf(),
             name = "Pricing",
-            nameStandard = "Pricing",
+            identificationName = "Pricing",
             iconDownloadUrl = "",
         ),
     )

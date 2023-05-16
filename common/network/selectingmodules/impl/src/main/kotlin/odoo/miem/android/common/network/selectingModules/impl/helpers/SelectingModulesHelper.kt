@@ -100,7 +100,7 @@ internal class SelectingModulesHelper {
                         OdooModule(
                             id = moduleId,
                             name = moduleName,
-                            nameStandard = icon?.moduleNameEn ?: "",
+                            identificationName = icon?.moduleNameEn ?: "",
                             iconDownloadUrl = icon?.downloadUrl ?: "",
                             parentId = parentId,
                             childModules = mutableListOf(),

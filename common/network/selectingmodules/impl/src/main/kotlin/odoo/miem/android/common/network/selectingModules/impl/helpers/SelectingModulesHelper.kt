@@ -104,8 +104,8 @@ internal class SelectingModulesHelper {
                             iconDownloadUrl = icon?.downloadUrl ?: "",
                             parentId = parentId,
                             childModules = mutableListOf(),
-                            isFavourite = module.name in favouriteModulesSet,
-                            isImplemented = module.name in implementedModules
+                            isFavourite = moduleName in favouriteModulesSet,
+                            isImplemented = moduleName in implementedModules
                         )
                     )
                 }

@@ -18,5 +18,6 @@ object Routes {
 
     object Arguments {
         const val recruitmentJobId = "recruitmentJobId"
+        const val recruitmentApplicationId = "recruitmentApplicationId"
     }
 }

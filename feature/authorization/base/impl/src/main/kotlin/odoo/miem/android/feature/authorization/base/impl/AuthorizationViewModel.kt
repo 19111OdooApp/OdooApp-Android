@@ -62,7 +62,7 @@ class AuthorizationViewModel : BaseViewModel() {
         return HseUriAuthorizationBuilder.Builder()
             .setBaseDomain(rawDomain)
             .setClientID(
-                DEFAULT_PROD_CLIENT_ID.takeIf { dataStore.url.isProdUrl }
+                DEFAULT_PROD_CLIENT_ID.takeIf { dataStore.isProdUrl }
             )
             .build()
             .generateHseAuthorizationUrl()
@@ -88,14 +88,10 @@ class AuthorizationViewModel : BaseViewModel() {
         }
     }
 
-    private val String.isProdUrl: Boolean
-        get() = contains(DEFAULT_PROD_DOMAIN)
-
     private companion object {
         // Do this if there are multiple Rx chains in a viewModel
         val authChannel = Channel()
 
-        const val DEFAULT_PROD_DOMAIN = "erp.miem.hse.ru"
         const val DEFAULT_PROD_CLIENT_ID = "erp-miem"
     }
 }

@@ -18,4 +18,28 @@
     <string name="recruitment_job_not_published">Не Опубликовано</string>
 
     <string name="error_recruitment_change_status">Статус не может меняться без причины!</string>
+
+    <!--Titles-->
+    <string name="recruitment_details_title_job">Вакансия</string>
+    <string name="recruitment_details_title_applied_job">Предложенная работа</string>
+    <string name="recruitment_details_title_department">Подразделение</string>
+    <string name="recruitment_details_title_recruiter">Рекрутер</string>
+    <string name="recruitment_details_title_appreciation">Оценка</string>
+    <string name="recruitment_details_title_source">Источник</string>
+
+    <string name="recruitment_details_title_employee">Работник</string>
+    <string name="recruitment_details_title_phone">Телефон</string>
+    <string name="recruitment_details_title_mobile">Мобильный</string>
+    <string name="recruitment_details_title_email">Email</string>
+    <string name="recruitment_details_title_full_name">Полное имя</string>
+    <string name="recruitment_details_title_test_task">Тестовое задание</string>
+    <string name="recruitment_details_title_project">Проект</string>
+    <string name="recruitment_details_title_group">Группа</string>
+    <string name="recruitment_details_title_specialization">Специализация</string>
+
+    <string name="recruitment_details_title_contract">Договор</string>
+    <string name="recruitment_details_title_expected_salary">Ожидаемая зарплата</string>
+    <string name="recruitment_details_title_proposed_salary">Предлагаемая зарплата</string>
+
+    <string name="recruitment_details_title_application_summary">Описание резюме</string>
 </resources>

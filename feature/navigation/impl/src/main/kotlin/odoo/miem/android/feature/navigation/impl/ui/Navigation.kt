@@ -154,8 +154,16 @@ fun NavigationContent(
                 )
             }
 
-            composable(Routes.recruitmentDetails) {
+            composable(
+                "${Routes.recruitmentDetails}/{${Routes.Arguments.recruitmentApplicationId}}",
+                arguments = listOf(
+                    navArgument(Routes.Arguments.recruitmentApplicationId) {
+                        type = NavType.LongType
+                    }
+                )
+            ) {
                 recruitmentDetailsScreen.RecruitmentDetailsScreen(
+                    applicationId = it.arguments!!.getLong(Routes.Arguments.recruitmentApplicationId),
                     navController = navController,
                     showMessage = showMessage
                 )

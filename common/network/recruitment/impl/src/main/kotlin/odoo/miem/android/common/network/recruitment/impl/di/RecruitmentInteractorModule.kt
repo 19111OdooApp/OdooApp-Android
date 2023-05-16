@@ -2,8 +2,10 @@ package odoo.miem.android.common.network.recruitment.impl.di
 
 import dagger.Binds
 import dagger.Module
+import odoo.miem.android.common.network.recruitment.api.IRecruitmentDetailsInteractor
 import odoo.miem.android.common.network.recruitment.api.IRecruitmentInteractor
 import odoo.miem.android.common.network.recruitment.api.IRecruitmentJobsInteractor
+import odoo.miem.android.common.network.recruitment.impl.RecruitmentDetailsInteractor
 import odoo.miem.android.common.network.recruitment.impl.RecruitmentInteractor
 import odoo.miem.android.common.network.recruitment.impl.RecruitmentJobsInteractor
 
@@ -17,8 +19,11 @@ import odoo.miem.android.common.network.recruitment.impl.RecruitmentJobsInteract
 interface RecruitmentInteractorModule {
 
     @Binds
-    fun provideRecruitmentUseCase(recruitmentInteractor: RecruitmentInteractor): IRecruitmentInteractor
+    fun provideRecruitmentUseCase(impl: RecruitmentInteractor): IRecruitmentInteractor
 
     @Binds
-    fun provideRecruitmentJobsUseCase(recruitmentJobsInteractor: RecruitmentJobsInteractor): IRecruitmentJobsInteractor
+    fun provideRecruitmentJobsUseCase(impl: RecruitmentJobsInteractor): IRecruitmentJobsInteractor
+
+    @Binds
+    fun provideRecruitmentDetailsUseCase(impl: RecruitmentDetailsInteractor): IRecruitmentDetailsInteractor
 }

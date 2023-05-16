@@ -1,5 +1,6 @@
 package odoo.miem.android.common.uiKitComponents.screen.detailsLike
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -112,7 +113,9 @@ private fun PagerContent(
     onSheetExpand: (onOpen: Boolean, type: DividedListType) -> Unit = { _, _ -> },
     navigateBack: () -> Unit = {}
 ) = Column(
-    modifier = Modifier.fillMaxSize()
+    modifier = Modifier
+        .background(MaterialTheme.colorScheme.background)
+        .fillMaxSize()
 ) {
     val pagerState = rememberPagerState()
 
@@ -209,7 +212,7 @@ private fun DetailsScreenPreview() {
                     "Contract" to listOf(
                         DetailedInfoType.NumberType(
                             key = "Expected Salary",
-                            number = 0F
+                            number = 0.0
                         )
                     )
                 )

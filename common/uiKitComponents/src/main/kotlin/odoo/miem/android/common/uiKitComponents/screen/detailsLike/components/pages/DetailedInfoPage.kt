@@ -57,12 +57,14 @@ internal fun DetailedInfoPage(
                             value = type.text
                         )
                     }
+
                     is DetailedInfoType.NumberType -> {
                         textJobPageItem(
                             key = type.key,
                             value = stringResource(R.string.item_salary).format(type.number)
                         )
                     }
+
                     is DetailedInfoType.RatingType -> {
                         baseJobPageItem(type.key) { modifier ->
                             RatingBar(
@@ -72,6 +74,7 @@ internal fun DetailedInfoPage(
                             )
                         }
                     }
+
                     is DetailedInfoType.DateType -> {
                         textJobPageItem(
                             key = type.key,
@@ -91,11 +94,11 @@ internal fun DetailedInfoPage(
 @Composable
 private fun LazyItemScope.textJobPageItem(
     key: String,
-    value: String
+    value: String?
 ) {
     baseJobPageItem(key) { modifier ->
         JobPageItemText(
-            text = value,
+            text = value ?: "Empty",
             modifier = modifier
         )
     }

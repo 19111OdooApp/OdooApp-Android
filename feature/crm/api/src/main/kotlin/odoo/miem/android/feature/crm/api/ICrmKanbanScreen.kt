@@ -3,9 +3,9 @@ package odoo.miem.android.feature.crm.api
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 
-interface ICrmScreen {
+interface ICrmKanbanScreen {
     @Composable
-    fun CrmScreen(
+    fun CrmKanbanScreen(
         navController: NavHostController,
         showMessage: (Int) -> Unit
     )

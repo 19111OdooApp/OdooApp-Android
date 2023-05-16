@@ -14,7 +14,7 @@ import odoo.miem.android.core.di.api.Api
  */
 interface ICrmInteractorApi : Api {
 
-    val сrmInteractor: ICrmInteractor
+    val crmInteractor: ICrmInteractor
 
-    val сrmDetailsInteractor: ICrmDetailsInteractor
+    val crmDetailsInteractor: ICrmDetailsInteractor
 }

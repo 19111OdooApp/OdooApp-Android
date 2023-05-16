@@ -6,7 +6,7 @@ import com.squareup.moshi.JsonReader
 import odoo.miem.android.core.jsonrpc.converter.api.annotation.SpecifiedTypeOrNull
 
 @JsonClass(generateAdapter = true)
-data class CrmtKanbanStagesResponse(
+data class CrmKanbanStagesResponse(
 
     @Json(name = "groups")
     @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
@@ -19,6 +19,6 @@ data class CrmtKanbanStagesResponse(
         // [id, name]
         @Json(name = "stage_id")
         @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
-        val stageInfo: List<Any>,
+        val stageInfo: List<Any>?,
     )
 }

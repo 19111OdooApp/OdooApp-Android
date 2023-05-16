@@ -3,4 +3,7 @@
     <string name="crm_search_hint">Введите название задачи</string>
     <string name="crm_change_status">Изменить статус</string>
     <string name="crm_add_new_status">Добавить новый статус</string>
+
+    <!--Error-->
+    <string name="error_crm_change_status">Статус не может меняться без причины!</string>
 </resources>

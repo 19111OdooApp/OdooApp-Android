@@ -19,6 +19,6 @@ data class RecruitmentKanbanStagesResponse(
         // [id, name]
         @Json(name = "stage_id")
         @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
-        val stageInfo: List<Any>,
+        val stageInfo: List<Any>?,
     )
 }

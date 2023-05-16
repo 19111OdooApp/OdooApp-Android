@@ -21,7 +21,7 @@ import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
 import odoo.miem.android.feature.authorization.base.api.di.IAuthorizationApi
-import odoo.miem.android.feature.crm.api.ICrmScreen
+import odoo.miem.android.feature.crm.api.ICrmKanbanScreen
 import odoo.miem.android.feature.crm.api.di.ICrmApi
 import odoo.miem.android.feature.employees.api.IEmployeesScreen
 import odoo.miem.android.feature.employees.api.di.IEmployeesScreenApi
@@ -67,7 +67,7 @@ fun Navigation(
     val recruitmentScreen by api(IRecruitmentApi::recruitmentScreen)
     val recruitmentDetailsScreen by api(IRecruitmentApi::recruitmentDetailsScreen)
     val recruitmentJobsScreen by api(IRecruitmentApi::recruitmentJobsScreen)
-    val crmScreen by api(ICrmApi::crmScreen)
+    val crmScreen by api(ICrmApi::crmKanbanScreen)
     val userProfileScreen by api(IUserProfileScreenApi::userProfileScreen)
     val employeesScreen by api(IEmployeesScreenApi::employeesScreen)
     val dataStore by api(IDataStoreApi::dataStore)
@@ -97,7 +97,7 @@ fun NavigationContent(
     recruitmentScreen: IRecruitmentKanbanScreen,
     recruitmentDetailsScreen: IRecruitmentDetailsScreen,
     recruitmentJobsScreen: IRecruitmentJobsScreen,
-    crmScreen: ICrmScreen,
+    crmScreen: ICrmKanbanScreen,
     userProfileScreen: IUserProfileScreen,
     employeesScreen: IEmployeesScreen,
     paddingValues: PaddingValues,
@@ -177,7 +177,7 @@ fun NavigationContent(
             }
 
             composable(Routes.crm) {
-                crmScreen.CrmScreen(
+                crmScreen.CrmKanbanScreen(
                     navController = navController,
                     showMessage = showMessage
                 )

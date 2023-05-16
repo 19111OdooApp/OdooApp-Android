@@ -28,29 +28,19 @@ data class CrmResponse(
         @SpecifiedTypeOrNull(JsonReader.Token.STRING)
         val rating: String?,
 
-        // [id, job name]
-        @Json(name = "job_id")
-        @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
-        val jobInfo: List<Any>?,
-
         // [id, stage name]
         @Json(name = "stage_id")
         @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
         val stageInfo: List<Any>?,
 
         // [id, stage name]
-        @Json(name = "department_id")
-        @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
-        val departmentInfo: List<Any>?,
-
-        // [id, stage name]
         @Json(name = "user_id")
         @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
         val creatorInfo: List<Any>?,
 
-        @Json(name = "partner_name")
-        @SpecifiedTypeOrNull(JsonReader.Token.STRING)
-        val partnerName: String?,
+        @Json(name = "partner_id")
+        @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
+        val partnerNameInfo: List<Any>?,
 
         // If empty partnerName, use this
         @Json(name = "name")
@@ -65,17 +55,13 @@ data class CrmResponse(
         @SpecifiedTypeOrNull(JsonReader.Token.STRING)
         val summary: String?,
 
-        @Json(name = "salary_proposed")
+        @Json(name = "expected_revenue")
         @SpecifiedTypeOrNull(JsonReader.Token.NUMBER)
-        val salaryProposed: Float?,
+        val expectedRevenue: Double?,
 
-        @Json(name = "salary_expected")
-        @SpecifiedTypeOrNull(JsonReader.Token.NUMBER)
-        val salaryExpected: Float?,
-
-        @Json(name = "create_date")
-        @SpecifiedTypeOrNull(JsonReader.Token.STRING)
-        val createdDate: String?,
+        @Json(name = "company_currency")
+        @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
+        val companyCurrencyInfo: List<Any>?,
 
         @Json(name = "activity_state")
         @SpecifiedTypeOrNull(JsonReader.Token.STRING)

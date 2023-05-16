@@ -1,7 +1,7 @@
 package odoo.miem.android.core.networkApi.crm.api
 
 import io.reactivex.rxjava3.core.Single
-import odoo.miem.android.core.networkApi.crm.api.entities.CrmtKanbanStagesResponse
+import odoo.miem.android.core.networkApi.crm.api.entities.CrmKanbanStagesResponse
 import odoo.miem.android.core.networkApi.crm.api.entities.CrmResponse
 
 /**
@@ -15,13 +15,13 @@ interface ICrmRepository {
     /**
      * Crm Kanban
      */
-    fun getCrmKanbanInfo(): Single<CrmResponse> // TODO Change back
+    fun getCrmKanbanInfo(userId: Int): Single<CrmResponse> // TODO Change back
 
-    fun getCrmKanbanStages(): Single<CrmtKanbanStagesResponse> // TODO Change back
-//
-//    fun createNewKanbanStatus(jobId: Long, topic: String): Single<List<Any>>
-//
-//    fun changeStageInRecruitmentKanban(stageId: Long, employeeId: Long): Single<Boolean>
+    fun getCrmKanbanStages(userId: Int): Single<CrmKanbanStagesResponse> // TODO Change back
+
+    fun createNewCrmStatus(topic: String): Single<List<Any>>
+
+    fun changeStageInCrmKanban(stageId: Long, opportunityId: Long): Single<Boolean>
 
     /**
      * Crm Application Details

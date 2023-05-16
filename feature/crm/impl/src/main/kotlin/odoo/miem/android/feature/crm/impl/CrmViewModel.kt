@@ -1,122 +1,97 @@
 package odoo.miem.android.feature.crm.impl
 
-import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.DeadlineStatus
+import odoo.miem.android.common.network.crm.api.di.ICrmInteractorApi
+import odoo.miem.android.common.network.crm.api.entities.kanban.OpportunityCRM
+import odoo.miem.android.common.network.crm.api.entities.kanban.StatusCRM
+import odoo.miem.android.common.network.selectingModules.api.di.ISelectingModulesInteractorApi
+import odoo.miem.android.common.network.selectingModules.api.entities.User
+import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.platform.presentation.BaseViewModel
-import odoo.miem.android.core.utils.rx.emptyResultBehaviorSubject
+import odoo.miem.android.core.utils.rx.lazyEmptyResultPublishSubject
 import odoo.miem.android.core.utils.rx.onLoadingState
-import odoo.miem.android.core.utils.state.StateResultSubject
-import odoo.miem.android.core.utils.state.SuccessResult
-import odoo.miem.android.feature.crm.impl.data.Employee
-import odoo.miem.android.feature.crm.impl.data.Status
+import odoo.miem.android.core.utils.state.ErrorResult
+import odoo.miem.android.core.utils.state.ResultSubject
+import timber.log.Timber
 
 internal class CrmViewModel : BaseViewModel() {
 
-    val statusState: StateResultSubject<List<Status>> = emptyResultBehaviorSubject()
-    val picturesState: StateResultSubject<List<String>> = emptyResultBehaviorSubject()
+    private val selectingModulesInteractor by api(ISelectingModulesInteractorApi::selectingModulesInteractor)
 
-    @Suppress("MagicNumber") // TODO: Remove once implemented
-    fun fetchStatusList() {
-        // TODO: Fetch actual data
+    private val crmInteractor by api(ICrmInteractorApi::crmInteractor)
+    // TODO Return
+//    private val сrmDetailsInteractor by api(ICrmInteractorApi::сrmDetailsInteractor)
+
+    val statusState: ResultSubject<List<StatusCRM>> by lazyEmptyResultPublishSubject()
+    val changeStatusState: ResultSubject<Boolean> by lazyEmptyResultPublishSubject()
+
+    val userInfoState: ResultSubject<User> by lazyEmptyResultPublishSubject()
+
+    /**
+     * CRM Kanban
+     */
+    fun onOpenKanban() {
+        statusState.onLoadingState()
+        userInfoState.onLoadingState()
+
+        selectingModulesInteractor
+            .getUserInfo()
+            .flatMap { user ->
+                Timber.d("getUserInfo(): user - $user")
+                userInfoState.onNext(user)
+                crmInteractor.getCrmKanbanInfo(checkNotNull(user.data?.uid))
+            }
+            .schedule(
+                crmKanbanFetchStatusChannel,
+                onSuccess = { result ->
+                    Timber.d("onOpenKanban(): result = $result")
+                    statusState.onNext(result)
+                },
+                onError = Timber::e
+            )
+    }
+
+    fun changeEmployeeStatus(opportunity: OpportunityCRM, status: StatusCRM) {
+        crmInteractor
+            .changeStageInCrmKanban(
+                stageId = status.id,
+                opportunityId = opportunity.id
+            )
+            .schedule(
+                crmKanbanChangeStatusChannel,
+                onSuccess = { result ->
+                    Timber.d("changeEmployeeStatus(): result - $result")
+                    if (result is ErrorResult) {
+                        changeStatusState.onNext(ErrorResult(R.string.error_crm_change_status))
+                    } else {
+                        onOpenKanban()
+                        changeStatusState.onNext(result)
+                    }
+                },
+                onError = Timber::e
+            )
+    }
+
+    fun createNewStatus(topic: String) {
+        Timber.d("createNewStatus()")
 
         statusState.onLoadingState()
-        picturesState.onNext(
-            SuccessResult(
-                listOf(
-                    "https://yt3.googleusercontent.com/ytc/AL5GRJWDJvCQYGY8n6BT_f7DzaJCcGRJ69NY9I" +
-                        "PU4G-K4Q=s900-c-k-c0x00ffffff-no-rj",
-                    "https://yt3.googleusercontent.com/ytc/AL5GRJWDJvCQYGY8n6BT_f7DzaJCcGRJ69N" +
-                        "Y9IPU4G-K4Q=s900-c-k-c0x00ffffff-no-rj",
-                )
+        crmInteractor
+            .createNewCrmStatus(topic)
+            .schedule(
+                crmKanbanCreateStatusChannel,
+                onSuccess = { status ->
+                    Timber.d("createNewStatus(): list - ${status.data}")
+                    onOpenKanban()
+                },
+                onError = Timber::e
             )
-        )
-        statusState.onNext(
-            SuccessResult(
-                listOf(
-                    Status(
-                        "1",
-                        listOf(
-                            Employee(
-                                "anna",
-                                2.0,
-                                null,
-                                0,
-                                DeadlineStatus.NO_TASKS
-                            )
-                        ),
-                    ),
-                    Status(
-                        "2",
-                        listOf(
-                            Employee(
-                                "alex",
-                                2.0,
-                                null,
-                                0,
-                                DeadlineStatus.NO_TASKS
-                            ),
-                            Employee(
-                                "misha",
-                                3.0,
-                                null,
-                                0,
-                                DeadlineStatus.NO_TASKS
-                            ),
-                            Employee(
-                                "alex",
-                                2.0,
-                                null,
-                                0,
-                                DeadlineStatus.NO_TASKS
-                            ),
-                            Employee(
-                                "misha",
-                                3.0,
-                                null,
-                                0,
-                                DeadlineStatus.NO_TASKS
-                            ),
-                            Employee(
-                                "alex",
-                                2.0,
-                                null,
-                                0,
-                                DeadlineStatus.EXPIRED
-                            ),
-                            Employee(
-                                "misha",
-                                3.0,
-                                null,
-                                0,
-                                DeadlineStatus.ACTIVE
-                            ),
-                            Employee(
-                                "alex",
-                                2.0,
-                                null,
-                                0,
-                                DeadlineStatus.NO_TASKS
-                            ),
-                            Employee(
-                                "misha",
-                                3.0,
-                                null,
-                                0,
-                                DeadlineStatus.NO_TASKS
-                            )
-                        ),
-                    )
-                )
-            )
-        )
     }
 
-    @Suppress("UnusedPrivateMember") // TODO: Remove once implemented
-    fun changeEmployeeStatus(employee: Employee, status: Status) {
-        // TODO: Add change of status logic and update statusState
-    }
+    companion object {
 
-    @Suppress("UnusedPrivateMember") // TODO: Remove once implemented
-    fun createNewStatus(statusName: String) {
-        // TODO: Add create status logic
+        // Kanban
+        val crmKanbanFetchStatusChannel = Channel()
+        val crmKanbanChangeStatusChannel = Channel()
+        val crmKanbanCreateStatusChannel = Channel()
     }
 }

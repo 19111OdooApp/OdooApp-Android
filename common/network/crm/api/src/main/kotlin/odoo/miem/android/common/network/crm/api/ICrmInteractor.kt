@@ -11,26 +11,24 @@ import odoo.miem.android.core.utils.state.ResultSingle
  */
 interface ICrmInteractor {
 
-    // TODO Remake
-
     /**
      * [getRecruitmentKanbanInfo] gives a list of [Status] with [Employee]'s
      * by given [jobId]
      */
-    fun getCrmKanbanInfo(jobId: Long): ResultSingle<List<StatusCRM>>
+    fun getCrmKanbanInfo(userId: Int): ResultSingle<List<StatusCRM>>
 
     /**
-     * [getRecruitmentKanbanInfo] created new status for job by [jobId] with
+     * [createNewCrmStatus] created new status for crm with
      * given [topic]
      *
      * @return list with id and name of new status
      */
-    fun createNewCrmStatus(jobId: Long, topic: String): ResultSingle<List<Any>>
+    fun createNewCrmStatus(topic: String): ResultSingle<List<Any>>
 
     /**
-     * [changeStageInRecruitmentKanban] change status of application with [employeeId] to new [stageId]
+     * [changeStageInCrmKanban] change status of application with [stageId] to new [opportunityId]
      *
      * @return true, if changed successfully
      */
-    fun changeStageInCrmKanban(stageId: Long, employeeId: Long): ResultSingle<Boolean>
+    fun changeStageInCrmKanban(stageId: Long, opportunityId: Long): ResultSingle<Boolean>
 }

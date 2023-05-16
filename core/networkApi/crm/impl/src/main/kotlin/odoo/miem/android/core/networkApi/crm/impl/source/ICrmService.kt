@@ -4,7 +4,7 @@ import odoo.miem.android.core.jsonRpcApiFabric.api.JsonRpcApi
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpc
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcArgument
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcPath
-import odoo.miem.android.core.networkApi.crm.api.entities.CrmtKanbanStagesResponse
+import odoo.miem.android.core.networkApi.crm.api.entities.CrmKanbanStagesResponse
 import odoo.miem.android.core.networkApi.crm.api.entities.CrmResponse
 
 /**
@@ -14,52 +14,50 @@ import odoo.miem.android.core.networkApi.crm.api.entities.CrmResponse
  */
 interface ICrmService : JsonRpcApi {
 
-    // TODO Remake
     @JsonRpc("call")
-    fun getRecruitmentInfo(
+    fun getCrmInfo(
         @JsonRpcPath path: String = "web/dataset/search_read",
-        @JsonRpcArgument("model") model: String = "hr.applicant",
+        @JsonRpcArgument("model") model: String = "crm.lead",
         @JsonRpcArgument("domain") domain: List<Any>,
         @JsonRpcArgument("fields") fields: List<String> = listOf(
             "id",
             "priority",
-            "job_id",
             "stage_id",
-            "department_id",
             "user_id",
-            "partner_name",
+            "partner_id",
             "name",
             "user_email",
             "activity_summary",
-            "salary_proposed",
-            "salary_expected",
-            "create_date",
+            "expected_revenue",
+            "company_currency",
             "activity_state",
         )
     ): CrmResponse
 
     @JsonRpc("call")
-    fun getRecruitmentKanbanStages(
+    fun getCrmKanbanStages(
         @JsonRpcPath path: String = "web/dataset/call_kw/web_read_group",
-        @JsonRpcArgument("model") model: String = "hr.applicant",
+        @JsonRpcArgument("model") model: String = "crm.lead",
         @JsonRpcArgument("method") method: String = "web_read_group",
         @JsonRpcArgument("args") args: List<Any> = emptyList(),
         @JsonRpcArgument("kwargs") kwargs: Map<Any, Any>
-    ): CrmtKanbanStagesResponse
+    ): CrmKanbanStagesResponse
 
+    // TODO Remake
     @JsonRpc("call")
-    fun changeStageInRecruitmentKanban(
+    fun changeStageInCrmKanban(
         @JsonRpcPath path: String = "web/dataset/call_kw/write",
-        @JsonRpcArgument("model") model: String = "hr.applicant",
+        @JsonRpcArgument("model") model: String = "crm.lead",
         @JsonRpcArgument("method") method: String = "write",
         @JsonRpcArgument("kwargs") kwargs: Map<Any, Any> = emptyMap(),
         @JsonRpcArgument("args") args: List<Any>
     ): Boolean
 
+    // TODO Remake
     @JsonRpc("call")
     fun createNewKanbanStatus(
         @JsonRpcPath path: String = "web/dataset/call_kw/name_create",
-        @JsonRpcArgument("model") model: String = "hr.recruitment.stage",
+        @JsonRpcArgument("model") model: String = "crm.stage",
         @JsonRpcArgument("method") method: String = "name_create",
         @JsonRpcArgument("args") args: List<Any>,
         @JsonRpcArgument("kwargs") kwargs: Map<Any, Any>,

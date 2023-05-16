@@ -4,7 +4,8 @@ import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.Rec
 
 data class StatusCRM(
     override val statusName: String,
-    override val employees: List<EmployeeCRM>,
+    override val employees: List<OpportunityCRM>,
     override val iconId: Int = 0,
-    override val id: Long = 0
-) : RecruitmentLikeStatusModel<EmployeeCRM>
+    override val id: Long = 0,
+    val totalPayment: Double = 0.0
+) : RecruitmentLikeStatusModel<OpportunityCRM>

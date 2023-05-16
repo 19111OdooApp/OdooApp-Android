@@ -4,8 +4,10 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import odoo.miem.android.core.jsonRpcApiFabric.jsonRpcApi
 import odoo.miem.android.core.networkApi.crm.api.ICrmRepository
+import odoo.miem.android.core.networkApi.crm.api.entities.CrmApplicationDetailsResponse
 import odoo.miem.android.core.networkApi.crm.api.entities.CrmKanbanStagesResponse
 import odoo.miem.android.core.networkApi.crm.api.entities.CrmResponse
+import odoo.miem.android.core.networkApi.crm.impl.source.ICrmDetailsService
 import odoo.miem.android.core.networkApi.crm.impl.source.ICrmService
 import timber.log.Timber
 import javax.inject.Inject
@@ -18,9 +20,7 @@ import javax.inject.Inject
 class CrmRepository @Inject constructor() : ICrmRepository {
 
     private val crmService by jsonRpcApi<ICrmService>()
-
-    // TODO Return
-//    private val crmDetailsService by jsonRpcApi<ICrmDetailsService>()
+    private val crmDetailsService by jsonRpcApi<ICrmDetailsService>()
 
     /**
      * Crm Kanban
@@ -83,5 +83,64 @@ class CrmRepository @Inject constructor() : ICrmRepository {
                 ),
             )
         }.subscribeOn(Schedulers.io())
+    }
+
+    /**
+     * Crm Opportunity Details
+     */
+    override fun getOpportunityInfo(opportunityId: Long): Single<CrmApplicationDetailsResponse> {
+        Timber.d("getOpportunityInfo(): opportunityId - $opportunityId")
+
+        return Single.fromCallable {
+            crmDetailsService.getOpportunityInfo(
+                args = listOf(
+                    listOf(opportunityId),
+                    opportunityInfoFields
+                )
+            ).first()
+        }.subscribeOn(Schedulers.io())
+    }
+
+    private companion object {
+
+        val opportunityInfoFields = listOf(
+            "id",
+            "stage_id",
+            "partner_name",
+            "name",
+            "contact_name",
+
+            "phone",
+            "mobile",
+            "email_from",
+
+            "company_currency",
+            "expected_revenue",
+
+            "street",
+            "city",
+            "state_id",
+            "zip",
+            "country_id",
+
+            "website",
+            "date_deadline",
+            "priority",
+
+            "user_id",
+            "team_id",
+            "company_id",
+            "description",
+
+            "campaign_id",
+            "medium_id",
+            "source_id",
+
+            "day_open",
+            "day_close",
+
+            "activity_ids",
+            "message_ids",
+        )
     }
 }

@@ -9,5 +9,10 @@ internal data class UserWithFavouriteModules(
 )
 
 internal data class ImplementedModules(
-    @Json(name = "modules") val modules: List<String>
+    @Json(name = "modules") val modules: List<ImplementedModule>
+)
+
+internal data class ImplementedModule(
+    @Json(name = "nameEn") val nameEn: String,
+    @Json(name = "nameRu") val nameRu: String
 )

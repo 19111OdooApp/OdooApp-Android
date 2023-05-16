@@ -21,9 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import odoo.miem.android.common.uiKitComponents.R
 import odoo.miem.android.common.uiKitComponents.utils.getBackgroundColorCard
@@ -33,7 +31,6 @@ import odoo.miem.android.common.uiKitComponents.utils.glowEffect
  * [BigModuleCard] is implementation of big module's card
  *
  * @param moduleName - name of module
- * @param numberOfNotification - number of module notification
  * @param isLiked - is module liked. If true, icon will be filled
  * @param onLikeClick - action, when user click on icon like
  * @param onClick - action, when user click on card
@@ -43,10 +40,9 @@ import odoo.miem.android.common.uiKitComponents.utils.glowEffect
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun BigModuleCard(
-    moduleName: String = stringResource(id = R.string.default_module_name),
-    numberOfNotification: Int = 0,
-    isLiked: Boolean = false,
     modifier: Modifier = Modifier,
+    moduleName: String = stringResource(id = R.string.default_module_name),
+    isLiked: Boolean = false,
     onLikeClick: () -> Unit = {},
     onClick: () -> Unit = {}
 ) = Card(
@@ -82,22 +78,6 @@ fun BigModuleCard(
     Text(
         text = moduleName,
         style = MaterialTheme.typography.titleLarge,
-        color = Color.White,
-        modifier = Modifier
-            .align(Alignment.Start)
-            .padding(start = horizontalPadding)
-    )
-
-    Spacer(modifier = Modifier.height(topPadding))
-
-    Text(
-        text = pluralStringResource(
-            id = R.plurals.module_number_of_notifications,
-            count = numberOfNotification
-        ).format(numberOfNotification),
-        style = MaterialTheme.typography.titleSmall.copy(
-            textDecoration = TextDecoration.Underline
-        ),
         color = Color.White,
         modifier = Modifier
             .align(Alignment.Start)

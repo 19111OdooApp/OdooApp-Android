@@ -2,7 +2,7 @@ package odoo.miem.android.common.uiKitComponents.screen.detailsLike.components
 
 import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.bottomSheet.types.DetailedBottomSheetComponentType
 import odoo.miem.android.common.uiKitComponents.screen.detailsLike.models.DetailsLikeDividedListItem
-import java.util.*
+import java.util.Date
 
 sealed interface PagesType
 
@@ -20,12 +20,12 @@ data class DetailedInfoType(
 
     class TextType(
         override val key: String,
-        val text: String
+        val text: String?
     ) : DetailedInfoFieldType
 
     class NumberType(
         override val key: String,
-        val number: Float
+        val number: Double
     ) : DetailedInfoFieldType
 
     class RatingType(
@@ -42,7 +42,7 @@ data class DetailedInfoType(
 
 data class TextType(
     override val topic: String,
-    val text: String
+    val text: String?
 ) : TopicableType
 
 interface DividedListType : TopicableType {

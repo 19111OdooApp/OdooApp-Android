@@ -13,6 +13,7 @@ interface IRecruitmentDetailsScreen {
 
     @Composable
     fun RecruitmentDetailsScreen(
+        applicationId: Long,
         navController: NavHostController,
         showMessage: (Int) -> Unit
     )

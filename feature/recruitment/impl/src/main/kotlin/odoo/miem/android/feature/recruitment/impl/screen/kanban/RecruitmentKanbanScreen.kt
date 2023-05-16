@@ -84,7 +84,7 @@ class RecruitmentKanbanScreen @Inject constructor() : IRecruitmentKanbanScreen {
                     onNewStatusCreated = { viewModel.createNewStatus(jobId, it) },
                     onUserIconClick = onUserIconClick,
                     onEmployeeCardClick = {
-                        navController.navigate(Routes.recruitmentDetails)
+                        navController.navigate("${Routes.recruitmentDetails}/${it.id}")
                     },
                     onBackPressed = {
                         navController.popBackStack()

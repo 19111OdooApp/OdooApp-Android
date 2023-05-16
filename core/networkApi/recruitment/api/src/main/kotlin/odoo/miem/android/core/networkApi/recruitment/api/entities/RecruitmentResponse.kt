@@ -50,6 +50,11 @@ data class RecruitmentResponse(
 
         @Json(name = "partner_name")
         @SpecifiedTypeOrNull(JsonReader.Token.STRING)
+        val partnerName: String?,
+
+        // If empty partnerName, use this
+        @Json(name = "name")
+        @SpecifiedTypeOrNull(JsonReader.Token.STRING)
         val name: String?,
 
         @Json(name = "user_email")

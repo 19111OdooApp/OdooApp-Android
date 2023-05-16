@@ -128,10 +128,17 @@ object Dependencies {
 
             val ALL_SHARED_ELEMENTS_DEPS = listOf(SHARED_ELEMENTS)
         }
+
         object SwipableCard {
             private const val VERSION = "1.1.1"
 
             const val SWIPABLE_CARD = "me.saket.swipe:swipe:$VERSION"
+        }
+
+        object HtmlText {
+            private const val VERSION = "1.3.1"
+
+            const val HTML_TEXT = "de.charlex.compose:html-text:$VERSION"
         }
 
         object UiTest {

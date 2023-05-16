@@ -104,7 +104,7 @@ fun BigJobCard(
         overflow = TextOverflow.Clip,
         modifier = Modifier
             .align(Alignment.Start)
-            .padding(start = horizontalPadding)
+            .padding(horizontal = horizontalPadding)
     )
 
     Spacer(modifier = Modifier.height(topPadding))

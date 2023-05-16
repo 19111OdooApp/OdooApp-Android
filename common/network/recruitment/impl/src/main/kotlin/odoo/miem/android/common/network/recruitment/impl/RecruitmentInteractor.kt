@@ -64,7 +64,9 @@ class RecruitmentInteractor @Inject constructor() : IRecruitmentInteractor {
                     (record.stageInfo?.firstOrNull() as? Double)?.let { id ->
                         mapOfStages[id.toLong()]?.employees?.add(
                             Employee(
-                                name = record.name ?: "Cool name",
+                                name = record.partnerName.takeIf { !it.isNullOrEmpty() }
+                                    ?: record.name.takeIf { !it.isNullOrEmpty() }
+                                    ?: "Cool name",
                                 rating = record.rating?.toDouble() ?: 0.0,
                                 imageUrl = null,
                                 id = checkNotNull(record.id),

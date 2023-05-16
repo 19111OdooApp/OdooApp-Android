@@ -3,6 +3,7 @@ package odoo.miem.android.feature.recruitment.impl
 import androidx.compose.runtime.mutableStateListOf
 import io.reactivex.rxjava3.subjects.PublishSubject
 import odoo.miem.android.common.network.recruitment.api.di.IRecruitmentInteractorApi
+import odoo.miem.android.common.network.recruitment.api.entities.details.ApplicationInfo
 import odoo.miem.android.common.network.recruitment.api.entities.jobs.RecruitmentJob
 import odoo.miem.android.common.network.recruitment.api.entities.jobs.RecruitmentJobState
 import odoo.miem.android.common.network.recruitment.api.entities.kanban.Employee
@@ -23,6 +24,7 @@ internal class RecruitmentViewModel : BaseViewModel() {
 
     private val recruitmentInteractor by api(IRecruitmentInteractorApi::recruitmentInteractor)
     private val recruitmentJobsInteractor by api(IRecruitmentInteractorApi::recruitmentJobsInteractor)
+    private val recruitmentDetailsInteractor by api(IRecruitmentInteractorApi::recruitmentDetailsInteractor)
 
     val userInfoState: ResultSubject<User> by lazyEmptyResultPublishSubject()
     val statusState: ResultSubject<List<Status>> by lazyEmptyResultPublishSubject()
@@ -30,6 +32,8 @@ internal class RecruitmentViewModel : BaseViewModel() {
 
     val jobsState: ResultSubject<List<RecruitmentJob>> by lazyEmptyResultPublishSubject()
     val jobsList = mutableStateListOf<RecruitmentJob>()
+
+    val applicationInfoState: ResultSubject<ApplicationInfo> by lazyEmptyResultPublishSubject()
 
     /**
      * Recruitment Jobs
@@ -183,6 +187,30 @@ internal class RecruitmentViewModel : BaseViewModel() {
     }
 
     /**
+     * Recruitment Application Details
+     */
+
+    fun onOpenDetails(applicationId: Long) {
+        getApplicationInfo(applicationId)
+    }
+
+    fun getApplicationInfo(applicationId: Long) {
+        Timber.d("getApplicationInfo(): applicationId - $applicationId")
+
+        applicationInfoState.onLoadingState()
+        recruitmentDetailsInteractor
+            .getApplicationInfo(applicationId)
+            .schedule(
+                recruitmentApplicationInfoChannel,
+                onSuccess = { details ->
+                    Timber.d("createNewStatus(): details - $details")
+                    applicationInfoState.onNext(details) // TODO...
+                },
+                onError = Timber::e
+            )
+    }
+
+    /**
      * User info
      */
     fun getUserInfo() {
@@ -212,6 +240,9 @@ internal class RecruitmentViewModel : BaseViewModel() {
         val recruitmentKanbanFetchStatusChannel = Channel()
         val recruitmentKanbanChangeEmployeeChannel = Channel()
         val recruitmentKanbanCreateStatusChannel = Channel()
+
+        // Application Details
+        val recruitmentApplicationInfoChannel = Channel()
 
         // User info
         val userInfoChannel = Channel()

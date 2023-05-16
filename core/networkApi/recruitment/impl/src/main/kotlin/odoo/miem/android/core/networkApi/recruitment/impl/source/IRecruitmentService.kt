@@ -27,6 +27,7 @@ interface IRecruitmentService : JsonRpcApi {
             "department_id",
             "user_id",
             "partner_name",
+            "name",
             "user_email",
             "activity_summary",
             "salary_proposed",

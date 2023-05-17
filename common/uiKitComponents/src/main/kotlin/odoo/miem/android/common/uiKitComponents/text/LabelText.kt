@@ -46,8 +46,7 @@ fun LabelText(
     text = text,
     style = if (isLarge) {
         MaterialTheme.typography.labelLarge
-    }
-    else if (isMedium) {
+    } else if (isMedium) {
         MaterialTheme.typography.labelMedium
     } else {
         MaterialTheme.typography.labelSmall

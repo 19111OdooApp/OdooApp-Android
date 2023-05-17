@@ -28,7 +28,7 @@ class EmployeesViewModel(
     private val selectingModulesInteractor by api(ISelectingModulesInteractorApi::selectingModulesInteractor)
     private val employeesInteracor by api(IEmployeesInteractorApi::employeesInteractor)
 
-    val userInfoState : ResultSubject<User> by lazyEmptyResultPublishSubject()
+    val userInfoState: ResultSubject<User> by lazyEmptyResultPublishSubject()
     val employeeDetails: ResultSubject<EmployeeDetails> by lazyEmptyResultPublishSubject()
 
     val allEmployeesState: ResultSubject<List<EmployeeBasicInfo>> by lazyEmptyResultPublishSubject()

@@ -28,8 +28,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
-import coil.disk.DiskCache
-import coil.request.CachePolicy
 import coil.request.ImageRequest
 import coil.size.Size
 import odoo.miem.android.common.uiKitComponents.R

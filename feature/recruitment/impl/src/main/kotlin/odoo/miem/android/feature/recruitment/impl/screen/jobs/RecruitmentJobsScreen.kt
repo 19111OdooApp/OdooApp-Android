@@ -85,7 +85,7 @@ class RecruitmentJobsScreen @Inject constructor() : IRecruitmentJobsScreen {
                     onCardClick = { navController.navigate("${Routes.recruitmentKanban}/${it.id}") },
                     onNavigateToModulesPressed = { navController.navigate(Routes.selectingModules) },
                     onUserIconClick = { navController.navigate(Routes.userProfile) },
-                    onBackPressed = { navController.popBackStack() }
+                    onBackPressed = navController::popBackStack
                 )
             },
         )

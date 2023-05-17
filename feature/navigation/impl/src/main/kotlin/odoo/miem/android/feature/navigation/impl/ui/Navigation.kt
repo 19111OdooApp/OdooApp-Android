@@ -7,10 +7,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -29,6 +32,7 @@ import odoo.miem.android.feature.employees.api.di.IEmployeesApi
 import odoo.miem.android.feature.moduleNotFound.api.IModuleNotFoundScreen
 import odoo.miem.android.feature.moduleNotFound.api.di.IModuleNotFoundApi
 import odoo.miem.android.feature.navigation.api.data.Routes
+import odoo.miem.android.feature.navigation.impl.R
 import odoo.miem.android.feature.recruitment.api.IRecruitmentDetailsScreen
 import odoo.miem.android.feature.recruitment.api.IRecruitmentJobsScreen
 import odoo.miem.android.feature.recruitment.api.IRecruitmentKanbanScreen
@@ -109,6 +113,10 @@ fun NavigationContent(
     isAuthorized: Boolean,
     showMessage: (Int) -> Unit,
 ) {
+    val viewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
+        stringResource(R.string.viewmodel_store_owner_error)
+    }
+
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -195,10 +203,15 @@ fun NavigationContent(
             }
 
             composable(Routes.employees) {
-                employeesScreen.EmployeesScreen(
-                    navController = navController,
-                    showMessage = showMessage
-                )
+                CompositionLocalProvider(
+                    LocalViewModelStoreOwner provides viewModelStoreOwner
+                ) {
+                    employeesScreen.EmployeesScreen(
+                        viewModelStoreOwner = viewModelStoreOwner,
+                        navController = navController,
+                        showMessage = showMessage
+                    )
+                }
             }
 
             composable(
@@ -209,11 +222,16 @@ fun NavigationContent(
                     }
                 )
             ) {
-                employeeDetailsScreen.EmployeeDetailsScreen(
-                    employeeId = it.arguments!!.getLong(Routes.Arguments.employeesEmployeeId),
-                    navController = navController,
-                    showMessage = showMessage
-                )
+                CompositionLocalProvider(
+                    LocalViewModelStoreOwner provides viewModelStoreOwner
+                ) {
+                    employeeDetailsScreen.EmployeeDetailsScreen(
+                        employeeId = it.arguments!!.getLong(Routes.Arguments.employeesEmployeeId),
+                        viewModelStoreOwner = viewModelStoreOwner,
+                        navController = navController,
+                        showMessage = showMessage
+                    )
+                }
             }
         }
     }

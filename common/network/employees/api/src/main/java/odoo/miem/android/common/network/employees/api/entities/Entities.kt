@@ -3,13 +3,13 @@ package odoo.miem.android.common.network.employees.api.entities
 import odoo.miem.android.common.uiKitComponents.screen.searchLike.model.SearchLikeModel
 
 data class EmployeeBasicInfo(
-    val id: Long?,
+    val id: Long,
     override val name: String,
     val job: String?,
     val email: String?,
     val phone: String?,
     val avatar: String?
-): SearchLikeModel
+) : SearchLikeModel
 
 data class EmployeeDetails(
     val id: Long?,

@@ -52,8 +52,8 @@ import odoo.miem.android.common.uiKitComponents.utils.glowEffect
 @Composable
 fun BigJobCard(
     job: RecruitmentJob,
-    biggestNumber: Int = 1000,
     modifier: Modifier = Modifier,
+    biggestNumber: Int = 1000,
     onLikeClick: (job: RecruitmentJob) -> Unit = {},
     onClick: (job: RecruitmentJob) -> Unit = {},
     onLongClick: (job: RecruitmentJob) -> Unit = {}

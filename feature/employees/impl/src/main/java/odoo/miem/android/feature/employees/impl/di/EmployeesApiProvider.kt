@@ -5,21 +5,21 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import odoo.miem.android.core.di.impl.ApiKey
 import odoo.miem.android.core.di.impl.ApiProvider
-import odoo.miem.android.feature.employees.api.di.IEmployeesScreenApi
+import odoo.miem.android.feature.employees.api.di.IEmployeesApi
 
 /**
- * [EmployeesScreenApiProvider] - **Dagger** module for providing
- * [EmployeesScreenComponent] in general map
+ * [EmployeesApiProvider] - **Dagger** module for providing
+ * [EmployeesComponent] in general map
  *
  * @author Egor Danilov
  */
 @Module
-class EmployeesScreenApiProvider {
+class EmployeesApiProvider {
 
     @Provides
     @IntoMap
-    @ApiKey(IEmployeesScreenApi::class)
+    @ApiKey(IEmployeesApi::class)
     fun provideEmployeesScreenApiProvider() = ApiProvider {
-        EmployeesScreenComponent.create()
+        EmployeesComponent.create()
     }
 }

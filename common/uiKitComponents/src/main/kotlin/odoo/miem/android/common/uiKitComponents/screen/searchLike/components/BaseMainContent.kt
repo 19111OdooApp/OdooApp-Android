@@ -1,5 +1,6 @@
 package odoo.miem.android.common.uiKitComponents.screen.searchLike.components
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -28,6 +29,7 @@ internal fun BaseMainContent(
     sharedScreenKey: String,
     userName: String,
     title: String,
+    @StringRes searchBarPlaceholder: Int,
     onSearchBarClick: () -> Unit,
     onUserIconClick: () -> Unit = {},
     mainListContent: @Composable (ColumnScope.() -> Unit),
@@ -65,6 +67,7 @@ internal fun BaseMainContent(
         SearchTextField(
             enabled = false,
             value = TextFieldValue(),
+            stringRes = searchBarPlaceholder,
             modifier = Modifier.clickable { onSearchBarClick() }
         )
     }

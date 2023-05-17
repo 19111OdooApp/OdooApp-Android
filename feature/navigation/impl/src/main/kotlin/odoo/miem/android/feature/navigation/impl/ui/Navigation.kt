@@ -23,8 +23,9 @@ import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
 import odoo.miem.android.feature.authorization.base.api.di.IAuthorizationApi
 import odoo.miem.android.feature.crm.api.ICrmScreen
 import odoo.miem.android.feature.crm.api.di.ICrmApi
+import odoo.miem.android.feature.employees.api.IEmployeeDetailsScreen
 import odoo.miem.android.feature.employees.api.IEmployeesScreen
-import odoo.miem.android.feature.employees.api.di.IEmployeesScreenApi
+import odoo.miem.android.feature.employees.api.di.IEmployeesApi
 import odoo.miem.android.feature.moduleNotFound.api.IModuleNotFoundScreen
 import odoo.miem.android.feature.moduleNotFound.api.di.IModuleNotFoundApi
 import odoo.miem.android.feature.navigation.api.data.Routes
@@ -69,7 +70,8 @@ fun Navigation(
     val recruitmentJobsScreen by api(IRecruitmentApi::recruitmentJobsScreen)
     val crmScreen by api(ICrmApi::crmScreen)
     val userProfileScreen by api(IUserProfileScreenApi::userProfileScreen)
-    val employeesScreen by api(IEmployeesScreenApi::employeesScreen)
+    val employeesScreen by api(IEmployeesApi::employeesScreen)
+    val employeeDetailsScreen by api(IEmployeesApi::employeeDetailsScreen)
     val dataStore by api(IDataStoreApi::dataStore)
 
     NavigationContent(
@@ -82,6 +84,7 @@ fun Navigation(
         crmScreen = crmScreen,
         userProfileScreen = userProfileScreen,
         employeesScreen = employeesScreen,
+        employeeDetailsScreen = employeeDetailsScreen,
         paddingValues = paddingValues,
         navController = navController,
         isAuthorized = dataStore.isAuthorized,
@@ -100,6 +103,7 @@ fun NavigationContent(
     crmScreen: ICrmScreen,
     userProfileScreen: IUserProfileScreen,
     employeesScreen: IEmployeesScreen,
+    employeeDetailsScreen: IEmployeeDetailsScreen,
     paddingValues: PaddingValues,
     navController: NavHostController,
     isAuthorized: Boolean,
@@ -192,6 +196,21 @@ fun NavigationContent(
 
             composable(Routes.employees) {
                 employeesScreen.EmployeesScreen(
+                    navController = navController,
+                    showMessage = showMessage
+                )
+            }
+
+            composable(
+                route = "${Routes.employeeDetails}/{${Routes.Arguments.employeesEmployeeId}}",
+                arguments = listOf(
+                    navArgument(Routes.Arguments.employeesEmployeeId) {
+                        type = NavType.LongType
+                    }
+                )
+            ) {
+                employeeDetailsScreen.EmployeeDetailsScreen(
+                    employeeId = it.arguments!!.getLong(Routes.Arguments.employeesEmployeeId),
                     navController = navController,
                     showMessage = showMessage
                 )

@@ -1,8 +1,11 @@
 package odoo.miem.android.feature.employees.impl
 
+import androidx.compose.runtime.mutableStateListOf
 import odoo.miem.android.common.network.employees.api.di.IEmployeesInteractorApi
 import odoo.miem.android.common.network.employees.api.entities.EmployeeBasicInfo
 import odoo.miem.android.common.network.employees.api.entities.EmployeeDetails
+import odoo.miem.android.common.network.selectingModules.api.di.ISelectingModulesInteractorApi
+import odoo.miem.android.common.network.selectingModules.api.entities.User
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.di.impl.apiBlocking
 import odoo.miem.android.core.platform.presentation.BaseViewModel
@@ -22,12 +25,39 @@ class EmployeesViewModel(
     schedulers: PresentationSchedulers = apiBlocking(RxApi::presentationSchedulers)
 ) : BaseViewModel(schedulers) {
 
+    private val selectingModulesInteractor by api(ISelectingModulesInteractorApi::selectingModulesInteractor)
     private val employeesInteracor by api(IEmployeesInteractorApi::employeesInteractor)
 
-    val allEmployeesState: ResultSubject<List<EmployeeBasicInfo>> by lazyEmptyResultPublishSubject()
+    val userInfoState : ResultSubject<User> by lazyEmptyResultPublishSubject()
     val employeeDetails: ResultSubject<EmployeeDetails> by lazyEmptyResultPublishSubject()
 
-    fun getAllEmployees() {
+    val allEmployeesState: ResultSubject<List<EmployeeBasicInfo>> by lazyEmptyResultPublishSubject()
+    val allEmployeesList = mutableStateListOf<EmployeeBasicInfo>()
+
+    fun onEmployeesOpen() {
+        allEmployeesList.clear()
+
+        getAllEmployees()
+        getUserInfo()
+    }
+
+    private fun getUserInfo() {
+        Timber.d("getUserInfo()")
+
+        userInfoState.onLoadingState()
+        selectingModulesInteractor
+            .getUserInfo()
+            .schedule(
+                userInfoChannel,
+                onSuccess = { result ->
+                    Timber.d("getUserInfo(): result = $result")
+                    userInfoState.onNext(result)
+                },
+                onError = Timber::e
+            )
+    }
+
+    private fun getAllEmployees() {
         Timber.d("getAllEmployees()")
 
         allEmployeesState.onLoadingState()
@@ -38,6 +68,9 @@ class EmployeesViewModel(
                 onSuccess = { result ->
                     Timber.d("getAllEmployees(): result = $result")
 
+                    result.data?.let {
+                        allEmployeesList.addAll(it)
+                    }
                     allEmployeesState.onNext(result)
                 },
                 onError = Timber::e
@@ -63,6 +96,7 @@ class EmployeesViewModel(
 
     private companion object {
         // Do this if there are multiple Rx chains in a viewModel
+        val userInfoChannel = Channel()
         val allEmployeesChannel = Channel()
         val employeesDetailsChannel = Channel()
     }

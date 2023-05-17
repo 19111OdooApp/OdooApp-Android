@@ -38,8 +38,8 @@ class FirebaseDatabase @Inject constructor(
                         val moduleNameRu = module.data[MODULE_NAME_RU_FIELD] as? String
                         val iconUrl = module.data[MODULE_ICON_URL_FIELD] as? String
 
-                        iconUrl?.let {
-                            val task = fetchFileFromStorage(it)
+                        if (moduleNameEn != null && moduleNameRu != null && iconUrl != null) {
+                            val task = fetchFileFromStorage(iconUrl)
                                 .continueWith { task ->
                                     ModuleIconResponse(
                                         moduleNameEn = moduleNameEn,
@@ -81,8 +81,8 @@ class FirebaseDatabase @Inject constructor(
                         val moduleName = module.data[STATUS_NAME_FIELD] as? String
                         val iconUrl = module.data[STATUS_ICON_URL_FIELD] as? String
 
-                        iconUrl?.let {
-                            val task = fetchFileFromStorage(it)
+                        if (moduleName != null && iconUrl != null) {
+                            val task = fetchFileFromStorage(iconUrl)
                                 .continueWith { task ->
                                     StatusIconResponse(
                                         statusName = moduleName,

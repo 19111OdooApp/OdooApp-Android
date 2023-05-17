@@ -34,3 +34,25 @@ fun LabelText(
     textAlign = textAlign,
     color = MaterialTheme.colorScheme.onPrimaryContainer
 )
+
+@Composable
+fun LabelText(
+    text: String,
+    modifier: Modifier = Modifier,
+    textAlign: TextAlign = TextAlign.Start,
+    isMedium: Boolean = true,
+    isLarge: Boolean = false
+) = Text(
+    text = text,
+    style = if (isLarge) {
+        MaterialTheme.typography.labelLarge
+    }
+    else if (isMedium) {
+        MaterialTheme.typography.labelMedium
+    } else {
+        MaterialTheme.typography.labelSmall
+    },
+    modifier = modifier,
+    textAlign = textAlign,
+    color = MaterialTheme.colorScheme.onPrimaryContainer
+)

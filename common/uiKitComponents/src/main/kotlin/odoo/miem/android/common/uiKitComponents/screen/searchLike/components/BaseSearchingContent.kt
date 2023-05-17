@@ -1,6 +1,7 @@
 package odoo.miem.android.common.uiKitComponents.screen.searchLike.components
 
 import androidx.activity.compose.BackHandler
+import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -38,6 +39,7 @@ internal fun <T : SearchLikeModel> BaseSearchingContent(
     sharedKey: String,
     sharedScreenKey: String,
     items: List<T>,
+    @StringRes searchBarPlaceholder: Int,
     onBackPressed: () -> Unit = {},
     searchResultListContent: @Composable (ColumnScope.(items: List<T>) -> Unit),
     searchStartListContent: @Composable (ColumnScope.(items: List<T>) -> Unit)?
@@ -80,6 +82,7 @@ internal fun <T : SearchLikeModel> BaseSearchingContent(
         SearchTextField(
             value = searchInput,
             onValueChange = { searchInput = it },
+            stringRes = searchBarPlaceholder,
             modifier = Modifier.focusRequester(focusRequester)
         )
     }

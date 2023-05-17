@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="recruitment_search_hint">Введите имя сотрудника</string>
+    <string name="recruitment_search_bar_placeholder">Введите имя сотрудника</string>
     <string name="recruitment_change_status">Изменить статус</string>
     <string name="recruitment_add_new_status">Добавить новый статус</string>
 
 
     <string name="recruitment_job_positions">Вакансии</string>
+    <string name="recruitment_job_positions_search_bar_placeholder">Введите имя вакансии…</string>
 
     <string name="recruitment_job_link">Ссылка на вакансию</string>
 

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="employees_main_title">Employees</string>
+    <string name="employees_search_bar_placeholder">Enter employee name…</string>
+</resources>

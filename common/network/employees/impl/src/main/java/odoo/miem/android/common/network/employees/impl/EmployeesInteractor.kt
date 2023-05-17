@@ -6,6 +6,7 @@ import odoo.miem.android.common.network.employees.api.entities.EmployeeDetails
 import odoo.miem.android.common.network.employees.impl.helpers.EmployeeInteractorHelper
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.networkApi.employees.api.di.IEmployeesRepositoryApi
+import odoo.miem.android.core.networkApi.employees.api.source.AllEmployeesResponse
 import odoo.miem.android.core.utils.state.ErrorResult
 import odoo.miem.android.core.utils.state.Result
 import odoo.miem.android.core.utils.state.ResultSingle
@@ -29,20 +30,9 @@ class EmployeesInteractor @Inject constructor() : IEmployeesInteractor {
 
         return employeesRepository.getAllEmployees()
             .map<Result<List<EmployeeBasicInfo>>> { response ->
-                val employeesInfo = response.records?.map { info ->
-                    EmployeeBasicInfo(
-                        id = info.id,
-                        name = info.employeeName,
-                        job = info.job,
-                        email = info.email,
-                        phone = info.phone,
-                        avatar = info.avatar
-                    )
-                } ?: emptyList()
+                Timber.d("getAllEmployeesInfo(): response = $response")
 
-                Timber.d("getAllEmployeesInfo(): result = $employeesInfo")
-
-                SuccessResult(employeesInfo)
+                SuccessResult(response.toListDTO())
             }
             .onErrorReturn {
                 Timber.e("getAllEmployeesInfo(): error message = ${it.message}")
@@ -69,5 +59,26 @@ class EmployeesInteractor @Inject constructor() : IEmployeesInteractor {
                     isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
                 )
             }
+    }
+
+    private fun AllEmployeesResponse.toListDTO(): List<EmployeeBasicInfo> =
+        records?.fold(mutableListOf()) { list, employee ->
+            employee.id?.let {
+                list.add(
+                    EmployeeBasicInfo(
+                        id = it,
+                        name = employee.employeeName ?: DEFAULT_EMPLOYEE_NAME,
+                        job = employee.job,
+                        email = employee.email,
+                        phone = employee.phone,
+                        avatar = employee.avatar
+                    )
+                )
+            }
+            list
+        } ?: emptyList()
+
+    companion object {
+        const val DEFAULT_EMPLOYEE_NAME = "Unknown Employee"
     }
 }

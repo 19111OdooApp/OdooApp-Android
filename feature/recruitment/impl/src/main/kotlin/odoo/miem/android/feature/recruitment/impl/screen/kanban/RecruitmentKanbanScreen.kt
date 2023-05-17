@@ -89,7 +89,7 @@ class RecruitmentKanbanScreen @Inject constructor() : IRecruitmentKanbanScreen {
                     onBackPressed = {
                         navController.popBackStack()
                     },
-                    searchHintRes = R.string.recruitment_search_hint
+                    searchHintRes = R.string.recruitment_search_bar_placeholder
                 )
             }
         )
@@ -181,7 +181,7 @@ class RecruitmentKanbanScreen @Inject constructor() : IRecruitmentKanbanScreen {
                 onNavigateToModulesPressed = {},
                 onStatusClick = { _, _ -> },
                 onNewStatusCreated = {},
-                searchHintRes = R.string.recruitment_search_hint,
+                searchHintRes = R.string.recruitment_search_bar_placeholder,
             )
         }
     }

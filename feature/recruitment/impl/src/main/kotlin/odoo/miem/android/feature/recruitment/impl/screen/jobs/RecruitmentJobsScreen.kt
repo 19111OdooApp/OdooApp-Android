@@ -26,6 +26,7 @@ import odoo.miem.android.common.uiKitComponents.stateholder.error.ErrorScreen
 import odoo.miem.android.core.utils.rx.collectAsState
 import odoo.miem.android.core.utils.state.subscribeOnError
 import odoo.miem.android.feature.navigation.api.data.Routes
+import odoo.miem.android.feature.navigation.api.utils.navigateToUserProfile
 import odoo.miem.android.feature.recruitment.api.IRecruitmentJobsScreen
 import odoo.miem.android.feature.recruitment.impl.R
 import odoo.miem.android.feature.recruitment.impl.RecruitmentViewModel
@@ -84,7 +85,7 @@ class RecruitmentJobsScreen @Inject constructor() : IRecruitmentJobsScreen {
                     changeFavoriteState = viewModel::changeFavoriteState,
                     onCardClick = { navController.navigate("${Routes.recruitmentKanban}/${it.id}") },
                     onNavigateToModulesPressed = { navController.navigate(Routes.selectingModules) },
-                    onUserIconClick = { navController.navigate(Routes.userProfile) },
+                    onUserIconClick = { navController.navigateToUserProfile() },
                     onBackPressed = { navController.popBackStack() }
                 )
             },

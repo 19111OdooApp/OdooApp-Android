@@ -183,8 +183,17 @@ fun NavigationContent(
                 )
             }
 
-            composable(Routes.userProfile) {
+            composable(
+                "${Routes.userProfile}/{${Routes.Arguments.userId}}",
+                arguments = listOf(
+                    navArgument(Routes.Arguments.userId) {
+                        type = NavType.LongType
+                        defaultValue = -1
+                    }
+                )
+            ) {
                 userProfileScreen.UserProfileScreen(
+                    userId = it.arguments!!.getLong(Routes.Arguments.userId).takeIf { it >= 0 },
                     navController = navController,
                     showMessage = showMessage
                 )

@@ -10,17 +10,22 @@ dependencies {
 
     Dependencies.RxJava.ALL_DEPS.forEach { implementation(it) }
 
+
     // Common
     // Components
     implementation(project(":common:uiKitComponents"))
 
     // Core
+    // NetworkApi - user info
+    api(project(":core:networkApi:userInfo:api"))
+
     // UiKitTheme
     implementation(project(":core:uiKitTheme"))
 
     // Feature
     // Selecting modules API
     implementation(project(":feature:userProfile:api"))
+
 
     // Platform
     implementation(project(":core:platform"))

@@ -13,6 +13,7 @@ interface IUserProfileScreen {
 
     @Composable
     fun UserProfileScreen(
+        userId: Long?,
         navController: NavHostController,
         showMessage: (Int) -> Unit
     )

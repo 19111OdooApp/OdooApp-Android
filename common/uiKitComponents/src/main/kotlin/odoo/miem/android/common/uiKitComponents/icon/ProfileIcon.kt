@@ -13,11 +13,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
+import coil.request.ImageRequest
 import odoo.miem.android.common.uiKitComponents.text.HeadlineText
 
 @Composable
@@ -30,7 +32,10 @@ fun ProfileIcon(
     val defaultIconSize = 40.dp
 
     SubcomposeAsyncImage(
-        model = avatarUrl,
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(avatarUrl)
+            .crossfade(true)
+            .build(),
         contentDescription = null,
         contentScale = ContentScale.Crop,
         modifier = modifier

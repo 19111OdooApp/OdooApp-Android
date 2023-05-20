@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -26,6 +27,8 @@ import odoo.miem.android.core.utils.state.subscribeOnError
 import odoo.miem.android.feature.crm.api.ICrmDetailsScreen
 import odoo.miem.android.feature.crm.impl.CrmViewModel
 import odoo.miem.android.feature.crm.impl.R
+import odoo.miem.android.feature.crm.impl.screen.details.helpers.getDetailsHeader
+import odoo.miem.android.feature.crm.impl.screen.details.helpers.getDetailsPages
 import odoo.miem.android.feature.navigation.api.data.Routes
 import timber.log.Timber
 import java.util.Date
@@ -46,8 +49,7 @@ class CrmDetailsScreen @Inject constructor() : ICrmDetailsScreen {
         showMessage: (Int) -> Unit
     ) {
         val viewModel: CrmViewModel = viewModel()
-        // TODO Return
-        // val context = LocalContext.current
+        val context = LocalContext.current
 
         Timber.d("CrmDetailsScreen: opportunityId - $opportunityId")
 
@@ -70,14 +72,22 @@ class CrmDetailsScreen @Inject constructor() : ICrmDetailsScreen {
             },
             successContent = { applicationInfo ->
                 applicationInfo.data?.let {
-//                    RecruitmentDetailsScreenContent(
-//                        header = getDetailsHeader(it),
-//                        pages = getDetailsPages(
-//                            stringResolver = { res -> context.resources.getString(res) },
-//                            applicationInfo = it,
-//                        ),
-//                        navigateBack = navController::popBackStack
-//                    )
+                    CrmDetailsScreenContent(
+                        header = getDetailsHeader(
+                            opportunityInfo = it,
+                            majorTitle = context.resources.getString(R.string.crm_details_title_header_major)
+                                .format(
+                                    it.expectedRevenue,
+                                    it.companyCurrencySymbol,
+                                    it.probability
+                                )
+                        ),
+                        pages = getDetailsPages(
+                            stringResolver = { res -> context.resources.getString(res) },
+                            opportunityInfo = it,
+                        ),
+                        navigateBack = navController::popBackStack
+                    )
                 } ?: ErrorScreen(
                     isSessionExpired = false,
                     onSessionExpired = { navController.navigate(Routes.authorization) },
@@ -87,7 +97,6 @@ class CrmDetailsScreen @Inject constructor() : ICrmDetailsScreen {
         )
     }
 
-    // TODO Delete mock
     @Composable
     fun CrmDetailsScreenContent(
         header: DetailsLikeHeader,

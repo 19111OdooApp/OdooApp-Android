@@ -116,6 +116,7 @@ class CrmRepository @Inject constructor() : ICrmRepository {
 
             "company_currency",
             "expected_revenue",
+            "probability",
 
             "street",
             "city",

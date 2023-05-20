@@ -50,6 +50,10 @@ data class CrmApplicationDetailsResponse(
     @SpecifiedTypeOrNull(JsonReader.Token.NUMBER)
     val expectedRevenue: Double?,
 
+    @Json(name = "probability")
+    @SpecifiedTypeOrNull(JsonReader.Token.NUMBER)
+    val probability: Double?,
+
     @Json(name = "street")
     @SpecifiedTypeOrNull(JsonReader.Token.STRING)
     val opportunityStreet: String?,

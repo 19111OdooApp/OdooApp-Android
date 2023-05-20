@@ -22,7 +22,9 @@ data class OpportunityInfo(
 
     val companyCurrencySymbol: String,
 
-    val expectedRevenue: Double?,
+    val expectedRevenue: Double,
+
+    val probability: Double,
 
     val sellerName: String?,
 

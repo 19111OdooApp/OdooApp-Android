@@ -80,7 +80,6 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
                     filteredEmployees = filteredEmployees,
                     employeeAvatarRequestHeaders = avatarRequestHeadersState.data ?: emptyList(),
                     isSearchLoading = employeeSearchState is LoadingResult,
-                    isSessionExpired = viewModel.isSessionExpired,
                     performSearch = {
                         viewModel.performEmployeeSearch(it)
                     },
@@ -88,7 +87,9 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
                         navController.navigate("${Routes.employeeDetails}/${it.id}")
                     },
                     onReachBottom = {
-                        viewModel.getAllEmployees()
+                        if (!viewModel.isSessionExpired) {
+                            viewModel.getAllEmployees()
+                        }
                     },
                     onNavigateToModulesPressed = {
                         navController.navigate(Routes.selectingModules)
@@ -109,7 +110,6 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
         filteredEmployees: List<EmployeeBasicInfo> = emptyList(),
         employeeAvatarRequestHeaders: List<EmployeeAvatarRequestHeaders> = emptyList(),
         isSearchLoading: Boolean = false,
-        isSessionExpired: Boolean = false,
         performSearch: (String) -> Unit = {},
         onEmployeeClick: (EmployeeBasicInfo) -> Unit = {},
         onReachBottom: () -> Unit = {},
@@ -123,7 +123,6 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
                 employeeAvatarRequestHeaders = employeeAvatarRequestHeaders,
                 onClick = onEmployeeClick,
                 onReachBottom = onReachBottom,
-                isSessionExpired = isSessionExpired
             )
         }
 

@@ -26,7 +26,6 @@ internal fun ColumnScope.EmployeesList(
     employeeAvatarRequestHeaders: List<EmployeeAvatarRequestHeaders>,
     onClick: (employee: EmployeeBasicInfo) -> Unit = {},
     onReachBottom: () -> Unit = {},
-    isSessionExpired: Boolean = false
 ) = Box {
     val lazyColumnState = rememberLazyListState()
 
@@ -36,7 +35,7 @@ internal fun ColumnScope.EmployeesList(
         }
     }
 
-    if (isBottomReached && !isSessionExpired) {
+    if (isBottomReached) {
         onReachBottom()
     }
 

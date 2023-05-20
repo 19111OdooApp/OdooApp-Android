@@ -49,6 +49,7 @@ fun OutlinedEmployeeCard(
     starsCount: Int = 3,
     scheduleIconColor: Color = Color.Black,
     @DrawableRes statusIconRes: Int,
+    isStatusButtonEnable: Boolean = true,
     onClick: () -> Unit = {},
 ) = Card(
     onClick = onClick,
@@ -90,7 +91,10 @@ fun OutlinedEmployeeCard(
             }
         }
 
-        IconButton(onClick = onActionClick) {
+        IconButton(
+            onClick = onActionClick,
+            enabled = isStatusButtonEnable
+        ) {
             Icon(
                 painter = painterResource(statusIconRes),
                 contentDescription = null,

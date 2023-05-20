@@ -25,6 +25,7 @@ fun <E : RecruitmentLikeEmployeeModel> RecruitmentLikeList(
     employees: List<E>,
     onEmployeeCardClick: (E) -> Unit,
     onEmployeeActionClick: (E) -> Unit,
+    isStatusButtonEnable: Boolean = true,
     modifier: Modifier = Modifier,
 ) = LazyColumn(
     verticalArrangement = Arrangement.spacedBy(mainVerticalPadding),
@@ -38,6 +39,7 @@ fun <E : RecruitmentLikeEmployeeModel> RecruitmentLikeList(
         OutlinedEmployeeCard(
             rating = it.rating,
             employeeName = it.name,
+            isStatusButtonEnable = isStatusButtonEnable,
             onClick = { onEmployeeCardClick(it) },
             onActionClick = { onEmployeeActionClick(it) },
             scheduleIconColor = getClockColor(it.deadlineStatus),

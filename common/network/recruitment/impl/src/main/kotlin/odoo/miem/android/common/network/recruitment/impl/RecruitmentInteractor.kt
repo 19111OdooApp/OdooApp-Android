@@ -44,8 +44,8 @@ class RecruitmentInteractor @Inject constructor() : IRecruitmentInteractor {
                 var iconIdCounter = 0
                 val mapOfStages = rawStages.stages
                     ?.mapNotNull { stage ->
-                        val stageId = (stage.stageInfo.getOrNull(0) as? Double)?.toLong()
-                        val stageTopic = stage.stageInfo.getOrNull(1).toString()
+                        val stageId = (stage.stageInfo?.getOrNull(0) as? Double)?.toLong()
+                        val stageTopic = stage.stageInfo?.getOrNull(1).toString()
                         stageId?.let {
                             MutableStatus(
                                 statusName = stageTopic,
@@ -67,7 +67,7 @@ class RecruitmentInteractor @Inject constructor() : IRecruitmentInteractor {
                                 name = record.partnerName.takeIf { !it.isNullOrEmpty() }
                                     ?: record.name.takeIf { !it.isNullOrEmpty() }
                                     ?: "Cool name",
-                                rating = record.rating?.toDouble() ?: 0.0,
+                                rating = record.rating?.toDoubleOrNull() ?: 0.0,
                                 imageUrl = null,
                                 id = checkNotNull(record.id),
                                 deadlineStatus = record.activityState?.let {

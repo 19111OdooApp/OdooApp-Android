@@ -15,8 +15,11 @@ interface IEmployeesService : JsonRpcApi {
     @JsonRpc("call")
     fun getAllEmployees(
         @JsonRpcPath path: String = "web/dataset/search_read",
-        @JsonRpcArgument("model") model: String = "hr.employee",
-        @JsonRpcArgument("fields") fields: List<String> = allEmployeesFields
+        @JsonRpcArgument("model") model: String = "hr.employee.public",
+        @JsonRpcArgument("fields") fields: List<String> = allEmployeesFields,
+        @JsonRpcArgument("limit") limit: Int = 30,
+        @JsonRpcArgument("offset") offset: Int = 0,
+        @JsonRpcArgument("domain") domain: List<Any> = emptyList()
     ): AllEmployeesResponse
 
     @JsonRpc("call")
@@ -35,7 +38,6 @@ interface IEmployeesService : JsonRpcApi {
             "job_title",
             "work_email",
             "work_phone",
-            "avatar_1920"
         )
     }
 }

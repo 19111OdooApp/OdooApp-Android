@@ -8,12 +8,18 @@ data class EmployeeBasicInfo(
     val job: String?,
     val email: String?,
     val phone: String?,
-    val avatar: String?
+    val avatarLink: String?,
 ) : SearchLikeModel
+
+data class EmployeeAvatarRequestHeaders(
+    val name: String,
+    val value: String
+)
 
 data class EmployeeDetails(
     val id: Long?,
     val name: String?,
+    val avatarLink: String?,
     val job: String?,
     val mobilePhone: String?,
     val workPhone: String?,
@@ -27,5 +33,6 @@ data class EmployeeDetails(
     val aboutMe: String?,
     val coach: String?,
     val manager: String?,
-    val employeeType: String?
+    val employeeType: String?,
+    val timeZone: String?
 )

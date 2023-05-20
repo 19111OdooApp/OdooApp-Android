@@ -15,4 +15,7 @@ dependencies {
     // Core
     // Network API - employees
     api(project(":core:networkApi:employees:api"))
+
+    // DataStore
+    api(project(":core:dataStore:api"))
 }

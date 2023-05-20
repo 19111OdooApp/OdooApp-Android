@@ -31,11 +31,13 @@ fun SearchTextField(
     value: TextFieldValue,
     modifier: Modifier = Modifier,
     onValueChange: (TextFieldValue) -> Unit = {},
+    onDone: (String) -> Unit = {},
     enabled: Boolean = true,
     @StringRes stringRes: Int = R.string.search_text_field_label
 ) = BaseTextField(
     value = value,
     onValueChange = onValueChange,
+    onDone = onDone,
     labelResource = stringRes,
     enabled = enabled,
     leadingIcon = {

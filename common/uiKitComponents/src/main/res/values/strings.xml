@@ -53,6 +53,9 @@
     <string name="search_result_empty">No results</string>
     <string name="search_result_empty_desc">There were no results for "%s".\nTry a new search.</string>
 
+    <string name="search_result_hint">Tap \"Done\" button</string>
+    <string name="search_result_desc">Tap \"Done\" button on keyboard to perform search</string>
+
     <!-- RecruitmentLike -->
     <string name="recruitment_search_bar_key" translatable="false">searchBar</string>
     <string name="recruitment_screen_key" translatable="false">recruitmentScreen</string>

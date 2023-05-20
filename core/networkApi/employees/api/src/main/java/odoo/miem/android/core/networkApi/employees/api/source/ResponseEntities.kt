@@ -33,11 +33,7 @@ data class AllEmployeesResponse(
 
         @Json(name = "work_phone")
         @SpecifiedTypeOrNull(JsonReader.Token.STRING)
-        val phone: String?,
-
-        @Json(name = "avatar_1920")
-        @SpecifiedTypeOrNull(JsonReader.Token.STRING)
-        val avatar: String?,
+        val phone: String?
     )
 }
 
@@ -113,5 +109,9 @@ data class EmployeeDetailsResponse(
 
     @Json(name = "employee_type")
     @SpecifiedTypeOrNull(JsonReader.Token.STRING)
-    val employeeType: String?
+    val employeeType: String?,
+
+    @Json(name = "tz")
+    @SpecifiedTypeOrNull(JsonReader.Token.STRING)
+    val timezone: String?
 )

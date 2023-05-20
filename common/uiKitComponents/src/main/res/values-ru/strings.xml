@@ -36,6 +36,9 @@
     <string name="search_result_empty">Ничего не найдено</string>
     <string name="search_result_empty_desc">По запросу "%s" ничего не найдено.\nПопробуйте еще раз.</string>
 
+    <string name="search_result_hint">Нажмите кнопку \"Готово\"</string>
+    <string name="search_result_desc">Для поиска нажмите кнопку \"Готово\" на клавиатуре</string>
+
     <!-- header -->
     <string name="hello_text">Привет,</string>
     <string name="default_user_name">Крутой пользователь</string>

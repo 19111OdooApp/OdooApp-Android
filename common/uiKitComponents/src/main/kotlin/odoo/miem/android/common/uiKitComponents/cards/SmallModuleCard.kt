@@ -28,6 +28,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
+import coil.request.CachePolicy
 import coil.request.ImageRequest
 import coil.size.Size
 import odoo.miem.android.common.uiKitComponents.R
@@ -86,7 +87,12 @@ fun SmallModuleCard(
         val model = ImageRequest.Builder(LocalContext.current)
             .data(iconDownloadUrl)
             .size(Size.ORIGINAL)
+            .diskCacheKey("small_module_$moduleName")
+            .diskCachePolicy(CachePolicy.ENABLED)
+            .memoryCachePolicy(CachePolicy.ENABLED)
+            .networkCachePolicy(CachePolicy.ENABLED)
             .crossfade(true)
+            .allowHardware(true)
             .build()
 
         val painter = rememberAsyncImagePainter(model = model)

@@ -26,12 +26,15 @@ import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
 @Composable
 fun <T : SearchLikeModel> SearchLikeScreen(
     items: List<T>,
+    filteredItems: List<T>,
     userName: String,
     mainTitle: String,
     @StringRes searchBarPlaceholder: Int,
     sharedKey: String = "sharedKey",
     sharedScreenKey: String = "sharedScreenKey",
     onUserIconClick: () -> Unit = {},
+    performSearch: (String) -> Unit = {},
+    isSearchLoading: Boolean = false,
     onNavigateToModulesPressed: () -> Unit = {},
     mainListContent: @Composable (ColumnScope.(items: List<T>) -> Unit) = {},
     searchResultListContent: @Composable (ColumnScope.(items: List<T>) -> Unit) = {},
@@ -62,8 +65,11 @@ fun <T : SearchLikeModel> SearchLikeScreen(
                         sharedKey = sharedKey,
                         sharedScreenKey = sharedScreenKey,
                         items = items,
+                        filteredItems = filteredItems,
                         searchBarPlaceholder = searchBarPlaceholder,
                         onBackPressed = { isSearchScreenContentVisible = false },
+                        performSearch = performSearch,
+                        isSearchLoading = isSearchLoading,
                         searchResultListContent = searchResultListContent,
                         searchStartListContent = searchStartListContent
                     )

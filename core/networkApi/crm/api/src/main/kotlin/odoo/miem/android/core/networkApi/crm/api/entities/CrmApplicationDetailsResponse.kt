@@ -5,7 +5,6 @@ import com.squareup.moshi.JsonClass
 import com.squareup.moshi.JsonReader
 import odoo.miem.android.core.jsonrpc.converter.api.annotation.SpecifiedTypeOrNull
 
-// TODO Remake
 @JsonClass(generateAdapter = true)
 data class CrmApplicationDetailsResponse(
 
@@ -31,7 +30,6 @@ data class CrmApplicationDetailsResponse(
     @SpecifiedTypeOrNull(JsonReader.Token.STRING)
     val fullName: String?,
 
-
     @Json(name = "phone")
     @SpecifiedTypeOrNull(JsonReader.Token.STRING)
     val sellerPhone: String?,
@@ -44,7 +42,6 @@ data class CrmApplicationDetailsResponse(
     @SpecifiedTypeOrNull(JsonReader.Token.STRING)
     val sellerEmail: String?,
 
-
     @Json(name = "company_currency")
     @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
     val companyCurrency: List<Any>?,
@@ -52,7 +49,6 @@ data class CrmApplicationDetailsResponse(
     @Json(name = "expected_revenue")
     @SpecifiedTypeOrNull(JsonReader.Token.NUMBER)
     val expectedRevenue: Double?,
-
 
     @Json(name = "street")
     @SpecifiedTypeOrNull(JsonReader.Token.STRING)
@@ -62,7 +58,7 @@ data class CrmApplicationDetailsResponse(
     @SpecifiedTypeOrNull(JsonReader.Token.STRING)
     val opportunityCity: String?,
 
-    @Json(name = "city")
+    @Json(name = "state_id")
     @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
     val opportunityStateInfo: List<Any>?,
 
@@ -73,7 +69,6 @@ data class CrmApplicationDetailsResponse(
     @Json(name = "country_id")
     @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
     val opportunityCountryInfo: List<Any>?,
-
 
     @Json(name = "website")
     @SpecifiedTypeOrNull(JsonReader.Token.STRING)
@@ -86,7 +81,6 @@ data class CrmApplicationDetailsResponse(
     @Json(name = "priority")
     @SpecifiedTypeOrNull(JsonReader.Token.STRING)
     val opportunityRating: String?,
-
 
     @Json(name = "user_id")
     @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
@@ -104,7 +98,6 @@ data class CrmApplicationDetailsResponse(
     @SpecifiedTypeOrNull(JsonReader.Token.STRING)
     val opportunitySummary: String?,
 
-
     @Json(name = "campaign_id")
     @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
     val campaignInfo: List<Any>?,
@@ -117,7 +110,6 @@ data class CrmApplicationDetailsResponse(
     @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
     val sourceInfo: List<Any>?,
 
-
     @Json(name = "day_open")
     @SpecifiedTypeOrNull(JsonReader.Token.NUMBER)
     val dayToAssign: Long?,
@@ -125,7 +117,6 @@ data class CrmApplicationDetailsResponse(
     @Json(name = "day_close")
     @SpecifiedTypeOrNull(JsonReader.Token.NUMBER)
     val dayToClose: Long?,
-
 
     @Json(name = "activity_ids")
     @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)

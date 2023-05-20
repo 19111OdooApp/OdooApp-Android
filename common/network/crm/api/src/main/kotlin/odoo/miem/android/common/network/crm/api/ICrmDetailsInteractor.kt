@@ -1,6 +1,7 @@
 package odoo.miem.android.common.network.crm.api
 
 import android.content.pm.ApplicationInfo
+import odoo.miem.android.common.network.crm.api.entities.details.OpportunityInfo
 import odoo.miem.android.core.utils.state.ResultSingle
 
 /**
@@ -17,5 +18,5 @@ interface ICrmDetailsInteractor {
      *
      * @return [ApplicationInfo]
      */
-    fun getApplicationInfo(applicationId: Long): ResultSingle<ApplicationInfo>
+    fun getOpportunityInfo(applicationId: Long): ResultSingle<OpportunityInfo>
 }

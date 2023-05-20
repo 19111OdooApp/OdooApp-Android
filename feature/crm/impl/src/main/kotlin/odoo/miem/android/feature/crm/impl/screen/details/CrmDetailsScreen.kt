@@ -1,10 +1,9 @@
-package odoo.miem.android.feature.recruitment.impl.screen.details
+package odoo.miem.android.feature.crm.impl.screen.details
 
 import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -24,73 +23,73 @@ import odoo.miem.android.core.uiKitTheme.odooGray
 import odoo.miem.android.core.uiKitTheme.odooPrimary
 import odoo.miem.android.core.utils.rx.collectAsState
 import odoo.miem.android.core.utils.state.subscribeOnError
+import odoo.miem.android.feature.crm.api.ICrmDetailsScreen
+import odoo.miem.android.feature.crm.impl.CrmViewModel
+import odoo.miem.android.feature.crm.impl.R
 import odoo.miem.android.feature.navigation.api.data.Routes
-import odoo.miem.android.feature.recruitment.api.IRecruitmentDetailsScreen
-import odoo.miem.android.feature.recruitment.impl.R
-import odoo.miem.android.feature.recruitment.impl.RecruitmentViewModel
-import odoo.miem.android.feature.recruitment.impl.screen.details.helpers.getDetailsHeader
-import odoo.miem.android.feature.recruitment.impl.screen.details.helpers.getDetailsPages
 import timber.log.Timber
 import java.util.Date
 import javax.inject.Inject
 
 /**
- * [RecruitmentDetailsScreen] implementation of [IRecruitmentDetailsScreen]
+ * [CrmDetailsScreen] implementation of [ICrmDetailsScreen]
  *
  * @author Vorozhtsov Mikhail
  */
-class RecruitmentDetailsScreen @Inject constructor() : IRecruitmentDetailsScreen {
+class CrmDetailsScreen @Inject constructor() : ICrmDetailsScreen {
 
     @SuppressLint("NotConstructor")
     @Composable
-    override fun RecruitmentDetailsScreen(
-        applicationId: Long,
+    override fun CrmDetailsScreen(
+        opportunityId: Long,
         navController: NavHostController,
         showMessage: (Int) -> Unit
     ) {
-        val viewModel: RecruitmentViewModel = viewModel()
-        val context = LocalContext.current
+        val viewModel: CrmViewModel = viewModel()
+        // TODO Return
+        // val context = LocalContext.current
 
-        Timber.d("RecruitmentDetailsScreen: applicationId - $applicationId")
+        Timber.d("CrmDetailsScreen: opportunityId - $opportunityId")
 
-        val applicationInfoState by viewModel.applicationInfoState.collectAsState()
-        applicationInfoState.subscribeOnError(showMessage)
+        val opportunityInfoState by viewModel.opportunityInfoState.collectAsState()
+        opportunityInfoState.subscribeOnError(showMessage)
 
         LaunchedEffect(Unit) {
-            viewModel.onOpenDetails(applicationId)
+            viewModel.onOpenDetails(opportunityId)
         }
 
         StateHolder(
-            state = applicationInfoState,
+            state = opportunityInfoState,
             loadingContent = { LoadingScreen() },
             errorContent = {
                 ErrorScreen(
                     isSessionExpired = it.isSessionExpired,
                     onSessionExpired = { navController.navigate(Routes.authorization) },
-                    onRetry = { viewModel.onOpenDetails(applicationId) }
+                    onRetry = { viewModel.onOpenDetails(opportunityId) }
                 )
             },
             successContent = { applicationInfo ->
                 applicationInfo.data?.let {
-                    RecruitmentDetailsScreenContent(
-                        header = getDetailsHeader(it),
-                        pages = getDetailsPages(
-                            stringResolver = { res -> context.resources.getString(res) },
-                            applicationInfo = it,
-                        ),
-                        navigateBack = navController::popBackStack
-                    )
+//                    RecruitmentDetailsScreenContent(
+//                        header = getDetailsHeader(it),
+//                        pages = getDetailsPages(
+//                            stringResolver = { res -> context.resources.getString(res) },
+//                            applicationInfo = it,
+//                        ),
+//                        navigateBack = navController::popBackStack
+//                    )
                 } ?: ErrorScreen(
                     isSessionExpired = false,
                     onSessionExpired = { navController.navigate(Routes.authorization) },
-                    onRetry = { viewModel.onOpenDetails(applicationId) }
+                    onRetry = { viewModel.onOpenDetails(opportunityId) }
                 )
             }
         )
     }
 
+    // TODO Delete mock
     @Composable
-    fun RecruitmentDetailsScreenContent(
+    fun CrmDetailsScreenContent(
         header: DetailsLikeHeader,
         pages: List<PagesType> = emptyList(),
         navigateBack: () -> Unit = {},
@@ -103,7 +102,7 @@ class RecruitmentDetailsScreen @Inject constructor() : IRecruitmentDetailsScreen
     @Preview(showBackground = true)
     @Composable
     fun RecruitmentDetailsScreenPreview() {
-        RecruitmentDetailsScreenContent(
+        CrmDetailsScreenContent(
             header = DetailsLikeHeader(
                 title = "Arina Shoshina",
                 majorSubtitle = "aashoshina@miem.hse.ru",
@@ -197,12 +196,12 @@ class RecruitmentDetailsScreen @Inject constructor() : IRecruitmentDetailsScreen
                             override val actions: List<DividedListItemAction>
                                 get() = listOf(
                                     DividedListItemAction(
-                                        iconRes = R.drawable.ic_cancel,
+                                        iconRes = R.drawable.ic_info,
                                         background = odooGray,
                                         onSwipe = { }
                                     ),
                                     DividedListItemAction(
-                                        iconRes = R.drawable.ic_cancel,
+                                        iconRes = R.drawable.ic_info,
                                         background = odooPrimary,
                                         onSwipe = { }
                                     ),

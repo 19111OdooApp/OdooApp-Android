@@ -1,6 +1,7 @@
 package odoo.miem.android.feature.crm.impl
 
 import odoo.miem.android.common.network.crm.api.di.ICrmInteractorApi
+import odoo.miem.android.common.network.crm.api.entities.details.OpportunityInfo
 import odoo.miem.android.common.network.crm.api.entities.kanban.OpportunityCRM
 import odoo.miem.android.common.network.crm.api.entities.kanban.StatusCRM
 import odoo.miem.android.common.network.selectingModules.api.di.ISelectingModulesInteractorApi
@@ -18,13 +19,14 @@ internal class CrmViewModel : BaseViewModel() {
     private val selectingModulesInteractor by api(ISelectingModulesInteractorApi::selectingModulesInteractor)
 
     private val crmInteractor by api(ICrmInteractorApi::crmInteractor)
-    // TODO Return
-//    private val сrmDetailsInteractor by api(ICrmInteractorApi::сrmDetailsInteractor)
+    private val crmDetailsInteractor by api(ICrmInteractorApi::crmDetailsInteractor)
 
     val statusState: ResultSubject<List<StatusCRM>> by lazyEmptyResultPublishSubject()
     val changeStatusState: ResultSubject<Boolean> by lazyEmptyResultPublishSubject()
 
     val userInfoState: ResultSubject<User> by lazyEmptyResultPublishSubject()
+
+    val opportunityInfoState: ResultSubject<OpportunityInfo> by lazyEmptyResultPublishSubject()
 
     /**
      * CRM Kanban
@@ -87,11 +89,37 @@ internal class CrmViewModel : BaseViewModel() {
             )
     }
 
+    /**
+     * CRM Opportunity Details
+     */
+    fun onOpenDetails(opportunityId: Long) {
+        getOpportunityInfo(opportunityId)
+    }
+
+    fun getOpportunityInfo(opportunityId: Long) {
+        Timber.d("getOpportunityInfo(): opportunityId - $opportunityId")
+
+        opportunityInfoState.onLoadingState()
+        crmDetailsInteractor
+            .getOpportunityInfo(opportunityId)
+            .schedule(
+                crmOpportunityInfoChannel,
+                onSuccess = { details ->
+                    Timber.d("getOpportunityInfo(): details - $details")
+                    opportunityInfoState.onNext(details)
+                },
+                onError = Timber::e
+            )
+    }
+
     companion object {
 
         // Kanban
         val crmKanbanFetchStatusChannel = Channel()
         val crmKanbanChangeStatusChannel = Channel()
         val crmKanbanCreateStatusChannel = Channel()
+
+        // Details
+        val crmOpportunityInfoChannel = Channel()
     }
 }

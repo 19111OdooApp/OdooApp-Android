@@ -2,7 +2,9 @@ package odoo.miem.android.feature.crm.impl.di
 
 import dagger.Binds
 import dagger.Module
+import odoo.miem.android.feature.crm.api.ICrmDetailsScreen
 import odoo.miem.android.feature.crm.api.ICrmKanbanScreen
+import odoo.miem.android.feature.crm.impl.screen.details.CrmDetailsScreen
 import odoo.miem.android.feature.crm.impl.screen.kanban.CrmKanbanScreen
 
 /**
@@ -15,5 +17,8 @@ import odoo.miem.android.feature.crm.impl.screen.kanban.CrmKanbanScreen
 interface CrmScreenModule {
 
     @Binds
-    fun provideCrmScreen(crmKanbanScreen: CrmKanbanScreen): ICrmKanbanScreen
+    fun bindCrmKanbanScreen(impl: CrmKanbanScreen): ICrmKanbanScreen
+
+    @Binds
+    fun bindCrmDetailsScreen(impl: CrmDetailsScreen): ICrmDetailsScreen
 }

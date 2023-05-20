@@ -76,7 +76,7 @@ class CrmKanbanScreen @Inject constructor() : ICrmKanbanScreen {
                     },
                     onUserIconClick = onUserIconClick,
                     onEmployeeCardClick = {
-                        // TODO
+                        navController.navigate("${Routes.crmDetails}/${it.id}")
                     },
                     onBackPressed = {
                         navController.popBackStack()

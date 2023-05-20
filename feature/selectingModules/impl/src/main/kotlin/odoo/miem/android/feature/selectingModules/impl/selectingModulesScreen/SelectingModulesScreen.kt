@@ -114,7 +114,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             if (it.isImplemented) {
                 when (it.identificationName) {
                     ImplementedModulesEnum.RECRUITMENT.naming -> navController.navigate(Routes.recruitmentJobs)
-                    ImplementedModulesEnum.CRM.naming -> navController.navigate(Routes.crm)
+                    ImplementedModulesEnum.CRM.naming -> navController.navigate(Routes.crmKanban)
                     ImplementedModulesEnum.EMPLOYEES.naming -> navController.navigate(Routes.employees)
                 }
             } else {

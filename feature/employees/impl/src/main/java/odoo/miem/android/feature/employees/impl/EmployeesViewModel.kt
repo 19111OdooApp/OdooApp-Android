@@ -80,8 +80,11 @@ class EmployeesViewModel(
                     result.data?.let {
                         allEmployeesList.addAll(it)
                     }
-                    if (result is ErrorResult) {
-                        isSessionExpired = result.isSessionExpired
+
+                    isSessionExpired = if (result is ErrorResult) {
+                        result.isSessionExpired
+                    } else {
+                        false
                     }
 
                     allEmployeesState.onNext(result)

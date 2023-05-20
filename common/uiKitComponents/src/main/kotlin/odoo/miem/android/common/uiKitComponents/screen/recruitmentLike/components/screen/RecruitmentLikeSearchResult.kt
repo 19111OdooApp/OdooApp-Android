@@ -101,6 +101,7 @@ fun <E : RecruitmentLikeEmployeeModel> RecruitmentLikeSearchResult(
             onEmployeeActionClick = onEmployeeActionClick,
             onEmployeeCardClick = onEmployeeClick,
             modifier = Modifier,
+            isStatusButtonEnable = false,
         )
     }
     AnimatedVisibility(
@@ -116,6 +117,7 @@ fun <E : RecruitmentLikeEmployeeModel> RecruitmentLikeSearchResult(
                 onEmployeeActionClick = onEmployeeActionClick,
                 onEmployeeCardClick = onEmployeeClick,
                 modifier = Modifier,
+                isStatusButtonEnable = false,
             )
         }
     }

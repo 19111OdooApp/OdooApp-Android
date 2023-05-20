@@ -16,9 +16,9 @@ interface ICrmRepository {
     /**
      * Crm Kanban
      */
-    fun getCrmKanbanInfo(userId: Int): Single<CrmResponse> // TODO Change back
+    fun getCrmKanbanInfo(userId: Int): Single<CrmResponse>
 
-    fun getCrmKanbanStages(userId: Int): Single<CrmKanbanStagesResponse> // TODO Change back
+    fun getCrmKanbanStages(userId: Int): Single<CrmKanbanStagesResponse>
 
     fun createNewCrmStatus(topic: String): Single<List<Any>>
 

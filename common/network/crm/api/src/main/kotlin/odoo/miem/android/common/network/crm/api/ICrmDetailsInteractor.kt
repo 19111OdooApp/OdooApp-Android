@@ -12,7 +12,6 @@ import odoo.miem.android.core.utils.state.ResultSingle
  */
 interface ICrmDetailsInteractor {
 
-    // TODO Remake
     /**
      * [getApplicationInfo] get base info about appication by [applicationId]
      *

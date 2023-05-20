@@ -43,7 +43,6 @@ interface ICrmService : JsonRpcApi {
         @JsonRpcArgument("kwargs") kwargs: Map<Any, Any>
     ): CrmKanbanStagesResponse
 
-    // TODO Remake
     @JsonRpc("call")
     fun changeStageInCrmKanban(
         @JsonRpcPath path: String = "web/dataset/call_kw/write",
@@ -53,7 +52,6 @@ interface ICrmService : JsonRpcApi {
         @JsonRpcArgument("args") args: List<Any>
     ): Boolean
 
-    // TODO Remake
     @JsonRpc("call")
     fun createNewKanbanStatus(
         @JsonRpcPath path: String = "web/dataset/call_kw/name_create",

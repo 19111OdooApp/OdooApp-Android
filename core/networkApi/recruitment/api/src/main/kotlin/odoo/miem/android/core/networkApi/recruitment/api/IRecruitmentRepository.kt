@@ -43,4 +43,6 @@ interface IRecruitmentRepository {
     fun getApplicationInfo(applicationId: Long): Single<RecruitmentApplicationDetailsResponse>
 
     fun getLogNotes(userId: Long): Single<List<RecruitmentLogNoteResponse>>
+
+    fun createLogNote(userId: Long, text: String): Single<Unit>
 }

@@ -167,6 +167,24 @@ class RecruitmentRepository @Inject constructor() : IRecruitmentRepository {
         }.subscribeOn(Schedulers.io())
     }
 
+    override fun createLogNote(
+        userId: Long,
+        text: String
+    ): Single<Unit> {
+        Timber.d("createLogNote(): userId - $userId, text - $text")
+
+        return Single.fromCallable {
+            recruitmentDetailsService.createLogNote(
+                postData = mapOf(
+                    "body" to text,
+                    "message_type" to "comment",
+                    "subtype_xmlid" to "mail.mt_note"
+                ),
+                threadId = userId
+            )
+        }.subscribeOn(Schedulers.io())
+    }
+
     private companion object {
 
         val dataStore by api(IDataStoreApi::dataStore)

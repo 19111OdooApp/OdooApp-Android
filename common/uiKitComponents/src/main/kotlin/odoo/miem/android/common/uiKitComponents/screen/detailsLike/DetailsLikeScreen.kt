@@ -44,7 +44,6 @@ import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.pa
 import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.pages.DividedListPage
 import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.pages.TextPage
 import odoo.miem.android.common.uiKitComponents.screen.detailsLike.models.DetailsLikeHeader
-import timber.log.Timber
 import java.util.*
 
 /**
@@ -87,7 +86,7 @@ fun DetailsLikeScreen(
                     onCancel = { onSheetExpand(false, null) },
                     onDone = { elements ->
                         onSheetExpand(true, null)
-                        Timber.d("New data - ${elements.map { it.result }}") // TODO Delete mocks
+                        type.onDone(elements)
                     }
                 )
             }

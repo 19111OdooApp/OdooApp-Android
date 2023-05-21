@@ -30,4 +30,12 @@ interface IRecruitmentDetailsService : JsonRpcApi {
         @JsonRpcArgument("thread_model") model: String = "hr.applicant",
         @JsonRpcArgument("thread_id") threadId: Long,
     ): List<RecruitmentLogNoteResponse>
+
+    @JsonRpc("call")
+    fun createLogNote(
+        @JsonRpcPath path: String = "mail/message/post",
+        @JsonRpcArgument("thread_model") model: String = "hr.applicant",
+        @JsonRpcArgument("post_data") postData: Map<Any, Any>,
+        @JsonRpcArgument("thread_id") threadId: Long,
+    )
 }

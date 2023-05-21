@@ -237,6 +237,8 @@ class CrmDetailsScreen @Inject constructor() : ICrmDetailsScreen {
                             placeholderText = "Due Date"
                         ),
                     )
+                    override val onDone: (results: List<DetailedBottomSheetComponentType>) -> Unit
+                        get() = {}
 
                     override val bottomSheetButtonText: String = "Add new log note"
                 }

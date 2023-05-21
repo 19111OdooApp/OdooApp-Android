@@ -55,6 +55,20 @@ class RecruitmentDetailsInteractor @Inject constructor() : IRecruitmentDetailsIn
             }
     }
 
+    override fun createLogNote(userId: Long, text: String): ResultSingle<Unit> {
+        Timber.d("createLogNote(): userId - $userId, text - $text")
+
+        return recruitmentRepository
+            .createLogNote(userId, text)
+            .map<Result<Unit>> { SuccessResult() }
+            .onErrorReturn {
+                Timber.e("createLogNote(): error message = ${it.message}")
+                ErrorResult(
+                    isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
+                )
+            }
+    }
+
     private fun RecruitmentApplicationDetailsResponse.toDTO() = ApplicationInfo(
         id = checkNotNull(id),
         stageInfo = stageInfo,

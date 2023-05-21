@@ -45,4 +45,8 @@
     <string name="recruitment_details_title_proposed_salary">Proposed Salary</string>
 
     <string name="recruitment_details_title_application_summary">Application Summary</string>
+
+    <string name="recruitment_details_title_log_note">Log note</string>
+    <string name="recruitment_details_title_enter_log_note">Enter log note…</string>
+    <string name="recruitment_details_title_new_log_note">Add new log note</string>
 </resources>

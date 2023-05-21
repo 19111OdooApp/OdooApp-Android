@@ -10,6 +10,7 @@ import odoo.miem.android.common.uiKitComponents.screen.detailsLike.models.Detail
 import odoo.miem.android.common.uiKitComponents.screen.detailsLike.models.DetailsLikeHeader
 import odoo.miem.android.common.uiKitComponents.screen.detailsLike.models.DividedListItemAction
 import odoo.miem.android.feature.recruitment.impl.R
+import odoo.miem.android.common.uiKitComponents.R as uiKitComponentsR
 
 internal fun getDetailsHeader(applicationInfo: ApplicationInfo) = DetailsLikeHeader(
     title = applicationInfo.employeeName,
@@ -19,6 +20,7 @@ internal fun getDetailsHeader(applicationInfo: ApplicationInfo) = DetailsLikeHea
 
 internal fun getDetailsPages(
     stringResolver: (stringRes: Int) -> String,
+    onCreateLogNote: (text: String) -> Unit,
     applicationInfo: ApplicationInfo
 ) = listOf(
     getDetailedInfoPage(
@@ -30,7 +32,9 @@ internal fun getDetailsPages(
         summary = applicationInfo.employeeSummary
     ),
     getLogNotePage(
-        applicationInfo.logNotes
+        logNotes = applicationInfo.logNotes,
+        onCreateLogNote = onCreateLogNote,
+        stringResolver = stringResolver
     )
 )
 
@@ -114,14 +118,18 @@ private fun getSummaryPage(topic: String, summary: String?) = TextType(
 )
 
 private fun getLogNotePage(
-    logNotes: List<LogNoteInfo>
+    logNotes: List<LogNoteInfo>,
+    stringResolver: (stringRes: Int) -> String,
+    onCreateLogNote: (text: String) -> Unit
 ) = object : DividedListType {
-    override val topic: String = "Log note"
+    override val topic: String = stringResolver(R.string.recruitment_details_title_log_note)
 
     override val items: List<DetailsLikeDividedListItem> = logNotes.map {
         object : DetailsLikeDividedListItem {
-            override val topic: String = it.authorName ?: "Cool user"
-            override val userName: String = it.authorName ?: "Cool user"
+            override val topic: String =
+                it.authorName ?: stringResolver(uiKitComponentsR.string.default_user_name)
+            override val userName: String =
+                it.authorName ?: stringResolver(uiKitComponentsR.string.default_user_name)
             override val avatarUrl: String? = null
             override val description: String = it.resolveDescription()
             override val date: String = it.date ?: ""
@@ -131,26 +139,17 @@ private fun getLogNotePage(
 
     override val sheetElements: List<DetailedBottomSheetComponentType> = listOf(
         DetailedBottomSheetComponentType.BigTextComponentType(
-            placeholderText = "Enter log note..."
-        ),
-        DetailedBottomSheetComponentType.SmallTextComponentType(
-            placeholderText = "Summary"
-        ),
-        DetailedBottomSheetComponentType.ListComponentType(
-            placeholderText = "Assigned to",
-            values = listOf(
-                "Arina Shoshina1",
-                "Arina Shoshina2",
-                "Arina Shoshina3",
-                "Arina Shoshina4",
-            )
-        ),
-        DetailedBottomSheetComponentType.DatePickerComponentType(
-            placeholderText = "Due Date"
+            placeholderText = stringResolver(R.string.recruitment_details_title_enter_log_note)
         ),
     )
+    override val onDone: (results: List<DetailedBottomSheetComponentType>) -> Unit = { list ->
+        list.firstOrNull()?.result?.let {
+            onCreateLogNote(it)
+        }
+    }
 
-    override val bottomSheetButtonText: String = "Add new log note"
+    override val bottomSheetButtonText: String =
+        stringResolver(R.string.recruitment_details_title_new_log_note)
 }
 
 private fun LogNoteInfo.resolveDescription() = buildString {

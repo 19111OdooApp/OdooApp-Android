@@ -9,6 +9,7 @@ import odoo.miem.android.core.networkApi.recruitment.api.IRecruitmentRepository
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentApplicationDetailsResponse
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentJobsResponse
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentKanbanStagesResponse
+import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentLogNoteResponse
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentResponse
 import odoo.miem.android.core.networkApi.recruitment.impl.source.IRecruitmentDetailsService
 import odoo.miem.android.core.networkApi.recruitment.impl.source.IRecruitmentJobsService
@@ -153,6 +154,16 @@ class RecruitmentRepository @Inject constructor() : IRecruitmentRepository {
                     applicationInfoFields
                 )
             ).first()
+        }.subscribeOn(Schedulers.io())
+    }
+
+    override fun getLogNotes(userId: Long): Single<List<RecruitmentLogNoteResponse>> {
+        Timber.d("getLogNotes(): userId - $userId")
+
+        return Single.fromCallable {
+            recruitmentDetailsService.getLogNotes(
+                threadId = userId
+            )
         }.subscribeOn(Schedulers.io())
     }
 

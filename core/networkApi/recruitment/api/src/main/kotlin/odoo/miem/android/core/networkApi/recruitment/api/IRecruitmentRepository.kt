@@ -4,6 +4,7 @@ import io.reactivex.rxjava3.core.Single
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentApplicationDetailsResponse
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentJobsResponse
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentKanbanStagesResponse
+import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentLogNoteResponse
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentResponse
 
 /**
@@ -40,4 +41,6 @@ interface IRecruitmentRepository {
      * Recruitment Application Details
      */
     fun getApplicationInfo(applicationId: Long): Single<RecruitmentApplicationDetailsResponse>
+
+    fun getLogNotes(userId: Long): Single<List<RecruitmentLogNoteResponse>>
 }

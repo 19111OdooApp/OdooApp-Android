@@ -32,7 +32,7 @@ class EmployeesInteractor @Inject constructor() : IEmployeesInteractor {
     override fun getAllEmployeesInfo(paginationOffset: Int): ResultSingle<List<EmployeeBasicInfo>> {
         Timber.d("getAllEmployeesInfo(): pagination offset = $paginationOffset")
 
-        return employeesRepository.getAllEmployees()
+        return employeesRepository.getAllEmployees(paginationOffset)
             .map<Result<List<EmployeeBasicInfo>>> { response ->
                 Timber.d("getAllEmployeesInfo(): response = $response")
 

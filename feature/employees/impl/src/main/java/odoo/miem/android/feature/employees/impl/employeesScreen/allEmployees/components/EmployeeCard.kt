@@ -97,7 +97,6 @@ fun EmployeeCard(
                     .diskCachePolicy(CachePolicy.ENABLED)
                     .memoryCachePolicy(CachePolicy.ENABLED)
                     .networkCachePolicy(CachePolicy.ENABLED)
-                    .allowHardware(true)
                     .crossfade(true)
                     .build()
 

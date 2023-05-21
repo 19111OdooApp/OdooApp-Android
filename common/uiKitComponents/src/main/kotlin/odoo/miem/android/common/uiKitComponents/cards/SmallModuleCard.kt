@@ -92,7 +92,6 @@ fun SmallModuleCard(
             .memoryCachePolicy(CachePolicy.ENABLED)
             .networkCachePolicy(CachePolicy.ENABLED)
             .crossfade(true)
-            .allowHardware(true)
             .build()
 
         val painter = rememberAsyncImagePainter(model = model)

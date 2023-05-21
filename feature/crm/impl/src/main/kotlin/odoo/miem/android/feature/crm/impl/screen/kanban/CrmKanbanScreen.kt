@@ -21,6 +21,7 @@ import odoo.miem.android.feature.crm.api.ICrmKanbanScreen
 import odoo.miem.android.feature.crm.impl.CrmViewModel
 import odoo.miem.android.feature.crm.impl.R
 import odoo.miem.android.feature.navigation.api.data.Routes
+import odoo.miem.android.feature.navigation.api.utils.navigateToUserProfile
 import javax.inject.Inject
 
 class CrmKanbanScreen @Inject constructor() : ICrmKanbanScreen {
@@ -43,7 +44,7 @@ class CrmKanbanScreen @Inject constructor() : ICrmKanbanScreen {
         }
 
         val onUserIconClick = {
-            navController.navigate(Routes.userProfile)
+            navController.navigateToUserProfile()
         }
 
         LaunchedEffect(Unit) {

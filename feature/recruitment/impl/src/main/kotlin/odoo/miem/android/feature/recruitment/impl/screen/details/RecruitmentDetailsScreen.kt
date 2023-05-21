@@ -89,7 +89,6 @@ class RecruitmentDetailsScreen @Inject constructor() : IRecruitmentDetailsScreen
         )
     }
 
-    // TODO Delete mock
     @Composable
     fun RecruitmentDetailsScreenContent(
         header: DetailsLikeHeader,

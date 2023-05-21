@@ -18,6 +18,7 @@ import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.utils.rx.collectAsState
 import odoo.miem.android.core.utils.state.subscribeOnError
 import odoo.miem.android.feature.navigation.api.data.Routes
+import odoo.miem.android.feature.navigation.api.utils.navigateToUserProfile
 import odoo.miem.android.feature.recruitment.api.IRecruitmentKanbanScreen
 import odoo.miem.android.feature.recruitment.impl.R
 import odoo.miem.android.feature.recruitment.impl.RecruitmentViewModel
@@ -52,7 +53,7 @@ class RecruitmentKanbanScreen @Inject constructor() : IRecruitmentKanbanScreen {
         }
 
         val onUserIconClick = {
-            navController.navigate(Routes.userProfile)
+            navController.navigateToUserProfile()
         }
 
         LaunchedEffect(Unit) {

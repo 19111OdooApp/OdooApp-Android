@@ -2,11 +2,13 @@ package odoo.miem.android.feature.crm.impl.di
 
 import dagger.Binds
 import dagger.Module
-import odoo.miem.android.feature.crm.api.ICrmScreen
-import odoo.miem.android.feature.crm.impl.crmScreen.CrmScreen
+import odoo.miem.android.feature.crm.api.ICrmDetailsScreen
+import odoo.miem.android.feature.crm.api.ICrmKanbanScreen
+import odoo.miem.android.feature.crm.impl.screen.details.CrmDetailsScreen
+import odoo.miem.android.feature.crm.impl.screen.kanban.CrmKanbanScreen
 
 /**
- * [CrmScreenModule] - module for proving instance of [CrmScreen]
+ * [CrmScreenModule] - module for proving instance of [CrmKanbanScreen]
  * in general **DI graph**
  *
  * @author Alexander Lyutikov
@@ -15,5 +17,8 @@ import odoo.miem.android.feature.crm.impl.crmScreen.CrmScreen
 interface CrmScreenModule {
 
     @Binds
-    fun provideCrmScreen(crmScreen: CrmScreen): ICrmScreen
+    fun bindCrmKanbanScreen(impl: CrmKanbanScreen): ICrmKanbanScreen
+
+    @Binds
+    fun bindCrmDetailsScreen(impl: CrmDetailsScreen): ICrmDetailsScreen
 }

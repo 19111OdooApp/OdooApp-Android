@@ -14,6 +14,13 @@ dependencies {
     // Components
     implementation(project(":common:uiKitComponents"))
 
+    // Network
+    // CRM
+    api(project(":common:network:crm:api"))
+
+    // SelectingModules
+    api(project(":common:network:selectingModules:api"))
+
     // Core
     // UiKitTheme
     implementation(project(":core:uiKitTheme"))

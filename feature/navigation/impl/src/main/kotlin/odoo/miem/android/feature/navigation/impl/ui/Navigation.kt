@@ -24,7 +24,8 @@ import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
 import odoo.miem.android.feature.authorization.base.api.di.IAuthorizationApi
-import odoo.miem.android.feature.crm.api.ICrmScreen
+import odoo.miem.android.feature.crm.api.ICrmDetailsScreen
+import odoo.miem.android.feature.crm.api.ICrmKanbanScreen
 import odoo.miem.android.feature.crm.api.di.ICrmApi
 import odoo.miem.android.feature.employees.api.IEmployeeDetailsScreen
 import odoo.miem.android.feature.employees.api.IEmployeesScreen
@@ -72,7 +73,8 @@ fun Navigation(
     val recruitmentScreen by api(IRecruitmentApi::recruitmentScreen)
     val recruitmentDetailsScreen by api(IRecruitmentApi::recruitmentDetailsScreen)
     val recruitmentJobsScreen by api(IRecruitmentApi::recruitmentJobsScreen)
-    val crmScreen by api(ICrmApi::crmScreen)
+    val crmDetailsScreen by api(ICrmApi::crmDetailsScreen)
+    val crmKanbanScreen by api(ICrmApi::crmKanbanScreen)
     val userProfileScreen by api(IUserProfileScreenApi::userProfileScreen)
     val employeesScreen by api(IEmployeesApi::employeesScreen)
     val employeeDetailsScreen by api(IEmployeesApi::employeeDetailsScreen)
@@ -85,7 +87,8 @@ fun Navigation(
         recruitmentScreen = recruitmentScreen,
         recruitmentDetailsScreen = recruitmentDetailsScreen,
         recruitmentJobsScreen = recruitmentJobsScreen,
-        crmScreen = crmScreen,
+        crmKanbanScreen = crmKanbanScreen,
+        crmDetailsScreen = crmDetailsScreen,
         userProfileScreen = userProfileScreen,
         employeesScreen = employeesScreen,
         employeeDetailsScreen = employeeDetailsScreen,
@@ -104,7 +107,8 @@ fun NavigationContent(
     recruitmentScreen: IRecruitmentKanbanScreen,
     recruitmentDetailsScreen: IRecruitmentDetailsScreen,
     recruitmentJobsScreen: IRecruitmentJobsScreen,
-    crmScreen: ICrmScreen,
+    crmKanbanScreen: ICrmKanbanScreen,
+    crmDetailsScreen: ICrmDetailsScreen,
     userProfileScreen: IUserProfileScreen,
     employeesScreen: IEmployeesScreen,
     employeeDetailsScreen: IEmployeeDetailsScreen,
@@ -188,15 +192,39 @@ fun NavigationContent(
                 )
             }
 
-            composable(Routes.crm) {
-                crmScreen.CrmScreen(
+            composable(
+                "${Routes.crmDetails}/{${Routes.Arguments.crmOpportunityId}}",
+                arguments = listOf(
+                    navArgument(Routes.Arguments.crmOpportunityId) {
+                        type = NavType.LongType
+                    }
+                )
+            ) {
+                crmDetailsScreen.CrmDetailsScreen(
+                    opportunityId = it.arguments!!.getLong(Routes.Arguments.crmOpportunityId),
                     navController = navController,
                     showMessage = showMessage
                 )
             }
 
-            composable(Routes.userProfile) {
+            composable(Routes.crmKanban) {
+                crmKanbanScreen.CrmKanbanScreen(
+                    navController = navController,
+                    showMessage = showMessage
+                )
+            }
+
+            composable(
+                "${Routes.userProfile}/{${Routes.Arguments.userId}}",
+                arguments = listOf(
+                    navArgument(Routes.Arguments.userId) {
+                        type = NavType.LongType
+                        defaultValue = -1
+                    }
+                )
+            ) {
                 userProfileScreen.UserProfileScreen(
+                    userId = it.arguments!!.getLong(Routes.Arguments.userId).takeIf { it >= 0 },
                     navController = navController,
                     showMessage = showMessage
                 )

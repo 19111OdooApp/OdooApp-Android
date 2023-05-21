@@ -1,3 +1,7 @@
 plugins {
-    conventions.`module-api`
+    conventions.`module-compose-api`
+}
+
+android {
+    namespace = "odoo.miem.android.feature.navigation.api"
 }

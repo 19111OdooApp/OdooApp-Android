@@ -2,6 +2,7 @@ package odoo.miem.android.core.networkApi.userInfo.api
 
 import io.reactivex.rxjava3.core.Single
 import odoo.miem.android.core.networkApi.userInfo.api.source.UserInfoResponse
+import odoo.miem.android.core.networkApi.userInfo.api.source.UserProfileResponse
 
 /**
  * [IUserInfoRepository] - interface for wrapping data layer
@@ -17,4 +18,6 @@ interface IUserInfoRepository {
      * @return Observable<[UserInfoResponse]> which provides modules accessible for user
      */
     fun getUserInfo(): Single<UserInfoResponse>
+
+    fun getUserProfile(userId: Long): Single<UserProfileResponse>
 }

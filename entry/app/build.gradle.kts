@@ -46,8 +46,11 @@ dependencies {
     // Network - authorization
     implementation(project(":common:network:authorization:impl"))
 
-    // Network - selecting modules
+    // Network - recruitment
     implementation(project(":common:network:recruitment:impl"))
+
+    // Network - crm
+    implementation(project(":common:network:crm:impl"))
 
     // Network - selecting modules
     implementation(project(":common:network:selectingModules:impl"))
@@ -80,8 +83,11 @@ dependencies {
     // Network API - firebase datastore and storage
     implementation(project(":core:networkApi:firebaseDatabase:impl"))
 
-    // Network API - authorization
+    // Network API - recruitment
     implementation(project(":core:networkApi:recruitment:impl"))
+
+    // Network API - crm
+    implementation(project(":core:networkApi:crm:impl"))
 
     // Json RPC - Engine
     implementation(project(":core:jsonrpc:engine"))

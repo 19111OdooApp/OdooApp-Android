@@ -30,6 +30,9 @@ include(":common:network:authorization:impl")
 include(":common:network:recruitment:api")
 include(":common:network:recruitment:impl")
 
+include(":common:network:crm:api")
+include(":common:network:crm:impl")
+
 include(":common:network:selectingModules:api")
 include(":common:network:selectingModules:impl")
 
@@ -54,6 +57,9 @@ include(":core:networkApi:firebaseDatabase:impl")
 
 include(":core:networkApi:recruitment:api")
 include(":core:networkApi:recruitment:impl")
+
+include(":core:networkApi:crm:api")
+include(":core:networkApi:crm:impl")
 
 include(":core:networkApi:userInfo:api")
 include(":core:networkApi:userInfo:impl")

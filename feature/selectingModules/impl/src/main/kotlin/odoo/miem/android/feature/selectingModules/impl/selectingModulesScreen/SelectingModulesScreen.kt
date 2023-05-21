@@ -68,6 +68,7 @@ import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.utils.rx.collectAsState
 import odoo.miem.android.feature.navigation.api.data.Routes
+import odoo.miem.android.feature.navigation.api.utils.navigateToUserProfile
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
 import odoo.miem.android.feature.selectingModules.impl.R
 import odoo.miem.android.feature.selectingModules.impl.SelectingModulesViewModel
@@ -113,7 +114,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             if (it.isImplemented) {
                 when (it.identificationName) {
                     ImplementedModulesEnum.RECRUITMENT.naming -> navController.navigate(Routes.recruitmentJobs)
-                    ImplementedModulesEnum.CRM.naming -> navController.navigate(Routes.crm)
+                    ImplementedModulesEnum.CRM.naming -> navController.navigate(Routes.crmKanban)
                     ImplementedModulesEnum.EMPLOYEES.naming -> navController.navigate(Routes.employees)
                 }
             } else {
@@ -122,7 +123,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         }
 
         val navigateToUserProfile: () -> Unit = {
-            navController.navigate(Routes.userProfile)
+            navController.navigateToUserProfile()
         }
 
         StateHolder(

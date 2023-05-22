@@ -6,6 +6,7 @@ import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentJob
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentKanbanStagesResponse
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentLogNoteResponse
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentResponse
+import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentScheduleActivityResponse
 
 /**
  * [IRecruitmentRepository] - interface for wrapping data layer
@@ -45,4 +46,6 @@ interface IRecruitmentRepository {
     fun getLogNotes(userId: Long): Single<List<RecruitmentLogNoteResponse>>
 
     fun createLogNote(userId: Long, text: String): Single<Unit>
+
+    fun getScheduleActivities(activityIds: List<Long>): Single<List<RecruitmentScheduleActivityResponse>>
 }

@@ -11,6 +11,7 @@ import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentJob
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentKanbanStagesResponse
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentLogNoteResponse
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentResponse
+import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentScheduleActivityResponse
 import odoo.miem.android.core.networkApi.recruitment.impl.source.IRecruitmentDetailsService
 import odoo.miem.android.core.networkApi.recruitment.impl.source.IRecruitmentJobsService
 import odoo.miem.android.core.networkApi.recruitment.impl.source.IRecruitmentService
@@ -181,6 +182,16 @@ class RecruitmentRepository @Inject constructor() : IRecruitmentRepository {
                     "subtype_xmlid" to "mail.mt_note"
                 ),
                 threadId = userId
+            )
+        }.subscribeOn(Schedulers.io())
+    }
+
+    override fun getScheduleActivities(activityIds: List<Long>): Single<List<RecruitmentScheduleActivityResponse>> {
+        Timber.d("getScheduleActivities(): activityIds - $activityIds")
+
+        return Single.fromCallable {
+            recruitmentDetailsService.getScheduleActivities(
+                args = listOf(activityIds)
             )
         }.subscribeOn(Schedulers.io())
     }

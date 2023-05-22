@@ -6,6 +6,7 @@ import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcArgument
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcPath
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentApplicationDetailsResponse
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentLogNoteResponse
+import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentScheduleActivityResponse
 
 /**
  * [IRecruitmentDetailsService] - interface for making Retrofit instance of recruitment
@@ -38,4 +39,13 @@ interface IRecruitmentDetailsService : JsonRpcApi {
         @JsonRpcArgument("post_data") postData: Map<Any, Any>,
         @JsonRpcArgument("thread_id") threadId: Long,
     )
+
+    @JsonRpc("call")
+    fun getScheduleActivities(
+        @JsonRpcPath path: String = "web/dataset/call_kw/activity_format",
+        @JsonRpcArgument("model") model: String = "mail.activity",
+        @JsonRpcArgument("method") method: String = "activity_format",
+        @JsonRpcArgument("kwargs") kwargs: Map<Any, Any> = emptyMap(),
+        @JsonRpcArgument("args") args: List<Any>,
+    ): List<RecruitmentScheduleActivityResponse>
 }

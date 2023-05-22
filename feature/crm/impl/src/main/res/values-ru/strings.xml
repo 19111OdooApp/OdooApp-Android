@@ -38,4 +38,12 @@
     <string name="crm_details_title_dates_information">Информация о датах</string>
     <string name="crm_details_title_date_assign">Дней для записи</string>
     <string name="crm_details_title_date_close">Дней до закрытия</string>
+
+    <string name="crm_details_title_log_note">Заметки</string>
+    <string name="crm_details_title_enter_log_note">Введите заметку…</string>
+    <string name="crm_details_title_new_log_note">Добавить новую заметку</string>
+
+    <string name="crm_details_title_schedule_activity">Запланированные задачи</string>
+    <string name="crm_details_title_due_date">Заканчивается %s: %s</string>
+    <string name="crm_details_title_assign_for">для %s</string>
 </resources>

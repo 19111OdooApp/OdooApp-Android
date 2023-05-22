@@ -112,6 +112,22 @@ internal class CrmViewModel : BaseViewModel() {
             )
     }
 
+    fun createLogNote(opportunityId: Long, text: String) {
+        Timber.d("createLogNote(): opportunityId - $opportunityId")
+
+        opportunityInfoState.onLoadingState()
+        crmDetailsInteractor
+            .createLogNote(opportunityId, text)
+            .schedule(
+                crmCreateLogNoteChannel,
+                onSuccess = { details ->
+                    Timber.d("createLogNote(): details - $details")
+                    getOpportunityInfo(opportunityId)
+                },
+                onError = Timber::e
+            )
+    }
+
     companion object {
 
         // Kanban
@@ -121,5 +137,6 @@ internal class CrmViewModel : BaseViewModel() {
 
         // Details
         val crmOpportunityInfoChannel = Channel()
+        val crmCreateLogNoteChannel = Channel()
     }
 }

@@ -54,6 +54,10 @@
     <string name="recruitment_empty_status">Пока нет здесь нет заявок!</string>
     <string name="recruitment_empty_status_description">Попробуйте найти в поиске нужную 🤔</string>
 
+    <!--Details Like-->
+    <string name="details_empty_status">Пока нет здесь нет записей!</string>
+    <string name="details_empty_status_description">Пока можно отдохнуть😎</string>
+
     <!--Error State-->
     <string name="error_message">Извините, но что-то пошло не так 😔</string>
     <string name="error_message_subtitle">Может попробуем ещё раз?</string>

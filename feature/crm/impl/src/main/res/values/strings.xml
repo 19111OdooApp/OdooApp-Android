@@ -42,4 +42,13 @@
     <string name="crm_details_title_dates_information">Dates information</string>
     <string name="crm_details_title_date_assign">Day to Assign</string>
     <string name="crm_details_title_date_close">Day to Close</string>
+
+
+    <string name="crm_details_title_log_note">Log note</string>
+    <string name="crm_details_title_enter_log_note">Enter log note…</string>
+    <string name="crm_details_title_new_log_note">Add new log note</string>
+
+    <string name="crm_details_title_schedule_activity">Schedule activity</string>
+    <string name="crm_details_title_due_date">Due on %s: %s</string>
+    <string name="crm_details_title_assign_for">for %s</string>
 </resources>

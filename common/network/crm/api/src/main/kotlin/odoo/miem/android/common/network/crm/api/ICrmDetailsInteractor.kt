@@ -18,4 +18,6 @@ interface ICrmDetailsInteractor {
      * @return [ApplicationInfo]
      */
     fun getOpportunityInfo(applicationId: Long): ResultSingle<OpportunityInfo>
+
+    fun createLogNote(opportunityId: Long, text: String): ResultSingle<Unit>
 }

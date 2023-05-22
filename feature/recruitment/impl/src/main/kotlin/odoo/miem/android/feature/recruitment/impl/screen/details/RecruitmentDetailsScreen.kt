@@ -78,6 +78,7 @@ class RecruitmentDetailsScreen @Inject constructor() : IRecruitmentDetailsScreen
                             stringResolver = { res -> context.resources.getString(res) },
                             onCreateLogNote = { viewModel.createLogNote(applicationId, it) },
                             applicationInfo = it,
+                            context = context
                         ),
                         navigateBack = navController::popBackStack
                     )

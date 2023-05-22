@@ -1,5 +1,6 @@
 package odoo.miem.android.feature.recruitment.impl.screen.details.helpers
 
+import android.content.Context
 import odoo.miem.android.common.network.recruitment.api.entities.details.ApplicationInfo
 import odoo.miem.android.common.network.recruitment.api.entities.details.LogNoteInfo
 import odoo.miem.android.common.network.recruitment.api.entities.details.ScheduleActivityInfo
@@ -22,7 +23,8 @@ internal fun getDetailsHeader(applicationInfo: ApplicationInfo) = DetailsLikeHea
 internal fun getDetailsPages(
     stringResolver: (stringRes: Int) -> String,
     onCreateLogNote: (text: String) -> Unit,
-    applicationInfo: ApplicationInfo
+    applicationInfo: ApplicationInfo,
+    context: Context
 ) = listOf(
     getDetailedInfoPage(
         stringResolver = stringResolver,
@@ -39,7 +41,8 @@ internal fun getDetailsPages(
     ),
     getScheduleActivitiesPage(
         activities = applicationInfo.scheduleActivities,
-        stringResolver = stringResolver
+        stringResolver = stringResolver,
+        context = context
     )
 )
 
@@ -160,36 +163,35 @@ private fun getLogNotePage(
 private fun getScheduleActivitiesPage(
     activities: List<ScheduleActivityInfo>,
     stringResolver: (stringRes: Int) -> String,
-//    onCreateScheduleActivity: (text: String) -> Unit TODO
+    context: Context
 ) = object : DividedListType {
-    override val topic: String = "Schedule activity"
+    override val topic: String =
+        stringResolver(R.string.recruitment_details_title_schedule_activity)
 
     override val items: List<DetailsLikeDividedListItem> = activities.map {
         object : DetailsLikeDividedListItem {
-            override val topic: String = "Due on ${it.deadline}: ${it.activityName}"
+            override val topic: String =
+                context.resources.getString(R.string.recruitment_details_title_due_date).format(
+                    it.deadline,
+                    it.activityName
+                )
             override val userName: String =
                 it.assignUserName ?: stringResolver(uiKitComponentsR.string.default_user_name)
             override val avatarUrl: String? = null
             override val description: String = it.resolveDescription()
-            override val date: String = "for ${it.assignUserName}"
+            override val date: String =
+                context.resources.getString(R.string.recruitment_details_title_assign_for).format(
+                    it.assignUserName
+                )
             override val actions: List<DividedListItemAction> = emptyList()
         }
     }
 
-    override val sheetElements: List<DetailedBottomSheetComponentType> = listOf(
-        // TODO
-        DetailedBottomSheetComponentType.BigTextComponentType(
-            placeholderText = stringResolver(R.string.recruitment_details_title_enter_log_note)
-        ),
-    )
-    override val onDone: (results: List<DetailedBottomSheetComponentType>) -> Unit = { list ->
-//        list.firstOrNull()?.result?.let {
-//            onCreateLogNote(it)
-//        }
-    }
+    override val sheetElements: List<DetailedBottomSheetComponentType> = emptyList()
 
-    override val bottomSheetButtonText: String =
-        "Add new schedule activity" // stringResolver(R.string.recruitment_details_title_new_log_note)
+    override val onDone: (results: List<DetailedBottomSheetComponentType>) -> Unit = {}
+
+    override val bottomSheetButtonText: String = ""
 }
 
 private fun LogNoteInfo.resolveDescription() = buildString {

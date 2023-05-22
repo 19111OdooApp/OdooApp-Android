@@ -28,6 +28,7 @@ import de.charlex.compose.HtmlText
 import me.saket.swipe.SwipeableActionsBox
 import odoo.miem.android.common.uiKitComponents.icon.ProfileIcon
 import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.DividedListType
+import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.utils.DividedListPageEmpty
 import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.utils.toSwipeAction
 import odoo.miem.android.common.uiKitComponents.screen.detailsLike.models.DetailsLikeDividedListItem
 import odoo.miem.android.common.uiKitComponents.text.TitleText
@@ -61,23 +62,27 @@ internal fun DividedListPage(
             .weight(8f)
             .fillMaxWidth()
     ) {
-        item { newDivider() }
+        if (dividedListType.items.isNotEmpty()) {
+            item { newDivider() }
 
-        itemsIndexed(dividedListType.items) { index, item ->
-            SwipeableActionsBox(
-                endActions = item.actions.map { it.toSwipeAction() },
-                swipeThreshold = swipeThreshold,
-                backgroundUntilSwipeThreshold = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                    swipeThreshold
-                )
-            ) {
-                ProfileCard(item = item)
+            itemsIndexed(dividedListType.items) { index, item ->
+                SwipeableActionsBox(
+                    endActions = item.actions.map { it.toSwipeAction() },
+                    swipeThreshold = swipeThreshold,
+                    backgroundUntilSwipeThreshold = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                        swipeThreshold
+                    )
+                ) {
+                    ProfileCard(item = item)
+                }
+
+                if (index != dividedListType.items.lastIndex) newDivider()
             }
 
-            if (index != dividedListType.items.lastIndex) newDivider()
+            item { newDivider() }
+        } else {
+            item { DividedListPageEmpty() }
         }
-
-        item { newDivider() }
     }
 
     Text(

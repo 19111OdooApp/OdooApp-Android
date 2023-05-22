@@ -6,7 +6,9 @@ import odoo.miem.android.core.jsonRpcApiFabric.jsonRpcApi
 import odoo.miem.android.core.networkApi.crm.api.ICrmRepository
 import odoo.miem.android.core.networkApi.crm.api.entities.CrmApplicationDetailsResponse
 import odoo.miem.android.core.networkApi.crm.api.entities.CrmKanbanStagesResponse
+import odoo.miem.android.core.networkApi.crm.api.entities.CrmLogNoteResponse
 import odoo.miem.android.core.networkApi.crm.api.entities.CrmResponse
+import odoo.miem.android.core.networkApi.crm.api.entities.CrmScheduleActivityResponse
 import odoo.miem.android.core.networkApi.crm.impl.source.ICrmDetailsService
 import odoo.miem.android.core.networkApi.crm.impl.source.ICrmService
 import timber.log.Timber
@@ -98,6 +100,44 @@ class CrmRepository @Inject constructor() : ICrmRepository {
                     opportunityInfoFields
                 )
             ).first()
+        }.subscribeOn(Schedulers.io())
+    }
+
+    override fun getLogNotes(opportunityId: Long): Single<List<CrmLogNoteResponse>> {
+        Timber.d("getLogNotes(): userId - $opportunityId")
+
+        return Single.fromCallable {
+            crmDetailsService.getLogNotes(
+                threadId = opportunityId
+            )
+        }.subscribeOn(Schedulers.io())
+    }
+
+    override fun createLogNote(
+        opportunityId: Long,
+        text: String
+    ): Single<Unit> {
+        Timber.d("createLogNote(): opportunityId - $opportunityId, text - $text")
+
+        return Single.fromCallable {
+            crmDetailsService.createLogNote(
+                postData = mapOf(
+                    "body" to text,
+                    "message_type" to "comment",
+                    "subtype_xmlid" to "mail.mt_note"
+                ),
+                threadId = opportunityId
+            )
+        }.subscribeOn(Schedulers.io())
+    }
+
+    override fun getScheduleActivities(activityIds: List<Long>): Single<List<CrmScheduleActivityResponse>> {
+        Timber.d("getScheduleActivities(): activityIds - $activityIds")
+
+        return Single.fromCallable {
+            crmDetailsService.getScheduleActivities(
+                args = listOf(activityIds)
+            )
         }.subscribeOn(Schedulers.io())
     }
 

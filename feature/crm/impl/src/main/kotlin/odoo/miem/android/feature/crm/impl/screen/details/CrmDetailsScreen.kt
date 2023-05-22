@@ -85,6 +85,8 @@ class CrmDetailsScreen @Inject constructor() : ICrmDetailsScreen {
                         pages = getDetailsPages(
                             stringResolver = { res -> context.resources.getString(res) },
                             opportunityInfo = it,
+                            onCreateLogNote = { viewModel.createLogNote(opportunityId, it) },
+                            context = LocalContext.current
                         ),
                         navigateBack = navController::popBackStack
                     )

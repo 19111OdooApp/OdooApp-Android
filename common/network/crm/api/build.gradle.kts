@@ -10,4 +10,8 @@ dependencies {
 
     // Components
     implementation(project(":common:uiKitComponents"))
+
+    // Core
+    // Network API - recruitment
+    api(project(":core:networkApi:crm:api"))
 }

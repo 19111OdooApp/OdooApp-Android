@@ -1,7 +1,9 @@
 package odoo.miem.android.feature.recruitment.impl.screen.details.helpers
 
+import android.content.Context
 import odoo.miem.android.common.network.recruitment.api.entities.details.ApplicationInfo
 import odoo.miem.android.common.network.recruitment.api.entities.details.LogNoteInfo
+import odoo.miem.android.common.network.recruitment.api.entities.details.ScheduleActivityInfo
 import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.DetailedInfoType
 import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.DividedListType
 import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.TextType
@@ -21,7 +23,8 @@ internal fun getDetailsHeader(applicationInfo: ApplicationInfo) = DetailsLikeHea
 internal fun getDetailsPages(
     stringResolver: (stringRes: Int) -> String,
     onCreateLogNote: (text: String) -> Unit,
-    applicationInfo: ApplicationInfo
+    applicationInfo: ApplicationInfo,
+    context: Context
 ) = listOf(
     getDetailedInfoPage(
         stringResolver = stringResolver,
@@ -35,6 +38,11 @@ internal fun getDetailsPages(
         logNotes = applicationInfo.logNotes,
         onCreateLogNote = onCreateLogNote,
         stringResolver = stringResolver
+    ),
+    getScheduleActivitiesPage(
+        activities = applicationInfo.scheduleActivities,
+        stringResolver = stringResolver,
+        context = context
     )
 )
 
@@ -152,10 +160,48 @@ private fun getLogNotePage(
         stringResolver(R.string.recruitment_details_title_new_log_note)
 }
 
+private fun getScheduleActivitiesPage(
+    activities: List<ScheduleActivityInfo>,
+    stringResolver: (stringRes: Int) -> String,
+    context: Context
+) = object : DividedListType {
+    override val topic: String =
+        stringResolver(R.string.recruitment_details_title_schedule_activity)
+
+    override val items: List<DetailsLikeDividedListItem> = activities.map {
+        object : DetailsLikeDividedListItem {
+            override val topic: String =
+                context.resources.getString(R.string.recruitment_details_title_due_date).format(
+                    it.deadline,
+                    it.activityName
+                )
+            override val userName: String =
+                it.assignUserName ?: stringResolver(uiKitComponentsR.string.default_user_name)
+            override val avatarUrl: String? = null
+            override val description: String = it.resolveDescription()
+            override val date: String =
+                context.resources.getString(R.string.recruitment_details_title_assign_for).format(
+                    it.assignUserName
+                )
+            override val actions: List<DividedListItemAction> = emptyList()
+        }
+    }
+
+    override val sheetElements: List<DetailedBottomSheetComponentType> = emptyList()
+
+    override val onDone: (results: List<DetailedBottomSheetComponentType>) -> Unit = {}
+
+    override val bottomSheetButtonText: String = ""
+}
+
 private fun LogNoteInfo.resolveDescription() = buildString {
     message?.let { append("<p>$it</p>") }
     subtypeDescription?.let { append("<p><b>$it</b></p>") }
     trackingInfoList.forEach {
         append("<p>${it.changedField}: ${it.oldValue} -> ${it.newValue}</p>")
     }
+}
+
+private fun ScheduleActivityInfo.resolveDescription() = buildString {
+    note?.let { append(it) }
 }

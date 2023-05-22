@@ -49,4 +49,6 @@ data class ApplicationInfo(
     val activityIds: List<Long>?,
 
     val messageIds: List<Long>?,
+
+    val logNotes: List<LogNoteInfo> = emptyList(),
 )

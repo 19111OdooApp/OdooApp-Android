@@ -210,6 +210,22 @@ internal class RecruitmentViewModel : BaseViewModel() {
             )
     }
 
+    fun createLogNote(applicationId: Long, text: String) {
+        Timber.d("getApplicationInfo(): applicationId - $applicationId")
+
+        applicationInfoState.onLoadingState()
+        recruitmentDetailsInteractor
+            .createLogNote(applicationId, text)
+            .schedule(
+                recruitmentCreateLogNoteChannel,
+                onSuccess = { details ->
+                    Timber.d("createLogNote(): details - $details")
+                    getApplicationInfo(applicationId)
+                },
+                onError = Timber::e
+            )
+    }
+
     /**
      * User info
      */
@@ -243,6 +259,7 @@ internal class RecruitmentViewModel : BaseViewModel() {
 
         // Application Details
         val recruitmentApplicationInfoChannel = Channel()
+        val recruitmentCreateLogNoteChannel = Channel()
 
         // User info
         val userInfoChannel = Channel()

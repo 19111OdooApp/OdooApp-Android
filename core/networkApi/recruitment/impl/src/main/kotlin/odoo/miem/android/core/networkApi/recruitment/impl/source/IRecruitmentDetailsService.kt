@@ -5,6 +5,7 @@ import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpc
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcArgument
 import odoo.miem.android.core.jsonrpc.base.engine.annotation.JsonRpcPath
 import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentApplicationDetailsResponse
+import odoo.miem.android.core.networkApi.recruitment.api.entities.RecruitmentLogNoteResponse
 
 /**
  * [IRecruitmentDetailsService] - interface for making Retrofit instance of recruitment
@@ -21,4 +22,20 @@ interface IRecruitmentDetailsService : JsonRpcApi {
         @JsonRpcArgument("kwargs") kwargs: Map<Any, Any> = emptyMap(),
         @JsonRpcArgument("args") args: List<Any>,
     ): List<RecruitmentApplicationDetailsResponse>
+
+    @JsonRpc("call")
+    fun getLogNotes(
+        @JsonRpcPath path: String = "mail/thread/messages",
+        @JsonRpcArgument("limit") limit: Long = 30,
+        @JsonRpcArgument("thread_model") model: String = "hr.applicant",
+        @JsonRpcArgument("thread_id") threadId: Long,
+    ): List<RecruitmentLogNoteResponse>
+
+    @JsonRpc("call")
+    fun createLogNote(
+        @JsonRpcPath path: String = "mail/message/post",
+        @JsonRpcArgument("thread_model") model: String = "hr.applicant",
+        @JsonRpcArgument("post_data") postData: Map<Any, Any>,
+        @JsonRpcArgument("thread_id") threadId: Long,
+    )
 }

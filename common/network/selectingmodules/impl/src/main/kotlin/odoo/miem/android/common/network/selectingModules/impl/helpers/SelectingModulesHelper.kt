@@ -34,21 +34,21 @@ internal class SelectingModulesHelper {
     fun convertUserInfoResponse(response: UserInfoResponse): User {
         Timber.d("convertUserInfoResponse()")
 
-        val record = response.records[0]
+        val record = response.records?.getOrNull(0)
 
-        val modelId = record.modelId
-        val userInfo = record.userInfo
+        val modelId = record?.modelId
+        val userInfo = record?.userInfo
 
-        val uid = (userInfo[0] as Double).toInt()
-        val name = (userInfo[1] as String)
-            .split(" ")
-            .subList(0, 2)
-            .joinToString(" ")
+        val uid = (userInfo?.getOrNull(0) as? Double)?.toInt()
+        val name = (userInfo?.getOrNull(1) as? String)
+            ?.split(" ")
+            ?.take(2)
+            ?.joinToString(" ")
 
         val user = User(
-            modelId = modelId,
-            uid = uid,
-            name = name
+            modelId = checkNotNull(modelId),
+            uid = checkNotNull(uid),
+            name = checkNotNull(name)
         )
 
         Timber.d("convertUserInfoResponse(): result = $user")

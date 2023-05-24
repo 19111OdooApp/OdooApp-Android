@@ -1,3 +1,0 @@
-plugins {
-    conventions.`module-api`
-}

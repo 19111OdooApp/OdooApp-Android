@@ -1,3 +1,0 @@
-plugins {
-    conventions.`base-api`
-}

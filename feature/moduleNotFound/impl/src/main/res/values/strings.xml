@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="module_not_found_header">Oops!</string>
-    <string name="module_not_found_desc">Unfortunately, this module has not been implemented yet.\nOur developers are already working on it, come back later.</string>
-</resources>

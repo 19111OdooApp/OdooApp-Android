@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 
@@ -21,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 fun LabelText(
     @StringRes textRes: Int,
     modifier: Modifier = Modifier,
+    textColor: Color = MaterialTheme.colorScheme.onPrimary,
     textAlign: TextAlign = TextAlign.Start,
     isLarge: Boolean = false
 ) = Text(
@@ -32,13 +34,14 @@ fun LabelText(
     },
     modifier = modifier,
     textAlign = textAlign,
-    color = MaterialTheme.colorScheme.onPrimaryContainer
+    color = textColor
 )
 
 @Composable
 fun LabelText(
     text: String,
     modifier: Modifier = Modifier,
+    textColor: Color = MaterialTheme.colorScheme.onPrimary,
     textAlign: TextAlign = TextAlign.Start,
     isMedium: Boolean = true,
     isLarge: Boolean = false
@@ -53,5 +56,27 @@ fun LabelText(
     },
     modifier = modifier,
     textAlign = textAlign,
-    color = MaterialTheme.colorScheme.onPrimaryContainer
+    color = textColor
+)
+
+@Composable
+fun LabelText(
+    @StringRes textRes: Int,
+    modifier: Modifier = Modifier,
+    textColor: Color = MaterialTheme.colorScheme.onPrimary,
+    textAlign: TextAlign = TextAlign.Start,
+    isMedium: Boolean = true,
+    isLarge: Boolean = false
+) = Text(
+    text = stringResource(textRes),
+    style = if (isLarge) {
+        MaterialTheme.typography.labelLarge
+    } else if (isMedium) {
+        MaterialTheme.typography.labelMedium
+    } else {
+        MaterialTheme.typography.labelSmall
+    },
+    modifier = modifier,
+    textAlign = textAlign,
+    color = textColor
 )

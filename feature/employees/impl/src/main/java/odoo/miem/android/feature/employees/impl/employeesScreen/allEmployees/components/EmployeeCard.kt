@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.QuestionMark
@@ -27,17 +29,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import coil.size.Size
-import odoo.miem.android.common.network.employees.api.entities.EmployeeAvatarRequestHeaders
 import odoo.miem.android.common.network.employees.api.entities.EmployeeBasicInfo
 import odoo.miem.android.common.uiKitComponents.spinner.DefaultCircleSpinner
 import odoo.miem.android.common.uiKitComponents.text.HeadlineText
 import odoo.miem.android.common.uiKitComponents.text.LabelText
+import odoo.miem.android.common.utils.avatar.AvatarRequestHeader
+import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.commonPadding
 import odoo.miem.android.core.uiKitTheme.odooGray
 
@@ -51,7 +55,7 @@ import odoo.miem.android.core.uiKitTheme.odooGray
 @Composable
 fun EmployeeCard(
     employee: EmployeeBasicInfo,
-    employeeAvatarRequestHeaders: List<EmployeeAvatarRequestHeaders>,
+    avatarRequestHeaders: List<AvatarRequestHeader>,
     modifier: Modifier = Modifier,
     onClick: (employee: EmployeeBasicInfo) -> Unit = {}
 ) = Card(
@@ -68,7 +72,7 @@ fun EmployeeCard(
         .fillMaxWidth()
         .clickable { onClick(employee) }
 ) {
-    val avatarSize = 74.dp
+    val avatarSize = 90.dp
     val avatarShape = RoundedCornerShape(15.dp)
 
     Row(
@@ -85,7 +89,7 @@ fun EmployeeCard(
                 val model = ImageRequest.Builder(LocalContext.current)
                     .data(employee.avatarLink)
                     .apply {
-                        employeeAvatarRequestHeaders.forEach {
+                        avatarRequestHeaders.forEach {
                             this.addHeader(
                                 name = it.name,
                                 value = it.value
@@ -94,7 +98,7 @@ fun EmployeeCard(
                     }
                     .size(Size.ORIGINAL)
                     .diskCacheKey("employee_avatar_${employee.id}")
-                    .diskCachePolicy(CachePolicy.ENABLED)
+                    .diskCachePolicy(CachePolicy.DISABLED)
                     .memoryCachePolicy(CachePolicy.ENABLED)
                     .networkCachePolicy(CachePolicy.ENABLED)
                     .crossfade(true)
@@ -156,30 +160,49 @@ fun EmployeeCard(
 
             Spacer(modifier = Modifier.height(6.dp))
 
-            employee.job?.let {
-                LabelText(
-                    text = it,
-                    isMedium = false
-                )
-            }
+            employee.job
+                ?.takeIf { it.isNotEmpty() }
+                ?.let {
+                    LabelText(
+                        text = it,
+                        isMedium = false
+                    )
+                }
 
-            Spacer(modifier = Modifier.height(commonPadding))
+            employee.email
+                ?.takeIf { it.isNotEmpty() }
+                ?.let {
+                    LabelText(
+                        text = it,
+                        isMedium = false
+                    )
+                }
 
-            employee.email?.let {
-                LabelText(
-                    text = it,
-                    isMedium = false
-                )
-
-                Spacer(modifier = Modifier.height(commonPadding))
-            }
-
-            employee.phone?.let {
-                LabelText(
-                    text = it,
-                    isMedium = false
-                )
-            }
+            employee.phone
+                ?.takeIf { it.isNotEmpty() }
+                ?.let {
+                    LabelText(
+                        text = it,
+                        isMedium = false
+                    )
+                }
         }
     }
+}
+
+@Composable
+@Preview(showBackground = true, backgroundColor = 0xFFF9F9F9)
+private fun EmployeeCardPreview() = OdooMiemAndroidTheme {
+    EmployeeCard(
+        employee = EmployeeBasicInfo(
+            id = 0L,
+            name = "Ranasinghe Mudiyanselage Pathma Kantha Kudagammana",
+            job = null,
+            email = "pranasingkhemduiyanselage@edu.hse.ru",
+            phone = null,
+            avatarLink = null,
+        ),
+        avatarRequestHeaders = emptyList(),
+        modifier = Modifier.wrapContentHeight()
+    )
 }

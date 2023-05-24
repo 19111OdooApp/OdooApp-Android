@@ -19,7 +19,7 @@ class EmployeesRepository @Inject constructor() : IEmployeesRepository {
 
     private val employeesInfo by jsonRpcApi<IEmployeesService>()
 
-    override fun getAllEmployees(paginationOffset: Int): Single<AllEmployeesResponse> {
+    override fun getAllEmployees(paginationOffset: Int, limit: Int): Single<AllEmployeesResponse> {
         Timber.d("getAllEmployees(): pagination offset = $paginationOffset")
 
         return Single.fromCallable {

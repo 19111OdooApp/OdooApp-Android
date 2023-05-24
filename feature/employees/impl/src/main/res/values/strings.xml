@@ -17,4 +17,7 @@
     <string name="employee_details_title_timezone">Timezone</string>
 
     <string name="employees_details_title_about_me">About me</string>
+
+    <!-- Page switcher -->
+    <string name="page_switcher_title" translatable="false">%s / %s</string>
 </resources>

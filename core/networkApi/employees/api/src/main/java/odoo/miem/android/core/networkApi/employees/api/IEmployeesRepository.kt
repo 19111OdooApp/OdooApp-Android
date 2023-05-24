@@ -17,7 +17,7 @@ interface IEmployeesRepository {
 
      * @return Single<[AllEmployeesResponse]> which provides all employees basic info
      */
-    fun getAllEmployees(paginationOffset: Int = 0): Single<AllEmployeesResponse>
+    fun getAllEmployees(paginationOffset: Int = 0, limit: Int = 30): Single<AllEmployeesResponse>
 
     /**
      * [performEmployeeSearch] - function for performing search on backend and get result via

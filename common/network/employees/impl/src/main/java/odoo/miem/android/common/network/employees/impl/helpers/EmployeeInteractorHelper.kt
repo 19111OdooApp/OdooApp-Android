@@ -7,7 +7,8 @@ import timber.log.Timber
 class EmployeeInteractorHelper {
 
     fun convertEmployeeInfoResponse(
-        response: EmployeeDetailsResponse
+        response: EmployeeDetailsResponse,
+        avatarLink: String
     ): EmployeeDetails {
         Timber.d("convertEmployeeInfoResponse()")
 
@@ -30,7 +31,7 @@ class EmployeeInteractorHelper {
         val employeeDetails = EmployeeDetails(
             id = response.id,
             name = response.employeeName,
-            avatarLink = null,
+            avatarLink = avatarLink,
             job = response.job,
             mobilePhone = response.mobilePhone,
             workPhone = response.workPhone,

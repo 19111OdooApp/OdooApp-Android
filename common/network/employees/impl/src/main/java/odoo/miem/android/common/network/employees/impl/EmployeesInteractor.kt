@@ -2,10 +2,13 @@ package odoo.miem.android.common.network.employees.impl
 
 import io.reactivex.rxjava3.core.Single
 import odoo.miem.android.common.network.employees.api.IEmployeesInteractor
-import odoo.miem.android.common.network.employees.api.entities.EmployeeAvatarRequestHeaders
+import odoo.miem.android.common.network.employees.api.entities.AllEmployeesBasicInfo
 import odoo.miem.android.common.network.employees.api.entities.EmployeeBasicInfo
 import odoo.miem.android.common.network.employees.api.entities.EmployeeDetails
 import odoo.miem.android.common.network.employees.impl.helpers.EmployeeInteractorHelper
+import odoo.miem.android.common.utils.avatar.AvatarRequestHeader
+import odoo.miem.android.common.utils.avatar.getAvatarLink
+import odoo.miem.android.common.utils.avatar.getAvatarRequestHeaders
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.networkApi.employees.api.di.IEmployeesRepositoryApi
@@ -29,14 +32,22 @@ class EmployeesInteractor @Inject constructor() : IEmployeesInteractor {
 
     private val helper = EmployeeInteractorHelper()
 
-    override fun getAllEmployeesInfo(paginationOffset: Int): ResultSingle<List<EmployeeBasicInfo>> {
+    override fun getAllEmployeesInfo(paginationOffset: Int): ResultSingle<AllEmployeesBasicInfo> {
         Timber.d("getAllEmployeesInfo(): pagination offset = $paginationOffset")
 
-        return employeesRepository.getAllEmployees(paginationOffset)
-            .map<Result<List<EmployeeBasicInfo>>> { response ->
+        return employeesRepository.getAllEmployees(paginationOffset, DEFAULT_BATCH_SIZE)
+            .map<Result<AllEmployeesBasicInfo>> { response ->
                 Timber.d("getAllEmployeesInfo(): response = $response")
 
-                SuccessResult(response.toListDTO())
+                val employeesInfo = AllEmployeesBasicInfo(
+                    maxSize = response.length,
+                    batchSize = DEFAULT_BATCH_SIZE,
+                    employees = response.toListDTO()
+                )
+
+                Timber.d("getAllEmployeesInfo(): result = $employeesInfo")
+
+                SuccessResult(employeesInfo)
             }
             .onErrorReturn {
                 Timber.e("getAllEmployeesInfo(): error message = ${it.message}")
@@ -46,15 +57,10 @@ class EmployeesInteractor @Inject constructor() : IEmployeesInteractor {
             }
     }
 
-    override fun getAvatarRequestHeaders(): ResultSingle<List<EmployeeAvatarRequestHeaders>> {
+    override fun getEmployeeAvatarRequestHeaders(): ResultSingle<List<AvatarRequestHeader>> {
         return Single.just(
             SuccessResult(
-                listOf(
-                    EmployeeAvatarRequestHeaders(
-                        name = COOKIE_REQUEST_HEADER,
-                        value = COOKIE_SESSION_ID + dataStore.sessionId
-                    )
-                )
+                getAvatarRequestHeaders(sessionId = dataStore.sessionId)
             )
         )
     }
@@ -81,11 +87,10 @@ class EmployeesInteractor @Inject constructor() : IEmployeesInteractor {
 
         return employeesRepository.getEmployeeDetailInfo(employeeId = employeeId)
             .map<Result<EmployeeDetails>> { response ->
-                val avatarLink = getAvatarLink(employeeId)
-
-                val employeeDetails = helper
-                    .convertEmployeeInfoResponse(response.first())
-                    .copy(avatarLink = avatarLink)
+                val employeeDetails = helper.convertEmployeeInfoResponse(
+                    response = response.first(),
+                    avatarLink = getAvatarLink(userId = employeeId, odooUrl = dataStore.url)
+                )
 
                 Timber.d("getEmployeeDetails(): result = $employeeDetails")
 
@@ -109,23 +114,16 @@ class EmployeesInteractor @Inject constructor() : IEmployeesInteractor {
                         job = employee.job,
                         email = employee.email,
                         phone = employee.phone,
-                        avatarLink = getAvatarLink(it),
+                        avatarLink = getAvatarLink(userId =  it, odooUrl = dataStore.url),
                     )
                 )
             }
             list
         } ?: emptyList()
 
-    private fun getAvatarLink(employeeId: Long): String {
-        val url = dataStore.url
-
-        return "${url}web/image?model=hr.employee.public&id=$employeeId&field=avatar_128"
-    }
-
     companion object {
         const val DEFAULT_EMPLOYEE_NAME = "Unknown Employee"
 
-        const val COOKIE_REQUEST_HEADER = "cookie"
-        const val COOKIE_SESSION_ID = "session_id="
+        const val DEFAULT_BATCH_SIZE = 30
     }
 }

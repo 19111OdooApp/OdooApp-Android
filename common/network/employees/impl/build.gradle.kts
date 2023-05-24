@@ -12,6 +12,9 @@ dependencies {
     // Employees API
     api(project(":common:network:employees:api"))
 
+    // common utils
+    implementation(project(":common:utils"))
+
     // Core
     // Network API - employees
     api(project(":core:networkApi:employees:api"))

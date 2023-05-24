@@ -18,6 +18,9 @@ dependencies {
     // SelectingModules
     api(project(":common:network:employees:api"))
 
+    // Common utils
+    implementation(project(":common:utils"))
+
     // SelectingModules
     api(project(":common:network:selectingModules:api"))
 

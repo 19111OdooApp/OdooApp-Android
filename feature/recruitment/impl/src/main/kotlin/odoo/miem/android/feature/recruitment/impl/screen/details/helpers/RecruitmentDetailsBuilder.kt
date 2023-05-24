@@ -1,9 +1,9 @@
 package odoo.miem.android.feature.recruitment.impl.screen.details.helpers
 
 import odoo.miem.android.common.network.recruitment.api.entities.details.ApplicationInfo
-import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.DetailedInfoType
-import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.TextType
-import odoo.miem.android.common.uiKitComponents.screen.detailsLike.models.DetailsLikeHeader
+import odoo.miem.android.common.uiKitComponents.screen.base.detailsLike.components.DetailedInfoType
+import odoo.miem.android.common.uiKitComponents.screen.base.detailsLike.components.TextType
+import odoo.miem.android.common.uiKitComponents.screen.base.detailsLike.models.DetailsLikeHeader
 import odoo.miem.android.feature.recruitment.impl.R
 
 internal fun getDetailsHeader(applicationInfo: ApplicationInfo) = DetailsLikeHeader(

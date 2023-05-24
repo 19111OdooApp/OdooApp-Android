@@ -10,34 +10,73 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import odoo.miem.android.common.network.employees.api.entities.EmployeeAvatarRequestHeaders
+import androidx.compose.ui.res.stringResource
 import odoo.miem.android.common.network.employees.api.entities.EmployeeBasicInfo
+import odoo.miem.android.common.uiKitComponents.screen.base.searchLike.model.ScreenPage
+import odoo.miem.android.common.uiKitComponents.switcher.LazyColumnPageSwitcher
+import odoo.miem.android.common.uiKitComponents.text.LabelText
+import odoo.miem.android.common.utils.avatar.AvatarRequestHeader
 import odoo.miem.android.core.uiKitTheme.commonPadding
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
+import odoo.miem.android.feature.employees.impl.R
+import timber.log.Timber
 
 @Suppress("MagicNumber")
 @Composable
 internal fun ColumnScope.EmployeesList(
-    employees: List<EmployeeBasicInfo>,
-    employeeAvatarRequestHeaders: List<EmployeeAvatarRequestHeaders>,
-    onClick: (employee: EmployeeBasicInfo) -> Unit = {},
-    onReachBottom: () -> Unit = {},
+    employeesPage: ScreenPage<EmployeeBasicInfo>,
+    avatarRequestHeaders: List<AvatarRequestHeader>,
+    onEmployeeClick: (employee: EmployeeBasicInfo) -> Unit = {},
+    onChangePageClick: (newPage: Int) -> Unit = {},
 ) = Box {
     val lazyColumnState = rememberLazyListState()
 
-    val isBottomReached by remember {
-        derivedStateOf {
-            lazyColumnState.firstVisibleItemIndex == employees.size - 5
-        }
-    }
+    Timber.d("EMPLOYEES $employeesPage")
 
-    if (isBottomReached) {
-        onReachBottom()
-    }
+    val maximumSize = employeesPage.maxSize
+    val currentPage = employeesPage.currentPage
+    val pageSize = employeesPage.pageSize
+
+    val fromIndex = employeesPage.fromIndex
+    val toIndex = employeesPage.toIndex
+
+    Timber.d("PAGE $currentPage FROM $fromIndex, TO $toIndex, SIZE ${employeesPage.items.size}")
+
+    val pageSwitcher: @Composable () -> Unit = if (
+        maximumSize != null &&
+        currentPage != null &&
+        pageSize != null &&
+        fromIndex != null &&
+        toIndex != null
+    ) {
+        {
+            val isBackButtonEnabled = currentPage != 0
+            val isNextButtonEnabled = (currentPage + 1) * pageSize < maximumSize
+
+            LazyColumnPageSwitcher(
+                previousPageButtonEnabled = isBackButtonEnabled,
+                nextPageButtonEnabled = isNextButtonEnabled,
+                onPreviousPageClick = { onChangePageClick(currentPage - 1) },
+                onNextPageClick = { onChangePageClick(currentPage + 1) }/* {
+                if (rightBorder + pageSize > employees.size && rightBorder + pageSize < maximumSize) {
+                    onNextPageClick()
+                } else {
+                    currentPage++
+                }
+            } */
+            ) {
+                LabelText(
+                    text = stringResource(R.string.page_switcher_title)
+                        .format(
+                            "${fromIndex + 1}-${toIndex}",
+                            maximumSize
+                        ),
+                    isMedium = false
+                )
+            }
+        }
+    } else { {} }
 
     LazyColumn(
         state = lazyColumnState,
@@ -45,17 +84,22 @@ internal fun ColumnScope.EmployeesList(
             .padding(horizontal = mainHorizontalPadding)
             .fillMaxSize()
     ) {
-        items(
-            items = employees,
-            key = { employee -> employee.id }
-        ) {
+        item {
+            pageSwitcher()
+        }
+
+        items(items = employeesPage.items) {
             EmployeeCard(
                 employee = it,
-                employeeAvatarRequestHeaders = employeeAvatarRequestHeaders,
-                onClick = onClick
+                avatarRequestHeaders = avatarRequestHeaders,
+                onClick = onEmployeeClick
             )
 
             Spacer(modifier = Modifier.height(commonPadding))
+        }
+
+        item {
+            pageSwitcher()
         }
     }
 }

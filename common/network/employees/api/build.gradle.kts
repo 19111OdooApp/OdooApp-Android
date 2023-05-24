@@ -10,4 +10,7 @@ dependencies {
 
     // Components
     implementation(project(":common:uiKitComponents"))
+
+    // utils
+    implementation(project(":common:utils"))
 }

@@ -8,6 +8,10 @@ import odoo.miem.android.core.jsonrpc.converter.api.annotation.SpecifiedTypeOrNu
 @JsonClass(generateAdapter = true)
 data class AllEmployeesResponse(
 
+    @Json(name = "length")
+    @SpecifiedTypeOrNull(JsonReader.Token.NUMBER)
+    val length: Int?,
+
     @Json(name = "records")
     @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
     val records: List<EmployeeBasicInfoResponse>?

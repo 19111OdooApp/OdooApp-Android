@@ -11,12 +11,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import odoo.miem.android.common.network.employees.api.entities.EmployeeAvatarRequestHeaders
 import odoo.miem.android.common.network.employees.api.entities.EmployeeBasicInfo
 import odoo.miem.android.common.uiKitComponents.progressbar.LoadingScreen
-import odoo.miem.android.common.uiKitComponents.screen.searchLike.SearchLikeScreen
+import odoo.miem.android.common.uiKitComponents.screen.base.searchLike.SearchLikeScreen
+import odoo.miem.android.common.uiKitComponents.screen.base.searchLike.model.ScreenPage
 import odoo.miem.android.common.uiKitComponents.stateholder.StateHolder
 import odoo.miem.android.common.uiKitComponents.stateholder.error.ErrorScreen
+import odoo.miem.android.common.utils.avatar.AvatarRequestHeader
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.utils.rx.collectAsState
 import odoo.miem.android.core.utils.state.LoadingResult
@@ -25,6 +26,7 @@ import odoo.miem.android.feature.employees.impl.EmployeesViewModel
 import odoo.miem.android.feature.employees.impl.R
 import odoo.miem.android.feature.employees.impl.employeesScreen.allEmployees.components.EmployeesList
 import odoo.miem.android.feature.navigation.api.data.Routes
+import odoo.miem.android.feature.navigation.api.utils.navigateToUserProfile
 import javax.inject.Inject
 
 /**
@@ -56,7 +58,7 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
 
         val avatarRequestHeadersState by viewModel.avatarRequestHeaders.collectAsState()
 
-        val allEmployeesItems = viewModel.allEmployeesList
+        val allEmployeesItems = viewModel.employeesList
         val filteredEmployees = viewModel.filteredEmployeesList
 
         LaunchedEffect(Unit) {
@@ -76,26 +78,29 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
             successContent = {
                 EmployeesScreenContent(
                     userName = userInfoState.data?.name ?: "Cool user",
-                    allEmployees = allEmployeesItems,
+                    employeesPage = allEmployeesState.data ?: DEFAULT_SCREEN_PAGE,
                     filteredEmployees = filteredEmployees,
-                    employeeAvatarRequestHeaders = avatarRequestHeadersState.data ?: emptyList(),
+                    avatarRequestHeaders = avatarRequestHeadersState.data ?: emptyList(),
                     isSearchLoading = employeeSearchState is LoadingResult,
                     performSearch = {
                         viewModel.performEmployeeSearch(it)
                     },
+                    onSearchBarValueChange = {
+                        viewModel.filteredEmployeesList.clear()
+                    },
                     onEmployeeClick = {
                         navController.navigate("${Routes.employeeDetails}/${it.id}")
                     },
-                    onReachBottom = {
+                    onChangePageClick = { newPage ->
                         if (!viewModel.isSessionExpired) {
-                            viewModel.getAllEmployees()
+                            viewModel.getAllEmployees(newPage)
                         }
                     },
                     onNavigateToModulesPressed = {
                         navController.navigate(Routes.selectingModules)
                     },
                     onUserIconClick = {
-                        navController.navigate(Routes.userProfile)
+                        navController.navigateToUserProfile()
                     },
                     onBackPressed = navController::popBackStack
                 )
@@ -106,32 +111,34 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
     @Composable
     private fun EmployeesScreenContent(
         userName: String,
-        allEmployees: List<EmployeeBasicInfo> = emptyList(),
+        employeesPage: ScreenPage<EmployeeBasicInfo>,
         filteredEmployees: List<EmployeeBasicInfo> = emptyList(),
-        employeeAvatarRequestHeaders: List<EmployeeAvatarRequestHeaders> = emptyList(),
+        avatarRequestHeaders: List<AvatarRequestHeader> = emptyList(),
         isSearchLoading: Boolean = false,
         performSearch: (String) -> Unit = {},
+        onSearchBarValueChange: () -> Unit = {},
         onEmployeeClick: (EmployeeBasicInfo) -> Unit = {},
-        onReachBottom: () -> Unit = {},
+        onChangePageClick: (newPage: Int) -> Unit = {},
         onNavigateToModulesPressed: () -> Unit = {},
         onUserIconClick: () -> Unit = {},
         onBackPressed: () -> Unit = {}
     ) {
-        val content: @Composable (ColumnScope.(items: List<EmployeeBasicInfo>) -> Unit) = { employees ->
-            EmployeesList(
-                employees = employees,
-                employeeAvatarRequestHeaders = employeeAvatarRequestHeaders,
-                onClick = onEmployeeClick,
-                onReachBottom = onReachBottom,
-            )
-        }
+        val content: @Composable (ColumnScope.(items: ScreenPage<EmployeeBasicInfo>) -> Unit) =
+            { employees ->
+                EmployeesList(
+                    employeesPage = employees,
+                    avatarRequestHeaders = avatarRequestHeaders,
+                    onEmployeeClick = onEmployeeClick,
+                    onChangePageClick = onChangePageClick,
+                )
+            }
 
         BackHandler(enabled = true) {
             onBackPressed()
         }
 
         SearchLikeScreen(
-            items = allEmployees,
+            screenPage = employeesPage,
             filteredItems = filteredEmployees,
             userName = userName,
             searchBarPlaceholder = R.string.employees_search_bar_placeholder,
@@ -141,8 +148,13 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
             onNavigateToModulesPressed = onNavigateToModulesPressed,
             onUserIconClick = onUserIconClick,
             performSearch = performSearch,
+            onSearchBarValueChange = onSearchBarValueChange,
             isSearchLoading = isSearchLoading
         )
+    }
+
+    private companion object {
+        val DEFAULT_SCREEN_PAGE = ScreenPage<EmployeeBasicInfo>(items = emptyList())
     }
 
     @Composable
@@ -150,14 +162,21 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
     private fun EmployeesScreenPreview() = OdooMiemAndroidTheme {
         EmployeesScreenContent(
             "Cool user",
-            allEmployees = listOf(
-                EmployeeBasicInfo(
-                    id = 0L,
-                    name = "Arina Shoshina",
-                    job = "Consultant",
-                    email = "abigail.peterson39@example.com",
-                    phone = "(482)-233-3393",
-                    avatarLink = null
+            employeesPage = ScreenPage(
+                maxSize = 250,
+                currentPage = 0,
+                pageSize = 30,
+                fromIndex = 0,
+                toIndex = 30,
+                items = listOf(
+                    EmployeeBasicInfo(
+                        id = 0L,
+                        name = "Arina Shoshina",
+                        job = "Consultant",
+                        email = "abigail.peterson39@example.com",
+                        phone = "(482)-233-3393",
+                        avatarLink = null
+                    )
                 )
             )
         )

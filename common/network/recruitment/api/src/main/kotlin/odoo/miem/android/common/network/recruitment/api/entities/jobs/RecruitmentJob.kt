@@ -1,6 +1,6 @@
 package odoo.miem.android.common.network.recruitment.api.entities.jobs
 
-import odoo.miem.android.common.uiKitComponents.screen.searchLike.model.SearchLikeModel
+import odoo.miem.android.common.uiKitComponents.screen.base.searchLike.model.SearchLikeModel
 
 data class RecruitmentJob(
     val id: Long,

@@ -1,6 +1,12 @@
 package odoo.miem.android.common.network.employees.api.entities
 
-import odoo.miem.android.common.uiKitComponents.screen.searchLike.model.SearchLikeModel
+import odoo.miem.android.common.uiKitComponents.screen.base.searchLike.model.SearchLikeModel
+
+data class AllEmployeesBasicInfo(
+    val maxSize: Int?,
+    val batchSize: Int?,
+    val employees: List<EmployeeBasicInfo>
+)
 
 data class EmployeeBasicInfo(
     val id: Long,
@@ -10,11 +16,6 @@ data class EmployeeBasicInfo(
     val phone: String?,
     val avatarLink: String?,
 ) : SearchLikeModel
-
-data class EmployeeAvatarRequestHeaders(
-    val name: String,
-    val value: String
-)
 
 data class EmployeeDetails(
     val id: Long?,

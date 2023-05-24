@@ -30,8 +30,9 @@ val typography = Typography(
     ),
     labelSmall = TextStyle(
         fontFamily = fonts,
-        fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+        lineHeight = 14.sp,
         letterSpacing = 0.3.sp
     ),
     headlineMedium = TextStyle(

@@ -10,11 +10,11 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import odoo.miem.android.common.uiKitComponents.progressbar.LoadingScreen
-import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.DetailedInfoType
-import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.PagesType
-import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.TextType
-import odoo.miem.android.common.uiKitComponents.screen.employeeDetailsLike.EmployeeDetailsLikeScreen
-import odoo.miem.android.common.uiKitComponents.screen.employeeDetailsLike.models.EmployeeDetailsHeader
+import odoo.miem.android.common.uiKitComponents.screen.base.detailsLike.components.DetailedInfoType
+import odoo.miem.android.common.uiKitComponents.screen.base.detailsLike.components.PagesType
+import odoo.miem.android.common.uiKitComponents.screen.base.detailsLike.components.TextType
+import odoo.miem.android.common.uiKitComponents.screen.employeesLike.employeeDetailsLike.EmployeeDetailsLikeScreen
+import odoo.miem.android.common.uiKitComponents.screen.employeesLike.employeeDetailsLike.models.EmployeeDetailsHeader
 import odoo.miem.android.common.uiKitComponents.stateholder.StateHolder
 import odoo.miem.android.common.uiKitComponents.stateholder.error.ErrorScreen
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
@@ -44,8 +44,10 @@ class EmployeeDetailsScreen @Inject constructor() : IEmployeeDetailsScreen {
 
         val employeeDetailsState by viewModel.employeeDetails.collectAsState()
 
+        val avatarRequestHeadersState by viewModel.avatarRequestHeaders.collectAsState()
+
         LaunchedEffect(Unit) {
-            viewModel.getEmployeeDetails(employeeId)
+            viewModel.onEmployeeDetailsOpen(employeeId)
         }
 
         StateHolder(
@@ -61,7 +63,10 @@ class EmployeeDetailsScreen @Inject constructor() : IEmployeeDetailsScreen {
             successContent = { employeeDetails ->
                 employeeDetails.data?.let {
                     EmployeeDetailsScreenContent(
-                        header = getDetailsHeader(it),
+                        header = getDetailsHeader(
+                            employeeDetails = it,
+                            avatarRequestHeaders = avatarRequestHeadersState.data ?: emptyList()
+                        ),
                         pages = getDetailsPages(
                             stringResolver = { res -> context.resources.getString(res) },
                             employeeDetails = it
@@ -99,7 +104,8 @@ class EmployeeDetailsScreen @Inject constructor() : IEmployeeDetailsScreen {
                 mobilePhone = "+79013686745",
                 workPhone = "+790212121",
                 company = "MIEM",
-                avatarLink = "https://crm.auditory.ru/web/image?model=hr.employee&id=1608&field=avatar_128"
+                avatarLink = "https://crm.auditory.ru/web/image?model=hr.employee&id=1608&field=avatar_128",
+                avatarRequestHeaders = emptyList()
             ),
             pages = listOf(
                 DetailedInfoType(

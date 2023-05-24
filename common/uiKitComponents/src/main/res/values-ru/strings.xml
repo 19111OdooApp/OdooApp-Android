@@ -3,6 +3,10 @@
     <!--Default-->
     <string name="default_module_name">Крутой модуль</string>
 
+    <!-- LazyColumnPageSwitcher -->
+    <string name="page_switcher_back">Назад</string>
+    <string name="page_switcher_forward">Вперед</string>
+
     <!--  Job card  -->
     <plurals name="job_number_of_new_application">
         <item quantity="one">%d Новая Заявка</item>
@@ -36,8 +40,8 @@
     <string name="search_result_empty">Ничего не найдено</string>
     <string name="search_result_empty_desc">По запросу "%s" ничего не найдено.\nПопробуйте еще раз.</string>
 
-    <string name="search_result_hint">Нажмите кнопку \"Готово\"</string>
-    <string name="search_result_desc">Для поиска нажмите кнопку \"Готово\" на клавиатуре</string>
+    <string name="search_result_hint">Нажмите кнопку \"Поиск\"</string>
+    <string name="search_result_desc">Для поиска нажмите кнопку \"Поиск\" на клавиатуре</string>
 
     <!-- header -->
     <string name="hello_text">Привет,</string>

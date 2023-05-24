@@ -1,19 +1,24 @@
 package odoo.miem.android.feature.employees.impl.employeesScreen.employeeDetails.helpers
 
 import odoo.miem.android.common.network.employees.api.entities.EmployeeDetails
-import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.DetailedInfoType
-import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.TextType
-import odoo.miem.android.common.uiKitComponents.screen.employeeDetailsLike.models.EmployeeDetailsHeader
+import odoo.miem.android.common.uiKitComponents.screen.base.detailsLike.components.DetailedInfoType
+import odoo.miem.android.common.uiKitComponents.screen.base.detailsLike.components.TextType
+import odoo.miem.android.common.uiKitComponents.screen.employeesLike.employeeDetailsLike.models.EmployeeDetailsHeader
+import odoo.miem.android.common.utils.avatar.AvatarRequestHeader
 import odoo.miem.android.feature.employees.impl.R
 
-internal fun getDetailsHeader(employeeDetails: EmployeeDetails) = EmployeeDetailsHeader(
+internal fun getDetailsHeader(
+    employeeDetails: EmployeeDetails,
+    avatarRequestHeaders: List<AvatarRequestHeader>
+) = EmployeeDetailsHeader(
     id = employeeDetails.id,
     name = employeeDetails.name,
     email = employeeDetails.email,
     mobilePhone = employeeDetails.mobilePhone,
     workPhone = employeeDetails.workPhone,
     company = employeeDetails.company,
-    avatarLink = employeeDetails.avatarLink
+    avatarLink = employeeDetails.avatarLink,
+    avatarRequestHeaders = avatarRequestHeaders
 )
 
 internal fun getDetailsPages(

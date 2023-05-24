@@ -38,7 +38,8 @@ fun BaseTextField(
     readOnly: Boolean = false,
     enabled: Boolean = true,
     onValueChange: (TextFieldValue) -> Unit = {},
-    onDone: (String) -> Unit = {},
+    onDone: () -> Unit = {},
+    onSearch: (String) -> Unit = {},
     shape: CornerBasedShape = MaterialTheme.shapes.small,
     trailingIcon: @Composable (() -> Unit)? = null,
     value: TextFieldValue,
@@ -56,6 +57,7 @@ fun BaseTextField(
         enabled = enabled,
         onValueChange = onValueChange,
         onDone = onDone,
+        onSearch = onSearch,
         shape = shape,
         trailingIcon = trailingIcon,
         value = value,
@@ -76,6 +78,8 @@ fun BaseTextField(
     enabled: Boolean = true,
     singleLine: Boolean = true,
     onValueChange: (TextFieldValue) -> Unit = {},
+    onDone: () -> Unit = {},
+    onSearch: (String) -> Unit = {},
     shape: CornerBasedShape = MaterialTheme.shapes.small,
     trailingIcon: @Composable (() -> Unit)? = null,
     textStyle: TextStyle? = null,
@@ -94,6 +98,8 @@ fun BaseTextField(
         enabled = enabled,
         singleLine = singleLine,
         onValueChange = onValueChange,
+        onDone = onDone,
+        onSearch = onSearch,
         shape = shape,
         trailingIcon = trailingIcon,
         textStyle = textStyle,
@@ -116,7 +122,8 @@ private fun _BaseTextField(
     enabled: Boolean = true,
     singleLine: Boolean = true,
     onValueChange: (TextFieldValue) -> Unit = {},
-    onDone: (String) -> Unit = {},
+    onDone: () -> Unit = {},
+    onSearch: (String) -> Unit = {},
     shape: CornerBasedShape = MaterialTheme.shapes.small,
     trailingIcon: @Composable (() -> Unit)? = null,
     textStyle: TextStyle? = null,
@@ -145,7 +152,11 @@ private fun _BaseTextField(
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
         keyboardActions = KeyboardActions(
             onDone = {
-                onDone(value.text)
+                onDone()
+                focusManager.clearFocus()
+            },
+            onSearch = {
+                onSearch(value.text)
                 focusManager.clearFocus()
             }
         ),

@@ -36,39 +36,37 @@ fun SearchTextField(
     enabled: Boolean = true,
     imeAction: ImeAction = ImeAction.Search,
     @StringRes stringRes: Int = R.string.search_text_field_label
-) {
-    BaseTextField(
-        value = value,
-        imeAction = imeAction,
-        onValueChange = onValueChange,
-        onSearch = onSearch,
-        labelResource = stringRes,
-        enabled = enabled,
-        leadingIcon = {
-            Icon(
-                painter = painterResource(R.drawable.ic_search),
-                contentDescription = stringResource(R.string.search_text_field_trailing_icon),
-                modifier = Modifier.size(20.dp),
-                tint = odooPrimaryGray
-            )
-        },
-        trailingIcon = {
-            AnimatedVisibility(
-                visible = value.text.isNotEmpty(),
-                enter = scaleIn(),
-                exit = scaleOut()
-            ) {
-                IconButton(onClick = { onValueChange(TextFieldValue()) }) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_trailing_icon),
-                        contentDescription = stringResource(R.string.text_field_trailing_icon_desc),
-                        modifier = Modifier.size(20.dp),
-                        tint = odooPrimaryGray
-                    )
-                }
+) = BaseTextField(
+    value = value,
+    imeAction = imeAction,
+    onValueChange = onValueChange,
+    onSearch = onSearch,
+    labelResource = stringRes,
+    enabled = enabled,
+    leadingIcon = {
+        Icon(
+            painter = painterResource(R.drawable.ic_search),
+            contentDescription = stringResource(R.string.search_text_field_trailing_icon),
+            modifier = Modifier.size(20.dp),
+            tint = odooPrimaryGray
+        )
+    },
+    trailingIcon = {
+        AnimatedVisibility(
+            visible = value.text.isNotEmpty(),
+            enter = scaleIn(),
+            exit = scaleOut()
+        ) {
+            IconButton(onClick = { onValueChange(TextFieldValue()) }) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_trailing_icon),
+                    contentDescription = stringResource(R.string.text_field_trailing_icon_desc),
+                    modifier = Modifier.size(20.dp),
+                    tint = odooPrimaryGray
+                )
             }
-        },
-        shape = RoundedCornerShape(16.dp),
-        modifier = modifier.padding(horizontal = mainHorizontalPadding)
-    )
-}
+        }
+    },
+    shape = RoundedCornerShape(16.dp),
+    modifier = modifier.padding(horizontal = mainHorizontalPadding)
+)

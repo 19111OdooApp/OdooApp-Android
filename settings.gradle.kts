@@ -23,13 +23,21 @@ dependencyResolutionManagement {
 rootProject.name = "Odoo App"
 
 
-
 // Common layer
 include(":common:network:authorization:api")
 include(":common:network:authorization:impl")
 
+include(":common:network:recruitment:api")
+include(":common:network:recruitment:impl")
+
+include(":common:network:crm:api")
+include(":common:network:crm:impl")
+
 include(":common:network:selectingModules:api")
 include(":common:network:selectingModules:impl")
+
+include(":common:network:employees:api")
+include(":common:network:employees:impl")
 
 include(":common:uiKitComponents")
 
@@ -44,14 +52,29 @@ include(":core:di:impl")
 include(":core:networkApi:authorization:api")
 include(":core:networkApi:authorization:impl")
 
+include(":core:networkApi:firebaseDatabase:api")
+include(":core:networkApi:firebaseDatabase:impl")
+
+include(":core:networkApi:recruitment:api")
+include(":core:networkApi:recruitment:impl")
+
+include(":core:networkApi:crm:api")
+include(":core:networkApi:crm:impl")
+
 include(":core:networkApi:userInfo:api")
 include(":core:networkApi:userInfo:impl")
 
 include(":core:networkApi:userModules:api")
 include(":core:networkApi:userModules:impl")
 
-include(":core:networkApi:remoteConfig:impl")
-include(":core:networkApi:remoteConfig:api")
+include(":core:networkApi:firebaseRemoteConfig:impl")
+include(":core:networkApi:firebaseRemoteConfig:api")
+
+include(":core:networkApi:firebaseDatabase:api")
+include(":core:networkApi:firebaseDatabase:impl")
+
+include(":core:networkApi:employees:api")
+include(":core:networkApi:employees:impl")
 
 include(":core:jsonrpc:base")
 include(":core:jsonrpc:core")
@@ -60,8 +83,8 @@ include(":core:jsonrpc:engine")
 include(":core:jsonRpcApiFabric:api")
 include(":core:jsonRpcApiFabric:impl")
 
-include(":core:jsonrpc:parser:api")
-include(":core:jsonrpc:parser:impl")
+include(":core:converter:api")
+include(":core:converter:impl")
 
 include(":core:platform")
 
@@ -85,3 +108,15 @@ include(":feature:selectingModules:impl")
 
 include(":feature:moduleNotFound:api")
 include(":feature:moduleNotFound:impl")
+
+include(":feature:recruitment:api")
+include(":feature:recruitment:impl")
+
+include(":feature:crm:api")
+include(":feature:crm:impl")
+
+include(":feature:userProfile:api")
+include(":feature:userProfile:impl")
+
+include(":feature:employees:api")
+include(":feature:employees:impl")

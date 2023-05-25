@@ -7,7 +7,7 @@ import odoo.miem.android.common.network.selectingModules.impl.SelectingModulesIn
 
 /**
  * [SelectingModulesInteractorModule] - module for providing
- * instance of [SelectingModulesInteractorModule] in **DI graph**
+ * instance of [SelectingModulesInteractor] in **DI graph**
  *
  * @author Egor Danilov
  */
@@ -15,5 +15,5 @@ import odoo.miem.android.common.network.selectingModules.impl.SelectingModulesIn
 interface SelectingModulesInteractorModule {
 
     @Binds
-    fun provideSelectingModulesUseCase(impl: SelectingModulesInteractor): ISelectingModulesInteractor
+    fun provideSelectingModulesInteractor(impl: SelectingModulesInteractor): ISelectingModulesInteractor
 }

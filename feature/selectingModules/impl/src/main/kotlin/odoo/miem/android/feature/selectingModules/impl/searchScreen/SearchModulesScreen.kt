@@ -29,6 +29,7 @@ import com.mxalbert.sharedelements.SharedElement
 import com.mxalbert.sharedelements.SharedElementsTransitionSpec
 import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
+import odoo.miem.android.common.uiKitComponents.search.SearchResultEmpty
 import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
 import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
@@ -36,7 +37,6 @@ import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
 import odoo.miem.android.feature.selectingModules.impl.R
 import odoo.miem.android.feature.selectingModules.impl.searchScreen.components.SearchRecommendationsContent
 import odoo.miem.android.feature.selectingModules.impl.searchScreen.components.SearchResultContent
-import odoo.miem.android.feature.selectingModules.impl.searchScreen.components.SearchResultEmpty
 
 /**
  * [SearchModulesScreen] - screen for searching Odoo modules in [SelectingModulesScreen]
@@ -138,14 +138,16 @@ private fun SearchModulesScreenPreview() = OdooMiemAndroidTheme {
             parentId = null,
             childModules = mutableListOf(),
             name = "CRM",
-            numberOfNotifications = 1
+            identificationName = "CRM",
+            iconDownloadUrl = "",
         ),
         OdooModule(
             id = -1,
             parentId = null,
             childModules = mutableListOf(),
             name = "Recruitment",
-            numberOfNotifications = 5,
+            identificationName = "Recruitment",
+            iconDownloadUrl = "",
             isFavourite = true
         ),
         OdooModule(
@@ -153,7 +155,8 @@ private fun SearchModulesScreenPreview() = OdooMiemAndroidTheme {
             parentId = null,
             childModules = mutableListOf(),
             name = "Pricing",
-            numberOfNotifications = 123
+            identificationName = "Pricing",
+            iconDownloadUrl = "",
         ),
     )
 

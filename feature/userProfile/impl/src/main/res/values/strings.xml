@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_user_name" translatable="false">Cool user</string>
+    <string name="default_user_email" translatable="false">cooluser@miem.hse.ru</string>
+    <string name="default_user_phone_number" translatable="false">+79500000000</string>
+
+    <string name="log_out_button">Log out</string>
+    <string name="about_app">About app</string>
+
+    <string name="github_url" translatable="false">https://github.com/19111OdooApp/OdooApp-Android</string>
+    <string name="source_code" translatable="false">Source code</string>
+    <string name="credits">Great thanks for all developers ❤️ If you like this app, please set your score in Google Play and star the project on Github</string>
+
+    <string name="user_details_timezone">Timezone</string>
+    <string name="user_details_work_phone">Work Phone</string>
+    <string name="user_details_address">Address</string>
+    <string name="user_details_company">Company</string>
+</resources>

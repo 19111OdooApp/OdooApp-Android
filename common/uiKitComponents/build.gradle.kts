@@ -7,6 +7,10 @@ android {
 }
 
 dependencies {
+    
+    implementation(Dependencies.Compose.SwipableCard.SWIPABLE_CARD)
+    implementation(Dependencies.Compose.HtmlText.HTML_TEXT)
+
     // Core
     // UiKitTheme
     implementation(project(":core:uiKitTheme"))

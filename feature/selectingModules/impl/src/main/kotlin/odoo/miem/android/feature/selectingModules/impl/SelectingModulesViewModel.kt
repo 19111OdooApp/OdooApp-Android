@@ -11,7 +11,9 @@ import odoo.miem.android.core.utils.di.RxApi
 import odoo.miem.android.core.utils.rx.PresentationSchedulers
 import odoo.miem.android.core.utils.rx.lazyEmptyResultPublishSubject
 import odoo.miem.android.core.utils.rx.onLoadingState
+import odoo.miem.android.core.utils.state.ErrorResult
 import odoo.miem.android.core.utils.state.ResultSubject
+import odoo.miem.android.core.utils.state.SuccessResult
 import timber.log.Timber
 
 /**
@@ -28,13 +30,17 @@ class SelectingModulesViewModel(
     val userInfoState: ResultSubject<User> by lazyEmptyResultPublishSubject()
     val modulesState: ResultSubject<List<OdooModule>> by lazyEmptyResultPublishSubject()
 
-    private var userModelId: Int = -1
+    private var currentUser: User? = null
     val allModules = mutableStateListOf<OdooModule>()
+
+    private var isReloaded: Boolean = false
 
     fun getUserInfo() {
         Timber.d("getUserInfo()")
 
         userInfoState.onLoadingState()
+        modulesState.onLoadingState()
+
         selectingModulesInteractor
             .getUserInfo()
             .schedule(
@@ -42,31 +48,50 @@ class SelectingModulesViewModel(
                 onSuccess = { result ->
                     Timber.d("getUserInfo(): result = $result")
 
-                    result.data?.modelId?.let { userModelId = it }
+                    result.data?.let { currentUser = it }
                     userInfoState.onNext(result)
+
+                    if (result is SuccessResult) {
+                        result.data?.uid?.let {
+                            getUserModules(it)
+                        }
+                    } else {
+                        modulesState.onNext(
+                            ErrorResult(
+                                isSessionExpired = (result as? ErrorResult)
+                                    ?.isSessionExpired
+                                    ?: false
+                            )
+                        )
+                    }
                 },
                 onError = Timber::e
             )
     }
 
-    fun getUserModules(userUid: Int) {
+    private fun getUserModules(userUid: Int) {
         Timber.d("getUserModules(): userUid = $userUid")
 
-//        modulesState.onLoadingState()
-        selectingModulesInteractor
-            .getOdooModules(userUid)
-            .schedule(
-                userModulesChannel,
-                onSuccess = { result ->
-                    Timber.d("getUserModules(): result = $result")
+        if (isReloaded) {
+            modulesState.onNext(SuccessResult(allModules))
+        } else {
+            selectingModulesInteractor
+                .getOdooModules(userUid)
+                .schedule(
+                    userModulesChannel,
+                    onSuccess = { result ->
+                        Timber.d("getUserModules(): result = $result")
 
-                    result.data?.let { list ->
-                        allModules.addAll(list)
-                    }
-                    modulesState.onNext(result)
-                },
-                onError = Timber::e
-            )
+                        result.data?.let { list ->
+                            allModules.addAll(list)
+                            isReloaded = true
+                        }
+
+                        modulesState.onNext(result)
+                    },
+                    onError = Timber::e
+                )
+        }
     }
 
     fun onModuleLikeClick(module: OdooModule) {
@@ -74,18 +99,21 @@ class SelectingModulesViewModel(
         val previousState = allModules[index].isFavourite
 
         allModules[index] = allModules[index].copy(isFavourite = !previousState)
+
         updateUserFavouriteModules(
-            favouriteModules = allModules.filter { it.isFavourite }.map { it.id }
+            favouriteModules = allModules
+                .filter { it.isFavourite }
+                .map { it.name }
         )
     }
 
-    private fun updateUserFavouriteModules(favouriteModules: List<Int>) {
+    private fun updateUserFavouriteModules(favouriteModules: List<String>) {
         Timber.d("updateFavouriteModules(): favouriteModules = $favouriteModules")
 
-        if (userModelId != -1) {
+        currentUser?.let { user ->
             selectingModulesInteractor
                 .updateFavouriteModules(
-                    userModelId = userModelId,
+                    user = user,
                     favouriteModules = favouriteModules
                 )
                 .schedule(

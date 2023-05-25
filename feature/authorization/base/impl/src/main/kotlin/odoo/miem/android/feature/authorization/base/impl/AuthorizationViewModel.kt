@@ -26,6 +26,12 @@ class AuthorizationViewModel : BaseViewModel() {
 
     val authorizationState: ResultSubject<Unit> by lazyEmptyResultPublishSubject()
 
+    init {
+        if (dataStore.isAuthorized) {
+            dataStore.clear()
+        }
+    }
+
     fun generalAuthorization(
         baseUrl: String,
         login: String,
@@ -55,6 +61,9 @@ class AuthorizationViewModel : BaseViewModel() {
         dataStore.setUrl(urlProcessing(rawDomain))
         return HseUriAuthorizationBuilder.Builder()
             .setBaseDomain(rawDomain)
+            .setClientID(
+                DEFAULT_PROD_CLIENT_ID.takeIf { dataStore.isProdUrl }
+            )
             .build()
             .generateHseAuthorizationUrl()
     }
@@ -74,6 +83,7 @@ class AuthorizationViewModel : BaseViewModel() {
                 }
                 true
             }
+
             else -> false
         }
     }
@@ -81,5 +91,7 @@ class AuthorizationViewModel : BaseViewModel() {
     private companion object {
         // Do this if there are multiple Rx chains in a viewModel
         val authChannel = Channel()
+
+        const val DEFAULT_PROD_CLIENT_ID = "erp-miem"
     }
 }

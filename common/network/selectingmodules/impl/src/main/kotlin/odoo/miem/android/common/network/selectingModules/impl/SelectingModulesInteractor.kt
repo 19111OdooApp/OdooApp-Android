@@ -4,13 +4,18 @@ import io.reactivex.rxjava3.core.Single
 import odoo.miem.android.common.network.selectingModules.api.ISelectingModulesInteractor
 import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.network.selectingModules.api.entities.User
+import odoo.miem.android.common.network.selectingModules.impl.entities.UserWithFavouriteModules
 import odoo.miem.android.common.network.selectingModules.impl.helpers.SelectingModulesHelper
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
+import odoo.miem.android.core.networkApi.firebaseDatabase.api.di.IFirebaseDatabaseApi
+import odoo.miem.android.core.networkApi.firebaseDatabase.api.source.ModuleIconResponse
+import odoo.miem.android.core.networkApi.firebaseRemoteConfig.api.di.IFirebaseRemoteConfigApi
 import odoo.miem.android.core.networkApi.userInfo.api.di.IUserInfoRepositoryApi
 import odoo.miem.android.core.networkApi.userInfo.api.di.IUserModulesRepositoryApi
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooGroupsResponse
 import odoo.miem.android.core.networkApi.userInfo.api.source.OdooModulesResponse
+import odoo.miem.android.core.networkApi.userInfo.api.source.UserInfoResponse
 import odoo.miem.android.core.utils.state.ErrorResult
 import odoo.miem.android.core.utils.state.Result
 import odoo.miem.android.core.utils.state.ResultSingle
@@ -27,7 +32,11 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
 
     private val userInfoRepository by api(IUserInfoRepositoryApi::userInfoRepository)
     private val userModulesRepository by api(IUserModulesRepositoryApi::selectingModulesRepository)
+
     private val dataStore by api(IDataStoreApi::dataStore)
+
+    private val remoteConfig by api(IFirebaseRemoteConfigApi::remoteConfig)
+    private val firebase by api(IFirebaseDatabaseApi::firebaseDatabase)
 
     private val helper = SelectingModulesHelper()
 
@@ -35,28 +44,44 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
         Timber.d("getUserInfo()")
 
         return userInfoRepository.getUserInfo()
-            .map<Result<User>> { response ->
-                val userInfo = helper.convertUserInfoResponse(
-                    response = response,
-                    deserializeFavouriteModules = userInfoRepository::deserializeFavouriteModules
-                )
+            .map { response: UserInfoResponse ->
+                val userInfo = helper.convertUserInfoResponse(response = response)
 
                 Timber.d(
-                    "getUserInfo(): id = ${userInfo.user.uid}, name = ${userInfo.user.name}"
+                    "getUserInfo(): uid = ${userInfo.uid}, name = ${userInfo.name}"
                 )
-                dataStore.setUID(userInfo.user.uid)
-                dataStore.setUserModelId(userInfo.user.modelId)
 
+                dataStore.setUID(userInfo.uid)
+                dataStore.setUserModelId(userInfo.modelId)
+
+                userInfo
+            }
+            .concatMap { user: User ->
+                firebase.fetchFavouriteModules(uid = user.uid, userName = user.name)
+                    .map { response ->
+                        UserWithFavouriteModules(
+                            user = user,
+                            favouriteModules = response.modules
+                        )
+                    }
+            }
+            .concatMap { userWithFavouriteModules ->
                 processFavouriteModules(
-                    userModelId = userInfo.user.uid,
-                    newModules = userInfo.favouriteModules
-                )
+                    user = userWithFavouriteModules.user,
+                    newModules = userWithFavouriteModules.favouriteModules
+                ).map {
+                    userWithFavouriteModules
+                }
+            }
+            .map<Result<User>> { result: UserWithFavouriteModules ->
 
-                SuccessResult(userInfo.user)
+                SuccessResult(result.user)
             }
             .onErrorReturn {
                 Timber.e("getUserInfo(): error message = ${it.message}")
-                ErrorResult(R.string.selecting_modules_error)
+                ErrorResult(
+                    isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
+                )
             }
     }
 
@@ -66,60 +91,79 @@ class SelectingModulesInteractor @Inject constructor() : ISelectingModulesIntera
         return Single
             .zip(
                 userModulesRepository.getOdooModules(),
-                userModulesRepository.getOdooGroups()
-            ) { modules: OdooModulesResponse, groups: OdooGroupsResponse ->
+                userModulesRepository.getOdooGroups(),
+                remoteConfig.fetchImplementedModules(),
+                firebase.fetchModuleIcons(),
+            ) { modules: OdooModulesResponse,
+                groups: OdooGroupsResponse,
+                implementedModulesJson: String,
+                icons: List<ModuleIconResponse> ->
+
                 helper.getAvailableModulesOfUser(
                     userUid = userUid,
                     modules = modules,
-                    implementedModules = userInfoRepository.fetchImplementedModules(),
-                    favouriteModules = dataStore.favouriteModules.map { it.toInt() },
+                    moduleIcons = icons,
+                    implementedModulesJson = implementedModulesJson,
+                    favouriteModules = dataStore.favouriteModules.toList(),
                     groups = groups
                 )
             }
             .map<Result<List<OdooModule>>> { modules ->
+                Timber.d("getOdooModules(): result = $modules")
+
                 SuccessResult(modules)
             }
             .onErrorReturn {
                 Timber.e("getOdooModules(): error message = ${it.message}")
-                ErrorResult(R.string.selecting_modules_error)
+                ErrorResult(
+                    isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
+                )
             }
     }
 
     override fun updateFavouriteModules(
-        userModelId: Int,
-        favouriteModules: List<Int>
+        user: User,
+        favouriteModules: List<String>
     ): ResultSingle<Boolean> {
         Timber.d("updateFavouriteModules()")
-        dataStore.setUserFavouriteModules(favouriteModules.map { it.toString() }.toSet())
+        dataStore.setUserFavouriteModules(favouriteModules.toSet())
 
-        return userInfoRepository.updateFavouriteModules(userModelId, favouriteModules)
+        return firebase.addOrUpdateUser(
+            uid = user.uid,
+            userName = user.name,
+            favouriteModules = favouriteModules
+        )
             .map<Result<Boolean>> {
                 SuccessResult(it)
             }
             .onErrorReturn {
                 Timber.e("updateFavouriteModules(): error message = ${it.message}")
-                ErrorResult(R.string.selecting_modules_error)
+                ErrorResult(
+                    isSessionExpired = ErrorResult.isSessionExpiredMessage(it.message)
+                )
             }
     }
 
-    private fun processFavouriteModules(userModelId: Int, newModules: List<Int>) {
-        val currentFavouriteModules = dataStore.favouriteModules.map { it.toInt() }
+    private fun processFavouriteModules(user: User, newModules: List<String>): Single<Boolean> {
+        val currentFavouriteModules = dataStore.favouriteModules.toList()
 
-        when {
+        Timber.d("processFavouriteModules(): current $currentFavouriteModules new $newModules")
+
+        return when {
             // if current and new modules are equal, do nothing
-            currentFavouriteModules == newModules -> {}
-            // if current modules list is empty, get from api
-            currentFavouriteModules.isEmpty() && newModules.isNotEmpty() -> {
-                dataStore.setUserFavouriteModules(
-                    newModules
-                        .map { it.toString() }
-                        .toSet()
-                )
+            currentFavouriteModules == newModules -> {
+                Single.just(true)
             }
-            // user is single source of truth
+            // if there are no liked modules at user side, get it from firebase
+            currentFavouriteModules.isEmpty() && newModules.isNotEmpty() -> {
+                dataStore.setUserFavouriteModules(newModules.toSet())
+                Single.just(true)
+            }
+            // else -> user if single source of truh
             else -> {
-                updateFavouriteModules(
-                    userModelId = userModelId,
+                firebase.addOrUpdateUser(
+                    uid = user.uid,
+                    userName = user.name,
                     favouriteModules = currentFavouriteModules
                 )
             }

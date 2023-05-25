@@ -129,6 +129,18 @@ object Dependencies {
             val ALL_SHARED_ELEMENTS_DEPS = listOf(SHARED_ELEMENTS)
         }
 
+        object SwipableCard {
+            private const val VERSION = "1.1.1"
+
+            const val SWIPABLE_CARD = "me.saket.swipe:swipe:$VERSION"
+        }
+
+        object HtmlText {
+            private const val VERSION = "1.3.1"
+
+            const val HTML_TEXT = "de.charlex.compose:html-text:$VERSION"
+        }
+
         object UiTest {
 
             // add to build.gradle with androidTestImplementation()
@@ -216,9 +228,14 @@ object Dependencies {
             "com.google.firebase:firebase-crashlytics-gradle:$CRASHLYTICS_GRADLE_VERSION"
 
         const val FIREBASE_BOM = "com.google.firebase:firebase-bom:$BOM_VERSION"
+
         const val FIREBASE_ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
         const val FIREBASE_CRASHLYTICS = "com.google.firebase:firebase-crashlytics-ktx"
+
         const val FIREBASE_CONFIG = "com.google.firebase:firebase-config-ktx"
+
+        const val FIREBASE_FIRESTORE = "com.google.firebase:firebase-firestore-ktx"
+        const val FIREBASE_STORAGE = "com.google.firebase:firebase-storage-ktx"
 
         val GRADLE_PLUGINS =
             listOf(GOOGLE_SERVICES_GRADLE_PLUGIN, FIREBASE_CRASHLYTICS_GRADLE_PLUGIN)
@@ -226,6 +243,8 @@ object Dependencies {
         val APPLICATION_DEPS = listOf(FIREBASE_ANALYTICS, FIREBASE_CRASHLYTICS)
 
         val MODULE_DEPS = listOf(FIREBASE_ANALYTICS, FIREBASE_CONFIG)
+
+        val DATABASE_DEPS = listOf(FIREBASE_FIRESTORE, FIREBASE_STORAGE)
     }
 
     object Plugins {

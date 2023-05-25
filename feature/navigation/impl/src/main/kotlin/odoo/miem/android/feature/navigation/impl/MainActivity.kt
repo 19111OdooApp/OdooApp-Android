@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,6 +35,9 @@ class MainActivity : AppCompatActivity() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
+        // TODO Delete, if will implement dark mode
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
         super.onCreate(savedInstanceState)
         Timber.d("onCreate()")
 
@@ -44,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
             // TODO Picker of theme
             OdooMiemAndroidTheme {
-                SetupStatusBarColor()
+                SetupSystemBarsColors()
 
                 Scaffold(
                     snackbarHost = {
@@ -71,22 +75,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-}
 
-@Composable
-private fun SetupStatusBarColor() {
-    val view = LocalView.current
-    if (!view.isInEditMode) {
-        val currentWindow = (view.context as? Activity)?.window
-            ?: error("Not in an activity - unable to get Window reference")
+    @Composable
+    private fun SetupSystemBarsColors() {
+        val view = LocalView.current
+        if (!view.isInEditMode) {
+            val currentWindow = (view.context as? Activity)?.window
+                ?: error("Not in an activity - unable to get Window reference")
 
-        val color = MaterialTheme.colorScheme.background.toArgb()
-        val isLightStatusBar = !isSystemInDarkTheme()
+            val color = MaterialTheme.colorScheme.background.toArgb()
+            val isLightStatusBar = !isSystemInDarkTheme()
 
-        SideEffect {
-            currentWindow.statusBarColor = color
-            WindowCompat.getInsetsController(currentWindow, view)
-                .isAppearanceLightStatusBars = isLightStatusBar
+            SideEffect {
+                currentWindow.statusBarColor = color
+
+                WindowCompat.getInsetsController(currentWindow, view)
+                    .isAppearanceLightStatusBars = isLightStatusBar
+            }
         }
     }
 }

@@ -39,7 +39,6 @@ fun SearchResultContent(
     items(filteredModules) { module ->
         BigModuleCard(
             moduleName = module.name,
-            numberOfNotification = module.numberOfNotifications,
             isLiked = module.isFavourite,
             onClick = { onModuleCardClick(module) },
             onLikeClick = { onLikeModuleClick(module) },

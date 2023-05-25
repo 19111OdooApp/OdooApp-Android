@@ -97,7 +97,6 @@ internal fun SelectingModulesFavouriteList(
             with(favoriteModules[page]) {
                 BigModuleCard(
                     moduleName = this.name,
-                    numberOfNotification = this.numberOfNotifications,
                     isLiked = this.isFavourite,
                     onClick = { onModuleCardClick(this) },
                     onLikeClick = {

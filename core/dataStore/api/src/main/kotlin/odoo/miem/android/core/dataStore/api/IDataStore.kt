@@ -12,6 +12,8 @@ interface IDataStore {
      * Current server url property and setter
      */
     val url: String
+
+    val isProdUrl: Boolean
     fun setUrl(baseUrl: String)
 
     /**
@@ -37,4 +39,6 @@ interface IDataStore {
      */
     val favouriteModules: Set<String>
     fun setUserFavouriteModules(newFavouriteModules: Set<String>)
+
+    fun clear()
 }

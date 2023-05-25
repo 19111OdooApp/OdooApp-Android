@@ -21,7 +21,7 @@ object RequestHelpers {
 
     // Crutch, but you know, this is backend of hse...
     private object Hse {
-        const val HSE_DOMAIN = "miem.tv"
+        const val HSE_DOMAIN = "miem"
         const val HSE_DATABASE = "crm"
     }
 }

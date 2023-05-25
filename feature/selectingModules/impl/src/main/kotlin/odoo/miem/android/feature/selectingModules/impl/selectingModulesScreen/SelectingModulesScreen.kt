@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
@@ -47,6 +48,7 @@ import com.mxalbert.sharedelements.MaterialContainerTransformSpec
 import com.mxalbert.sharedelements.SharedElement
 import com.mxalbert.sharedelements.SharedElementsRoot
 import kotlinx.coroutines.launch
+import odoo.miem.android.common.network.selectingModules.api.entities.ImplementedModulesEnum
 import odoo.miem.android.common.network.selectingModules.api.entities.OdooModule
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
 import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetScaffold
@@ -54,8 +56,10 @@ import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetVal
 import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetScaffoldState
 import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetState
 import odoo.miem.android.common.uiKitComponents.cards.SmallModuleCard
+import odoo.miem.android.common.uiKitComponents.headers.CommonModuleHeader
 import odoo.miem.android.common.uiKitComponents.splash.OdooSplashScreen
 import odoo.miem.android.common.uiKitComponents.stateholder.StateHolder
+import odoo.miem.android.common.uiKitComponents.stateholder.error.ErrorScreen
 import odoo.miem.android.common.uiKitComponents.text.SubtitleText
 import odoo.miem.android.common.uiKitComponents.text.TitleText
 import odoo.miem.android.common.uiKitComponents.textfields.SearchTextField
@@ -63,15 +67,14 @@ import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.utils.rx.collectAsState
-import odoo.miem.android.core.utils.state.SuccessResult
-import odoo.miem.android.core.utils.state.subscribeOnError
 import odoo.miem.android.feature.navigation.api.data.Routes
+import odoo.miem.android.feature.navigation.api.utils.navigateToUserProfile
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
 import odoo.miem.android.feature.selectingModules.impl.R
 import odoo.miem.android.feature.selectingModules.impl.SelectingModulesViewModel
 import odoo.miem.android.feature.selectingModules.impl.searchScreen.SearchModulesScreen
 import odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components.SelectingModulesFavouriteList
-import odoo.miem.android.feature.selectingModules.impl.selectingModulesScreen.components.SelectingModulesHeader
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -96,32 +99,43 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         val viewModel: SelectingModulesViewModel = viewModel()
 
         val userInfoState by viewModel.userInfoState.collectAsState()
-        userInfoState.subscribeOnError(showMessage)
 
         val modulesState by viewModel.modulesState.collectAsState()
-        modulesState.subscribeOnError(showMessage)
-
-        if (userInfoState is SuccessResult) {
-            LaunchedEffect(Unit) {
-                viewModel.getUserModules(userInfoState.data?.uid!!)
-            }
-        }
 
         LaunchedEffect(Unit) {
             viewModel.getUserInfo()
         }
 
         val onModuleCardClick: (OdooModule) -> Unit = {
+            Timber.d(
+                "onModuleCardClick(): name - ${it.name}, nameStandard = ${it.identificationName} " +
+                    "isImplemented - ${it.isImplemented}"
+            )
             if (it.isImplemented) {
-                // TODO when some module will be ready, add navigation
+                when (it.identificationName) {
+                    ImplementedModulesEnum.RECRUITMENT.naming -> navController.navigate(Routes.recruitmentJobs)
+                    ImplementedModulesEnum.CRM.naming -> navController.navigate(Routes.crmKanban)
+                    ImplementedModulesEnum.EMPLOYEES.naming -> navController.navigate(Routes.employees)
+                }
             } else {
                 navController.navigate(Routes.moduleNotFound)
             }
         }
 
+        val navigateToUserProfile: () -> Unit = {
+            navController.navigateToUserProfile()
+        }
+
         StateHolder(
             state = modulesState,
             loadingContent = { OdooSplashScreen() },
+            errorContent = {
+                ErrorScreen(
+                    isSessionExpired = it.isSessionExpired,
+                    onSessionExpired = { navController.navigate(Routes.authorization) },
+                    onRetry = { viewModel.getUserInfo() }
+                )
+            },
             successContent = {
                 val allModules = viewModel.allModules
                 val favouriteModules = allModules.filter { it.isFavourite }
@@ -145,7 +159,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     favoriteModules = favouriteModules,
                     onModuleCardClick = onModuleCardClick,
                     onLikeModuleClick = viewModel::onModuleLikeClick,
-                    onSearchValueChange = performModulesSearch
+                    onSearchValueChange = performModulesSearch,
+                    navigateToUserProfile = navigateToUserProfile,
                 )
             }
         )
@@ -160,14 +175,29 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         onModuleCardClick: (OdooModule) -> Unit = {},
         onLikeModuleClick: (OdooModule) -> Unit = {},
         onSearchValueChange: (String) -> List<OdooModule> = { emptyList() },
+        navigateToUserProfile: () -> Unit = {},
     ) {
+        val sheetPeekHeight = (
+            LocalConfiguration.current.screenHeightDp * SHEET_PEEK_HEIGHT_COEFFICIENT
+            ).dp
+        val sheetPeekHeightPx = with(LocalDensity.current) { sheetPeekHeight.toPx() }
+
+        val bottomSheetValues = listOf(
+            CustomBottomSheetValue.Expanded,
+            CustomBottomSheetValue.Collapsed(sheetPeekHeightPx),
+            CustomBottomSheetValue.Half(
+                HALF_COEFFICIENT
+            )
+        )
         val topRadius = 35.dp
 
         val sheetState = rememberCustomBottomSheetState(
-            initialValue = CustomBottomSheetValue.Collapsed
+            initialValue = bottomSheetValues.first { it is CustomBottomSheetValue.Collapsed },
+            possibleValues = bottomSheetValues,
         )
         val scaffoldState = rememberCustomBottomSheetScaffoldState(
-            customBottomSheetState = sheetState
+            customBottomSheetState = sheetState,
+            possibleValues = bottomSheetValues,
         )
 
         val scope = rememberCoroutineScope()
@@ -204,16 +234,14 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                             topStart = topRadius,
                             topEnd = topRadius
                         ),
-                        sheetPeekHeight = (
-                            LocalConfiguration.current.screenHeightDp * SHEET_PEEK_HEIGHT_COEFFICIENT
-                            ).dp,
+                        sheetPeekHeight = sheetPeekHeight,
                         sheetElevation = 8.dp,
                         backgroundColor = MaterialTheme.colorScheme.background,
                         sheetBackgroundColor = MaterialTheme.colorScheme.background,
-                        halfCoefficient = HALF_COEFFICIENT,
                         modifier = Modifier
                             .fillMaxSize()
-                            .imePadding()
+                            .imePadding(),
+                        possibleValues = scaffoldState.customBottomSheetState.possibleValues,
                     ) {
                         SelectingModulesMainContent(
                             userName = userName,
@@ -221,7 +249,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                             onModuleCardClick = onModuleCardClick,
                             onLikeModuleClick = onLikeModuleClick,
                             onAddModuleCardClick = onAddModuleCardClick,
-                            onSearchBarClick = { isSearchScreenVisible = true }
+                            onSearchBarClick = { isSearchScreenVisible = true },
+                            navigateToUserProfile = navigateToUserProfile
                         )
                     }
                 } else {
@@ -247,7 +276,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
         onModuleCardClick: (OdooModule) -> Unit = {},
         onLikeModuleClick: (OdooModule) -> Unit = {},
         onAddModuleCardClick: () -> Unit = {},
-        onSearchBarClick: () -> Unit = {}
+        onSearchBarClick: () -> Unit = {},
+        navigateToUserProfile: () -> Unit = {}
     ) = Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -271,8 +301,9 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
 
         SimpleLogoAppBar()
 
-        SelectingModulesHeader(
-            userName = userName ?: stringResource(R.string.default_user_name)
+        CommonModuleHeader(
+            userName = userName ?: stringResource(R.string.default_user_name),
+            onUserIconClick = navigateToUserProfile
         )
 
         Spacer(modifier = Modifier.height(baseTopPadding))
@@ -352,6 +383,7 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
             with(module) {
                 SmallModuleCard(
                     moduleName = this.name,
+                    iconDownloadUrl = this.iconDownloadUrl,
                     isLiked = this.isFavourite,
                     onClick = { onModuleCardClick(module) },
                     onLikeClick = {
@@ -372,14 +404,16 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     parentId = null,
                     childModules = mutableListOf(),
                     name = "CRM",
-                    numberOfNotifications = 1
+                    identificationName = "",
+                    iconDownloadUrl = "",
                 ),
                 OdooModule(
                     id = -1,
                     parentId = null,
                     childModules = mutableListOf(),
                     name = "Recruitment",
-                    numberOfNotifications = 5,
+                    identificationName = "",
+                    iconDownloadUrl = "",
                     isFavourite = true
                 ),
                 OdooModule(
@@ -387,7 +421,8 @@ class SelectingModulesScreen @Inject constructor() : ISelectingModulesScreen {
                     parentId = null,
                     childModules = mutableListOf(),
                     name = "Pricing",
-                    numberOfNotifications = 123
+                    identificationName = "",
+                    iconDownloadUrl = ""
                 )
             )
         )

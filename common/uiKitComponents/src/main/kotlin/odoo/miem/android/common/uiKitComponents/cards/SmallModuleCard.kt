@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.rounded.QuestionMark
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -21,11 +22,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import coil.size.Size
 import odoo.miem.android.common.uiKitComponents.R
+import odoo.miem.android.common.uiKitComponents.spinner.DefaultCircleSpinner
 import odoo.miem.android.common.uiKitComponents.utils.getBackgroundColorCard
 import odoo.miem.android.common.uiKitComponents.utils.glowEffect
 
@@ -33,18 +39,19 @@ import odoo.miem.android.common.uiKitComponents.utils.glowEffect
  * [SmallModuleCard] is implementation of small module's card
  *
  * @param moduleName - name of module
+ * @param iconDownloadUrl - url for downloading icon of module
  * @param isLiked - is module liked. If true, icon will be filled
  * @param onLikeClick - action, when user click on icon like
  * @param onClick - action, when user click on card
- * // TODO @param iconUrl
  *
  * @author Vorozhtsov Mikhail
  */
 @Composable
 fun SmallModuleCard(
-    moduleName: String = stringResource(id = R.string.module_default_name),
-    isLiked: Boolean = false,
     modifier: Modifier = Modifier,
+    moduleName: String = stringResource(id = R.string.default_module_name),
+    iconDownloadUrl: String,
+    isLiked: Boolean = false,
     onLikeClick: () -> Unit = {},
     onClick: () -> Unit = {}
 ) = Box(
@@ -76,12 +83,36 @@ fun SmallModuleCard(
             .align(Alignment.Center),
         contentAlignment = Alignment.Center
     ) {
-        Icon(
-            painter = painterResource(R.drawable.ic_small_module_card), // TODO Depence on module
-            contentDescription = null,
-            tint = Color.White,
-            modifier = Modifier.fillMaxSize()
-        )
+        val model = ImageRequest.Builder(LocalContext.current)
+            .data(iconDownloadUrl)
+            .size(Size.ORIGINAL)
+            .build()
+
+        val painter = rememberAsyncImagePainter(model = model)
+
+        when (painter.state) {
+            is AsyncImagePainter.State.Success -> {
+                Icon(
+                    painter = painter,
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+            is AsyncImagePainter.State.Error -> {
+                Icon(
+                    imageVector = Icons.Rounded.QuestionMark,
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier.size(36.dp)
+                )
+            }
+            else -> {
+                DefaultCircleSpinner(
+                    modifier = Modifier.size(36.dp)
+                )
+            }
+        }
     }
 
     Text(

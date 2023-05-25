@@ -16,12 +16,12 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 /**
- * [animatedGradientBorder] - function for creating Brush of card border
+ * [animatedLinearGradientBorder] - function for creating Brush of card border
  *
  * @author Egor Danilov
  */
 @Composable
-fun animatedGradientBorder(
+fun animatedLinearGradientBorder(
     colors: List<Color>,
     startX: Float,
     startY: Float,

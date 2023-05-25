@@ -26,12 +26,17 @@ class DataStore @Inject constructor() : IDataStore {
     }
 
     override val url by sharedPreferences.delegates.string()
+    override val isProdUrl: Boolean
+        get() = url.contains(DEFAULT_PROD_DOMAIN)
+
     override fun setUrl(baseUrl: String) {
         if (baseUrl != url) {
             sharedPreferences.edit {
                 putString(::url.name, baseUrl)
             }
             Timber.d("setUrl(): url = $url")
+        } else {
+            Timber.d("setUrl(): tried to set the same url")
         }
     }
 
@@ -42,6 +47,8 @@ class DataStore @Inject constructor() : IDataStore {
                 putInt(::currentUID.name, uid)
             }
             Timber.d("setUID(): currentUID = $currentUID")
+        } else {
+            Timber.d("setUID(): tried to set the same uid")
         }
     }
 
@@ -52,6 +59,8 @@ class DataStore @Inject constructor() : IDataStore {
                 putBoolean(::isAuthorized.name, authorized)
             }
             Timber.d("setHseAuthorized(): authorized = $authorized")
+        } else {
+            Timber.d("setHseAuthorized(): already authorized")
         }
     }
 
@@ -62,6 +71,8 @@ class DataStore @Inject constructor() : IDataStore {
                 putString(::sessionId.name, newSessionId)
             }
             Timber.d("setSessionId(): sessionId = $newSessionId")
+        } else {
+            Timber.d("setSessionId(): tried to set the same session id")
         }
     }
 
@@ -72,6 +83,8 @@ class DataStore @Inject constructor() : IDataStore {
                 putInt(::userModelId.name, newId)
             }
             Timber.d("setUserModelId(): model id of user = $newId")
+        } else {
+            Timber.d("setUserModuleId(): tried to set the same model id")
         }
     }
 
@@ -82,10 +95,21 @@ class DataStore @Inject constructor() : IDataStore {
                 putStringSet(::favouriteModules.name, newFavouriteModules)
             }
             Timber.d("setUserFavoriteModules(): favourite modules = $newFavouriteModules")
+        } else {
+            Timber.d("setUserFavouriteModules(): tried to set the same modules")
         }
+    }
+
+    override fun clear() {
+        setUrl("")
+        setUID(-1)
+        setAuthorized(false)
+        setSessionId("")
+        setUserFavouriteModules(emptySet())
     }
 
     private companion object {
         const val PREFERENCES_NAME = "dataStore"
+        const val DEFAULT_PROD_DOMAIN = "erp.miem.hse.ru"
     }
 }

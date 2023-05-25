@@ -1,6 +1,8 @@
 # OdooApp
 
-<a href=''><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width=300/></a>
+<a href=''><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width=200 align="middle"/></a>
+<a href='https://apps.rustore.ru/app/odoo.miem.android'><img alt='Get it on Rustore' src='documentation/stores/Rustore_logo.webp' width=200 align="middle"/></a>
+
 
 ## Description
 > This is **unofficial** [Odoo](https://www.odoo.com/) mobile client for Android with [HSE](https://www.hse.ru/en/) support. Enjoy!
@@ -9,13 +11,32 @@
 - Authorization
   - General
   - HSE
-- Selecting modules, pick your favorite
-- Recruitment module `coming soon!`
-- CRM module `coming soon!`
-- Profile `coming soon!`
+- Selecting modules
+  - Pick your favorite
+  - Looking for the right module
+- Recruitment module
+  - View available job
+  - Open or close a job post, also get link of job
+  - Start hiring or finish
+  - Kanban of applications for vacancies
+  - Search for kanban applications and view detailed information
+- CRM module
+  - Viewing the CRM kanban
+  - Creating CRM kanban statuses
+  - Viewing detailed information
+  - Viewing of Log notes and Schedule activities
+- Profile
+  - Viewing of general info about user
+  - Log out from current session
 
 ## Example of screens
-<img src="documentation/screenshots/Authorization_light.webp" width=300/> <img src="documentation/screenshots/Authorization_dark.webp" width=300/>
+<img src="documentation/screenshots/Auth.webp" width=300/> <img src="documentation/screenshots/Selecting_modules.webp" width=300/>
+
+<img src="documentation/screenshots/Selecting_modules_search.webp" width=300/> <img src="documentation/screenshots/Log_notes.webp" width=300/> 
+
+<img src="documentation/screenshots/Jobs.webp" width=300/> <img src="documentation/screenshots/Jobs_status.webp" width=300/>
+
+<img src="documentation/screenshots/Kaban_full.webp" width=300/> <img src="documentation/screenshots/Kanban_empty.webp" width=300/>
 
 ## Stack
 - Kotlin
@@ -27,5 +48,4 @@
 ## Are you a developer?
 Check [README](documentation/README.md) for developers
 
-## Download
-Stable release coming soon, keep in touch ＼(＾▽＾)／
+Keep in touch ＼(＾▽＾)／

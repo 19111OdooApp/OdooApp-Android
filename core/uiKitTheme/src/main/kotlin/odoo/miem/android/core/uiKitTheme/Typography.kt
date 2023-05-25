@@ -75,5 +75,17 @@ val typography = Typography(
         fontWeight = FontWeight.SemiBold,
         fontSize = 80.sp,
         letterSpacing = 0.sp
+    ),
+    bodySmall = TextStyle(
+        fontFamily = fonts,
+        fontSize = 6.sp,
+        fontWeight = FontWeight.Medium,
+        letterSpacing = 0.sp
+    ),
+    headlineLarge = TextStyle(
+        fontFamily = fonts,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 28.sp,
+        letterSpacing = 0.5.sp
     )
 )

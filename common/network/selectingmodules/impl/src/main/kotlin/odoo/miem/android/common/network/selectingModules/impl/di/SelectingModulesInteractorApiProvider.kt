@@ -19,5 +19,7 @@ class SelectingModulesInteractorApiProvider {
     @Provides
     @IntoMap
     @ApiKey(ISelectingModulesInteractorApi::class)
-    fun provideSelectingModulesUseCaseApiProvider() = ApiProvider { SelectingModulesInteractorComponent.create() }
+    fun provideSelectingModulesInteractorApiProvider() = ApiProvider {
+        SelectingModulesInteractorComponent.create()
+    }
 }

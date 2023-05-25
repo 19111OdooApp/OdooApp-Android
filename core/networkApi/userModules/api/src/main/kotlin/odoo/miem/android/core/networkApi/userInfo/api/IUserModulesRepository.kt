@@ -15,14 +15,14 @@ interface IUserModulesRepository {
     /**
      * [getOdooGroups] - function for requesting all user groups of Odoo
 
-     * @return Observable<[OdooGroupsResponse]> which provides modules accessible for user
+     * @return Single<[OdooGroupsResponse]> which provides modules accessible for user
      */
     fun getOdooGroups(): Single<OdooGroupsResponse>
 
     /**
      * [getOdooModules] - function for requesting all modules of Odoo
 
-     * @return Observable<[OdooModulesResponse]> which provides modules accessible for user
+     * @return Single<[OdooModulesResponse]> which provides modules accessible for user
      */
     fun getOdooModules(): Single<OdooModulesResponse>
 }

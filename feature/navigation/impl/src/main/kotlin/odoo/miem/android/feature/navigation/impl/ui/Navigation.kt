@@ -1,4 +1,3 @@
-
 package odoo.miem.android.feature.navigation.impl.ui
 
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,18 +12,31 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import kotlinx.coroutines.launch
 import odoo.miem.android.core.dataStore.api.di.IDataStoreApi
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.feature.authorization.base.api.IAuthorizationScreen
 import odoo.miem.android.feature.authorization.base.api.di.IAuthorizationApi
+import odoo.miem.android.feature.crm.api.ICrmDetailsScreen
+import odoo.miem.android.feature.crm.api.ICrmKanbanScreen
+import odoo.miem.android.feature.crm.api.di.ICrmApi
+import odoo.miem.android.feature.employees.api.IEmployeesScreen
+import odoo.miem.android.feature.employees.api.di.IEmployeesScreenApi
 import odoo.miem.android.feature.moduleNotFound.api.IModuleNotFoundScreen
 import odoo.miem.android.feature.moduleNotFound.api.di.IModuleNotFoundApi
 import odoo.miem.android.feature.navigation.api.data.Routes
+import odoo.miem.android.feature.recruitment.api.IRecruitmentDetailsScreen
+import odoo.miem.android.feature.recruitment.api.IRecruitmentJobsScreen
+import odoo.miem.android.feature.recruitment.api.IRecruitmentKanbanScreen
+import odoo.miem.android.feature.recruitment.api.di.IRecruitmentApi
 import odoo.miem.android.feature.selectingModules.api.ISelectingModulesScreen
 import odoo.miem.android.feature.selectingModules.api.di.ISelectingModulesApi
+import odoo.miem.android.feature.userProfile.api.IUserProfileScreen
+import odoo.miem.android.feature.userProfile.api.di.IUserProfileScreenApi
 
 /**
  * [Navigation] composable function, which is needed to initialize navigation across screens
@@ -32,7 +44,7 @@ import odoo.miem.android.feature.selectingModules.api.di.ISelectingModulesApi
  * For adding new screen one should write corresponding path to [Routes]
  * and add new [composable] в [NavHost]
  *
- * @author Ворожцов Михаил
+ * @author Vorozhtsov Mikhail
  */
 @Composable
 fun Navigation(
@@ -48,20 +60,34 @@ fun Navigation(
             snackbarHostState.showSnackbar(strMessage)
         }
     }
-    val dataStore by api(IDataStoreApi::dataStore)
 
     // Screens
     val authorizationScreen by api(IAuthorizationApi::authorizationScreen)
     val selectingModulesScreen by api(ISelectingModulesApi::selectingModulesScreen)
     val moduleNotFoundScreen by api(IModuleNotFoundApi::moduleNotFoundScreen)
+    val recruitmentScreen by api(IRecruitmentApi::recruitmentScreen)
+    val recruitmentDetailsScreen by api(IRecruitmentApi::recruitmentDetailsScreen)
+    val recruitmentJobsScreen by api(IRecruitmentApi::recruitmentJobsScreen)
+    val crmDetailsScreen by api(ICrmApi::crmDetailsScreen)
+    val crmKanbanScreen by api(ICrmApi::crmKanbanScreen)
+    val userProfileScreen by api(IUserProfileScreenApi::userProfileScreen)
+    val employeesScreen by api(IEmployeesScreenApi::employeesScreen)
+    val dataStore by api(IDataStoreApi::dataStore)
 
     NavigationContent(
         authorizationScreen = authorizationScreen,
         selectingModulesScreen = selectingModulesScreen,
         moduleNotFoundScreen = moduleNotFoundScreen,
+        recruitmentScreen = recruitmentScreen,
+        recruitmentDetailsScreen = recruitmentDetailsScreen,
+        recruitmentJobsScreen = recruitmentJobsScreen,
+        crmKanbanScreen = crmKanbanScreen,
+        crmDetailsScreen = crmDetailsScreen,
+        userProfileScreen = userProfileScreen,
+        employeesScreen = employeesScreen,
         paddingValues = paddingValues,
         navController = navController,
-//        isAuthorized = dataStore.isAuthorized,
+        isAuthorized = dataStore.isAuthorized,
         showMessage = showMessage,
     )
 }
@@ -71,9 +97,16 @@ fun NavigationContent(
     authorizationScreen: IAuthorizationScreen,
     selectingModulesScreen: ISelectingModulesScreen,
     moduleNotFoundScreen: IModuleNotFoundScreen,
+    recruitmentScreen: IRecruitmentKanbanScreen,
+    recruitmentDetailsScreen: IRecruitmentDetailsScreen,
+    recruitmentJobsScreen: IRecruitmentJobsScreen,
+    crmKanbanScreen: ICrmKanbanScreen,
+    crmDetailsScreen: ICrmDetailsScreen,
+    userProfileScreen: IUserProfileScreen,
+    employeesScreen: IEmployeesScreen,
     paddingValues: PaddingValues,
     navController: NavHostController,
-//    isAuthorized: Boolean,
+    isAuthorized: Boolean,
     showMessage: (Int) -> Unit,
 ) {
     Surface(
@@ -85,7 +118,11 @@ fun NavigationContent(
         NavHost(
             navController = navController,
             startDestination = remember {
-                Routes.authorization
+                if (isAuthorized) {
+                    Routes.selectingModules
+                } else {
+                    Routes.authorization
+                }
             }
         ) {
             composable(Routes.authorization) {
@@ -105,6 +142,86 @@ fun NavigationContent(
             composable(Routes.moduleNotFound) {
                 moduleNotFoundScreen.ModuleNotFoundScreen(
                     navController = navController
+                )
+            }
+
+            composable(
+                "${Routes.recruitmentKanban}/{${Routes.Arguments.recruitmentJobId}}",
+                arguments = listOf(
+                    navArgument(Routes.Arguments.recruitmentJobId) { type = NavType.LongType }
+                )
+            ) {
+                recruitmentScreen.RecruitmentKanbanScreen(
+                    navController = navController,
+                    jobId = it.arguments!!.getLong(Routes.Arguments.recruitmentJobId),
+                    showMessage = showMessage
+                )
+            }
+
+            composable(
+                "${Routes.recruitmentDetails}/{${Routes.Arguments.recruitmentApplicationId}}",
+                arguments = listOf(
+                    navArgument(Routes.Arguments.recruitmentApplicationId) {
+                        type = NavType.LongType
+                    }
+                )
+            ) {
+                recruitmentDetailsScreen.RecruitmentDetailsScreen(
+                    applicationId = it.arguments!!.getLong(Routes.Arguments.recruitmentApplicationId),
+                    navController = navController,
+                    showMessage = showMessage
+                )
+            }
+
+            composable(Routes.recruitmentJobs) {
+                recruitmentJobsScreen.RecruitmentJobsScreen(
+                    navController = navController,
+                    showMessage = showMessage
+                )
+            }
+
+            composable(
+                "${Routes.crmDetails}/{${Routes.Arguments.crmOpportunityId}}",
+                arguments = listOf(
+                    navArgument(Routes.Arguments.crmOpportunityId) {
+                        type = NavType.LongType
+                    }
+                )
+            ) {
+                crmDetailsScreen.CrmDetailsScreen(
+                    opportunityId = it.arguments!!.getLong(Routes.Arguments.crmOpportunityId),
+                    navController = navController,
+                    showMessage = showMessage
+                )
+            }
+
+            composable(Routes.crmKanban) {
+                crmKanbanScreen.CrmKanbanScreen(
+                    navController = navController,
+                    showMessage = showMessage
+                )
+            }
+
+            composable(
+                "${Routes.userProfile}/{${Routes.Arguments.userId}}",
+                arguments = listOf(
+                    navArgument(Routes.Arguments.userId) {
+                        type = NavType.LongType
+                        defaultValue = -1
+                    }
+                )
+            ) {
+                userProfileScreen.UserProfileScreen(
+                    userId = it.arguments!!.getLong(Routes.Arguments.userId).takeIf { it >= 0 },
+                    navController = navController,
+                    showMessage = showMessage
+                )
+            }
+
+            composable(Routes.employees) {
+                employeesScreen.EmployeesScreen(
+                    navController = navController,
+                    showMessage = showMessage
                 )
             }
         }

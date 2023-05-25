@@ -16,6 +16,9 @@ dependencies {
     // Datastore
     api(project(":core:dataStore:api"))
 
+    // Converter
+    api(project(":core:converter:api"))
+
     // Json RPC - Base
     api(project(":core:jsonrpc:base"))
 }

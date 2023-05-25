@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.BottomSheetScaffoldDefaults
@@ -51,7 +52,10 @@ import kotlin.math.roundToInt
 fun CustomBottomSheetScaffold(
     sheetContent: @Composable ColumnScope.() -> Unit,
     modifier: Modifier = Modifier,
-    scaffoldState: CustomBottomSheetScaffoldState = rememberCustomBottomSheetScaffoldState(),
+    possibleValues: List<CustomBottomSheetValue>,
+    scaffoldState: CustomBottomSheetScaffoldState = rememberCustomBottomSheetScaffoldState(
+        possibleValues
+    ),
     topBar: (@Composable () -> Unit)? = null,
     sheetGesturesEnabled: Boolean = true,
     sheetShape: Shape = MaterialTheme.shapes.large,
@@ -62,30 +66,34 @@ fun CustomBottomSheetScaffold(
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     borderColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = contentColorFor(backgroundColor),
-    halfCoefficient: Float = 0.5F,
-    content: @Composable (PaddingValues) -> Unit
+    content: @Composable (PaddingValues) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     BoxWithConstraints(modifier) {
         val fullHeight = constraints.maxHeight.toFloat()
         val peekHeightPx = with(LocalDensity.current) { sheetPeekHeight.toPx() }
         var bottomSheetHeight by remember { mutableStateOf(fullHeight) }
-
+        val anchors = scaffoldState.customBottomSheetState.possibleValues.associateBy { state ->
+            state.calculate(
+                fullHeight = fullHeight,
+                bottomSheetHeight = bottomSheetHeight
+            )
+        }
         val swipeable = Modifier
             .nestedScroll(scaffoldState.customBottomSheetState.nestedScrollConnection)
             .swipeable(
                 state = scaffoldState.customBottomSheetState,
-                anchors = mapOf(
-                    fullHeight - peekHeightPx to CustomBottomSheetValue.Collapsed,
-                    fullHeight - bottomSheetHeight * halfCoefficient to CustomBottomSheetValue.Half,
-                    fullHeight - bottomSheetHeight to CustomBottomSheetValue.Expanded
-                ),
+                anchors = anchors,
                 orientation = Orientation.Vertical,
                 enabled = sheetGesturesEnabled,
                 resistance = null
             )
             .semantics {
-                if (peekHeightPx != bottomSheetHeight) {
+                if (peekHeightPx != bottomSheetHeight ||
+                    !scaffoldState.customBottomSheetState.possibleValues.any {
+                        it is CustomBottomSheetValue.Collapsed
+                    }
+                ) {
                     when {
                         scaffoldState.customBottomSheetState.isCollapsed -> {
                             expand {
@@ -105,10 +113,15 @@ fun CustomBottomSheetScaffold(
                                 true
                             }
                         }
+                        scaffoldState.customBottomSheetState.isHidden -> {
+                            collapse {
+                                scope.launch { scaffoldState.customBottomSheetState.expand() }
+                                true
+                            }
+                        }
                     }
                 }
             }
-
         CustomBottomSheetScaffoldStack(
             body = {
                 Surface(
@@ -127,7 +140,10 @@ fun CustomBottomSheetScaffold(
                         .fillMaxWidth()
                         .requiredHeightIn(min = sheetPeekHeight)
                         .onGloballyPositioned {
-                            bottomSheetHeight = it.size.height.toFloat()
+                            val newValue = it.size.height.toFloat()
+                            if (bottomSheetHeight != newValue) {
+                                bottomSheetHeight = newValue
+                            }
                         },
                     shape = sheetShape,
                     elevation = sheetElevation,

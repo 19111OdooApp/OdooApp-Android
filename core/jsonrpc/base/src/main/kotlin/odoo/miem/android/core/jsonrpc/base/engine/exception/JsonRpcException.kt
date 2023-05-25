@@ -1,7 +1,5 @@
 package odoo.miem.android.core.jsonrpc.base.engine.exception
 
-import odoo.miem.android.core.jsonrpc.base.parser.ResultParser
-
 /**
  * [JsonRpcException] is exception, which thrown
  * when [ResultParser] have problems with parsing

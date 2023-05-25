@@ -1,13 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Default-->
+    <string name="default_user_email" translatable="false">cool@user.com</string>
+    <string name="default_user_phone" translatable="false">+79999999999</string>
+    <string name="default_module_name">Cool module</string>
+
+    <!--  Job card  -->
+    <plurals name="job_number_of_new_application">
+        <item quantity="one">%d New Application</item>
+        <item quantity="few">%d New Applications</item>
+        <item quantity="many">%d New Applications</item>
+        <item quantity="other">%d New Applications</item>
+    </plurals>
+    <plurals name="job_number_of_application">
+        <item quantity="one">%d Application</item>
+        <item quantity="few">%d Applications</item>
+        <item quantity="many">%d Applications</item>
+        <item quantity="other">%d Applications</item>
+    </plurals>
+    <string name="job_big_number_of_application">1000+ Application</string>
+    <string name="job_number_to_recruit">%d To Recruit</string>
+    <string name="job_big_number_to_recruit">1000+ To Recruit</string>
+
     <!--  Modules Card  -->
     <plurals name="module_number_of_notifications">
-        <item quantity="one">%d New Notifications</item>
+        <item quantity="one">%d New Notification</item>
         <item quantity="few">%d New Notifications</item>
         <item quantity="many">%d New Notifications</item>
         <item quantity="other">%d New Notifications</item>
     </plurals>
-    <string name="module_default_name">Cool module</string>
     <string name="outlined_module_card_header">Add favourite module</string>
 
     <!--  Search Text field  -->
@@ -21,4 +42,47 @@
     <string name="add_favourite_module_button_icon" translatable="false">addFavouriteModule</string>
     <string name="test_text_field_desc" translatable="false">testTextField</string>
     <string name="test_input" translatable="false">Test input</string>
+
+    <!-- header -->
+    <string name="hello_text">Hello,</string>
+    <string name="default_user_name">Cool user</string>
+    <string name="choose_module_text">Choose module</string>
+    <string name="all_modules">All modules</string>
+
+    <!-- Empty Search -->
+    <string name="search_result_empty">No results</string>
+    <string name="search_result_empty_desc">There were no results for "%s".\nTry a new search.</string>
+
+    <!-- RecruitmentLike -->
+    <string name="recruitment_search_bar_key" translatable="false">searchBar</string>
+    <string name="recruitment_screen_key" translatable="false">recruitmentScreen</string>
+    <string name="recruitment_search_screen_key" translatable="false">searchScreen</string>
+
+    <string name="recruitment_search_hint">Enter employee name</string>
+    <string name="recruitment_change_status">Change status</string>
+    <string name="recruitment_add_new_status">Add a new status</string>
+    <string name="finish_new_status_creation">Done</string>
+    <string name="cancel_new_status_creation">Cancel</string>
+    <string name="create_new_status_headline">New status</string>
+    <string name="create_status_hint">Status name</string>
+
+    <string name="recruitment_empty_status">There is no application yet!</string>
+    <string name="recruitment_empty_status_description">Try to search the right one 🤔</string>
+
+    <!--DetailsLike-->
+    <!--Job Item-->
+    <string name="item_salary" translatable="false">%.2f</string>
+
+    <string name="details_empty_status">There is no records!</string>
+    <string name="details_empty_status_description">Keep calm, and chill 😎</string>
+
+    <!--Error State-->
+    <string name="error_message">Sorry, but something go wrong 😔</string>
+    <string name="error_message_subtitle">Maybe we will try one more time?</string>
+    <string name="error_retry">Retry</string>
+
+    <string name="error_session_message">Sorry, but your session is expired 😔</string>
+    <string name="error_session_message_subtitle">You should authorize one more time</string>
+    <string name="error_session_retry">Let\'s go to authorization!</string>
+
 </resources>

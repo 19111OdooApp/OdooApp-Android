@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="recruitment_search_bar_key" translatable="false">searchBar</string>
+    <string name="recruitment_screen_key" translatable="false">recruitmentScreen</string>
+    <string name="recruitment_search_screen_key" translatable="false">searchScreen</string>
+    <string name="recruitment_search_hint">Enter employee name</string>
+
+    <string name="recruitment_change_status">Change status</string>
+    <string name="recruitment_add_new_status">Add a new status</string>
+
+    <string name="recruitment_job_positions">Job Positions</string>
+
+    <string name="recruitment_job_link">Job Link</string>
+
+    <string name="recruitment_job_details">Details</string>
+
+    <string name="recruitment_job_recruit_start">Start Recruit</string>
+    <string name="recruitment_job_recruit_done">Recruit done</string>
+
+    <string name="recruitment_job_published">Published</string>
+    <string name="recruitment_job_not_published">Not Published</string>
+
+    <string name="error_recruitment_change_status">Status can not be changed without reasons!</string>
+
+    <!--Titles-->
+    <string name="recruitment_details_title_job">Job</string>
+    <string name="recruitment_details_title_applied_job">Applied Job</string>
+    <string name="recruitment_details_title_department">Department</string>
+    <string name="recruitment_details_title_recruiter">Recruiter</string>
+    <string name="recruitment_details_title_appreciation">Appreciation</string>
+    <string name="recruitment_details_title_source">Source</string>
+
+    <string name="recruitment_details_title_employee">Employee</string>
+    <string name="recruitment_details_title_phone">Phone</string>
+    <string name="recruitment_details_title_mobile">Mobile</string>
+    <string name="recruitment_details_title_email">Email</string>
+    <string name="recruitment_details_title_full_name">Full Name</string>
+    <string name="recruitment_details_title_test_task">Test Task</string>
+    <string name="recruitment_details_title_project">Project</string>
+    <string name="recruitment_details_title_group">Group</string>
+    <string name="recruitment_details_title_specialization">Specialization</string>
+
+    <string name="recruitment_details_title_contract">Contract</string>
+    <string name="recruitment_details_title_expected_salary">Expected Salary</string>
+    <string name="recruitment_details_title_proposed_salary">Proposed Salary</string>
+
+    <string name="recruitment_details_title_application_summary">Application Summary</string>
+
+    <string name="recruitment_details_title_log_note">Log note</string>
+    <string name="recruitment_details_title_enter_log_note">Enter log note…</string>
+    <string name="recruitment_details_title_new_log_note">Add new log note</string>
+
+    <string name="recruitment_details_title_schedule_activity">Schedule activity</string>
+    <string name="recruitment_details_title_due_date">Due on %s: %s</string>
+    <string name="recruitment_details_title_assign_for">for %s</string>
+</resources>

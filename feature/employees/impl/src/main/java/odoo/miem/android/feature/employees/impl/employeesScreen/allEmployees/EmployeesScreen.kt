@@ -13,8 +13,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import odoo.miem.android.common.network.employees.api.entities.EmployeeBasicInfo
 import odoo.miem.android.common.uiKitComponents.progressbar.LoadingScreen
-import odoo.miem.android.common.uiKitComponents.screen.base.searchLike.SearchLikeScreenWithPages
 import odoo.miem.android.common.uiKitComponents.screen.base.searchLike.model.ScreenPage
+import odoo.miem.android.common.uiKitComponents.screenTemplates.base.searchLike.SearchLikeScreenWithPages
 import odoo.miem.android.common.uiKitComponents.stateholder.StateHolder
 import odoo.miem.android.common.uiKitComponents.stateholder.error.ErrorScreen
 import odoo.miem.android.common.utils.avatar.AvatarRequestHeader

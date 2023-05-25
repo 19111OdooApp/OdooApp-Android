@@ -20,7 +20,7 @@ import odoo.miem.android.common.uiKitComponents.bottomsheet.CustomBottomSheetVal
 import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetScaffoldState
 import odoo.miem.android.common.uiKitComponents.bottomsheet.rememberCustomBottomSheetState
 import odoo.miem.android.common.uiKitComponents.progressbar.LoadingScreen
-import odoo.miem.android.common.uiKitComponents.screen.base.searchLike.SearchLikeBottomSheetScreen
+import odoo.miem.android.common.uiKitComponents.screenTemplates.base.searchLike.SearchLikeScreenWithBottomSheet
 import odoo.miem.android.common.uiKitComponents.stateholder.StateHolder
 import odoo.miem.android.common.uiKitComponents.stateholder.error.ErrorScreen
 import odoo.miem.android.core.utils.rx.collectAsState
@@ -144,7 +144,7 @@ class RecruitmentJobsScreen @Inject constructor() : IRecruitmentJobsScreen {
             }
         }
 
-        SearchLikeBottomSheetScreen(
+        SearchLikeScreenWithBottomSheet(
             items = jobs,
             scaffoldState = scaffoldState,
             userName = userName,

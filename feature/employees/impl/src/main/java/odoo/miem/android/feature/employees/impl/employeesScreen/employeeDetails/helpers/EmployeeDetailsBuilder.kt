@@ -1,9 +1,9 @@
 package odoo.miem.android.feature.employees.impl.employeesScreen.employeeDetails.helpers
 
 import odoo.miem.android.common.network.employees.api.entities.EmployeeDetails
-import odoo.miem.android.common.uiKitComponents.screen.base.detailsLike.components.DetailedInfoType
-import odoo.miem.android.common.uiKitComponents.screen.base.detailsLike.components.TextType
-import odoo.miem.android.common.uiKitComponents.screen.employeesLike.employeeDetailsLike.models.EmployeeDetailsHeader
+import odoo.miem.android.common.uiKitComponents.screenTemplates.base.detailsLike.components.DetailedInfoType
+import odoo.miem.android.common.uiKitComponents.screenTemplates.base.detailsLike.components.TextType
+import odoo.miem.android.common.uiKitComponents.screenTemplates.employeesLike.employeeDetailsLike.models.EmployeeDetailsHeader
 import odoo.miem.android.common.utils.avatar.AvatarRequestHeader
 import odoo.miem.android.feature.employees.impl.R
 

@@ -1,7 +1,7 @@
 package odoo.miem.android.common.network.crm.api.entities.kanban
 
-import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.DeadlineStatus
-import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.RecruitmentLikeEmployeeModel
+import odoo.miem.android.common.uiKitComponents.screenTemplates.recruitmentLike.model.DeadlineStatus
+import odoo.miem.android.common.uiKitComponents.screenTemplates.recruitmentLike.model.RecruitmentLikeEmployeeModel
 
 data class OpportunityCRM(
     override val name: String,

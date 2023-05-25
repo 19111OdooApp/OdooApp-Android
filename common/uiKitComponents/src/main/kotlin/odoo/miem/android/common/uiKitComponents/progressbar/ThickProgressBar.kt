@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.DeadlineStatus
+import odoo.miem.android.common.uiKitComponents.screenTemplates.recruitmentLike.model.DeadlineStatus
 import odoo.miem.android.core.uiKitTheme.odooErrorPrimaryDark
 import odoo.miem.android.core.uiKitTheme.odooPrimaryDark
 import odoo.miem.android.core.uiKitTheme.odooPrimaryGray

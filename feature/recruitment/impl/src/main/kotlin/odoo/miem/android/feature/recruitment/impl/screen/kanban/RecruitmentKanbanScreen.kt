@@ -10,8 +10,8 @@ import androidx.navigation.NavHostController
 import odoo.miem.android.common.network.recruitment.api.entities.kanban.Employee
 import odoo.miem.android.common.network.recruitment.api.entities.kanban.Status
 import odoo.miem.android.common.uiKitComponents.progressbar.LoadingScreen
-import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.RecruitmentLikeScreen
-import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.DeadlineStatus
+import odoo.miem.android.common.uiKitComponents.screenTemplates.recruitmentLike.RecruitmentLikeScreen
+import odoo.miem.android.common.uiKitComponents.screenTemplates.recruitmentLike.model.DeadlineStatus
 import odoo.miem.android.common.uiKitComponents.stateholder.StateHolder
 import odoo.miem.android.common.uiKitComponents.stateholder.error.ErrorScreen
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme

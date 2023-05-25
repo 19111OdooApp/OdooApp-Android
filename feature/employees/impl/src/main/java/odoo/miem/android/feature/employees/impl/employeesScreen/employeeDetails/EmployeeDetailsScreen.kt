@@ -10,11 +10,11 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import odoo.miem.android.common.uiKitComponents.progressbar.LoadingScreen
-import odoo.miem.android.common.uiKitComponents.screen.base.detailsLike.components.DetailedInfoType
-import odoo.miem.android.common.uiKitComponents.screen.base.detailsLike.components.PagesType
-import odoo.miem.android.common.uiKitComponents.screen.base.detailsLike.components.TextType
-import odoo.miem.android.common.uiKitComponents.screen.employeesLike.employeeDetailsLike.EmployeeDetailsLikeScreen
-import odoo.miem.android.common.uiKitComponents.screen.employeesLike.employeeDetailsLike.models.EmployeeDetailsHeader
+import odoo.miem.android.common.uiKitComponents.screenTemplates.base.detailsLike.components.DetailedInfoType
+import odoo.miem.android.common.uiKitComponents.screenTemplates.base.detailsLike.components.PagesType
+import odoo.miem.android.common.uiKitComponents.screenTemplates.base.detailsLike.components.TextType
+import odoo.miem.android.common.uiKitComponents.screenTemplates.employeesLike.employeeDetailsLike.EmployeeDetailsLikeScreen
+import odoo.miem.android.common.uiKitComponents.screenTemplates.employeesLike.employeeDetailsLike.models.EmployeeDetailsHeader
 import odoo.miem.android.common.uiKitComponents.stateholder.StateHolder
 import odoo.miem.android.common.uiKitComponents.stateholder.error.ErrorScreen
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme

@@ -25,7 +25,7 @@ import odoo.miem.android.common.uiKitComponents.screen.base.searchLike.model.Sea
 import odoo.miem.android.common.uiKitComponents.utils.SharedElementConstants
 
 @Composable
-fun <T : SearchLikeModel> SearchLikeScreen(
+fun <T : SearchLikeModel> SearchLikeScreenWithPages(
     screenPage: ScreenPage<T>,
     filteredItems: List<T>,
     userName: String,

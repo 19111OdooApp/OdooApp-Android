@@ -13,7 +13,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import odoo.miem.android.common.network.employees.api.entities.EmployeeBasicInfo
 import odoo.miem.android.common.uiKitComponents.progressbar.LoadingScreen
-import odoo.miem.android.common.uiKitComponents.screen.base.searchLike.SearchLikeScreen
+import odoo.miem.android.common.uiKitComponents.screen.base.searchLike.SearchLikeScreenWithPages
 import odoo.miem.android.common.uiKitComponents.screen.base.searchLike.model.ScreenPage
 import odoo.miem.android.common.uiKitComponents.stateholder.StateHolder
 import odoo.miem.android.common.uiKitComponents.stateholder.error.ErrorScreen
@@ -58,7 +58,6 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
 
         val avatarRequestHeadersState by viewModel.avatarRequestHeaders.collectAsState()
 
-        val allEmployeesItems = viewModel.employeesList
         val filteredEmployees = viewModel.filteredEmployeesList
 
         LaunchedEffect(Unit) {
@@ -78,7 +77,7 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
             successContent = {
                 EmployeesScreenContent(
                     userName = userInfoState.data?.name ?: "Cool user",
-                    employeesPage = allEmployeesState.data ?: DEFAULT_SCREEN_PAGE,
+                    pageWithEmployees = allEmployeesState.data ?: DEFAULT_SCREEN_PAGE,
                     filteredEmployees = filteredEmployees,
                     avatarRequestHeaders = avatarRequestHeadersState.data ?: emptyList(),
                     isSearchLoading = employeeSearchState is LoadingResult,
@@ -111,7 +110,7 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
     @Composable
     private fun EmployeesScreenContent(
         userName: String,
-        employeesPage: ScreenPage<EmployeeBasicInfo>,
+        pageWithEmployees: ScreenPage<EmployeeBasicInfo>,
         filteredEmployees: List<EmployeeBasicInfo> = emptyList(),
         avatarRequestHeaders: List<AvatarRequestHeader> = emptyList(),
         isSearchLoading: Boolean = false,
@@ -137,8 +136,8 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
             onBackPressed()
         }
 
-        SearchLikeScreen(
-            screenPage = employeesPage,
+        SearchLikeScreenWithPages(
+            screenPage = pageWithEmployees,
             filteredItems = filteredEmployees,
             userName = userName,
             searchBarPlaceholder = R.string.employees_search_bar_placeholder,
@@ -162,7 +161,7 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
     private fun EmployeesScreenPreview() = OdooMiemAndroidTheme {
         EmployeesScreenContent(
             "Cool user",
-            employeesPage = ScreenPage(
+            pageWithEmployees = ScreenPage(
                 maxSize = 250,
                 currentPage = 0,
                 pageSize = 30,

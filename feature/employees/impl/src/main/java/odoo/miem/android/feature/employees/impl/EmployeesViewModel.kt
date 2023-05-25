@@ -38,26 +38,19 @@ class EmployeesViewModel(
     val avatarRequestHeaders: ResultSubject<List<AvatarRequestHeader>> by lazyEmptyResultPublishSubject()
 
     val allEmployeesState: ResultSubject<ScreenPage<EmployeeBasicInfo>> by lazyEmptyResultPublishSubject()
-    val employeesList = mutableStateListOf<EmployeeBasicInfo>()
+    private val employeesList = mutableStateListOf<EmployeeBasicInfo>()
 
     val employeesSearchState: ResultSubject<List<EmployeeBasicInfo>> by lazyEmptyResultPublishSubject()
     val filteredEmployeesList = mutableStateListOf<EmployeeBasicInfo>()
 
-    var employeesMaxSize: Int? = null
-        private set
-
-    var employeesPageSize: Int? = null
-        private set
+    private var employeesMaxSize: Int? = null
+    private var employeesPageSize: Int? = null
+    private var employeesCurrentPage: Int = 0
 
     var isSessionExpired = false
         private set
 
-    var employeesCurrentPage: Int = 0
-        private set
-
     fun onEmployeesOpen() {
-        employeesList.clear()
-
         getAllEmployees()
         getUserInfo()
         getAvatarRequestHeaders()
@@ -84,16 +77,17 @@ class EmployeesViewModel(
             )
     }
 
-    fun getAllEmployees(currentPage: Int = 0) {
+    fun getAllEmployees(newPage: Int? = null) {
         Timber.d("getAllEmployees()")
 
-        employeesCurrentPage = currentPage
+        newPage?.let {
+            employeesCurrentPage = it
+        }
 
-        if (employeesList.isNotEmpty() && employeesMaxSize != null && employeesPageSize != null) {
+        val existingEmployeesPage = getEmployeesPage(employeesCurrentPage)
 
-            val employeesPage = getEmployeesPage(currentPage)
-
-            allEmployeesState.onNext(SuccessResult(employeesPage))
+        if (existingEmployeesPage != null) {
+            allEmployeesState.onNext(SuccessResult(existingEmployeesPage))
         } else {
             employeesInteracor
                 .getAllEmployeesInfo(paginationOffset = employeesList.size)
@@ -111,9 +105,7 @@ class EmployeesViewModel(
                             }
                         }
 
-                        Timber.d("EMPLOYEES SIZE ${employeesList.size} PAGE SIZE $employeesPageSize MAX SIZE $employeesMaxSize")
-
-                        val employeesPage = getEmployeesPage(currentPage)
+                        val employeesPage = getEmployeesPage(employeesCurrentPage)
 
                         when (result) {
                             is ErrorResult -> {
@@ -137,44 +129,43 @@ class EmployeesViewModel(
         }
     }
 
-    private fun getEmployeesPage(currentPage: Int): ScreenPage<EmployeeBasicInfo> {
-        return if (employeesMaxSize != null && employeesPageSize != null) {
+    private fun getEmployeesPage(currentPage: Int): ScreenPage<EmployeeBasicInfo>? {
+        return employeesPageSize?.let { pageSize ->
+            val leftBorder = pageSize * currentPage
+            val rightBorder = pageSize * (currentPage + 1)
 
-            val leftBorder = employeesPageSize!! * currentPage
-            val rightBorder = employeesPageSize!! * (currentPage + 1)
+            employeesMaxSize?.let { maxSize ->
 
-            val fromIndex = if (leftBorder in employeesList.indices) {
-                leftBorder
-            } else {
-                0
+                val fromIndex = if (leftBorder in 0..employeesList.size) {
+                    leftBorder
+                } else {
+                    0
+                }
+
+                val toIndex = if (rightBorder > employeesList.size && rightBorder <= maxSize) {
+                    null
+                }
+                else if (rightBorder <= employeesList.size) {
+                    rightBorder
+                }
+                else {
+                    val difference = rightBorder - maxSize
+                    rightBorder - difference
+                }
+
+                toIndex
+                    ?.takeIf { it <= employeesList.size }
+                    ?.let {
+                        ScreenPage(
+                            maxSize = maxSize,
+                            currentPage = currentPage,
+                            pageSize = pageSize,
+                            fromIndex = fromIndex,
+                            toIndex = toIndex,
+                            items = employeesList.subList(fromIndex, toIndex)
+                        )
+                    }
             }
-
-            val toIndex = if (rightBorder <= employeesList.size) {
-                rightBorder
-            } else {
-                val difference = rightBorder - employeesList.size
-                rightBorder - difference
-            }
-
-            Timber.d("FROM INDEX $fromIndex TO INDEX $toIndex")
-
-            ScreenPage(
-                maxSize = employeesMaxSize!!,
-                currentPage = currentPage,
-                pageSize = employeesPageSize!!,
-                fromIndex = fromIndex,
-                toIndex = toIndex,
-                items = employeesList.subList(fromIndex, toIndex)
-            )
-        } else {
-            ScreenPage(
-                maxSize = employeesList.size,
-                currentPage = currentPage,
-                pageSize = employeesList.size,
-                fromIndex = 0,
-                toIndex = employeesList.size,
-                items = employeesList
-            )
         }
     }
 

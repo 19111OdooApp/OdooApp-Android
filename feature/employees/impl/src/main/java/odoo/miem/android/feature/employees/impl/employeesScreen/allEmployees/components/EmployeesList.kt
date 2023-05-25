@@ -32,16 +32,12 @@ internal fun ColumnScope.EmployeesList(
 ) = Box {
     val lazyColumnState = rememberLazyListState()
 
-    Timber.d("EMPLOYEES $employeesPage")
-
     val maximumSize = employeesPage.maxSize
     val currentPage = employeesPage.currentPage
     val pageSize = employeesPage.pageSize
 
     val fromIndex = employeesPage.fromIndex
     val toIndex = employeesPage.toIndex
-
-    Timber.d("PAGE $currentPage FROM $fromIndex, TO $toIndex, SIZE ${employeesPage.items.size}")
 
     val pageSwitcher: @Composable () -> Unit = if (
         maximumSize != null &&
@@ -57,14 +53,12 @@ internal fun ColumnScope.EmployeesList(
             LazyColumnPageSwitcher(
                 previousPageButtonEnabled = isBackButtonEnabled,
                 nextPageButtonEnabled = isNextButtonEnabled,
-                onPreviousPageClick = { onChangePageClick(currentPage - 1) },
-                onNextPageClick = { onChangePageClick(currentPage + 1) }/* {
-                if (rightBorder + pageSize > employees.size && rightBorder + pageSize < maximumSize) {
-                    onNextPageClick()
-                } else {
-                    currentPage++
+                onPreviousPageClick = {
+                    onChangePageClick(currentPage - 1)
+                },
+                onNextPageClick = {
+                    onChangePageClick(currentPage + 1)
                 }
-            } */
             ) {
                 LabelText(
                     text = stringResource(R.string.page_switcher_title)

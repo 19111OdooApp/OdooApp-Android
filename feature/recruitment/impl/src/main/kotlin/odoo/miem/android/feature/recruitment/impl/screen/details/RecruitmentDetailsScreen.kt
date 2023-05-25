@@ -76,7 +76,9 @@ class RecruitmentDetailsScreen @Inject constructor() : IRecruitmentDetailsScreen
                         header = getDetailsHeader(it),
                         pages = getDetailsPages(
                             stringResolver = { res -> context.resources.getString(res) },
+                            onCreateLogNote = { viewModel.createLogNote(applicationId, it) },
                             applicationInfo = it,
+                            context = context
                         ),
                         navigateBack = navController::popBackStack
                     )
@@ -229,6 +231,8 @@ class RecruitmentDetailsScreen @Inject constructor() : IRecruitmentDetailsScreen
                             placeholderText = "Due Date"
                         ),
                     )
+                    override val onDone: (results: List<DetailedBottomSheetComponentType>) -> Unit
+                        get() = {}
 
                     override val bottomSheetButtonText: String = "Add new log note"
                 }

@@ -1,10 +1,21 @@
 package odoo.miem.android.feature.recruitment.impl.screen.details.helpers
 
+import android.content.Context
 import odoo.miem.android.common.network.recruitment.api.entities.details.ApplicationInfo
 import odoo.miem.android.common.uiKitComponents.screen.base.detailsLike.components.DetailedInfoType
 import odoo.miem.android.common.uiKitComponents.screen.base.detailsLike.components.TextType
 import odoo.miem.android.common.uiKitComponents.screen.base.detailsLike.models.DetailsLikeHeader
+import odoo.miem.android.common.network.recruitment.api.entities.details.LogNoteInfo
+import odoo.miem.android.common.network.recruitment.api.entities.details.ScheduleActivityInfo
+import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.DetailedInfoType
+import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.DividedListType
+import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.TextType
+import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.bottomSheet.types.DetailedBottomSheetComponentType
+import odoo.miem.android.common.uiKitComponents.screen.detailsLike.models.DetailsLikeDividedListItem
+import odoo.miem.android.common.uiKitComponents.screen.detailsLike.models.DetailsLikeHeader
+import odoo.miem.android.common.uiKitComponents.screen.detailsLike.models.DividedListItemAction
 import odoo.miem.android.feature.recruitment.impl.R
+import odoo.miem.android.common.uiKitComponents.R as uiKitComponentsR
 
 internal fun getDetailsHeader(applicationInfo: ApplicationInfo) = DetailsLikeHeader(
     title = applicationInfo.employeeName,
@@ -14,7 +25,9 @@ internal fun getDetailsHeader(applicationInfo: ApplicationInfo) = DetailsLikeHea
 
 internal fun getDetailsPages(
     stringResolver: (stringRes: Int) -> String,
-    applicationInfo: ApplicationInfo
+    onCreateLogNote: (text: String) -> Unit,
+    applicationInfo: ApplicationInfo,
+    context: Context
 ) = listOf(
     getDetailedInfoPage(
         stringResolver = stringResolver,
@@ -23,6 +36,16 @@ internal fun getDetailsPages(
     getSummaryPage(
         topic = stringResolver(R.string.recruitment_details_title_application_summary),
         summary = applicationInfo.employeeSummary
+    ),
+    getLogNotePage(
+        logNotes = applicationInfo.logNotes,
+        onCreateLogNote = onCreateLogNote,
+        stringResolver = stringResolver
+    ),
+    getScheduleActivitiesPage(
+        activities = applicationInfo.scheduleActivities,
+        stringResolver = stringResolver,
+        context = context
     )
 )
 
@@ -104,3 +127,84 @@ private fun getSummaryPage(topic: String, summary: String?) = TextType(
     topic = topic,
     text = summary
 )
+
+private fun getLogNotePage(
+    logNotes: List<LogNoteInfo>,
+    stringResolver: (stringRes: Int) -> String,
+    onCreateLogNote: (text: String) -> Unit
+) = object : DividedListType {
+    override val topic: String = stringResolver(R.string.recruitment_details_title_log_note)
+
+    override val items: List<DetailsLikeDividedListItem> = logNotes.map {
+        object : DetailsLikeDividedListItem {
+            override val topic: String =
+                it.authorName ?: stringResolver(uiKitComponentsR.string.default_user_name)
+            override val userName: String =
+                it.authorName ?: stringResolver(uiKitComponentsR.string.default_user_name)
+            override val avatarUrl: String? = null
+            override val description: String = it.resolveDescription()
+            override val date: String = it.date ?: ""
+            override val actions: List<DividedListItemAction> = emptyList()
+        }
+    }
+
+    override val sheetElements: List<DetailedBottomSheetComponentType> = listOf(
+        DetailedBottomSheetComponentType.BigTextComponentType(
+            placeholderText = stringResolver(R.string.recruitment_details_title_enter_log_note)
+        ),
+    )
+    override val onDone: (results: List<DetailedBottomSheetComponentType>) -> Unit = { list ->
+        list.firstOrNull()?.result?.let {
+            onCreateLogNote(it)
+        }
+    }
+
+    override val bottomSheetButtonText: String =
+        stringResolver(R.string.recruitment_details_title_new_log_note)
+}
+
+private fun getScheduleActivitiesPage(
+    activities: List<ScheduleActivityInfo>,
+    stringResolver: (stringRes: Int) -> String,
+    context: Context
+) = object : DividedListType {
+    override val topic: String =
+        stringResolver(R.string.recruitment_details_title_schedule_activity)
+
+    override val items: List<DetailsLikeDividedListItem> = activities.map {
+        object : DetailsLikeDividedListItem {
+            override val topic: String =
+                context.resources.getString(R.string.recruitment_details_title_due_date).format(
+                    it.deadline,
+                    it.activityName
+                )
+            override val userName: String =
+                it.assignUserName ?: stringResolver(uiKitComponentsR.string.default_user_name)
+            override val avatarUrl: String? = null
+            override val description: String = it.resolveDescription()
+            override val date: String =
+                context.resources.getString(R.string.recruitment_details_title_assign_for).format(
+                    it.assignUserName
+                )
+            override val actions: List<DividedListItemAction> = emptyList()
+        }
+    }
+
+    override val sheetElements: List<DetailedBottomSheetComponentType> = emptyList()
+
+    override val onDone: (results: List<DetailedBottomSheetComponentType>) -> Unit = {}
+
+    override val bottomSheetButtonText: String = ""
+}
+
+private fun LogNoteInfo.resolveDescription() = buildString {
+    message?.let { append("<p>$it</p>") }
+    subtypeDescription?.let { append("<p><b>$it</b></p>") }
+    trackingInfoList.forEach {
+        append("<p>${it.changedField}: ${it.oldValue} -> ${it.newValue}</p>")
+    }
+}
+
+private fun ScheduleActivityInfo.resolveDescription() = buildString {
+    note?.let { append(it) }
+}

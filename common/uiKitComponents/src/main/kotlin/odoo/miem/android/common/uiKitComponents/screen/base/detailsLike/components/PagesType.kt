@@ -51,5 +51,7 @@ interface DividedListType : TopicableType {
 
     val sheetElements: List<DetailedBottomSheetComponentType>
 
+    val onDone: (results: List<DetailedBottomSheetComponentType>) -> Unit
+
     val bottomSheetButtonText: String
 }

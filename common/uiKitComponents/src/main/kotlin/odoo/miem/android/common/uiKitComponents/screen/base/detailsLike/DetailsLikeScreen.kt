@@ -34,6 +34,16 @@ import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import odoo.miem.android.common.uiKitComponents.appbars.SimpleLogoAppBar
+import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.DetailedInfoType
+import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.DividedListType
+import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.PagesType
+import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.TextType
+import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.bottomSheet.DetailsBottomSheetBuilder
+import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.header.ProfileHeader
+import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.pages.DetailedInfoPage
+import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.pages.DividedListPage
+import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.pages.TextPage
+import odoo.miem.android.common.uiKitComponents.screen.detailsLike.models.DetailsLikeHeader
 import odoo.miem.android.common.uiKitComponents.screen.base.detailsLike.components.DetailedInfoType
 import odoo.miem.android.common.uiKitComponents.screen.base.detailsLike.components.DividedListType
 import odoo.miem.android.common.uiKitComponents.screen.base.detailsLike.components.PagesType
@@ -87,7 +97,7 @@ fun DetailsLikeScreen(
                     onCancel = { onSheetExpand(false, null) },
                     onDone = { elements ->
                         onSheetExpand(true, null)
-                        Timber.d("New data - ${elements.map { it.result }}") // TODO Delete mocks
+                        type.onDone(elements)
                     }
                 )
             }

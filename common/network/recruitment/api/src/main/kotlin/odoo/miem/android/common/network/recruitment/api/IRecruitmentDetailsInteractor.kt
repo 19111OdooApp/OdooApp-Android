@@ -17,4 +17,6 @@ interface IRecruitmentDetailsInteractor {
      * @return [ApplicationInfo]
      */
     fun getApplicationInfo(applicationId: Long): ResultSingle<ApplicationInfo>
+
+    fun createLogNote(userId: Long, text: String): ResultSingle<Unit>
 }

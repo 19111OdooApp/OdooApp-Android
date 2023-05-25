@@ -20,7 +20,6 @@ import odoo.miem.android.common.utils.avatar.AvatarRequestHeader
 import odoo.miem.android.core.uiKitTheme.commonPadding
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.feature.employees.impl.R
-import timber.log.Timber
 
 @Suppress("MagicNumber")
 @Composable
@@ -63,7 +62,7 @@ internal fun ColumnScope.EmployeesList(
                 LabelText(
                     text = stringResource(R.string.page_switcher_title)
                         .format(
-                            "${fromIndex + 1}-${toIndex}",
+                            "${fromIndex + 1}-$toIndex",
                             maximumSize
                         ),
                     isMedium = false

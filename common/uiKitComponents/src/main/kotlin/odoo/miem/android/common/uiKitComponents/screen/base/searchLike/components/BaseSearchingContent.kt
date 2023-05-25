@@ -199,8 +199,7 @@ internal fun <T : SearchLikeModel> BaseSearchingContent(
     ) {
         if (isSearchLoading) {
             CircularProgressIndicator()
-        }
-        else if (filteredItems.isEmpty()) {
+        } else if (filteredItems.isEmpty()) {
             SearchResultEmpty(
                 searchInput = searchInput.text,
                 title = R.string.search_result_hint,

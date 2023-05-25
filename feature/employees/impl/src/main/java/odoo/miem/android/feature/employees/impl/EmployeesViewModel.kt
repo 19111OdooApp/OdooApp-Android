@@ -144,11 +144,9 @@ class EmployeesViewModel(
 
                 val toIndex = if (rightBorder > employeesList.size && rightBorder <= maxSize) {
                     null
-                }
-                else if (rightBorder <= employeesList.size) {
+                } else if (rightBorder <= employeesList.size) {
                     rightBorder
-                }
-                else {
+                } else {
                     val difference = rightBorder - maxSize
                     rightBorder - difference
                 }

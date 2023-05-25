@@ -114,7 +114,7 @@ class EmployeesInteractor @Inject constructor() : IEmployeesInteractor {
                         job = employee.job,
                         email = employee.email,
                         phone = employee.phone,
-                        avatarLink = getAvatarLink(userId =  it, odooUrl = dataStore.url),
+                        avatarLink = getAvatarLink(userId = it, odooUrl = dataStore.url),
                     )
                 )
             }

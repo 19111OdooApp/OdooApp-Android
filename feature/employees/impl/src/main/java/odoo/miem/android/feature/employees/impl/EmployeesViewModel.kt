@@ -51,9 +51,25 @@ class EmployeesViewModel(
         private set
 
     fun onEmployeesOpen() {
+        Timber.d("onEmployeesOpen()")
+
         getAllEmployees()
         getUserInfo()
         getAvatarRequestHeaders()
+    }
+
+    fun onEmployeesClosed() {
+        employeesMaxSize = null
+        employeesPageSize = null
+        employeesCurrentPage = 0
+
+        employeesList.clear()
+
+        Timber.d(
+            "onEmployeesClosed(): employeesList size = ${employeesList.size} " +
+                "currentPage = $employeesCurrentPage maxSize = $employeesMaxSize " +
+                "pageSize = $employeesPageSize"
+        )
     }
 
     fun onEmployeeDetailsOpen(employeeId: Long) {
@@ -84,94 +100,61 @@ class EmployeesViewModel(
             employeesCurrentPage = it
         }
 
-        val existingEmployeesPage = getEmployeesPage(employeesCurrentPage)
+        employeesInteracor
+            .getAllEmployeesInfo(paginationOffset = employeesList.size * employeesCurrentPage)
+            .schedule(
+                allEmployeesChannel,
+                onSuccess = { result ->
+                    Timber.d("getAllEmployees(): result = $result")
 
-        if (existingEmployeesPage != null) {
-            // if we successfully created new page with items that already exist
-            // in employeesList, use it
-            allEmployeesState.onNext(SuccessResult(existingEmployeesPage))
-        } else {
-            // else take more from api
-            employeesInteracor
-                .getAllEmployeesInfo(paginationOffset = employeesList.size)
-                .schedule(
-                    allEmployeesChannel,
-                    onSuccess = { result ->
-                        Timber.d("getAllEmployees(): result = $result")
+                    result.data?.let {
+                        employeesList.clear()
+                        employeesList.addAll(it.employees)
 
-                        result.data?.let {
-                            employeesList.addAll(it.employees)
-                            employeesPageSize = it.batchSize
+                        employeesPageSize = it.batchSize
 
-                            it.maxSize?.let { size ->
-                                employeesMaxSize = size
-                            }
+                        it.maxSize?.let { size ->
+                            employeesMaxSize = size
                         }
-
-                        val employeesPage = getEmployeesPage(employeesCurrentPage)
-
-                        when (result) {
-                            is ErrorResult -> {
-                                isSessionExpired = result.isSessionExpired
-
-                                allEmployeesState.onNext(ErrorResult())
-                            }
-                            is SuccessResult -> {
-                                allEmployeesState.onNext(SuccessResult(employeesPage))
-                            }
-                            is NothingResult -> {
-                                allEmployeesState.onNext(NothingResult())
-                            }
-                            else -> {}
-                        }
-                    },
-                    onError = {
-                        Timber.e(it)
                     }
-                )
-        }
+
+                    val employeesPage = getEmployeesPage(currentPage = employeesCurrentPage)
+
+                    when (result) {
+                        is ErrorResult -> {
+                            isSessionExpired = result.isSessionExpired
+
+                            allEmployeesState.onNext(ErrorResult())
+                        }
+                        is SuccessResult -> {
+                            allEmployeesState.onNext(SuccessResult(employeesPage))
+                        }
+                        is NothingResult -> {
+                            allEmployeesState.onNext(NothingResult())
+                        }
+                        else -> {}
+                    }
+                },
+                onError = {
+                    Timber.e(it)
+                }
+            )
     }
 
     private fun getEmployeesPage(currentPage: Int): ScreenPage<EmployeeBasicInfo>? {
-        // if employeesPageSize or employeesMaxSize are null, it means that our employeesList
-        // is empty, so have to make api request
         return employeesPageSize?.let { pageSize ->
-            val leftBorder = pageSize * currentPage
-            val rightBorder = pageSize * (currentPage + 1)
+            val fromIndex = pageSize * currentPage
+            val toIndex = fromIndex + employeesList.size
 
             employeesMaxSize?.let { maxSize ->
-
-                val fromIndex = if (leftBorder in 0..employeesList.size) {
-                    leftBorder
-                } else {
-                    0
-                }
-
-                val toIndex = if (rightBorder > employeesList.size && rightBorder <= maxSize) {
-                    // we are out of items in employeesList so we can't create new page
-                    // and have to get more items from api
-                    null
-                } else if (rightBorder <= employeesList.size) {
-                    // there are items in employeesList that satisfy our new page indices,
-                    // so we can reuse them
-                    rightBorder
-                } else {
-                    // else case: rightBorder > maxSize so we should just use maxSize
-                    maxSize
-                }
-
-                toIndex
-                    ?.takeIf { it <= employeesList.size }
-                    ?.let {
-                        ScreenPage(
-                            maxSize = maxSize,
-                            currentPage = currentPage,
-                            pageSize = pageSize,
-                            fromIndex = fromIndex,
-                            toIndex = toIndex,
-                            items = employeesList.subList(fromIndex, toIndex)
-                        )
-                    }
+                ScreenPage(
+                    maxSize = maxSize,
+                    currentPage = currentPage,
+                    pageSize = pageSize,
+                    fromIndex = fromIndex,
+                    toIndex = toIndex,
+                    items = employeesList
+                )
             }
         }
     }

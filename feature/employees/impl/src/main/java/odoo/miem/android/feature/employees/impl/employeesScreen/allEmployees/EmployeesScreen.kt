@@ -101,7 +101,10 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
                     onUserIconClick = {
                         navController.navigateToUserProfile()
                     },
-                    onBackPressed = navController::popBackStack
+                    onBackPressed = {
+                        viewModel.onEmployeesClosed()
+                        navController.popBackStack()
+                    }
                 )
             }
         )

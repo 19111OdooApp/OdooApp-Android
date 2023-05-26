@@ -25,7 +25,7 @@ import odoo.miem.android.core.platform.di.PlatformApiProvider
 import odoo.miem.android.core.utils.di.RxApiProvider
 import odoo.miem.android.feature.authorization.base.impl.di.AuthorizationScreenApiProvider
 import odoo.miem.android.feature.crm.impl.di.CrmScreenApiProvider
-import odoo.miem.android.feature.employees.impl.di.EmployeesScreenApiProvider
+import odoo.miem.android.feature.employees.impl.di.EmployeesApiProvider
 import odoo.miem.android.feature.moduleNotFound.impl.di.ModuleNotFoundScreenApiProvider
 import odoo.miem.android.feature.recruitment.impl.di.RecruitmentScreenApiProvider
 import odoo.miem.android.feature.selectingModules.impl.di.SelectingModulesScreenApiProvider
@@ -57,7 +57,7 @@ import odoo.miem.android.feature.userProfile.impl.di.UserProfileScreenApiProvide
  *  - [RecruitmentScreenApiProvider] - recruitment screen
  *  - [CrmScreenApiProvider] - crm screen
  *  - [UserProfileScreenApiProvider] - user profile screen
- *  - [EmployeesScreenApiProvider] - employees screen
+ *  - [EmployeesApiProvider] - employees screen
  *
  * Interactors:
  *  - [AuthorizationInteractorApiProvider] - authorization interactor
@@ -95,7 +95,7 @@ import odoo.miem.android.feature.userProfile.impl.di.UserProfileScreenApiProvide
         RecruitmentScreenApiProvider::class,
         CrmScreenApiProvider::class,
         UserProfileScreenApiProvider::class,
-        EmployeesScreenApiProvider::class,
+        EmployeesApiProvider::class,
 
         // Interactors
         AuthorizationInteractorApiProvider::class,

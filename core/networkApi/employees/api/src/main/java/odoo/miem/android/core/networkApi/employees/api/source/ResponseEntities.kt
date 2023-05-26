@@ -8,6 +8,10 @@ import odoo.miem.android.core.jsonrpc.converter.api.annotation.SpecifiedTypeOrNu
 @JsonClass(generateAdapter = true)
 data class AllEmployeesResponse(
 
+    @Json(name = "length")
+    @SpecifiedTypeOrNull(JsonReader.Token.NUMBER)
+    val length: Int?,
+
     @Json(name = "records")
     @SpecifiedTypeOrNull(JsonReader.Token.BEGIN_ARRAY)
     val records: List<EmployeeBasicInfoResponse>?
@@ -17,7 +21,7 @@ data class AllEmployeesResponse(
 
         @Json(name = "id")
         @SpecifiedTypeOrNull(JsonReader.Token.NUMBER)
-        val id: Int?,
+        val id: Long?,
 
         @Json(name = "name")
         @SpecifiedTypeOrNull(JsonReader.Token.STRING)
@@ -33,11 +37,7 @@ data class AllEmployeesResponse(
 
         @Json(name = "work_phone")
         @SpecifiedTypeOrNull(JsonReader.Token.STRING)
-        val phone: String?,
-
-        @Json(name = "avatar_1920")
-        @SpecifiedTypeOrNull(JsonReader.Token.STRING)
-        val avatar: String?,
+        val phone: String?
     )
 }
 
@@ -46,7 +46,7 @@ data class EmployeeDetailsResponse(
 
     @Json(name = "id")
     @SpecifiedTypeOrNull(JsonReader.Token.NUMBER)
-    val id: Int?,
+    val id: Long?,
 
     @Json(name = "name")
     @SpecifiedTypeOrNull(JsonReader.Token.STRING)
@@ -113,5 +113,9 @@ data class EmployeeDetailsResponse(
 
     @Json(name = "employee_type")
     @SpecifiedTypeOrNull(JsonReader.Token.STRING)
-    val employeeType: String?
+    val employeeType: String?,
+
+    @Json(name = "tz")
+    @SpecifiedTypeOrNull(JsonReader.Token.STRING)
+    val timezone: String?
 )

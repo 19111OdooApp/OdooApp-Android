@@ -1,5 +1,6 @@
 package odoo.miem.android.common.uiKitComponents.search
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -29,7 +30,9 @@ import odoo.miem.android.core.uiKitTheme.mainVerticalPadding
  */
 @Composable
 fun SearchResultEmpty(
-    searchInput: String
+    searchInput: String,
+    @StringRes title: Int = R.string.search_result_empty,
+    @StringRes description: Int = R.string.search_result_empty_desc
 ) = Column(
     verticalArrangement = Arrangement.Top,
     horizontalAlignment = Alignment.CenterHorizontally,
@@ -47,7 +50,7 @@ fun SearchResultEmpty(
     Spacer(modifier = Modifier.height(mainVerticalPadding / 2))
 
     LabelText(
-        textRes = R.string.search_result_empty,
+        textRes = title,
         isLarge = true,
         textAlign = TextAlign.Center
     )
@@ -55,7 +58,7 @@ fun SearchResultEmpty(
     Spacer(modifier = Modifier.height(mainVerticalPadding / 2))
 
     SubtitleText(
-        text = stringResource(R.string.search_result_empty_desc)
+        text = stringResource(description)
             .format(searchInput),
         textAlign = TextAlign.Center,
         color = MaterialTheme.colorScheme.tertiary

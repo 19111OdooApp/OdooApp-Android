@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="viewmodel_store_owner_error" translatable="false">No ViewModelStoreOwner was provided via LocalViewModelStoreOwner</string>
+</resources>

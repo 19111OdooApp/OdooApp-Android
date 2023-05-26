@@ -26,7 +26,7 @@ dependencies {
     implementation(project(":core:uiKitTheme"))
 
     // Feature
-    // Selecting modules API
+    // Recruitment API
     implementation(project(":feature:recruitment:api"))
 
     // Platform

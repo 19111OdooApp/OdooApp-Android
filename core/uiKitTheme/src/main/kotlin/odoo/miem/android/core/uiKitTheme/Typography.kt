@@ -28,6 +28,13 @@ val typography = Typography(
         fontSize = 16.sp,
         letterSpacing = 0.3.sp,
     ),
+    labelSmall = TextStyle(
+        fontFamily = fonts,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+        lineHeight = 14.sp,
+        letterSpacing = 0.3.sp
+    ),
     headlineMedium = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.SemiBold,

@@ -18,13 +18,18 @@ dependencies {
     // SelectingModules
     api(project(":common:network:employees:api"))
 
+    // Common utils
+    implementation(project(":common:utils"))
+
+    // SelectingModules
+    api(project(":common:network:selectingModules:api"))
 
     // Core
     // UiKitTheme
     implementation(project(":core:uiKitTheme"))
 
     // Feature
-    // Selecting modules API
+    // Employees API
     implementation(project(":feature:employees:api"))
     // Platform
     implementation(project(":core:platform"))

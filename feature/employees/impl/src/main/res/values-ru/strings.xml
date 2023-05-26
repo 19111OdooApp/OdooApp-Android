@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="employees_main_title">Сотрудники</string>
+    <string name="employees_search_bar_placeholder">Введите имя сотрудника…</string>
+
+    <!-- Titles -->
+    <string name="employee_details_title_main_info">Главная информация</string>
+    <string name="employee_details_title_department">Департамент</string>
+    <string name="employee_details_title_study_group">Учебная группа</string>
+    <string name="employee_details_title_manager">Менеджер</string>
+    <string name="employee_details_title_coach">Тренер</string>
+
+    <string name="employees_details_title_work_info">Рабочая информация</string>
+    <string name="employees_details_title_work_address">Рабочий адрес</string>
+    <string name="employees_details_title_work_location">Расположение работы</string>
+    <string name="employee_details_title_working_hours">Рабочие часы</string>
+    <string name="employee_details_title_timezone">Часовой пояс</string>
+
+    <string name="employees_details_title_about_me">Обо мне</string>
+</resources>

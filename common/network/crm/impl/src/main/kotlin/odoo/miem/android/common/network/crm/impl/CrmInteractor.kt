@@ -6,7 +6,7 @@ import odoo.miem.android.common.network.crm.api.entities.kanban.OpportunityCRM
 import odoo.miem.android.common.network.crm.api.entities.kanban.StatusCRM
 import odoo.miem.android.common.network.crm.impl.helper.MutableStatusCRM
 import odoo.miem.android.common.network.crm.impl.helper.toStatusCRM
-import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.DeadlineStatus
+import odoo.miem.android.common.uiKitComponents.screenTemplates.recruitmentLike.model.DeadlineStatus
 import odoo.miem.android.core.di.impl.api
 import odoo.miem.android.core.networkApi.crm.api.di.ICrmRepositoryApi
 import odoo.miem.android.core.networkApi.crm.api.entities.CrmKanbanStagesResponse

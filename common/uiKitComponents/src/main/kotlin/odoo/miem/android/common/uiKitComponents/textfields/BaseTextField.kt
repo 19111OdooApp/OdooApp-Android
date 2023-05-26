@@ -28,16 +28,18 @@ import odoo.miem.android.core.uiKitTheme.odooPrimaryGray
  */
 @Composable
 fun BaseTextField(
+    modifier: Modifier = Modifier,
     imeAction: ImeAction = ImeAction.Done,
     isError: Boolean = false,
     keyboardType: KeyboardType = KeyboardType.Text,
     @StringRes labelResource: Int? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
-    modifier: Modifier = Modifier,
     readOnly: Boolean = false,
     enabled: Boolean = true,
     onValueChange: (TextFieldValue) -> Unit = {},
+    onDone: () -> Unit = {},
+    onSearch: (String) -> Unit = {},
     shape: CornerBasedShape = MaterialTheme.shapes.small,
     trailingIcon: @Composable (() -> Unit)? = null,
     value: TextFieldValue,
@@ -54,6 +56,8 @@ fun BaseTextField(
         readOnly = readOnly,
         enabled = enabled,
         onValueChange = onValueChange,
+        onDone = onDone,
+        onSearch = onSearch,
         shape = shape,
         trailingIcon = trailingIcon,
         value = value,
@@ -63,17 +67,19 @@ fun BaseTextField(
 
 @Composable
 fun BaseTextField(
+    modifier: Modifier = Modifier,
     imeAction: ImeAction = ImeAction.Done,
     isError: Boolean = false,
     keyboardType: KeyboardType = KeyboardType.Text,
     label: String? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
-    modifier: Modifier = Modifier,
     readOnly: Boolean = false,
     enabled: Boolean = true,
     singleLine: Boolean = true,
     onValueChange: (TextFieldValue) -> Unit = {},
+    onDone: () -> Unit = {},
+    onSearch: (String) -> Unit = {},
     shape: CornerBasedShape = MaterialTheme.shapes.small,
     trailingIcon: @Composable (() -> Unit)? = null,
     textStyle: TextStyle? = null,
@@ -92,6 +98,8 @@ fun BaseTextField(
         enabled = enabled,
         singleLine = singleLine,
         onValueChange = onValueChange,
+        onDone = onDone,
+        onSearch = onSearch,
         shape = shape,
         trailingIcon = trailingIcon,
         textStyle = textStyle,
@@ -103,17 +111,19 @@ fun BaseTextField(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun _BaseTextField(
+    modifier: Modifier = Modifier,
     imeAction: ImeAction = ImeAction.Done,
     isError: Boolean = false,
     keyboardType: KeyboardType = KeyboardType.Text,
     label: String?,
     leadingIcon: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
-    modifier: Modifier = Modifier,
     readOnly: Boolean = false,
     enabled: Boolean = true,
     singleLine: Boolean = true,
     onValueChange: (TextFieldValue) -> Unit = {},
+    onDone: () -> Unit = {},
+    onSearch: (String) -> Unit = {},
     shape: CornerBasedShape = MaterialTheme.shapes.small,
     trailingIcon: @Composable (() -> Unit)? = null,
     textStyle: TextStyle? = null,
@@ -140,7 +150,16 @@ private fun _BaseTextField(
         placeholder = placeholder,
         visualTransformation = visualTransformation,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
-        keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                onDone()
+                focusManager.clearFocus()
+            },
+            onSearch = {
+                onSearch(value.text)
+                focusManager.clearFocus()
+            }
+        ),
         isError = isError,
         shape = shape,
         colors = TextFieldDefaults.outlinedTextFieldColors(

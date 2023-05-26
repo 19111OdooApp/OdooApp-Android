@@ -16,11 +16,14 @@ object Routes {
     const val crmDetails = "crmDetails"
     const val userProfile = "userProfile"
     const val employees = "employees"
+    const val employeeDetails = "employeeDetails"
 
     object Arguments {
         const val recruitmentJobId = "recruitmentJobId"
         const val recruitmentApplicationId = "recruitmentApplicationId"
         const val crmOpportunityId = "crmOpportunityId"
         const val userId = "userId"
+
+        const val employeesEmployeeId = "employeesEmployeeId"
     }
 }

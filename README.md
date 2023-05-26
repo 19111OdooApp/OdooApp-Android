@@ -1,6 +1,6 @@
-# OdooApp
+# OdooMobileX
 
-<a href=''><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width=200 align="middle"/></a>
+<a href='https://play.google.com/store/apps/details?id=odoo.miem.android'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width=200 align="middle"/></a>
 <a href='https://apps.rustore.ru/app/odoo.miem.android'><img alt='Get it on Rustore' src='documentation/stores/Rustore_logo.webp' width=200 align="middle"/></a>
 
 
@@ -28,6 +28,10 @@
 - Profile
   - Viewing of general info about user
   - Log out from current session
+- Employees
+  - Viewing list of employees
+  - Get detailed info about employee
+  - Search employee
 
 ## Example of screens
 <img src="documentation/screenshots/Auth.webp" width=300/> <img src="documentation/screenshots/Selecting_modules.webp" width=300/>
@@ -37,6 +41,8 @@
 <img src="documentation/screenshots/Jobs.webp" width=300/> <img src="documentation/screenshots/Jobs_status.webp" width=300/>
 
 <img src="documentation/screenshots/Kaban_full.webp" width=300/> <img src="documentation/screenshots/Kanban_empty.webp" width=300/>
+
+<img src="documentation/screenshots/Employee.webp" width=300/> <img src="documentation/screenshots/Employee_details.webp" width=300/>
 
 ## Stack
 - Kotlin

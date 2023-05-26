@@ -19,15 +19,28 @@ class EmployeesRepository @Inject constructor() : IEmployeesRepository {
 
     private val employeesInfo by jsonRpcApi<IEmployeesService>()
 
-    override fun getAllEmployees(): Single<AllEmployeesResponse> {
-        Timber.d("getAllEmployees()")
+    override fun getAllEmployees(paginationOffset: Int, limit: Int): Single<AllEmployeesResponse> {
+        Timber.d("getAllEmployees(): pagination offset = $paginationOffset")
 
         return Single.fromCallable {
-            employeesInfo.getAllEmployees()
+            employeesInfo.getAllEmployees(
+                offset = paginationOffset
+            )
         }.subscribeOn(Schedulers.io())
     }
 
-    override fun getEmployeeDetailInfo(employeeId: Int): Single<List<EmployeeDetailsResponse>> {
+    override fun performEmployeesSearch(searchRequest: String): Single<AllEmployeesResponse> {
+        Timber.d("performEmployeesSearch(): search request = $searchRequest")
+
+        return Single.fromCallable {
+            employeesInfo.getAllEmployees(
+                limit = 0,
+                domain = getEmployeeSearchDomain(searchRequest)
+            )
+        }
+    }
+
+    override fun getEmployeeDetailInfo(employeeId: Long): Single<List<EmployeeDetailsResponse>> {
         Timber.d("getEmployeeInfo: id = $employeeId")
 
         val request = GetEmployeeDetailsRequest(
@@ -42,12 +55,18 @@ class EmployeesRepository @Inject constructor() : IEmployeesRepository {
         }.subscribeOn(Schedulers.io())
     }
 
+    private fun getEmployeeSearchDomain(searchRequest: String): List<Any> = listOf(
+        "|",
+        listOf("work_email", "ilike", searchRequest),
+        listOf("name", "ilike", searchRequest)
+    )
+
     private companion object {
 
         val getEmployeeInfoFields = listOf(
             "id", "name", "job_title", "mobile_phone", "work_phone", "work_email",
             "department_id", "studygroup_id", "company_id", "address_id", "work_location_id",
-            "resource_calendar_id", "cv", "coach_id", "parent_id", "employee_type"
+            "resource_calendar_id", "cv", "coach_id", "parent_id", "employee_type", "tz"
         )
     }
 }

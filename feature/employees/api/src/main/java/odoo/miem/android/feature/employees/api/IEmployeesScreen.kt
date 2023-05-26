@@ -1,7 +1,6 @@
 package odoo.miem.android.feature.employees.api
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavHostController
 
 /**
@@ -14,7 +13,6 @@ interface IEmployeesScreen {
 
     @Composable
     fun EmployeesScreen(
-        viewModelStoreOwner: ViewModelStoreOwner,
         navController: NavHostController,
         showMessage: (Int) -> Unit
     )

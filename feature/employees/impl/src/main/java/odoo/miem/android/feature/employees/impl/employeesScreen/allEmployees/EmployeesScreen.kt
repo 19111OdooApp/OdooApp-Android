@@ -4,13 +4,11 @@ import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import odoo.miem.android.common.network.employees.api.entities.EmployeeBasicInfo
@@ -48,11 +46,10 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
     @SuppressLint("NotConstructor")
     @Composable
     override fun EmployeesScreen(
-        viewModelStoreOwner: ViewModelStoreOwner,
         navController: NavHostController,
         showMessage: (Int) -> Unit
     ) {
-        val viewModel: EmployeesViewModel = viewModel(viewModelStoreOwner)
+        val viewModel: EmployeesViewModel = viewModel()
 
         val userInfoState by viewModel.userInfoState.collectAsState()
 

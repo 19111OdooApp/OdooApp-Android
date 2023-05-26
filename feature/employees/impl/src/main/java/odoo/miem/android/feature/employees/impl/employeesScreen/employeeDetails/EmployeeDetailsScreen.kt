@@ -6,7 +6,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import odoo.miem.android.common.uiKitComponents.progressbar.LoadingScreen
@@ -33,11 +32,10 @@ class EmployeeDetailsScreen @Inject constructor() : IEmployeeDetailsScreen {
     @Composable
     override fun EmployeeDetailsScreen(
         employeeId: Long,
-        viewModelStoreOwner: ViewModelStoreOwner,
         navController: NavHostController,
         showMessage: (Int) -> Unit
     ) {
-        val viewModel: EmployeesViewModel = viewModel(viewModelStoreOwner)
+        val viewModel: EmployeesViewModel = viewModel()
         val context = LocalContext.current
 
         Timber.d("EmployeeDetailsScreen(): employeeId = $employeeId")

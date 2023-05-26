@@ -87,8 +87,11 @@ class EmployeesViewModel(
         val existingEmployeesPage = getEmployeesPage(employeesCurrentPage)
 
         if (existingEmployeesPage != null) {
+            // if we successfully created new page with items that already exist
+            // in employeesList, use it
             allEmployeesState.onNext(SuccessResult(existingEmployeesPage))
         } else {
+            // else take more from api
             employeesInteracor
                 .getAllEmployeesInfo(paginationOffset = employeesList.size)
                 .schedule(
@@ -130,6 +133,8 @@ class EmployeesViewModel(
     }
 
     private fun getEmployeesPage(currentPage: Int): ScreenPage<EmployeeBasicInfo>? {
+        // if employeesPageSize or employeesMaxSize are null, it means that our employeesList
+        // is empty, so have to make api request
         return employeesPageSize?.let { pageSize ->
             val leftBorder = pageSize * currentPage
             val rightBorder = pageSize * (currentPage + 1)
@@ -143,12 +148,16 @@ class EmployeesViewModel(
                 }
 
                 val toIndex = if (rightBorder > employeesList.size && rightBorder <= maxSize) {
+                    // we are out of items in employeesList so we can't create new page
+                    // and have to get more items from api
                     null
                 } else if (rightBorder <= employeesList.size) {
+                    // there are items in employeesList that satisfy our new page indices,
+                    // so we can reuse them
                     rightBorder
                 } else {
-                    val difference = rightBorder - maxSize
-                    rightBorder - difference
+                    // else case: rightBorder > maxSize so we should just use maxSize
+                    maxSize
                 }
 
                 toIndex

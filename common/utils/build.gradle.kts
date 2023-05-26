@@ -1,5 +1,5 @@
 plugins {
-    conventions.`module-impl`
+    conventions.`module-compose-impl`
 }
 
 android {

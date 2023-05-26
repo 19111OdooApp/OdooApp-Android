@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -18,6 +20,7 @@ import odoo.miem.android.common.uiKitComponents.screenTemplates.base.searchLike.
 import odoo.miem.android.common.uiKitComponents.stateholder.StateHolder
 import odoo.miem.android.common.uiKitComponents.stateholder.error.ErrorScreen
 import odoo.miem.android.common.utils.avatar.AvatarRequestHeader
+import odoo.miem.android.common.utils.lifecycle.OnLifecycleEvent
 import odoo.miem.android.core.uiKitTheme.OdooMiemAndroidTheme
 import odoo.miem.android.core.utils.rx.collectAsState
 import odoo.miem.android.core.utils.state.LoadingResult
@@ -96,16 +99,13 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
                         }
                     },
                     onNavigateToModulesPressed = {
-                        viewModel.onEmployeesClosed()
                         navController.navigate(Routes.selectingModules)
                     },
                     onUserIconClick = {
                         navController.navigateToUserProfile()
                     },
-                    onBackPressed = {
-                        viewModel.onEmployeesClosed()
-                        navController.popBackStack()
-                    }
+                    onBackPressed = navController::popBackStack,
+                    onScreenDispose = viewModel::onEmployeesClosed
                 )
             }
         )
@@ -124,7 +124,8 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
         onChangePageClick: (newPage: Int) -> Unit = {},
         onNavigateToModulesPressed: () -> Unit = {},
         onUserIconClick: () -> Unit = {},
-        onBackPressed: () -> Unit = {}
+        onBackPressed: () -> Unit = {},
+        onScreenDispose: () -> Unit = {}
     ) {
         val content: @Composable (ColumnScope.(items: ScreenPage<EmployeeBasicInfo>) -> Unit) =
             { employees ->
@@ -138,6 +139,13 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
 
         BackHandler(enabled = true) {
             onBackPressed()
+        }
+
+        OnLifecycleEvent { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_DESTROY, Lifecycle.Event.ON_STOP -> onScreenDispose()
+                else -> {}
+            }
         }
 
         SearchLikeScreenWithPages(

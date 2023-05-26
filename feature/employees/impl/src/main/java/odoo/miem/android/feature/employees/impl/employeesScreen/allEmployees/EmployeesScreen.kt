@@ -96,6 +96,7 @@ class EmployeesScreen @Inject constructor() : IEmployeesScreen {
                         }
                     },
                     onNavigateToModulesPressed = {
+                        viewModel.onEmployeesClosed()
                         navController.navigate(Routes.selectingModules)
                     },
                     onUserIconClick = {

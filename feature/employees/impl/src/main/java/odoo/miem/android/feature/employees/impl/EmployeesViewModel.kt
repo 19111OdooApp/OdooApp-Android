@@ -153,7 +153,7 @@ class EmployeesViewModel(
                     pageSize = pageSize,
                     fromIndex = fromIndex,
                     toIndex = toIndex,
-                    items = employeesList
+                    items = employeesList.toList()
                 )
             }
         }

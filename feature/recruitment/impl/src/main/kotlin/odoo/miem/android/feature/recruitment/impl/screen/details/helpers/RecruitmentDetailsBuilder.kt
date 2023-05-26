@@ -4,13 +4,13 @@ import android.content.Context
 import odoo.miem.android.common.network.recruitment.api.entities.details.ApplicationInfo
 import odoo.miem.android.common.network.recruitment.api.entities.details.LogNoteInfo
 import odoo.miem.android.common.network.recruitment.api.entities.details.ScheduleActivityInfo
-import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.DetailedInfoType
-import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.DividedListType
-import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.TextType
-import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.bottomSheet.types.DetailedBottomSheetComponentType
-import odoo.miem.android.common.uiKitComponents.screen.detailsLike.models.DetailsLikeDividedListItem
-import odoo.miem.android.common.uiKitComponents.screen.detailsLike.models.DetailsLikeHeader
-import odoo.miem.android.common.uiKitComponents.screen.detailsLike.models.DividedListItemAction
+import odoo.miem.android.common.uiKitComponents.screenTemplates.base.detailsLike.components.DetailedInfoType
+import odoo.miem.android.common.uiKitComponents.screenTemplates.base.detailsLike.components.DividedListType
+import odoo.miem.android.common.uiKitComponents.screenTemplates.base.detailsLike.components.TextType
+import odoo.miem.android.common.uiKitComponents.screenTemplates.base.detailsLike.components.bottomSheet.types.DetailedBottomSheetComponentType
+import odoo.miem.android.common.uiKitComponents.screenTemplates.base.detailsLike.models.DetailsLikeDividedListItem
+import odoo.miem.android.common.uiKitComponents.screenTemplates.base.detailsLike.models.DetailsLikeHeader
+import odoo.miem.android.common.uiKitComponents.screenTemplates.base.detailsLike.models.DividedListItemAction
 import odoo.miem.android.feature.recruitment.impl.R
 import odoo.miem.android.common.uiKitComponents.R as uiKitComponentsR
 
@@ -134,13 +134,16 @@ private fun getLogNotePage(
 
     override val items: List<DetailsLikeDividedListItem> = logNotes.map {
         object : DetailsLikeDividedListItem {
-            override val topic: String =
-                it.authorName ?: stringResolver(uiKitComponentsR.string.default_user_name)
-            override val userName: String =
-                it.authorName ?: stringResolver(uiKitComponentsR.string.default_user_name)
+            override val topic: String = it.authorName ?: stringResolver(uiKitComponentsR.string.default_user_name)
+
+            override val userName: String = it.authorName ?: stringResolver(uiKitComponentsR.string.default_user_name)
+
             override val avatarUrl: String? = null
+
             override val description: String = it.resolveDescription()
+
             override val date: String = it.date ?: ""
+
             override val actions: List<DividedListItemAction> = emptyList()
         }
     }

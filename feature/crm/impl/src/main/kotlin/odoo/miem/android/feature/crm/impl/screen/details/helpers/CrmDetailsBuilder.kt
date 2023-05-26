@@ -4,13 +4,13 @@ import android.content.Context
 import odoo.miem.android.common.network.crm.api.entities.details.LogNoteInfo
 import odoo.miem.android.common.network.crm.api.entities.details.OpportunityInfo
 import odoo.miem.android.common.network.crm.api.entities.details.ScheduleActivityInfo
-import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.DetailedInfoType
-import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.DividedListType
-import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.TextType
-import odoo.miem.android.common.uiKitComponents.screen.detailsLike.components.bottomSheet.types.DetailedBottomSheetComponentType
-import odoo.miem.android.common.uiKitComponents.screen.detailsLike.models.DetailsLikeDividedListItem
-import odoo.miem.android.common.uiKitComponents.screen.detailsLike.models.DetailsLikeHeader
-import odoo.miem.android.common.uiKitComponents.screen.detailsLike.models.DividedListItemAction
+import odoo.miem.android.common.uiKitComponents.screenTemplates.base.detailsLike.components.DetailedInfoType
+import odoo.miem.android.common.uiKitComponents.screenTemplates.base.detailsLike.components.DividedListType
+import odoo.miem.android.common.uiKitComponents.screenTemplates.base.detailsLike.components.TextType
+import odoo.miem.android.common.uiKitComponents.screenTemplates.base.detailsLike.components.bottomSheet.types.DetailedBottomSheetComponentType
+import odoo.miem.android.common.uiKitComponents.screenTemplates.base.detailsLike.models.DetailsLikeDividedListItem
+import odoo.miem.android.common.uiKitComponents.screenTemplates.base.detailsLike.models.DetailsLikeHeader
+import odoo.miem.android.common.uiKitComponents.screenTemplates.base.detailsLike.models.DividedListItemAction
 import odoo.miem.android.feature.crm.impl.R
 
 internal fun getDetailsHeader(

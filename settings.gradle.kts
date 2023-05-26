@@ -24,6 +24,8 @@ rootProject.name = "Odoo App"
 
 
 // Common layer
+include(":common:utils")
+
 include(":common:network:authorization:api")
 include(":common:network:authorization:impl")
 

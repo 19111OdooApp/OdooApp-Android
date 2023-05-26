@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="employees_main_title">Employees</string>
+    <string name="employees_search_bar_placeholder">Enter employee name…</string>
+
+    <!-- Titles -->
+    <string name="employee_details_title_main_info">Main Information</string>
+    <string name="employee_details_title_department">Department</string>
+    <string name="employee_details_title_study_group">Studygroup</string>
+    <string name="employee_details_title_manager">Manager</string>
+    <string name="employee_details_title_coach">Coach</string>
+
+    <string name="employees_details_title_work_info">Work Information</string>
+    <string name="employees_details_title_work_address">Work Address</string>
+    <string name="employees_details_title_work_location">Work Location</string>
+    <string name="employee_details_title_working_hours">Working Hours</string>
+    <string name="employee_details_title_timezone">Timezone</string>
+
+    <string name="employees_details_title_about_me">About me</string>
+
+    <!-- Page switcher -->
+    <string name="page_switcher_title" translatable="false">%s / %s</string>
+</resources>

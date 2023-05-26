@@ -77,6 +77,13 @@ internal class SelectingModulesHelper {
 
         val favouriteModulesSet = favouriteModules.toHashSet()
 
+        val moduleIconsMap = hashMapOf<String, ModuleIconResponse>().apply {
+            moduleIcons.forEach { icon ->
+                this[icon.moduleNameEn] = icon
+                this[icon.moduleNameRu] = icon
+            }
+        }
+
         val rootModules = mutableListOf<OdooModule>()
 
         // our backend is AWFUL, forgive me...
@@ -91,9 +98,7 @@ internal class SelectingModulesHelper {
                 val moduleId = module.id
                 val moduleName = module.name
 
-                val icon = moduleIcons.find {
-                    moduleName == it.moduleNameEn || moduleName == it.moduleNameRu
-                }
+                val icon = moduleIconsMap[moduleName]
 
                 if (moduleId != null && moduleName != null) {
                     rootModules.add(

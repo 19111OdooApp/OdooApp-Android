@@ -3,12 +3,13 @@
     <string name="recruitment_search_bar_key" translatable="false">searchBar</string>
     <string name="recruitment_screen_key" translatable="false">recruitmentScreen</string>
     <string name="recruitment_search_screen_key" translatable="false">searchScreen</string>
-    <string name="recruitment_search_hint">Enter employee name</string>
+    <string name="recruitment_search_bar_placeholder">Enter employee name</string>
 
     <string name="recruitment_change_status">Change status</string>
     <string name="recruitment_add_new_status">Add a new status</string>
 
     <string name="recruitment_job_positions">Job Positions</string>
+    <string name="recruitment_job_positions_search_bar_placeholder">Enter job name…</string>
 
     <string name="recruitment_job_link">Job Link</string>
 

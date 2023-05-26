@@ -5,6 +5,10 @@
     <string name="default_user_phone" translatable="false">+79999999999</string>
     <string name="default_module_name">Cool module</string>
 
+    <!-- LazyColumnPageSwitcher -->
+    <string name="page_switcher_back">Back</string>
+    <string name="page_switcher_forward">Next</string>
+
     <!--  Job card  -->
     <plurals name="job_number_of_new_application">
         <item quantity="one">%d New Application</item>
@@ -52,6 +56,9 @@
     <!-- Empty Search -->
     <string name="search_result_empty">No results</string>
     <string name="search_result_empty_desc">There were no results for "%s".\nTry a new search.</string>
+
+    <string name="search_result_hint">Tap \"Search\" button</string>
+    <string name="search_result_desc">Tap \"Search\" button on keyboard to perform search</string>
 
     <!-- RecruitmentLike -->
     <string name="recruitment_search_bar_key" translatable="false">searchBar</string>

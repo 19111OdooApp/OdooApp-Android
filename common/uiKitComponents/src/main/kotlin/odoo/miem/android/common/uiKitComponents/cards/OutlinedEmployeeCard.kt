@@ -42,9 +42,9 @@ import kotlin.math.floor
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OutlinedEmployeeCard(
+    modifier: Modifier = Modifier,
     employeeName: String = stringResource(id = R.string.default_user_name),
     rating: Double,
-    modifier: Modifier = Modifier,
     onActionClick: () -> Unit = {},
     starsCount: Int = 3,
     scheduleIconColor: Color = Color.Black,

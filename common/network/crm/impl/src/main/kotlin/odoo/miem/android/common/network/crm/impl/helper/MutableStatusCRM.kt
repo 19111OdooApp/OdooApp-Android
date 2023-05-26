@@ -2,7 +2,7 @@ package odoo.miem.android.common.network.crm.impl.helper
 
 import odoo.miem.android.common.network.crm.api.entities.kanban.OpportunityCRM
 import odoo.miem.android.common.network.crm.api.entities.kanban.StatusCRM
-import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.RecruitmentLikeStatusModel
+import odoo.miem.android.common.uiKitComponents.screenTemplates.recruitmentLike.model.RecruitmentLikeStatusModel
 
 data class MutableStatusCRM(
     override val statusName: String,

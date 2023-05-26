@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import odoo.miem.android.common.uiKitComponents.buttons.FilledTextButton
-import odoo.miem.android.common.uiKitComponents.swither.Switcher
+import odoo.miem.android.common.uiKitComponents.switcher.Switcher
 import odoo.miem.android.common.uiKitComponents.text.SubtitleText
 import odoo.miem.android.core.uiKitTheme.mainHorizontalPadding
 import odoo.miem.android.core.uiKitTheme.odooGray

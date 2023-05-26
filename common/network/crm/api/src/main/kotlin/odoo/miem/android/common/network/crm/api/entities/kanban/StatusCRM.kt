@@ -1,6 +1,6 @@
 package odoo.miem.android.common.network.crm.api.entities.kanban
 
-import odoo.miem.android.common.uiKitComponents.screen.recruitmentLike.model.RecruitmentLikeStatusModel
+import odoo.miem.android.common.uiKitComponents.screenTemplates.recruitmentLike.model.RecruitmentLikeStatusModel
 
 data class StatusCRM(
     override val statusName: String,

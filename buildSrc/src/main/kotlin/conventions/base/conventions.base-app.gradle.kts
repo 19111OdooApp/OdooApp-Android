@@ -19,8 +19,8 @@ android {
         applicationId = "odoo.miem.android"
         minSdk = CompileVersions.MINIMUM_COMPILE_VERSION
         targetSdk = CompileVersions.CURRENT_COMPILE_VERSION
-        versionCode = 4
-        versionName = "1.0"
+        versionCode = 5
+        versionName = "1.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

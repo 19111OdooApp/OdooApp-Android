@@ -3,12 +3,12 @@ package odoo.miem.android.core.di
 import io.mockk.clearAllMocks
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
+import odoo.miem.android.core.di.api.Api
 import odoo.miem.android.core.di.impl.ApiProvider
 import odoo.miem.android.core.di.impl.ApiRegistry
 import odoo.miem.android.core.di.impl.ApiResolver
-import odoo.miem.android.core.di.api.Api
-import org.junit.Test
 import odoo.miem.android.core.di.impl.exception.ProviderNotFoundException
+import org.junit.Test
 import kotlin.test.AfterTest
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -36,17 +36,14 @@ class ApiRegistryTest {
 
 
     @Test
-    fun `Проверка на нахождение нужного ApiResolver`() = runBlocking {
+    fun `test finding ApiResolver`() = runBlocking {
 
-        // Подготовка
         ApiRegistry.init(
             newApiResolver = ApiResolver(map)
         )
 
-        // Выполнение
         val resultApi = ApiRegistry.getApi(mockApi::class.java)
 
-        // Проверка
         assertEquals(
             expected = mockApi,
             actual = resultApi
@@ -54,14 +51,12 @@ class ApiRegistryTest {
     }
 
     @Test
-    fun `Проверка на вызов исключения при отсутствии необходимого ApiResolver`() = runBlocking {
+    fun `test to exception in ApiResolver`() = runBlocking {
 
-        // Подготовка
         ApiRegistry.init(
             newApiResolver = ApiResolver(emptyMap)
         )
 
-        // Выполнение
         val result = try {
             ApiRegistry.getApi(mockApi::class.java)
             true
@@ -69,7 +64,6 @@ class ApiRegistryTest {
             false
         }
 
-        // Проверка
         assertFalse(result)
     }
 

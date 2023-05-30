@@ -18,7 +18,10 @@ dependencies {
     // Dagger 2
     implementation(Dependencies.Dagger.ANDROID)
     Dependencies.Dagger.KAPT_DEPS.forEach { kapt(it) }
-    
+
+    // Coroutines
+    implementation(Dependencies.Coroutines.CORE)
+
     // Logger
     implementation(Dependencies.Logger.TIMBER)
 
@@ -29,6 +32,7 @@ dependencies {
 
     // DI
     implementation(project(":core:di:impl"))
+
 }
 
 fun DependencyHandler.allTestImplementation(deps: Any) {

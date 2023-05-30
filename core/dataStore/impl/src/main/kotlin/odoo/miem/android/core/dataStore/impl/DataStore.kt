@@ -9,7 +9,6 @@ import odoo.miem.android.core.platform.di.PlatformApi
 import timber.log.Timber
 import javax.inject.Inject
 
-// TODO Maybe move to DataStore?
 /**
  * [DataStore] - implementation of [IDataStore]
  *
@@ -101,11 +100,7 @@ class DataStore @Inject constructor() : IDataStore {
     }
 
     override fun clear() {
-        setUrl("")
-        setUID(-1)
-        setAuthorized(false)
-        setSessionId("")
-        setUserFavouriteModules(emptySet())
+        sharedPreferences.all.clear()
     }
 
     private companion object {
